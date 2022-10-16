@@ -9,8 +9,9 @@ import {
 // import { request, gql } from 'graphql-request'
 import { env } from '../../env'
 import { NotificationsInAppForCurrentUser } from '../../lib/graphql/query';
-import { notificationsInAppForCurrentUser } from '../../lib/graphql/types';
+import { notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from '../../lib/graphql/types';
 import { useRoq } from '../Provider/Provider';
+import { Card } from '../Card';
 
 interface IRequest {
   url: string
@@ -35,6 +36,10 @@ const request = (args: IRequest, dataPath: string = '') => fetch(args.url, {
   }
   return data
 })
+
+function useOnRowRender(item: notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data) {
+
+}
 
 function useNotificationsInApp() {
   const { host, token } = useRoq()
@@ -66,10 +71,11 @@ function useNotificationsInApp() {
         },
       },
     }
-    return request({ url: host, query: NotificationsInAppForCurrentUser, variables, headers: {
+    const items = await request({ url: host, query: NotificationsInAppForCurrentUser, variables, headers: {
       'roq-platform-authorization': token as string 
     }}, 'data.notificationsInAppForCurrentUser.data').catch(() => [])
     
+    return items as notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data[]
     // const result = await ky.post(env.host, {
     //   json: {
     //     query: print(NotificationsInAppForCurrentUser),
@@ -108,14 +114,14 @@ export const Notification: React.FC = () => {
   const { status, data, error, isFetching } = useNotificationsInApp();
   
   return (
-      <div>
-        Notification!!!
-        <br />
-        {isFetching && 'Loading...'}
-        <ul>
-          {data?.map((item: any) => <li key={item.id}>{item.content}</li>)}
-        </ul>
-      </div>
+    <div>
+      Notification!!!
+      <br />
+      {isFetching && 'Loading...'}
+      <ul>
+        {data?.map((item) => <Card key={item.id} title={item.title}>{item.content}</Card>)}
+      </ul>
+    </div>
   )
 }
 

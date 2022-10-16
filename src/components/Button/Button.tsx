@@ -4,8 +4,6 @@ import { styled } from '../../styles';
 const Button = styled('button', {
   backgroundColor: '$blue9',
   borderRadius: '0.5rem',
-  color: '$gray12',
-  fontSize: '13px',
   fontFamily: '$main',
   padding: '10px 15px',
   border: 'none',
