@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react'
-import ky from 'ky'
+import React from 'react'
+import { styled } from '@stitches/react';
 
-export const Button: React.FC = () => {
-  useEffect(() => {
-    console.log('test mounted')
-    ky.get('https://dummyjson.com/products').json().then((data) => {
-      console.log('ky.get -> data', data)
-    })
-  }, [])
+const Button = styled('button', {
+  backgroundColor: 'gainsboro',
+  borderRadius: '9999px',
+  fontSize: '13px',
+  padding: '10px 15px',
+  '&:hover': {
+    backgroundColor: 'lightgray',
+  },
+});
 
-  function onClick() {
-    console.log('first')
-  }
-  
-  return (
-    <button onClick={onClick}><span>My button</span></button>
-  )
-}
+export { Button }
+

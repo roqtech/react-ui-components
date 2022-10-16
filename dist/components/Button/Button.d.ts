@@ -1,2 +1,2 @@
-import React from 'react';
-export declare const Button: React.FC;
+declare const Button: import("@stitches/react/types/styled-component").StyledComponent<"button", {}, {}, import("@stitches/react/types/css-util").CSS<{}, {}, {}, {}>>;
+export { Button };

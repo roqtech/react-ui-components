@@ -45,7 +45,10 @@ export default [
         tsconfig: './tsconfig.json',
      }),
       // html(),
-      postcss(),
+      postcss({
+        extensions: [ '.css' ],
+        extract: true
+      }),
       // serve({
       //   open: true,
       //   verbose: true,
