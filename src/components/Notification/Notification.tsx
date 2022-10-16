@@ -117,10 +117,8 @@ export const Notification: React.FC = () => {
     <div>
       Notification!!!
       <br />
-      {isFetching && 'Loading...'}
-      <ul>
-        {data?.map((item) => <Card key={item.id} title={item.title}>{item.content}</Card>)}
-      </ul>
+      {isFetching && !data && 'Loading...'}
+      {data?.map((item) => <Card key={item.id} title={item.title}>{item.content}</Card>)}
     </div>
   )
 }

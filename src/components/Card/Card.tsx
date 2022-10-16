@@ -19,7 +19,6 @@ const StyledCard = styled('div', {
   borderStyle: 'solid',
   minWidth: 240,
   maxWidth: 480,
-  cursor: "pointer",
   boxShadow: "none",
   boxSizing: "border-box",
   borderRadius: "8px",
