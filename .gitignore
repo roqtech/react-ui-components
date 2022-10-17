@@ -48,4 +48,3 @@ Thumbs.db
 src/lib/graphql/schema.json
 storybook-static
 !.env.sample*
-dist
