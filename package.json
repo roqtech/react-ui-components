@@ -13,6 +13,7 @@
     "cg": "graphql-codegen --config codegen.yml",
     "prebuild:rollup": "rimraf dist",
     "build:rollup": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "prebuild": "rimraf storybook-static",
     "build": "npm run build-storybook",
     "start": "serve storybook-static -l $PORT",
     "test": "echo \"Error: no test specified\" && exit 1",
