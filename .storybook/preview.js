@@ -1,6 +1,6 @@
-import React from 'react';
-import { RoqProvider } from '../src/components/Provider/Provider';
-import { globalStyles } from '../src/styles'
+import React from "react";
+import { RoqProvider } from "../src/components/Provider/Provider";
+import "../stories/assets/custom.css";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -10,18 +10,19 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
+};
 
 export const decorators = [
   (Story) => (
-    <div style={{ margin: '3em' }}>
+    <div style={{ margin: "3em" }}>
       <RoqProvider
         config={{
-          host: process.env.PLATFORM_GRAPHQL ?? '',
-          token: process.env.PLATFORM_TOKEN ?? ''
-        }}>
+          host: process.env.PLATFORM_GRAPHQL ?? "",
+          token: process.env.PLATFORM_TOKEN ?? "",
+        }}
+      >
         <Story />
       </RoqProvider>
     </div>
   ),
-]
+];

@@ -1,0 +1,94 @@
+:root {
+  --rw-primary-main: #1d4ed8;
+  --rw-secondary-text: #ffffff;
+  --rw-border-radius: 8px;
+  --rw-margin-step: 8px;
+  --rw-primary-font: Helvetica, Arial, sans-serif;
+
+  --rw-avatar-border-width: 2px;
+  --rw-avatar-border-color: #ffffff;
+
+  --rw-avatar-image-font-color: #ffffff;
+
+  --rw-avatar-image-primary-color: #ffffff;
+  --rw-avatar-image-default-padding: 2px;
+
+  --rw-avatar-size_small: 24px;
+  --rw-avatar-font-size_small: 0.65rem;
+
+  --rw-avatar-size_medium: 32px;
+  --rw-avatar-font-size_medium: 0.75rem;
+
+  --rw-avatar-size_large: 40px;
+  --rw-avatar-font-size_large: 1rem;
+}
+
+.roq-widget-avatar {
+  border: none;
+  padding: 0px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--rw-font-size__large);
+  line-height: 1;
+  overflow: hidden;
+  user-select: none;
+  background-color: var(--rw-primary-main);
+  color: var(--rw-avatar-image-font-color);
+  font-family: var(--rw-primary-font);
+}
+
+.roq-widget-avatar_rounded {
+  border-radius: 50%;
+}
+
+.roq-widget-avatar_square {
+  border-radius: var(--rw-border-radius);
+}
+
+.roq-widget-avatar_border {
+  border: var(--rw-avatar-border-width) solid var(--rw-avatar-border-color);
+}
+
+.roq-widget-avatar_size_small {
+  width: var(--rw-avatar-size_small);
+  height: var(--rw-avatar-size_small);
+  font-size: var(--rw-avatar-font-size_small);
+}
+
+.roq-widget-avatar_size_medium {
+  width: var(--rw-avatar-size_medium);
+  height: var(--rw-avatar-size_medium);
+  font-size: var(--rw-avatar-font-size_medium);
+}
+
+.roq-widget-avatar_size_large {
+  width: var(--rw-avatar-size_large);
+  height: var(--rw-avatar-size_large);
+  font-size: var(--rw-avatar-font-size_large);
+}
+
+.roq-widget-avatar__image {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 100%;
+}
+
+.roq-widget-avatar__image_default {
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+  padding: var(--rw-avatar-image-default-padding);
+}
+
+.roq-widget-avatar__image svg {
+  overflow: hidden;
+  pointer-events: none;
+  max-width: 100%;
+  max-height: 100%;
+  color: var(--rw-avatar-image-primary-color);
+  vertical-align: bottom;
+}
