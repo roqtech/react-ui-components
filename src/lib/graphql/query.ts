@@ -1,8 +1,17 @@
 import gql from 'graphql-tag';
 
 export const NotificationsInAppForCurrentUser = gql`
-  query notificationsInAppForCurrentUser($limit: Int, $order: NotificationInAppOrderArgType!, $filter: NotificationInAppFilterArgType) {
-    notificationsInAppForCurrentUser(limit: $limit, order: $order, filter: $filter) {
+  query notificationsInAppForCurrentUser(
+    $limit: Int
+    $order: NotificationInAppOrderArgType!
+    $notificationfilter: NotificationInAppFilterArgType
+    $unreadCountFilter: NotificationInAppFilterArgType
+  ) {
+    loadNotifications: notificationsInAppForCurrentUser(
+      limit: $limit
+      order: $order
+      filter: $notificationfilter
+    ) {
       totalCount
       data {
         id
@@ -14,5 +23,11 @@ export const NotificationsInAppForCurrentUser = gql`
         icon
       }
     }
+    loadUnreadNotificationCount: notificationsInAppForCurrentUser(
+      limit: $limit
+      filter: $unreadCountFilter
+    ) {
+      totalCount
+    }
   }
-`;
+`

@@ -15,13 +15,11 @@ export default {
       }
     },
     subTitle: {
-      defaultValue: '',
       control: {
         type: 'text'
       }
     },
     headerExtraContent: {
-      defaultValue: '',
       control: {
         type: 'text'
       }
@@ -37,9 +35,10 @@ export default {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-  decorators: [AppDecorators]
 } as ComponentMeta<typeof Card>;
 
-const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
+const Template: ComponentStory<typeof Card> = (args) => {
+  return <Card {...args} />
+};
 
 export const Primary = Template.bind({});

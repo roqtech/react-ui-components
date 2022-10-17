@@ -3,8 +3,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import { PLATFORM_GRAPHQL_HOST } from 'src/utils/constant';
 
-const baseUrl = 'https://roq-core-snapshot-gateway.roq-platform.com/v01'
 type Optional<T> = T | null
 interface ICtx {
   host: string
@@ -12,7 +12,7 @@ interface ICtx {
 }
 
 const defaultCtx: ICtx = {
-  host: `${baseUrl}/server/graphql`,
+  host: PLATFORM_GRAPHQL_HOST,
   token: null
 };
 

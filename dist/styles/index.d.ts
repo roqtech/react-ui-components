@@ -1,5 +1,5 @@
 /// <reference types="react" />
-declare const styled: <Type extends import("react").ComponentType<any> | keyof JSX.IntrinsicElements | import("@stitches/react/types/util").Function, Composers extends (string | import("react").ComponentType<any> | import("@stitches/react/types/util").Function | {
+declare const styled: <Type extends import("@stitches/react/types/util").Function | import("react").ComponentType<any> | keyof JSX.IntrinsicElements, Composers extends (string | import("@stitches/react/types/util").Function | import("react").ComponentType<any> | {
     [name: string]: unknown;
 })[], CSS = import("@stitches/react/types/css-util").CSS<{}, {
     colors: {
@@ -55,7 +55,7 @@ declare const styled: <Type extends import("react").ComponentType<any> | keyof J
     fonts: {
         main: string;
     };
-}, import("@stitches/react/types/config").DefaultThemeMap, {}>>(type: Type, ...composers: { [K in keyof Composers]: string extends Composers[K] ? Composers[K] : Composers[K] extends string | import("react").ComponentType<any> | import("@stitches/react/types/util").Function ? Composers[K] : import("@stitches/react/types/stitches").RemoveIndex<CSS> & {
+}, import("@stitches/react/types/config").DefaultThemeMap, {}>>(type: Type, ...composers: { [K in keyof Composers]: string extends Composers[K] ? Composers[K] : Composers[K] extends string | import("@stitches/react/types/util").Function | import("react").ComponentType<any> ? Composers[K] : import("@stitches/react/types/stitches").RemoveIndex<CSS> & {
     variants?: {
         [x: string]: {
             [x: string]: CSS;
@@ -177,7 +177,7 @@ declare const styled: <Type extends import("react").ComponentType<any> | keyof J
     fonts: {
         main: import("@stitches/react/types/theme").Token<"main", string, "fonts", "">;
     };
-}, css: <Composers extends (string | import("react").JSXElementConstructor<any> | import("react").ExoticComponent<any> | import("@stitches/react/types/util").Function | {
+}, css: <Composers extends (string | import("@stitches/react/types/util").Function | import("react").JSXElementConstructor<any> | import("react").ExoticComponent<any> | {
     [name: string]: unknown;
 })[], CSS = import("@stitches/react/types/css-util").CSS<{}, {
     colors: {
@@ -233,7 +233,7 @@ declare const styled: <Type extends import("react").ComponentType<any> | keyof J
     fonts: {
         main: string;
     };
-}, import("@stitches/react/types/config").DefaultThemeMap, {}>>(...composers: { [K in keyof Composers]: string extends Composers[K] ? Composers[K] : Composers[K] extends string | import("react").JSXElementConstructor<any> | import("react").ExoticComponent<any> | import("@stitches/react/types/util").Function ? Composers[K] : import("@stitches/react/types/stitches").RemoveIndex<CSS> & {
+}, import("@stitches/react/types/config").DefaultThemeMap, {}>>(...composers: { [K in keyof Composers]: string extends Composers[K] ? Composers[K] : Composers[K] extends string | import("@stitches/react/types/util").Function | import("react").JSXElementConstructor<any> | import("react").ExoticComponent<any> ? Composers[K] : import("@stitches/react/types/stitches").RemoveIndex<CSS> & {
     variants?: {
         [x: string]: {
             [x: string]: CSS;

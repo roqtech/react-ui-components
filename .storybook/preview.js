@@ -1,7 +1,6 @@
-// import '../src/styles/index.css'
+import React from 'react';
+import { RoqProvider } from '../src/components/Provider/Provider';
 import { globalStyles } from '../src/styles'
-
-// globalStyles()
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -12,3 +11,15 @@ export const parameters = {
     },
   },
 }
+
+const token = ''
+
+export const decorators = [
+  (Story) => (
+    <div style={{ margin: '3em' }}>
+      <RoqProvider config={{ token }}>
+        <Story />
+      </RoqProvider>
+    </div>
+  ),
+];

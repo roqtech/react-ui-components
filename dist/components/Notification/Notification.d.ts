@@ -1,2 +1,10 @@
 import React from 'react';
-export declare const Notification: React.FC;
+declare enum NotificationType {
+    ALL = "all",
+    UNREAD = "unread"
+}
+interface NotificationProps {
+    defaultType?: NotificationType;
+}
+export declare const Notification: React.FC<NotificationProps>;
+export {};

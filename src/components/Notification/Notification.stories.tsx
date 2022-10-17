@@ -11,7 +11,6 @@ export default {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-  decorators: [AppDecorators]
 } as ComponentMeta<typeof Notification>;
 
 const Template: ComponentStory<typeof Notification> = (args) => <Notification {...args} />;
