@@ -12,14 +12,16 @@ export const parameters = {
   },
 }
 
-const token = ''
-
 export const decorators = [
   (Story) => (
     <div style={{ margin: '3em' }}>
-      <RoqProvider config={{ token }}>
+      <RoqProvider
+        config={{
+          host: process.env.PLATFORM_GRAPHQL ?? '',
+          token: process.env.PLATFORM_TOKEN ?? ''
+        }}>
         <Story />
       </RoqProvider>
     </div>
   ),
-];
+]

@@ -6,21 +6,21 @@ import {
 import { PLATFORM_GRAPHQL_HOST } from 'src/utils/constant';
 
 type Optional<T> = T | null
-interface ICtx {
+export interface IRoqProvider {
   host: string
-  token?: Optional<string>
+  token: string
 }
 
-const defaultCtx: ICtx = {
+const defaultCtx = {
   host: PLATFORM_GRAPHQL_HOST,
-  token: null
+  token: ''
 };
 
 const ROQContext = createContext(defaultCtx);
 
 const queryClient = new QueryClient();
 
-export const RoqProvider = ({ children, config = defaultCtx, withQueryClient = true }: { children: JSX.Element, config: Partial<ICtx>, withQueryClient?: boolean}) => {
+export const RoqProvider = ({ children, config = defaultCtx, withQueryClient = true }: { children: JSX.Element, config: Partial<IRoqProvider>, withQueryClient?: boolean}) => {
   if (withQueryClient) {
     return (
       <ROQContext.Provider value={{...defaultCtx, ...config}}>

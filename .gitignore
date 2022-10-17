@@ -46,3 +46,5 @@ Thumbs.db
 # Custom files
 .env*
 src/lib/graphql/schema.json
+storybook-static
+!.env.sample*

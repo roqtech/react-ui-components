@@ -1,13 +1,14 @@
 /// <reference types="react" />
-declare type Optional<T> = T | null;
-interface ICtx {
+export interface IRoqProvider {
     host: string;
-    token?: Optional<string>;
+    token: string;
 }
 export declare const RoqProvider: ({ children, config, withQueryClient }: {
     children: JSX.Element;
-    config: Partial<ICtx>;
+    config: Partial<IRoqProvider>;
     withQueryClient?: boolean | undefined;
 }) => JSX.Element;
-export declare const useRoq: () => ICtx;
-export {};
+export declare const useRoq: () => {
+    host: string;
+    token: string;
+};

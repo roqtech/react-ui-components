@@ -10,7 +10,7 @@ import { useQuery, useQueryClient } from 'react-query';
 // import { request, gql } from 'graphql-request'
 import { NotificationsInAppForCurrentUser } from 'src/lib/graphql/query';
 import { notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from 'src/lib/graphql/types';
-import { useRoq } from '../Provider/Provider';
+import { useRoq, IRoqProvider } from 'src/components/Provider';
 import { Card } from '../Card';
 import { NotificationBadges } from './NotificationBadget';
 
@@ -20,15 +20,21 @@ function useOnRowRender(item: notificationsInAppForCurrentUser_notificationsInAp
 
 }
 
-const minDate = '2022-09-19T03:40:40.534Z'
-enum NotificationType {
-  ALL = 'all',
-  UNREAD = 'unread'
+function useResolveProvider(args: Partial<IRoqProvider>) {
+  const { host: hostArg, token: tokenArg } = args
+  const { host: hostProvide, token: tokenProvider } = useRoq()
+  const host = hostArg ?? hostProvide
+  const token = tokenArg ?? tokenProvider
+  return { host, token }
 }
 
-function useNotificationsInApp(type: NotificationType) {
-  const { host, token } = useRoq()
-  
+const minDate = '2022-09-19T03:40:40.534Z'
+export type NotificationType = 'all' | 'unread'
+
+function useNotificationsInApp(args: NotificationProps) {
+  const type = args.type
+  const { host, token } = useResolveProvider(args)
+
   const variables = {
     limit: 20,
     order: {
@@ -39,7 +45,7 @@ function useNotificationsInApp(type: NotificationType) {
       createdAt: {
         moreThan: minDate,
       },
-      ...(type === NotificationType.UNREAD ? { read: { equalTo: false }} : {})
+      ...(type === 'unread' ? { read: { equalTo: false }} : {})
     },
     unreadCountFilter: {
       createdAt: {
@@ -58,6 +64,9 @@ function useNotificationsInApp(type: NotificationType) {
     //   NotificationsInAppForCurrentUser
     // );
     // console.log('returnuseQuery -> data', data)
+    if (!host || !token) {
+      return []
+    }
     const items = await request(
       {
         url: host,
@@ -104,27 +113,25 @@ function useNotificationsInApp(type: NotificationType) {
   });
 }
 
-interface NotificationProps {
-  defaultType?: NotificationType
+interface NotificationProps extends Partial<IRoqProvider> {
+  type?: NotificationType
 }
 
 export const Notification: React.FC<NotificationProps> = (props) => {
-  const queryClient = useQueryClient()
-  const { defaultType = NotificationType.ALL } = props
-  const [type, setType] = useState(defaultType)
-  const { status, data, error, isFetching } = useNotificationsInApp(type);
+  // const queryClient = useQueryClient()
+  const [type, setType] = useState<NotificationType>(props.type || 'all')
+  const { status, data, error, isFetching } = useNotificationsInApp({ ...props, type });
   
   const items = useMemo(() => _get(data, 'loadNotifications.data'), [data])
-  console.log('items', items)
   
   return (
     <div>
       <div style={{marginBottom: 16 }}>
-        Notification {data && <NotificationBadges>{data?.loadUnreadNotificationCount?.totalCount}</NotificationBadges>}
+        Notification <NotificationBadges>{data?.loadUnreadNotificationCount?.totalCount ?? 0}</NotificationBadges>
       </div>
       <ToggleGroup type='single' value={type} css={{marginBottom: 16 }} onValueChange={(value: NotificationType) => setType(value)} >
-        <ToggleGroupItem value={NotificationType.ALL}>All</ToggleGroupItem>
-        <ToggleGroupItem value={NotificationType.UNREAD}>Unread</ToggleGroupItem>
+        <ToggleGroupItem value={'all'}>All</ToggleGroupItem>
+        <ToggleGroupItem value={'unread'}>Unread</ToggleGroupItem>
       </ToggleGroup>
       <div>
         {isFetching && !data && 'Loading...'}
