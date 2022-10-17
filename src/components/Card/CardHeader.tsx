@@ -1,11 +1,13 @@
 import { styled } from '../../styles'
 
 const StyledCardHeader = styled('div', {
+  fontFamily: '$main',
   padding: '1rem',
   display: 'flex',
   justifyContent: 'space-between'
 })
 const StyledCardHeaderExtra = styled('div', {
+  fontFamily: '$main',
   color: "$gray7",
   fontSize: "16px",
   lineHeight: "24px",

@@ -1,6 +1,7 @@
 import { styled } from '../../styles'
 
 const StyledCardTitle = styled('p', {
+  fontFamily: '$main',
   overflow: "hidden",
   fontSize: "16px",
   lineHeight: "24px",

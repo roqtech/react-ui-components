@@ -1,6 +1,8 @@
 import { request } from '../../utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import _get from 'lodash/get'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 // import { Root as ToggleRoot, Item as ToggleItem } from '@radix-ui/react-toggle-group';
 import { ToggleGroup, ToggleGroupItem } from 'src/components/ToggleGroup';
 import { useQuery, useQueryClient } from 'react-query';
@@ -11,6 +13,8 @@ import { notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data 
 import { useRoq } from '../Provider/Provider';
 import { Card } from '../Card';
 import { NotificationBadges } from './NotificationBadget';
+
+dayjs.extend(relativeTime)
 
 function useOnRowRender(item: notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data) {
 
@@ -111,6 +115,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
   const { status, data, error, isFetching } = useNotificationsInApp(type);
   
   const items = useMemo(() => _get(data, 'loadNotifications.data'), [data])
+  console.log('items', items)
   
   return (
     <div>
@@ -124,7 +129,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
       <div>
         {isFetching && !data && 'Loading...'}
       </div>
-      {items?.map((item) => <Card key={item.id} title={item.title}>{item.content}</Card>)}
+      {items?.map((item) => <Card key={item.id} title={item.title} subTitle={dayjs(item.createdAt).fromNow()}>{item.content}</Card>)}
     </div>
   )
 }
