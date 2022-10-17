@@ -3,6 +3,7 @@ import { gray, blackA, whiteA, mauve } from '@radix-ui/colors';
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group';
 
 const StyledToggleGroup = styled(ToggleGroupPrimitive.Root, {
+  fontFamily: '$main',
   display: 'inline-flex',
   backgroundColor: mauve.mauve6,
   borderRadius: 4,
@@ -10,6 +11,7 @@ const StyledToggleGroup = styled(ToggleGroupPrimitive.Root, {
 });
 
 const StyledItem = styled(ToggleGroupPrimitive.Item, {
+  fontFamily: '$main',
   all: 'unset',
   backgroundColor: 'white',
   color: mauve.mauve11,

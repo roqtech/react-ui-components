@@ -3,6 +3,7 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { blackA, violet } from "@radix-ui/colors";
 
 const StyledAvatar = styled(AvatarPrimitive.Root, {
+  fontFamily: '$main',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -16,6 +17,7 @@ const StyledAvatar = styled(AvatarPrimitive.Root, {
 });
 
 const StyledFallback = styled(AvatarPrimitive.Fallback, {
+  fontFamily: '$main',
   width: '100%',
   height: '100%',
   display: 'flex',
