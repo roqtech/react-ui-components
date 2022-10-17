@@ -1,11 +1,7 @@
-# These are some examples of commonly ignored file patterns.
-# You should customize this list as applicable to your project.
-# Learn more about .gitignore:
-#     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
-
 # Node artifact files
 node_modules/
-dist/
+uploads/*
+coverage/
 
 # Compiled Java class files
 *.class
@@ -21,7 +17,6 @@ dist/
 
 # Maven
 target/
-dist/
 
 # JetBrains IDE
 .idea/
@@ -48,3 +43,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Custom files
+.env*
+src/lib/graphql/schema.json
+storybook-static
+!.env.sample*
