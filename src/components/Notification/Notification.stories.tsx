@@ -5,7 +5,7 @@ import AppDecorators from '../../../.storybook/decorators'
 import { Notification } from './Notification';
 
 export default {
-  title: 'ROQ/Notification',
+  title: 'Roq Widgets/Notification',
   component: Notification,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout

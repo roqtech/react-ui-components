@@ -7,10 +7,10 @@ module.exports = {
     "@storybook/addon-interactions",
   ],
   framework: "@storybook/react",
-  // stories: ["../**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   stories: [
     "../stories/**/*.stories.mdx",
     "../stories/**/*.stories.@(js|jsx|ts|tsx)",
+    "../**/*.stories.@(js|jsx|ts|tsx|mdx)"
   ],
   features: {
     previewMdx2: true, // 👈 MDX 2 enabled here
