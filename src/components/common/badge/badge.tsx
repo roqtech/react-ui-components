@@ -1,11 +1,12 @@
-import './badge.css';
+import "./badge.css";
 
-import clsx from 'classnames';
-import React, { Element, useMemo } from 'react';
+import clsx from "classnames";
+import React, { ComponentType, ReactNode, useMemo } from "react";
 
-const _CLASS_IS = 'roq-widget-' + 'badge';
+const _CLASS_IS = "roq-widget-" + "badge";
 
-interface BadgeProps {
+export interface BadgeProps {
+  children: ReactNode;
   maxValue?: number;
   className?: string;
   classNames?: {
@@ -13,34 +14,26 @@ interface BadgeProps {
     inner?: string;
   };
   components?: {
-    container: Element;
-    Inner: Element;
+    Container?: ComponentType<any>;
+    Inner?: ComponentType<any>;
   };
 }
 
 const formatMaxValue = (val, maxVal) => {
-  return val >= maxVal ? maxVal + '+' : val;
+  return val >= maxVal ? maxVal + "+" : val;
 };
 
 export const Badge = (props: BadgeProps) => {
-  const {
-    maxValue,
-    children,
-    className,
-    classNames,
-    components = {
-      Container: 'span',
-      Inner: 'span',
-    },
-  } = props;
+  const { maxValue, children, className, classNames, components } = props;
 
-  const { Container, Inner } = components;
+  const Container = components?.Container ?? "div";
+  const Inner = components?.Inner ?? "div";
 
   const value = useMemo(() => Number(children), [children]);
 
   return (
     <Container className={clsx(_CLASS_IS, className, classNames?.container)}>
-      <Inner className={clsx(_CLASS_IS + '__inner', classNames?.inner)}>
+      <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
         {maxValue ? formatMaxValue(value, maxValue) : value}
       </Inner>
     </Container>

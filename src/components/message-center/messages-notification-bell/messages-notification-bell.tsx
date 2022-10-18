@@ -1,12 +1,12 @@
-import './messages-notification-bell.css';
+import "./messages-notification-bell.css";
 
-import clsx from 'classnames';
-import React, { Element, useMemo } from 'react';
+import clsx from "classnames";
+import React, { ComponentType, useMemo } from "react";
 
-import { Badge as DefaultBadge } from '../../common/badge/badge';
-import { MessagesIcon as DefaultIcon } from './messages-icon';
+import { Badge as DefaultBadge, BadgeProps } from "../../common/badge/badge";
+import { MessagesIcon as DefaultIcon } from "./messages-icon";
 
-const _CLASS_IS = 'roq-widget-' + 'messages-notification-bell';
+const _CLASS_IS = "roq-widget-" + "messages-notification-bell";
 
 interface MessagesNotificationBellProps {
   unreadCount: number;
@@ -16,20 +16,31 @@ interface MessagesNotificationBellProps {
   classNames?: {
     container?: string;
     button?: string;
+    icon?: string;
+    badge?: string;
   };
   components?: {
-    Container: Element;
-    Button: Element;
-    Icon: Element;
-    Badge: Element;
+    Container: ComponentType<any>
+    Button: ComponentType<any>
+    Icon: ComponentType<{ className?: string }>;
+    Badge: ComponentType<BadgeProps>;
   };
 }
 
-export const MessagesNotificationBell = (props: MessagesNotificationBellProps) => {
-  const { unreadCount, maxUnreadCount = 10, displayZero, className, classNames, components } = props;
+export const MessagesNotificationBell = (
+  props: MessagesNotificationBellProps
+) => {
+  const {
+    unreadCount,
+    maxUnreadCount = 10,
+    displayZero,
+    className,
+    classNames,
+    components,
+  } = props;
 
-  const Container = components?.Container ?? 'div';
-  const Button = components?.Button ?? 'button';
+  const Container = components?.Container ?? "div";
+  const Button = components?.Button ?? "button";
   const Icon = components?.Icon ?? DefaultIcon;
   const Badge = components?.Badge ?? DefaultBadge;
 
@@ -38,13 +49,18 @@ export const MessagesNotificationBell = (props: MessagesNotificationBellProps) =
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
-        [_CLASS_IS + '_unread']: hasUnreadMessages,
+        [_CLASS_IS + "_unread"]: hasUnreadMessages,
       })}
     >
-      <Button className={clsx(_CLASS_IS + '__button', classNames?.button)}>
-        <Icon className={clsx(_CLASS_IS + '__button__icon', classNames?.icon)} />
+      <Button className={clsx(_CLASS_IS + "__button", classNames?.button)}>
+        <Icon
+          className={clsx(_CLASS_IS + "__button__icon", classNames?.icon)}
+        />
       </Button>
-      <Badge className={clsx(_CLASS_IS + '__badge', classNames?.badge)} maxValue={maxUnreadCount}>
+      <Badge
+        className={clsx(_CLASS_IS + "__badge", classNames?.badge)}
+        maxValue={maxUnreadCount}
+      >
         {unreadCount}
       </Badge>
     </Container>

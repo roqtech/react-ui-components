@@ -1,5 +1,5 @@
 import clsx from "classnames";
-import React, { CSSProperties, ReactElement } from "react";
+import React, { CSSProperties, ComponentType } from "react";
 
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
@@ -11,8 +11,8 @@ interface ConversationCardProps {
   date: string;
   message: string;
   members: any[];
+  style?: CSSProperties;
   className?: string;
-  styles?: CSSProperties;
   classNames?: {
     container?: string;
     inner?: string;
@@ -21,11 +21,11 @@ interface ConversationCardProps {
     message?: string;
   };
   components?: {
-    Container?: ReactElement;
-    Inner?: ReactElement;
-    Top?: ReactElement;
-    Title?: ReactElement;
-    Message?: ReactElement;
+    Container?: ComponentType<any>;
+    Inner?: ComponentType<any>;
+    Top?: ComponentType<any>;
+    Title?: ComponentType<any>;
+    Message?: ComponentType<any>;
   };
 }
 

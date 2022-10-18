@@ -1,7 +1,7 @@
 import './message-bubble.css';
 
 import clsx from 'classnames';
-import React, { Element } from 'react';
+import React, { ComponentType } from 'react';
 
 import { AvatarGroup } from '../../common/avatar-group/avatar-group';
 import { StackedText } from '../../common/stacked-text/stacked-text';
@@ -18,8 +18,8 @@ interface MessageBubbleProps {
     message?: string;
   };
   components?: {
-    container: Element;
-    message: Element;
+    container: ComponentType<any>
+    message: ComponentType<any>
   };
 }
 

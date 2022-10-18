@@ -1,7 +1,7 @@
 import './message-history.css';
 
 import clsx from 'classnames';
-import React, { Element, useMemo, useCallback } from 'react';
+import React, { ComponentType, useMemo, useCallback } from 'react';
 
 import { AvatarGroup } from '../../common/avatar-group/avatar-group';
 import { StackedText } from '../../common/stacked-text/stacked-text';
@@ -18,9 +18,9 @@ interface MessageHistoryProps {
     message?: string;
   };
   components?: {
-    container: Element;
-    line: Element;
-    message: Element;
+    container: ComponentType<any>
+    line: ComponentType<any>
+    message: ComponentType<any>
   };
 }
 

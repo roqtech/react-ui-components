@@ -10,7 +10,7 @@ const _CLASS_IS = 'roq-widget-' + 'avatar';
 
 type AvatarSizeType = 'small' | 'medium' | 'large';
 
-interface AvatarProps {
+export interface AvatarProps {
   name?: string;
   src?: string;
   alt?: string;

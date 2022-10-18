@@ -1,15 +1,15 @@
 import "./stacked-text.css";
 
 import clsx from "classnames";
-import React, { ReactElement } from "react";
+import React, { ComponentType } from "react";
 
 const _CLASS_IS = "roq-widget-" + "stacked-text";
 
 interface StackedTextProps {
   text?: string;
-  primaryText: string;
-  secondaryText: string;
-  tertiaryText: string;
+  primaryText?: string;
+  secondaryText?: string;
+  tertiaryText?: string;
   className?: string;
   classNames?: {
     container?: string;
@@ -19,11 +19,11 @@ interface StackedTextProps {
     tertiaryText?: string;
   };
   components?: {
-    container: ReactElement;
-    text: ReactElement;
-    primaryText: ReactElement;
-    secondaryText: ReactElement;
-    tertiaryText: ReactElement;
+    container: ComponentType<any>;
+    text: ComponentType<any>;
+    primaryText: ComponentType<any>;
+    secondaryText: ComponentType<any>;
+    tertiaryText: ComponentType<any>;
   };
 }
 
