@@ -1,7 +1,7 @@
 import "./recipient.css";
 
 import clsx from "classnames";
-import React, { ReactElement } from "react";
+import React, { ComponentType } from "react";
 
 import { CheckIcon as DefaultCheckIcon } from "./check-icon";
 
@@ -11,7 +11,9 @@ import { Avatar } from "../../common/avatar/avatar";
 const _CLASS_IS = "roq-widget-" + "recipient";
 
 interface RecipientProps {
-  recipient: unknown;
+  recipient: {
+    name: string;
+  };
   selected?: boolean;
   className?: string;
   classNames?: {
@@ -20,9 +22,9 @@ interface RecipientProps {
     checkIcon?: string;
   };
   components?: {
-    Container: ReactElement;
-    Inner: ReactElement;
-    CheckIcon: ReactElement;
+    Container: ComponentType<any>
+    Inner: ComponentType<any>
+    CheckIcon: ComponentType<any>
   };
 }
 
@@ -39,7 +41,7 @@ export const Recipient = (props: RecipientProps) => {
         [_CLASS_IS + "_selected"]: selected,
       })}
     >
-      <Inner className={clsx(_CLASS_IS + "__inner", classNames?.message)}>
+      <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
         <Avatar size="large" {...recipient} />
         <StackedText
           text={recipient?.name}

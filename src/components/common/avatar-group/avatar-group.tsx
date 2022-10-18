@@ -1,14 +1,14 @@
-import './avatar-group.css';
+import "./avatar-group.css";
 
-import clsx from 'classnames';
-import React, { Element, useCallback, useMemo } from 'react';
+import clsx from "classnames";
+import React, { ComponentType, useCallback, useMemo } from "react";
 
-import { Avatar, AvatarProps } from '../avatar/avatar';
+import { Avatar, AvatarProps } from "../avatar/avatar";
 
-const _CLASS_IS = 'roq-widget-' + 'avatar-group';
+const _CLASS_IS = "roq-widget-" + "avatar-group";
 
 interface AvatarGroupProps<T extends Partial<AvatarProps>>
-  extends Pick<'size' | 'rounded' | 'square' | 'border', AvatarProps> {
+  extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
   data: T[];
   stack?: boolean;
   grid?: boolean;
@@ -16,18 +16,21 @@ interface AvatarGroupProps<T extends Partial<AvatarProps>>
   className?: string;
   classNames?: {
     container?: string;
-    itemWrapper?: string;
+    wrapper?: string;
+    avatar?: string;
   };
   components?: {
-    container: Element;
-    itemWrapper: Element;
-    avatar: ComponentType<AvatarProps>;
+    Container: ComponentType<any>;
+    Wrapper: ComponentType<any>;
+    Avatar: ComponentType<AvatarProps>;
   };
 }
 
 const calculateItemWrapperZIndex = (index, total) => total - index;
 
-export const AvatarGroup = <T,>(props: AvatarGroupProps<T>) => {
+export const AvatarGroup = <T extends Partial<AvatarProps>>(
+  props: AvatarGroupProps<T>
+) => {
   const {
     data,
     size,
@@ -39,22 +42,20 @@ export const AvatarGroup = <T,>(props: AvatarGroupProps<T>) => {
     maxCount,
     className,
     classNames,
-    components = {
-      container: 'ul',
-      itemWrapper: 'li',
-      avatar: Avatar,
-    },
+    components,
   } = props;
 
-  const Container = components.container;
-  const ItemWrapper = components.itemWrapper;
+  const Container = components?.Container ?? "div";
+  const Wrapper = components?.Wrapper ?? "div";
+  const AvatarComponent = components?.Avatar ?? Avatar;
 
-  const avatarsData = useMemo(() => (maxCount ? data.slice(0, maxCount) : data), [data, maxCount]);
+  const avatarsData = useMemo(
+    () => (maxCount ? data.slice(0, maxCount) : data),
+    [data, maxCount]
+  );
 
   const renderAvatar = useCallback(
     (avatarProps) => {
-      const AvatarComponent = components.avatar;
-
       return (
         <AvatarComponent
           size={size}
@@ -66,26 +67,26 @@ export const AvatarGroup = <T,>(props: AvatarGroupProps<T>) => {
         />
       );
     },
-    [components.avatar, classNames?.avatar, size, rounded, square, border],
+    [AvatarComponent, classNames?.avatar, size, rounded, square, border]
   );
 
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
-        [_CLASS_IS + '_stack']: stack,
-        [_CLASS_IS + '_stack']: grid,
+        [_CLASS_IS + "_stack"]: stack,
+        [_CLASS_IS + "_stack"]: grid,
       })}
     >
       {avatarsData.map((_p, i) => (
-        <ItemWrapper
+        <Wrapper
           key={i}
-          className={clsx(_CLASS_IS + '__item', classNames?.container)}
+          className={clsx(_CLASS_IS + "__item", classNames?.wrapper)}
           style={{
             zIndex: calculateItemWrapperZIndex(i, avatarsData.length),
           }}
         >
           {renderAvatar(_p)}
-        </ItemWrapper>
+        </Wrapper>
       ))}
     </Container>
   );

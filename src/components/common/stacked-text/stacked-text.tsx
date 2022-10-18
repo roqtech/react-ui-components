@@ -1,15 +1,15 @@
-import './stacked-text.css';
+import "./stacked-text.css";
 
-import clsx from 'classnames';
-import React, { Element } from 'react';
+import clsx from "classnames";
+import React, { ComponentType } from "react";
 
-const _CLASS_IS = 'roq-widget-' + 'stacked-text';
+const _CLASS_IS = "roq-widget-" + "stacked-text";
 
 interface StackedTextProps {
   text?: string;
-  primaryText: string;
-  secondaryText: string;
-  tertiaryText: string;
+  primaryText?: string;
+  secondaryText?: string;
+  tertiaryText?: string;
   className?: string;
   classNames?: {
     container?: string;
@@ -19,11 +19,11 @@ interface StackedTextProps {
     tertiaryText?: string;
   };
   components?: {
-    container: Element;
-    text: Element;
-    primaryText: Element;
-    secondaryText: Element;
-    tertiaryText: Element;
+    container: ComponentType<any>;
+    text: ComponentType<any>;
+    primaryText: ComponentType<any>;
+    secondaryText: ComponentType<any>;
+    tertiaryText: ComponentType<any>;
   };
 }
 
@@ -35,30 +35,52 @@ export const StackedText = (props: StackedTextProps) => {
     tertiaryText,
     className,
     classNames,
-    components = { container: 'div', text: 'span' },
+    components,
   } = props;
 
-  const Container = components.container;
-  const Text = components.text;
-  const PrimaryText = components.primaryText ?? Text;
-  const SecondaryText = components.secondaryText ?? Text;
-  const TertiaryText = components.tertiaryText ?? Text;
+  const Container = components?.container ?? "div";
+  const Text = components?.text ?? "span";
+  const PrimaryText = components?.primaryText ?? Text;
+  const SecondaryText = components?.secondaryText ?? Text;
+  const TertiaryText = components?.tertiaryText ?? Text;
 
   return (
     <Container className={clsx(_CLASS_IS, className, classNames?.container)}>
-      {text && <Text className={clsx(_CLASS_IS + '__text', classNames?.text)}>{text}</Text>}
+      {text && (
+        <Text className={clsx(_CLASS_IS + "__text", classNames?.text)}>
+          {text}
+        </Text>
+      )}
       {primaryText && (
-        <PrimaryText className={clsx(_CLASS_IS + '__text', _CLASS_IS + '__text-primary', classNames?.primaryText)}>
+        <PrimaryText
+          className={clsx(
+            _CLASS_IS + "__text",
+            _CLASS_IS + "__text-primary",
+            classNames?.primaryText
+          )}
+        >
           {primaryText}
         </PrimaryText>
       )}
       {secondaryText && (
-        <SecondaryText className={clsx(_CLASS_IS + '__text', _CLASS_IS + '__text-secondary', classNames?.secondaryText)}>
+        <SecondaryText
+          className={clsx(
+            _CLASS_IS + "__text",
+            _CLASS_IS + "__text-secondary",
+            classNames?.secondaryText
+          )}
+        >
           {secondaryText}
         </SecondaryText>
       )}
       {tertiaryText && (
-        <TertiaryText className={clsx(_CLASS_IS + '__text', _CLASS_IS + '__text-tertiary', classNames?.tertiaryText)}>
+        <TertiaryText
+          className={clsx(
+            _CLASS_IS + "__text",
+            _CLASS_IS + "__text-tertiary",
+            classNames?.tertiaryText
+          )}
+        >
           {tertiaryText}
         </TertiaryText>
       )}
