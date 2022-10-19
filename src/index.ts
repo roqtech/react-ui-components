@@ -1,3 +1,5 @@
+import "./styles/styles.scss";
+
 export { Notification } from "./components/Notification";
 export { Button } from "./components/Button";
 export {
@@ -21,4 +23,5 @@ export {
   MessageHistory,
   MessagesNotificationBell,
   Recipient,
+  Message,
 } from "./components/message-center";

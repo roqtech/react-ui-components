@@ -1,0 +1,18 @@
+$default-font-size: 1rem;
+$default-font-weight: 400;
+$default-font-line-height: 1.5;
+$default-font-spacing: 0.00938em;
+$default-font-name: "Roboto, Helvetica, Arial, sans-serif";
+
+$primary-color: 0;
+$secondary-color: 0;
+$tertiary-color: 0;
+
+// TODO: create mixin for CSS variables
+:root {
+  --rc-default-font-size: #{$default-font-size};
+  --rc-default-font-weight: #{$default-font-weight};
+  --rc-default-font-line-height: #{$default-font-line-height};
+  --rc-default-font-spacing: #{$default-font-spacing};
+  --rc-default-font-name: #{$default-font-name};
+}

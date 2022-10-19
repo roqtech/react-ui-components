@@ -1,0 +1,12 @@
+$primary-color: rgba(0, 0, 0, 0.87);
+$secondary-color: rgba(0, 0, 0, 0.6);
+$tertiary-color: rgba(0, 0, 0, 0.38);
+$disbled-color: rgba(0, 0, 0, 0.12);
+
+// TODO: create mixin for CSS variables
+:root {
+  --rw-text-primary-color: #{$primary-color};
+  --rw-text-secondary-color: #{$secondary-color};
+  --rw-text-tertiary-color: #{$tertiary-color};
+  --rw-text-disbled-color: #{$disbled-color};
+}
