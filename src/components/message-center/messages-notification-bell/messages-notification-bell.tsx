@@ -6,7 +6,7 @@ import React, { ComponentType, useMemo } from "react";
 import { Badge as DefaultBadge, BadgeProps } from "../../common/badge/badge";
 import { MessagesIcon as DefaultIcon } from "./messages-icon";
 
-const _CLASS_IS = "roq-widget-" + "messages-notification-bell";
+const _CLASS_IS = "roq-component-" + "messages-notification-bell";
 
 interface MessagesNotificationBellProps {
   unreadCount: number;

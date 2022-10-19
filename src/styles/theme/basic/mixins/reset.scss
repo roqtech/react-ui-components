@@ -1,0 +1,9 @@
+@mixin reset {
+  box-sizing: border-box;
+
+  & > *,
+  & > *::after,
+  & > *::before {
+    box-sizing: border-box;
+  }
+}

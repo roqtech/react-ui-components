@@ -1,12 +1,25 @@
+$white: #ffffff;
+$black: #000000;
+
+$primary: #1d4ed8;
+
 $primary-color: rgba(0, 0, 0, 0.87);
 $secondary-color: rgba(0, 0, 0, 0.6);
 $tertiary-color: rgba(0, 0, 0, 0.38);
 $disbled-color: rgba(0, 0, 0, 0.12);
 
+$primary-text-color: #091e42;
+$secondary-text-color: #6b778c;
+$tertiary-text-color: #878c95;
+
 // TODO: create mixin for CSS variables
 :root {
-  --rw-text-primary-color: #{$primary-color};
-  --rw-text-secondary-color: #{$secondary-color};
-  --rw-text-tertiary-color: #{$tertiary-color};
-  --rw-text-disbled-color: #{$disbled-color};
+  --rc-white: #{$white};
+  --rc-black: #{$black};
+  --rc-primary: #{$primary};
+
+  --rc-text-primary-color: #{$primary-color};
+  --rc-text-secondary-color: #{$secondary-color};
+  --rc-text-tertiary-color: #{$tertiary-color};
+  --rc-text-disbled-color: #{$disbled-color};
 }

@@ -1,2 +1,11 @@
-@mixin roq-component {
+@import "reset";
+@import "typography";
+
+@mixin roq-component($name) {
+  .roq-component-#{$name} {
+    @include reset;
+    @include typography;
+
+    @content;
+  }
 }

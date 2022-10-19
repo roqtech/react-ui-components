@@ -3,7 +3,7 @@ import "./message.scss";
 import clsx from "classnames";
 import React, { CSSProperties, ReactNode, ComponentType } from "react";
 
-const _CLASS_IS = "roq-widget-" + "message";
+const _CLASS_IS = "roq-component-" + "message";
 
 interface MessageProps {
   children: ReactNode;

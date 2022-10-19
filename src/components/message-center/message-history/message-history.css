@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --rw-border-radius: 8px;
   --rw-margin-step: 8px;
   --rw-primary-font: Helvetica, Arial, sans-serif;
@@ -9,7 +9,7 @@
   --rw-tertiary-text: #878c95;
 
   --rw-message-history-spacing: var(--rw-margin-step);
-}
+} */
 
 .roq-widget-message-history {
   height: 100%;

@@ -6,7 +6,7 @@ import React, { ComponentType, ReactNode } from "react";
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 
-const _CLASS_IS = "roq-widget-" + "conversation-card";
+const _CLASS_IS = "roq-component-" + "conversation-card";
 
 interface CreateConversationButtonProps {
   children: ReactNode;

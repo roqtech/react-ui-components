@@ -1,25 +1,24 @@
-const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-  addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-  ],
-  framework: "@storybook/react",
-  // stories: ["../**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   stories: [
     "../stories/**/*.stories.mdx",
     "../stories/**/*.stories.@(js|jsx|ts|tsx)",
   ],
-  features: {
-    previewMdx2: true, // 👈 MDX 2 enabled here
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "storybook-addon-next",
+  ],
+  framework: "@storybook/react",
+  core: {
+    builder: "webpack5",
   },
-  webpackFinal: async (config) => {
-    config.resolve.plugins = [
-      new TsconfigPathsPlugin({ extensions: config.resolve.extensions }),
-    ];
-
-    return config;
+  resolve: {
+    alias: {
+      styles: path.join(__dirname, "..", "src", "styles"),
+    },
   },
 };
+
+console.dir(path.join(__dirname, "..", "src", "styles"));

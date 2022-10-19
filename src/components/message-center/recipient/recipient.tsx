@@ -8,7 +8,7 @@ import { CheckIcon as DefaultCheckIcon } from "./check-icon";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 import { Avatar } from "../../common/avatar/avatar";
 
-const _CLASS_IS = "roq-widget-" + "recipient";
+const _CLASS_IS = "roq-component-" + "recipient";
 
 interface RecipientProps {
   recipient: {

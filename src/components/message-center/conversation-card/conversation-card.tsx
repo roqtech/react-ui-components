@@ -1,10 +1,12 @@
+import "./conversation-card.scss";
+
 import clsx from "classnames";
 import React, { CSSProperties, ComponentType } from "react";
 
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 
-const _CLASS_IS = "roq-widget-" + "conversation-card";
+const _CLASS_IS = "roq-component-" + "conversation-card";
 
 interface ConversationCardProps {
   title: string;
@@ -54,7 +56,12 @@ export const ConversationCard = (props: ConversationCardProps) => {
     >
       <Inner className={clsx(classNames?.inner, _CLASS_IS + "__inner")}>
         <Top className={clsx(classNames?.top, _CLASS_IS + "__top")}>
-          <AvatarGroup data={members} maxCount={2} size="large" />
+          <AvatarGroup
+            data={members}
+            maxCount={2}
+            size="large"
+            className={clsx(classNames?.top, _CLASS_IS + "__top__avatars")}
+          />
           <Title
             primaryText={title}
             secondaryText={date}

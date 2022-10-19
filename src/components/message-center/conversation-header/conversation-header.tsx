@@ -6,7 +6,7 @@ import React, { ComponentType, useMemo } from "react";
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 
-const _CLASS_IS = "roq-widget-" + "conversation-header";
+const _CLASS_IS = "roq-component-" + "conversation-header";
 
 interface ConversationHeaderProps {
   title: string;

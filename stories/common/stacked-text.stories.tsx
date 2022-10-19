@@ -7,6 +7,7 @@ export default {
   title: "Roq Widgets/Typography/StackedText",
   component: StackedText,
   argTypes: {
+    disabled: { control: "boolean" },
     primaryText: { control: "string" },
     secondaryText: { control: "string" },
     tertiaryText: { control: "string" },
@@ -39,3 +40,10 @@ WithSecondaryTertiaryText.args = {
   secondaryText: "Secondary text",
   tertiaryText: "Tertiary text",
 };
+
+export const Dsabled = Template.bind({});
+Dsabled.args = {
+  text: "Disabled.",
+  disabled: true,
+};
+

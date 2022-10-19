@@ -1,22 +1,5 @@
-html {
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-body {
-  font-size: var(--rc-default-font-size);
-  font-weight: var(--rc-default-font-weight);
-  line-height: var(--rc-default-font-line-height);
-  letter-spacing: var(--rc-default-font-spacing);
-  font-family: var(--rc-default-font-name);
-}
-
-@import url("./mixins/mixins.scss");
-@import url("theme/basic/pallete.scss");
-@import url("./breakpoints.scss");
-@import url("./typography.scss");
+@import "mixins/mixins.scss";
+@import "pallete.scss";
+@import "breakpoints.scss";
+@import "typography.scss";
+@import "spacing.scss";

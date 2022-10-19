@@ -1,8 +1,8 @@
 $step: 4;
-$radius-1: $step;
+$radius-1: $step * 2;
 
 // TODO: create mixin for CSS variables
 :root {
-  --rw-step: #{step};
-  --rw-border-radius: #{radius-1};
+  --rc-layout-step: #{$step}px;
+  --rc-layout-border-radius: #{$radius-1}px;
 }

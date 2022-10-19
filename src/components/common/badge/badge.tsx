@@ -3,7 +3,7 @@ import "./badge.css";
 import clsx from "classnames";
 import React, { ComponentType, ReactNode, useMemo } from "react";
 
-const _CLASS_IS = "roq-widget-" + "badge";
+const _CLASS_IS = "roq-component-" + "badge";
 
 export interface BadgeProps {
   children: ReactNode;

@@ -1,11 +1,11 @@
-import "./avatar-group.css";
+import "./avatar-group.scss";
 
 import clsx from "classnames";
 import React, { ComponentType, useCallback, useMemo } from "react";
 
 import { Avatar, AvatarProps } from "../avatar/avatar";
 
-const _CLASS_IS = "roq-widget-" + "avatar-group";
+const _CLASS_IS = "roq-component-" + "avatar-group";
 
 interface AvatarGroupProps<T extends Partial<AvatarProps>>
   extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
@@ -73,8 +73,8 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
-        [_CLASS_IS + "_stack"]: stack,
-        [_CLASS_IS + "_stack"]: grid,
+        [_CLASS_IS + "-stack"]: stack,
+        [_CLASS_IS + "-grid"]: grid,
       })}
     >
       {avatarsData.map((_p, i) => (

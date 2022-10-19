@@ -1,4 +1,4 @@
-import "./styles/styles.scss";
+import "../src/styles/styles.scss";
 
 export { Notification } from "./components/Notification";
 export { Button } from "./components/Button";

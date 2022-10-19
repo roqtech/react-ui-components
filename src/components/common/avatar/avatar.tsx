@@ -1,14 +1,14 @@
-import './avatar.css';
+import "./avatar.scss";
 
-import clsx from 'classnames';
-import isEmpty from 'lodash/isEmpty';
-import React from 'react';
+import clsx from "classnames";
+import isEmpty from "lodash/isEmpty";
+import React from "react";
 
-import { DefaultImage } from './default-image';
+import { DefaultImage } from "./default-image";
 
-const _CLASS_IS = 'roq-widget-' + 'avatar';
+const _CLASS_IS = "roq-component-" + "avatar";
 
-type AvatarSizeType = 'small' | 'medium' | 'large';
+type AvatarSizeType = "small" | "medium" | "large";
 
 export interface AvatarProps {
   name?: string;
@@ -29,18 +29,18 @@ export interface AvatarProps {
 
 const avatarSizeToClassName = (size: AvatarSizeType) => {
   switch (size) {
-    case 'small':
-    case 'medium':
-    case 'large':
-      return _CLASS_IS + `_size_${size}`;
+    case "small":
+    case "medium":
+    case "large":
+      return _CLASS_IS + `_size-${size}`;
   }
 };
 
 const getInitials = (initials: string): string =>
   initials
-    .replace(/\s\s+/g, ' ')
-    .split(' ')
-    .reduce((acc, val) => acc + val.charAt(0), '');
+    .replace(/\s\s+/g, " ")
+    .split(" ")
+    .reduce((acc, val) => acc + val.charAt(0), "");
 
 export const Avatar = (props: AvatarProps) => {
   const {
@@ -48,7 +48,7 @@ export const Avatar = (props: AvatarProps) => {
     src,
     alt,
     initials,
-    size = 'medium',
+    size = "medium",
     rounded = true,
     square,
     border = true,
@@ -61,21 +61,35 @@ export const Avatar = (props: AvatarProps) => {
   const isDefault = isEmpty(name) && isEmpty(src) && isEmpty(abbr);
 
   const content = abbr ? (
-    <span className={clsx(_CLASS_IS + '__initials', classNames?.initials)}>{abbr}</span>
+    <span className={clsx(_CLASS_IS + "__initials", classNames?.initials)}>
+      {abbr}
+    </span>
   ) : (
-    <img src={src} className={clsx(_CLASS_IS + '__image', classNames?.image)} />
+    <img src={src} className={clsx(_CLASS_IS + "__image", classNames?.image)} />
   );
 
   return (
     <div
-      className={clsx(_CLASS_IS, className, classNames?.container, avatarSizeToClassName(size), {
-        [_CLASS_IS + '_rounded']: rounded,
-        [_CLASS_IS + '_square']: square,
-        [_CLASS_IS + '_border']: border,
-      })}
+      className={clsx(
+        _CLASS_IS,
+        className,
+        classNames?.container,
+        avatarSizeToClassName(size),
+        {
+          [_CLASS_IS + "-rounded"]: rounded,
+          [_CLASS_IS + "-square"]: square,
+          [_CLASS_IS + "-border"]: border,
+        }
+      )}
     >
       {isDefault ? (
-        <span className={clsx(_CLASS_IS + '__image', classNames?.image, _CLASS_IS + '__image_default')}>
+        <span
+          className={clsx(
+            _CLASS_IS + "__image",
+            classNames?.image,
+            _CLASS_IS + "__image-default"
+          )}
+        >
           <DefaultImage />
         </span>
       ) : (
