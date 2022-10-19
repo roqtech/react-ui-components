@@ -8,6 +8,7 @@ const StyledToggleGroup = styled(ToggleGroupPrimitive.Root, {
   backgroundColor: mauve.mauve6,
   borderRadius: 4,
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
+  marginBottom: '16px'
 });
 
 const StyledItem = styled(ToggleGroupPrimitive.Item, {
@@ -36,4 +37,5 @@ const StyledItem = styled(ToggleGroupPrimitive.Item, {
 
 // Exports
 export const ToggleGroup = StyledToggleGroup;
+export type StyledToggleGroupType = typeof ToggleGroup
 export const ToggleGroupItem = StyledItem;

@@ -13,10 +13,11 @@ const StyledWrapper = styled(Avatar, {
   height: 28,
 })
 
-const NotificationBadges = ({ children }) => (
-  <StyledWrapper>
+type NotificationBadgesProps = React.ComponentProps<typeof StyledWrapper>
+const NotificationBadges: React.FC<NotificationBadgesProps>  = ({ children, ...rest }) => (
+  <StyledWrapper {...rest}>
     <StyledNotificationBadges>{children}</StyledNotificationBadges>
   </StyledWrapper>
 )
 
-export { NotificationBadges }
+export { NotificationBadges, NotificationBadgesProps }

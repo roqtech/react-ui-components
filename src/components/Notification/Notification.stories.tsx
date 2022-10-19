@@ -5,7 +5,7 @@ import AppDecorators from '../../../.storybook/decorators'
 import { Notification } from './Notification';
 
 export default {
-  title: 'Roq Widgets/Notification',
+  title: 'ROQ/Notification',
   component: Notification,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
@@ -26,6 +26,30 @@ export default {
   }
 } as ComponentMeta<typeof Notification>;
 
-const Template: ComponentStory<typeof Notification> = (args) => <Notification {...args} />;
+const Template: ComponentStory<typeof Notification> = (args) => (
+  <Notification
+    {...args}
+  />
+)
 
 export const Primary = Template.bind({});
+
+export const CustomCss = (args) => (
+  <Notification
+    {...args}
+    titleProps={{
+      css: {
+        span: {
+          backgroundColor: "var(--colors-green9)"
+        }
+      }
+    }}
+    typeToggleProps={{
+      css: {
+        'button[data-state="on"]': {
+          backgroundColor: "var(--colors-green9)"
+        }
+      }
+    }}
+  />
+)

@@ -36,6 +36,8 @@
     "@mui/material": "^5.10.10",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-avatar": "^1.0.0",
+    "@radix-ui/react-icons": "^1.1.1",
+    "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-toggle-group": "^1.0.0",
     "@rollup/plugin-alias": "^4.0.0",
     "@rollup/plugin-html": "^1.0.0",
