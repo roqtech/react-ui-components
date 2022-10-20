@@ -1,0 +1,63 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-conversation-card-border-radius: var(--rc-layout-border-radius);
+  --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 2);
+
+  --rc-chat-conversation-card-background: var(--rc-white);
+  --rc-chat-conversation-card-active-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+
+  --rc-chat-conversation-card-border: 1px solid rgb(0 0 0 / 20%);
+
+  --rc-chat-conversation-card-title-margin: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversation-card-message-margin: calc(var(--rc-layout-step) * 2);
+}
+
+@include roq-component("chat-conversation-card") {
+  border-radius: var(--rc-chat-conversation-card-border-radius);
+  padding: var(--rc-chat-conversation-card-padding);
+  background-color: var(--rc-chat-conversation-card-background);
+  border: var(--rc-chat-conversation-card-border);
+
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    box-shadow: var(--rc-chat-conversation-card-active-shadow);
+  }
+
+  &__top {
+    border-radius: 3px;
+    border: 2px solid transparent;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    width: 100%;
+
+    &__avatars {
+    }
+
+    &__title {
+      padding-left: var(--rc-chat-conversation-card-title-margin);
+      font-weight: var(--rc-weight-medium);
+
+      &__name {
+        font-weight: var(--rc-weight-medium);
+      }
+    }
+  }
+
+  &__message {
+    font-family: var(--rc-primary-font);
+    min-width: 0px;
+    max-width: 100%;
+    flex: 1 1 100%;
+    color: var(--rc-primary-text);
+    font-size: var(--rc-stacked-text-size-primary);
+    margin: 0px;
+    padding: 0px;
+    margin-top: var(--rc-chat-conversation-card-message-margin);
+  }
+}

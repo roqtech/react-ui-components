@@ -5,7 +5,7 @@ import { Avatar } from '../../src';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Roq Widgets/Common/Avatar',
+  title: 'Roq Components/Common/Avatar',
   component: Avatar,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {

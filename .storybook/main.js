@@ -20,5 +20,3 @@ module.exports = {
     },
   },
 };
-
-console.dir(path.join(__dirname, "..", "src", "styles"));

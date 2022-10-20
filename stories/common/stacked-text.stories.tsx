@@ -4,7 +4,7 @@ import React from "react";
 import { StackedText } from "../../src";
 
 export default {
-  title: "Roq Widgets/Typography/StackedText",
+  title: "Roq Components/Typography/StackedText",
   component: StackedText,
   argTypes: {
     disabled: { control: "boolean" },

@@ -13,15 +13,22 @@ export {
 export { RoqProvider, useRoq } from "./components/Provider";
 export { styled, theme, css, globalStyles } from "./styles";
 
-export { Avatar, AvatarGroup, Badge, StackedText } from "./components/common";
+export {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  StackedText,
+  TimeAgo,
+} from "./components/common";
 
 export {
-  ConversationCard,
-  ConversationHeader,
-  CreateConversationButton,
-  MessageBubble,
-  MessageHistory,
-  MessagesNotificationBell,
-  Recipient,
-  Message,
-} from "./components/message-center";
+  ChatConversationCard,
+  ChatConversationHeader,
+  ChatMessageBubble,
+  ChatMessageHistory,
+  ChatMessage,
+  ChatNotificationBell,
+  ChatMessageInput,
+  ChatConversations,
+  ChatProvider
+} from "./components/chat";

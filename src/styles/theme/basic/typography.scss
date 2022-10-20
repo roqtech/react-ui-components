@@ -4,6 +4,10 @@ $default-font-line-height: 1.5;
 $default-font-spacing: 0.00938em;
 $default-font-name: "Roboto, Helvetica, Arial, sans-serif";
 
+$font-weight-normal: $default-font-weight;
+$font-weight-bold: 600;
+$font-weight-bolder: 800;
+
 // TODO: create mixin for CSS variables
 :root {
   --rc-default-font-size: #{$default-font-size};
@@ -15,4 +19,7 @@ $default-font-name: "Roboto, Helvetica, Arial, sans-serif";
   --rc-primary-text-color: #{$primary-text-color};
   --rc-secondary-text-color: #{$secondary-text-color};
   --rc-tertiary-text-color: #{$tertiary-text-color};
+  
+  --rc-font-bold: #{$font-weight-bold};
+  --rc-font-bolder: #{$font-weight-bolder};
 }

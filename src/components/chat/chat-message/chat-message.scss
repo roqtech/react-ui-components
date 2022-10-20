@@ -1,0 +1,40 @@
+@import "../../../styles/styles.scss";
+
+$chat-message-user-font-size: 0.92em;
+
+:root {
+  --rc-chat-message-user-font-size: #{$chat-message-user-font-size};
+  --rc-chat-message-user-margin: var(--rc-layout-step) 0 0 0;
+  --rc-chat-message-user-spacing: calc(var(--rc-layout-step) * 2);
+
+  --rc-chat-message-user-name-font-weight: calc(var(--rc-font-bold) / 1.25);
+}
+
+@include roq-component("chat-message") {
+  $container: &;
+
+  &-sent {
+    text-align: right;
+  }
+
+  &__user {
+    margin: var(--rc-chat-message-user-margin);
+    gap: var(--rc-chat-message-user-spacing);
+    font-size: var(--rc-chat-message-user-font-size);
+
+    display: flex;
+    align-items: center;
+
+    &__name {
+      font-weight: var(--rc-chat-message-user-name-font-weight);
+    }
+  }
+
+  &-sent {
+    #{$container} {
+      &__user {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+}

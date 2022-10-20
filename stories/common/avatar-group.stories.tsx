@@ -5,7 +5,7 @@ import { AvatarGroup } from "../../src";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: "Roq Widgets/Common/Avatar Group",
+  title: "Roq Components/Common/Avatar Group",
   component: AvatarGroup,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {

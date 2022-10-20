@@ -4,10 +4,11 @@ import clsx from "classnames";
 import React, { ComponentType, useCallback, useMemo } from "react";
 
 import { Avatar, AvatarProps } from "../avatar/avatar";
+import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = "roq-component-" + "avatar-group";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar-group";
 
-interface AvatarGroupProps<T extends Partial<AvatarProps>>
+export interface AvatarGroupProps<T extends Partial<AvatarProps> = AvatarProps>
   extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
   data: T[];
   stack?: boolean;

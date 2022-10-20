@@ -2,10 +2,11 @@ import "./stacked-text.scss";
 
 import clsx from "classnames";
 import React, { ComponentType, CSSProperties } from "react";
+import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = "roq-component-" + "stacked-text";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "stacked-text";
 
-interface StackedTextProps {
+export interface StackedTextProps {
   text?: string;
   primaryText?: string;
   secondaryText?: string;

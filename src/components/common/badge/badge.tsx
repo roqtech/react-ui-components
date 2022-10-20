@@ -2,8 +2,9 @@ import "./badge.css";
 
 import clsx from "classnames";
 import React, { ComponentType, ReactNode, useMemo } from "react";
+import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = "roq-component-" + "badge";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "badge";
 
 export interface BadgeProps {
   children: ReactNode;

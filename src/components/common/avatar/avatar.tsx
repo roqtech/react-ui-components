@@ -2,11 +2,12 @@ import "./avatar.scss";
 
 import clsx from "classnames";
 import isEmpty from "lodash/isEmpty";
-import React from "react";
+import React, { CSSProperties } from "react";
 
 import { DefaultImage } from "./default-image";
+import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = "roq-component-" + "avatar";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar";
 
 type AvatarSizeType = "small" | "medium" | "large";
 
@@ -19,6 +20,7 @@ export interface AvatarProps {
   rounded?: boolean;
   square?: boolean;
   border?: boolean;
+  style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
@@ -52,6 +54,7 @@ export const Avatar = (props: AvatarProps) => {
     rounded = true,
     square,
     border = true,
+    style,
     className,
     classNames,
   } = props;
@@ -65,11 +68,16 @@ export const Avatar = (props: AvatarProps) => {
       {abbr}
     </span>
   ) : (
-    <img src={src} className={clsx(_CLASS_IS + "__image", classNames?.image)} />
+    <img
+      src={src}
+      alt={alt}
+      className={clsx(_CLASS_IS + "__image", classNames?.image)}
+    />
   );
 
   return (
     <div
+      style={style}
       className={clsx(
         _CLASS_IS,
         className,

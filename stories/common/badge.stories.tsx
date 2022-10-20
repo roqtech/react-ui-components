@@ -4,7 +4,7 @@ import React from 'react';
 import { Badge } from '../../src';
 
 export default {
-  title: 'Roq Widgets/Common/Badge',
+  title: 'Roq Components/Common/Badge',
   component: Badge,
   argTypes: {
     maxValue: { control: 'number' },
