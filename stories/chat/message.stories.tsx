@@ -18,5 +18,5 @@ export const Default = Template.bind({});
 Default.args = {
   timestamp: 1666169576672,
   message: `Hi! How it's going?`,
-  user: { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
+  user: { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
 };

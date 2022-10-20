@@ -9,7 +9,7 @@ $chat-conversation-header-height: 96px;
   --rc-chat-conversation-header-border-color: var(--rc-divider);
   --rc-chat-conversation-header-border-width: 2px;
 
-  --rc-chat-conversation-header-title-margin: var(--rc-layout-step);
+  --rc-chat-conversation-header-info-margin: var(--rc-layout-step);
 }
 
 @include roq-component("chat-conversation-header") {
@@ -30,7 +30,7 @@ $chat-conversation-header-height: 96px;
   }
 
   &__info {
-    padding-left: var(--rc-conversation-card-title-margin);
+    padding-left: var(--rc-chat-conversation-header-info-margin);
 
     &__title {
       font-weight: var(--rc-font-bold);

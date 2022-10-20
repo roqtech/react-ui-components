@@ -22,9 +22,9 @@ Default.args = {
       date: "2 minutes ago",
       message: `Hi! How it's going?`,
       members: [
-        { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-        { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-        { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
+        { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+        { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+        { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
       ],
     },
     {
@@ -32,8 +32,8 @@ Default.args = {
       date: "2 minutes ago",
       message: `Hi! How it's going?`,
       members: [
-        { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-        { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
+        { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+        { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
       ],
     },
     {
@@ -41,9 +41,9 @@ Default.args = {
       date: "2 minutes ago",
       message: `Hi! How it's going?`,
       members: [
-        { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-        { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-        { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+        { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+        { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+        { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
       ],
     },
   ],

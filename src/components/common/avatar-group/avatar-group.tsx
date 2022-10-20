@@ -5,12 +5,13 @@ import React, { ComponentType, useCallback, useMemo } from "react";
 
 import { Avatar, AvatarProps } from "../avatar/avatar";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
+import { ChatUserInterface } from "src/types";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar-group";
 
 export interface AvatarGroupProps<T extends Partial<AvatarProps> = AvatarProps>
   extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
-  data: T[];
+  users: ChatUserInterface[];
   stack?: boolean;
   grid?: boolean;
   maxCount?: number;
@@ -33,7 +34,7 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
   props: AvatarGroupProps<T>
 ) => {
   const {
-    data,
+    users,
     size,
     rounded,
     square,
@@ -50,13 +51,13 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
   const Wrapper = components?.Wrapper ?? "div";
   const AvatarComponent = components?.Avatar ?? Avatar;
 
-  const avatarsData = useMemo(
-    () => (maxCount ? data.slice(0, maxCount) : data),
-    [data, maxCount]
+  const usersData = useMemo(
+    () => (maxCount ? users.slice(0, maxCount) : users),
+    [users, maxCount]
   );
 
   const renderAvatar = useCallback(
-    (avatarProps) => {
+    ({ avatar, ...avatarProps }: Partial<ChatUserInterface>) => {
       return (
         <AvatarComponent
           size={size}
@@ -64,6 +65,7 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
           square={square}
           border={border}
           className={classNames?.avatar}
+          src={avatar}
           {...avatarProps}
         />
       );
@@ -78,12 +80,12 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
         [_CLASS_IS + "-grid"]: grid,
       })}
     >
-      {avatarsData.map((_p, i) => (
+      {usersData.map((_p, i) => (
         <Wrapper
           key={i}
           className={clsx(_CLASS_IS + "__item", classNames?.wrapper)}
           style={{
-            zIndex: calculateItemWrapperZIndex(i, avatarsData.length),
+            zIndex: calculateItemWrapperZIndex(i, usersData.length),
           }}
         >
           {renderAvatar(_p)}

@@ -23,10 +23,10 @@ const Template: ComponentStory<typeof AvatarGroup> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  data: [
-    { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-    { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-    { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-    { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+  users: [
+    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
   ],
 };

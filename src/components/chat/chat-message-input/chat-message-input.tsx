@@ -10,17 +10,20 @@ import React, {
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
+import { withChatApi } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
-interface ChatMessagePayloadInterface {}
+type ChatMessagePayloadInterface = string;
 
 export interface ChatMessageInputProps {
   value?: string;
   placeholder?: string;
   hideSendButton?: boolean;
   onChange?: (value: string) => void;
-  onBeforeSend?: (message: ChatMessagePayloadInterface) => ChatMessagePayloadInterface;
+  onBeforeSend?: (
+    message: ChatMessagePayloadInterface
+  ) => ChatMessagePayloadInterface;
   onMessageSend?: (message: ChatMessagePayloadInterface) => void;
   style?: CSSProperties;
   className?: string;
@@ -37,7 +40,7 @@ export interface ChatMessageInputProps {
   };
 }
 
-export const ChatMessageInput = (props: ChatMessageInputProps) => {
+const ChatMessageInput = (props: ChatMessageInputProps) => {
   const {
     value,
     placeholder = "Type your message...",
@@ -75,7 +78,10 @@ export const ChatMessageInput = (props: ChatMessageInputProps) => {
     [reset, onBeforeSend, onMessageSend]
   );
 
-  const handleSendButtonClick = useCallback(() => handleSend({}), [handleSend]);
+  const handleSendButtonClick = useCallback(
+    () => handleSend(textareaValue as ChatMessagePayloadInterface),
+    [handleSend]
+  );
 
   return (
     <Container
@@ -99,3 +105,7 @@ export const ChatMessageInput = (props: ChatMessageInputProps) => {
     </Container>
   );
 };
+
+export default withChatApi(({ sendMessage }) => ({
+  onMessageSend: sendMessage,
+}))(ChatMessageInput);

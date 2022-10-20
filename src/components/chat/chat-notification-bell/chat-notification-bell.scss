@@ -3,33 +3,35 @@
 $notification-bell-size: 42;
 
 :root {
-  --rw-chat-notification-bell-size: #{notification-bell-size}px;
+  --rc-chat-notification-bell-size: #{$notification-bell-size}px;
 
-  --rw-chat-notification-bell-background: var(--rc-white);
-  --rw-chat-notification-bell-button-pading: 2;
-  --rw-chat-notification-bell-active-background: var(--rc-black);
+  --rc-chat-notification-bell-background: var(--rc-white);
+  --rc-chat-notification-bell-button-padding: 2;
+  --rc-chat-notification-bell-active-background: var(--rc-chat-notification-bell-icon-color);
 
   --rw-primary-text-color: var(--rc-white);
+
+  --rc-chat-notification-bell-icon-color: var(--rc-text-secondary-color);
 }
 
 @include roq-component("chat-notification-bell") {
-  width: var(--rw-chat-notification-bell-size);
-  height: var(--rw-chat-notification-bell-size);
-  box-sizing: border-box;
   position: relative;
+  width: var(--rc-chat-notification-bell-size);
+  height: var(--rc-chat-notification-bell-size);
 
   &__button {
     width: 100%;
     height: 100%;
     border: none;
     border-radius: 50%;
-    background-color: var(--rw-chat-notification-bell-background);
+    background-color: var(--rc-chat-notification-bell-background);
+
     cursor: pointer;
-    padding: var(--rw-chat-notification-bell-button-pading);
+    padding: var(--rc-chat-notification-bell-button-padding);
 
     &:hover,
     &:focus {
-      background-color: var(--rw-chat-notification-bell-active-background);
+      background-color: var(--rc-chat-notification-bell-active-background);
     }
 
     &__icon,
@@ -38,7 +40,7 @@ $notification-bell-size: 42;
       pointer-events: none;
       max-width: 100%;
       max-height: 100%;
-      color: var(--rw-primary-text);
+      color: var(--rc-chat-notification-bell-icon-color);
       vertical-align: bottom;
 
       fill: currentcolor;
@@ -47,8 +49,8 @@ $notification-bell-size: 42;
 
   &__badge {
     position: absolute;
-    top: var(--rw-chat-notification-bell-button-pading);
-    right: var(--rw-chat-notification-bell-button-pading);
+    top: var(--rc-chat-notification-bell-button-pading);
+    right: var(--rc-chat-notification-bell-button-pading);
     transform: scale(1) translate(50%, -50%);
     transform-origin: 100% 0%;
   }

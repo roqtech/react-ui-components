@@ -22,10 +22,10 @@ Default.args = {
   date: "2 minutes ago",
   message: `Hi! How it's going?`,
   members: [
-    { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-    { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-    { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-    { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
   ],
 };
 
@@ -49,10 +49,10 @@ Default.args = {
 //   date: "2 minutes ago",
 //   message: `Hi! How it's going?`,
 //   members: [
-//     { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-//     { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-//     { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-//     { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+//     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+//     { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+//     { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+//     { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
 //   ],
 //   classNames: {
 //     container:
@@ -90,10 +90,10 @@ Default.args = {
 //   message: `Hi! How it's going?`,
 //   theme: "none",
 //   members: [
-//     { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-//     { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-//     { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-//     { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+//     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+//     { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+//     { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+//     { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
 //   ],
 //   // style: { boxShadow: "none" },
 //   components: {
@@ -130,10 +130,10 @@ Default.args = {
 //   theme: "none",
 //   style: { boxShadow: "none" },
 //   members: [
-//     { name: "Mose Ewald", src: "https://i.pravatar.cc/60?img=15" },
-//     { name: "Susan Gomez", src: "https://i.pravatar.cc/60?img=1" },
-//     { name: "Piper Wong", src: "https://i.pravatar.cc/60?img=14" },
-//     { name: "Jared Brewer", src: "https://i.pravatar.cc/60?img=12" },
+//     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+//     { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+//     { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+//     { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
 //   ],
 //   components: {
 //     Container: WithAntdCard,

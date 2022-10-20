@@ -5,6 +5,7 @@ import React, { ComponentType, CSSProperties, useCallback } from "react";
 
 import { ChatMessage, ChatMessageProps } from "../chat-message/chat-message";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
+import { withChatState } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -61,3 +62,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
     </Container>
   );
 };
+
+export default withChatState(({ currentConversation }) => ({
+  messages: currentConversation?.messages,
+}))(ChatMessageHistory);

@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import uniqueId from "lodash/uniqueId";
 import React from "react";
 
 import { ChatMessageHistory } from "../../src";
@@ -19,52 +20,57 @@ export const Default = Template.bind({});
 Default.args = {
   messages: [
     {
+      id: uniqueId(),
       message: "Hello",
       showCorner: true,
       timestamp: new Date(),
       user: {
-        name: "Mose Ewald",
-        src: "https://i.pravatar.cc/60?img=15",
+        fullName: "Mose Ewald",
+        avatar: "https://i.pravatar.cc/60?img=15",
       },
       isSent: true,
     },
     {
+      id: uniqueId(),
       message: "Hi. Is there an updates?",
       showCorner: true,
       timestamp: new Date(),
       user: {
-        name: "Susan Gomez",
-        src: "https://i.pravatar.cc/60?img=1",
+        fullName: "Susan Gomez",
+        avatar: "https://i.pravatar.cc/60?img=1",
       },
     },
     {
+      id: uniqueId(),
       message: "Yeah, let`s sync up in 10m",
       showCorner: true,
       timestamp: new Date(),
       user: {
-        name: "Piper Wong",
-        src: "https://i.pravatar.cc/60?img=14",
+        fullName: "Piper Wong",
+        avatar: "https://i.pravatar.cc/60?img=14",
       },
       isSent: true,
     },
     {
+      id: uniqueId(),
       message: "Sounds good",
       showCorner: true,
       showUser: false,
       timestamp: new Date(),
       user: {
-        name: "Jared Brewer",
-        src: "https://i.pravatar.cc/60?img=12",
+        fullName: "Jared Brewer",
+        avatar: "https://i.pravatar.cc/60?img=12",
       },
     },
     {
+      id: uniqueId(),
       message: "I'll let you know",
       showCorner: true,
       showUser: true,
       timestamp: new Date(),
       user: {
-        name: "Jared Brewer",
-        src: "https://i.pravatar.cc/60?img=12",
+        fullName: "Jared Brewer",
+        avatar: "https://i.pravatar.cc/60?img=12",
       },
     },
   ],

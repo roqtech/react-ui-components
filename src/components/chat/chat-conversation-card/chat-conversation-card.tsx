@@ -6,7 +6,7 @@ import React, { CSSProperties, ComponentType } from "react";
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { withConversationCard } from "./with-conversation-card.hoc";
+import { withChatApi } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
@@ -15,6 +15,8 @@ export interface ChatConversationCardProps {
   date: string;
   message: string;
   members: any[];
+  active?: boolean;
+  onClick?: () => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -33,12 +35,14 @@ export interface ChatConversationCardProps {
   };
 }
 
-const ChatConversationCard = (props: ChatConversationCardProps) => {
+export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const {
     title,
     date,
     message,
     members,
+    active,
+    onClick,
     style,
     className,
     classNames,
@@ -53,13 +57,16 @@ const ChatConversationCard = (props: ChatConversationCardProps) => {
 
   return (
     <Container
-      className={clsx(_CLASS_IS, className, classNames?.container)}
+      className={clsx(_CLASS_IS, className, classNames?.container, {
+        [_CLASS_IS + "-active"]: active,
+      })}
       style={style}
+      onClick={onClick}
     >
       <Inner className={clsx(classNames?.inner, _CLASS_IS + "__inner")}>
         <Top className={clsx(classNames?.top, _CLASS_IS + "__top")}>
           <AvatarGroup
-            data={members}
+            users={members}
             maxCount={2}
             size="large"
             className={clsx(classNames?.top, _CLASS_IS + "__top__avatars")}
@@ -77,5 +84,3 @@ const ChatConversationCard = (props: ChatConversationCardProps) => {
     </Container>
   );
 };
-
-export default withConversationCard(ChatConversationCard)

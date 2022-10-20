@@ -22,6 +22,7 @@
 
   cursor: pointer;
 
+  &-active,
   &:hover,
   &:focus {
     box-shadow: var(--rc-chat-conversation-card-active-shadow);

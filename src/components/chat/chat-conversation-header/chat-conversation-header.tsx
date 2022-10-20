@@ -12,12 +12,13 @@ import {
   StackedTextProps,
 } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
+import { withChatState } from "../chat-provider";
+import { ChatConversationInterface } from "src/types";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
-export interface ChatConversationHeaderProps {
-  title: string;
-  members: any[];
+export interface ChatConversationHeaderProps
+  extends Pick<ChatConversationInterface, "title" | "members"> {
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -32,7 +33,7 @@ export interface ChatConversationHeaderProps {
   };
 }
 
-export const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
+const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const { title, members, style, className, classNames, components } = props;
 
   const Container = components?.Container ?? "div";
@@ -42,7 +43,7 @@ export const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const membersLine = useMemo(() => {
     return (
       `${members.length - 1} members: ` +
-      members.map(({ name }) => name).join(", ")
+      members.map(({ fullName }) => fullName).join(", ")
     );
   }, [members]);
 
@@ -52,7 +53,7 @@ export const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
       style={style}
     >
       <Avatars
-        data={members}
+        users={members}
         maxCount={3}
         size="large"
         className={clsx(_CLASS_IS + "__avatars", classNames?.avatars)}
@@ -68,3 +69,8 @@ export const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
     </Container>
   );
 };
+
+export default withChatState(({ currentConversation }) => ({
+  title: currentConversation?.title,
+  members: currentConversation?.members,
+}))(ChatConversationHeader);

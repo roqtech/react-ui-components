@@ -1,7 +1,7 @@
 import "./chat-notification-bell.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, useMemo } from "react";
+import React, { ComponentType, useMemo, CSSProperties } from "react";
 
 import { Badge as DefaultBadge, BadgeProps } from "../../common/badge/badge";
 import { MessagesIcon as DefaultIcon } from "./messages-icon";
@@ -13,6 +13,7 @@ export interface ChatNotificationBellProps {
   unreadCount: number;
   maxUnreadCount: number;
   displayZero?: boolean;
+  style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
@@ -21,24 +22,17 @@ export interface ChatNotificationBellProps {
     badge?: string;
   };
   components?: {
-    Container: ComponentType<any>
-    Button: ComponentType<any>
+    Container: ComponentType<any>;
+    Button: ComponentType<any>;
     Icon: ComponentType<{ className?: string }>;
     Badge: ComponentType<BadgeProps>;
   };
 }
 
-export const ChatNotificationBell = (
-  props: ChatNotificationBellProps
-) => {
-  const {
-    unreadCount,
-    maxUnreadCount = 10,
-    displayZero,
-    className,
-    classNames,
-    components,
-  } = props;
+export const ChatNotificationBell = (props: ChatNotificationBellProps) => {
+  const { style, className, classNames, components } = props;
+
+  const { unreadCount, maxUnreadCount = 10 } = props;
 
   const Container = components?.Container ?? "div";
   const Button = components?.Button ?? "button";
@@ -52,6 +46,7 @@ export const ChatNotificationBell = (
       className={clsx(_CLASS_IS, className, classNames?.container, {
         [_CLASS_IS + "-unread"]: hasUnreadMessages,
       })}
+      style={style}
     >
       <Button className={clsx(_CLASS_IS + "__button", classNames?.button)}>
         <Icon
