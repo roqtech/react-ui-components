@@ -1,6 +1,6 @@
 {
   "name": "rocomp",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "",
   "module": "./dist/index.mjs.js",
   "main": "./dist/index.js",
