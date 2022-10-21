@@ -21,7 +21,20 @@ export default {
     token: {
       control: {
         type: 'text'
-      }
+      },
+      description: 'Token to access the API'
+    },
+    loadingView: {
+      control: {
+        type: null
+      },
+      description: 'Callback render when loading'
+    },
+    contentView: {
+      control: {
+        type: null
+      },
+      description: 'Callback render of notification items'
     },
   }
 } as ComponentMeta<typeof Notification>;

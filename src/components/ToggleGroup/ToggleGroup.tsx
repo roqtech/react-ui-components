@@ -37,5 +37,5 @@ const StyledItem = styled(ToggleGroupPrimitive.Item, {
 
 // Exports
 export const ToggleGroup = StyledToggleGroup;
-export type StyledToggleGroupType = typeof ToggleGroup
+export type TypeToggleGroup= typeof ToggleGroup
 export const ToggleGroupItem = StyledItem;
