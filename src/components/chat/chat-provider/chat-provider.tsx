@@ -3,6 +3,8 @@ import React, {
   ReactElement,
   ReactNode,
   useCallback,
+  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
@@ -11,6 +13,13 @@ import find from "lodash/find";
 import uniqueId from "lodash/uniqueId";
 import { ChatConversationInterface, ChatMessageInterface } from "src/types";
 import { ConversationInterface } from "../chat-conversations/chat-conversations";
+import { socketClient, SocketClientProps } from "src/utils/socket-client.util";
+import { initial } from "lodash";
+import {
+  ChatSocket,
+  ChatSocketInterface,
+  ChatUserConnectedResponsePayload,
+} from "src/utils/chat-socket.util";
 
 export interface ChatStateContextInterface {
   unreadCount: number;
@@ -44,10 +53,16 @@ export const ChatStateContext =
 export const ChatApiContext =
   createContext<ChatApiContextInterface | null>(null);
 
-export interface ChatProviderPropsInterface {
+export interface ChatProviderPropsInterface
+  extends Pick<SocketClientProps, "platformUrl" | "platformToken"> {
   children?: ReactNode;
-  socketUrl: string;
-  platformToken: string;
+
+  userId: string;
+  socketUrl?: SocketClientProps["url"];
+  socketConfiguration?: Omit<
+    SocketClientProps,
+    "platformUrl" | "url" | "platformToken"
+  >;
 
   onConnect?: () => void;
   onDisconnect?: () => void;
@@ -63,6 +78,7 @@ export interface ChatProviderPropsInterface {
   onMessageDeleted?: () => void;
   onMessagesRead?: () => void;
   onMemberQuitConversation?: () => void;
+  onUserConnected?: () => void;
   onUserOnline?: () => void;
   onUserOffline?: () => void;
 }
@@ -70,9 +86,75 @@ export interface ChatProviderPropsInterface {
 export const ChatProvider = (
   props: ChatProviderPropsInterface
 ): ReactElement => {
-  const { children } = props;
+  const {
+    children,
+    userId,
+    platformUrl,
+    socketUrl,
+    platformToken,
+    socketConfiguration = {},
+  } = props;
 
+  const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [unreadCount, setUnreadCount] = useState<number>(1);
+
+  useLayoutEffect(function windowIsReady() {
+    const clientProps: SocketClientProps = {
+      platformUrl,
+      url: socketUrl,
+      platformToken,
+
+      ...socketConfiguration,
+    };
+
+    const client = socketClient(clientProps);
+
+    setSocket(new ChatSocket(client));
+  }, []);
+
+  const handleUserConnected = (payload: ChatUserConnectedResponsePayload) => {
+    debugger;
+  };
+
+  const handleConnect = useCallback(() => {
+    socket?.authorize({ userId }, handleUserConnected);
+  }, [userId]);
+
+  const handleDisconnect = useCallback(() => {}, []);
+
+  const handleError = useCallback(() => {}, []);
+
+  const handleMessageReceived = useCallback(() => {}, []);
+
+  const initializeSocket = useCallback(() => {
+    socket?.connect();
+
+    socket?.onConnect(handleConnect);
+    socket?.onDisconnect(handleDisconnect);
+    socket?.onError(handleError);
+    socket?.onServerException(handleError);
+    socket?.onMessageRecieived(handleMessageReceived);
+
+    return () => {
+      socket?.offConnect(handleConnect);
+      socket?.offDisconnect(handleDisconnect);
+      socket?.offError(handleError);
+      socket?.offMessageRecieived(handleMessageReceived);
+      socket?.offServerException(handleError);
+    };
+  }, [socket]);
+
+  useEffect(
+    function whaitForSocketReadyToUse() {
+      if (!socket) {
+        return;
+      }
+
+      initializeSocket();
+    },
+    [initializeSocket]
+  );
 
   const [messages, setMessages] = useState<ChatMessageInterface[]>([
     {

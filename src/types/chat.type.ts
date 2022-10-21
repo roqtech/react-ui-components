@@ -1,3 +1,7 @@
+import { Socket } from "socket.io-client";
+
+export interface ChatSocket extends Socket {}
+
 export type ChatTimestampType = Date | number | string;
 
 export interface ChatUserInterface {
