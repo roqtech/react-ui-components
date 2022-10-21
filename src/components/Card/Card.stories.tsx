@@ -5,7 +5,7 @@ import AppDecorators from '../../../.storybook/decorators'
 import { Card } from './Card';
 
 export default {
-  title: 'ROQ/Card',
+  title: 'Roq Components/Card',
   component: Card,
   argTypes: {
     title: {

@@ -6,7 +6,7 @@ import { Notification } from './Notification';
 import { NotificationBadge as RNotificationBadge } from './NotificationBadge';
 
 export default {
-  title: 'ROQ/Notification',
+  title: 'Roq Components/Notification',
   component: Notification,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout

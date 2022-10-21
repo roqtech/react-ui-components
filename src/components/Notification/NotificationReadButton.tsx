@@ -122,7 +122,7 @@ const NotificationReadButton: React.FC<NotificationReadButtonProps> = (props) =>
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5} >
-        <Button onClick={onClick}>Mark notification as {read ? 'unread' : 'read'}</Button>
+        <Button css={{color: '#fff'}} onClick={onClick}>Mark notification as {read ? 'unread' : 'read'}</Button>
         <PopoverClose aria-label="Close">
           <Cross2Icon />
         </PopoverClose>
