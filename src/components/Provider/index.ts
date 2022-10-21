@@ -1,1 +1,1 @@
-export { RoqProvider, IRoqProvider, useRoq } from './Provider'
+export { RoqProvider, IRoqProvider, useRoq, useResolveProvider } from './Provider'

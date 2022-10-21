@@ -32,3 +32,13 @@ export {
   ChatMessageInput,
   ChatConversations,
 } from "./components/chat";
+
+export type {
+  NotificationLoadingViewCallbackProps,
+  NotificationChildrenCallbackProps,
+  NotificationTypeToggleCallbackProps,
+  NotificationTitleChildrenCallbackProps,
+  NotificationContentViewCallbackProps,
+  NotificationTitleProps,
+  NotificationType,
+} from './components/Notification'

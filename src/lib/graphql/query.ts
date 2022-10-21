@@ -31,3 +31,21 @@ export const NotificationsInAppForCurrentUser = gql`
     }
   }
 `
+
+export const MarkNotificationAsRead = gql`
+  mutation MarkAsReadNotificationMutation($id: ID!) {
+    markAsReadNotification(id: $id) {
+      id
+      read
+    }
+  }
+`
+
+export const MarkNotificationAsUnRead = gql`
+  mutation MarkAsUnreadNotificationMutation($id: ID!) {
+    markAsUnreadNotification(id: $id) {
+      id
+      read
+    }
+  }
+`

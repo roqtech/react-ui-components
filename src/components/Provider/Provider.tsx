@@ -36,3 +36,10 @@ export const RoqProvider = ({ children, config = defaultCtx, withQueryClient = t
 };
 
 export const useRoq = () => useContext(ROQContext);
+export function useResolveProvider(args: Partial<IRoqProvider>) {
+  const { host: hostArg, token: tokenArg } = args
+  const { host: hostProvide, token: tokenProvider } = useRoq()
+  const host = hostArg ?? hostProvide
+  const token = tokenArg ?? tokenProvider
+  return { host, token }
+}
