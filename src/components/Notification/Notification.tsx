@@ -28,7 +28,7 @@ const _CLASS_IS = 'roq-' + 'notification';
 const minDate = '2022-09-19T03:40:40.534Z'
 export type NotificationType = 'all' | 'unread'
 
-function useNotificationsInApp(
+export function useNotificationsInApp(
   args: Pick<NotificationProps, 'token' | 'host' | 'type'>,
 ) {
   const type = args.type
