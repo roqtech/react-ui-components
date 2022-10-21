@@ -3,23 +3,25 @@ import { styled } from "src/styles";
 import { Avatar, AvatarFallback } from 'src/components/Avatar'
 import { blackA, whiteA } from "@radix-ui/colors";
 
-const StyledNotificationBadges = styled(AvatarFallback, {
-  backgroundColor: blackA.blackA12,
-  color: whiteA.whiteA12,
+const StyledNotificationBadge = styled(AvatarFallback, {
+  backgroundColor: 'inherit',
+  color: 'inherit',
 })
 
 const StyledWrapper = styled(Avatar, {
   width: 28,
   height: 28,
+  backgroundColor: blackA.blackA12,
+  color: '#fff',
 })
 
 type NotificationBadgesProps = {
   count?: number | ReactNode,
 } & React.ComponentProps<typeof StyledWrapper>
-const NotificationBadges: React.FC<NotificationBadgesProps>  = ({ children, ...rest }) => (
+const NotificationBadge: React.FC<NotificationBadgesProps>  = ({ count, children, ...rest }) => (
   <StyledWrapper {...rest}>
-    <StyledNotificationBadges>{children}</StyledNotificationBadges>
+    <StyledNotificationBadge>{count ?? children}</StyledNotificationBadge>
   </StyledWrapper>
 )
 
-export { NotificationBadges, NotificationBadgesProps }
+export { NotificationBadge, NotificationBadgesProps }

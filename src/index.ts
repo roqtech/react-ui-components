@@ -22,3 +22,13 @@ export {
   MessagesNotificationBell,
   Recipient,
 } from "./components/message-center";
+
+export type {
+  NotificationLoadingViewCallbackProps,
+  NotificationChildrenCallbackProps,
+  NotificationTypeToggleCallbackProps,
+  NotificationTitleChildrenCallbackProps,
+  NotificationContentViewCallbackProps,
+  NotificationTitleProps,
+  NotificationType,
+} from './components/Notification'

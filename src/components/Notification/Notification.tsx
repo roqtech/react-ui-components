@@ -14,7 +14,7 @@ import {
 import { notificationsInAppForCurrentUser, notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from 'src/lib/graphql/types'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
-import { NotificationBadges } from './NotificationBadget'
+import { NotificationBadge } from './NotificationBadge'
 import { styled } from 'src/styles'
 
 import type { StyledCardPropsType } from 'src/components/Card'
@@ -81,24 +81,25 @@ function useNotificationsInApp(
   )
 }
 
-type ContentViewCallbackProps = {
+export type NotificationContentViewCallbackProps = {
   data: notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data,
   onRead: () => Promise<Record<string, any>>
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
 
-type NotificationChildrenCallbackProps = QueryObserverResult<notificationsInAppForCurrentUser> & NotificationTypeToggleCallbackProps
-type NotificationTypeToggleCallbackProps = {
+export type NotificationLoadingViewCallbackProps = QueryObserverResult<notificationsInAppForCurrentUser>
+export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
+export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
   setType: React.Dispatch<React.SetStateAction<NotificationType>>,
 }
-interface NotificationProps extends Partial<IRoqProvider> {
+export interface NotificationProps extends Partial<IRoqProvider> {
   type?: NotificationType
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
-  loadingView?: (callback: QueryObserverResult<notificationsInAppForCurrentUser>) => JSX.Element
+  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | null
   contentView?: (
-    callback: ContentViewCallbackProps,
+    callback: NotificationContentViewCallbackProps,
   ) => JSX.Element
   contentCardProps?: React.ComponentProps<StyledCardPropsType>
   titleProps?: {
@@ -238,6 +239,13 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
       </ToggleGroup>
     )
   }, [typeToggleProps, type, setType])
+
+  const renderLoading = useMemo(() => {
+    if (loadingView) {
+      return loadingView(fetchResult)
+    }
+    return <div>{isFetching && token && host && !data && 'Loading...'}</div>
+  }, [loadingView, token, host, data, isFetching])
   
   return (
     <StyledNotification
@@ -250,7 +258,7 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
         loading={isFetching}
       />
       {renderToggleType}
-      {loadingView ?? <div>{isFetching && token && host && !data && 'Loading...'}</div>}
+      {renderLoading}
       {renderItems}
     </StyledNotification>
   )
@@ -260,11 +268,11 @@ const StyledNotificationTitle = styled('div', {
   marginBottom: '16px'
 })
 
-interface NotificationTitleChildrenCallbackProps {
+export interface NotificationTitleChildrenCallbackProps {
   count: number
   loading: boolean
 }
-type NotificationTitleProps = NotificationProps['titleProps'] & {
+export type NotificationTitleProps = NotificationProps['titleProps'] & {
   children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
   count: number,
   loading: boolean
@@ -285,9 +293,9 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
       >
       {title ?? 'Notification'}
       {' '}
-      <NotificationBadges className={clsx(_CLASS_IS + '-title-badges')}>
+      <NotificationBadge className={clsx(_CLASS_IS + '-title-badges')}>
         {count}
-      </NotificationBadges>
+      </NotificationBadge>
     </StyledNotificationTitle>
   )
 }
