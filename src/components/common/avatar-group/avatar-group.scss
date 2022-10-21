@@ -1,0 +1,23 @@
+@import "../../../styles/styles.scss";
+
+$avatar-border-spacing: $step * 2;
+
+:root {
+  --rc-avatar-group-spacing: #{$avatar-border-spacing}px;
+  --rc-avatar-group-item-margin: 0px calc(var(--rc-avatar-group-spacing) * -1)
+    0px 0px;
+}
+
+@include roq-component("avatar-group") {
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  line-height: 1;
+
+  list-style-type: none !important;
+  padding-right: var(--rc-avatar-group-spacing);
+
+  &__item {
+    margin: var(--rc-avatar-group-item-margin);
+  }
+}

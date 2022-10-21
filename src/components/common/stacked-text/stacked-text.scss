@@ -1,0 +1,44 @@
+@import "../../../styles/styles.scss";
+
+$stacked-text-size-primary: 1em;
+$stacked-text-size-secondary: 0.85em;
+$stacked-text-size-tertiary: 0.78em;
+
+:root {
+  --rc-stacked-text-size-primary: #{$stacked-text-size-primary};
+  --rc-stacked-text-size-secondary: #{$stacked-text-size-secondary};
+  --rc-stacked-text-size-tertiary: #{$stacked-text-size-tertiary};
+}
+
+@include roq-component("stacked-text") {
+  min-width: 0px;
+  max-width: 100%;
+  flex: 1 1 100%;
+
+  &__text {
+    display: block;
+    margin: 0px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &-primary {
+      color: var(--rc-text-primary-color);
+      font-size: var(--rc-stacked-text-size-primary);
+    }
+
+    &-secondary {
+      color: var(--rc-text-secondary-color);
+      font-size: var(--rc-stacked-text-size-secondary);
+    }
+
+    &-tertiary {
+      color: var(--rc-text-tertiary-color);
+      font-size: var(--rc-stacked-text-size-tertiary);
+    }
+
+    &-disabled {
+      color: var(--rc-text-disbled-color);
+    }
+  }
+}

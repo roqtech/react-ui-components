@@ -1,3 +1,5 @@
+import "../src/styles/styles.scss";
+
 export { Notification } from "./components/Notification";
 export { Button } from "./components/Button";
 export {
@@ -11,17 +13,25 @@ export {
 export { RoqProvider, useRoq } from "./components/Provider";
 export { styled, theme, css, globalStyles } from "./styles";
 
-export { Avatar, AvatarGroup, Badge, StackedText } from "./components/common";
+export {
+  Avatar,
+  AvatarGroup,
+  Badge,
+  StackedText,
+  TimeAgo,
+} from "./components/common";
 
 export {
-  ConversationCard,
-  ConversationHeader,
-  CreateConversationButton,
-  MessageBubble,
-  MessageHistory,
-  MessagesNotificationBell,
-  Recipient,
-} from "./components/message-center";
+  ChatProvider,
+  ChatConversationCard,
+  ChatConversationHeader,
+  ChatMessageBubble,
+  ChatMessageHistory,
+  ChatMessage,
+  ChatNotificationBell,
+  ChatMessageInput,
+  ChatConversations,
+} from "./components/chat";
 
 export type {
   NotificationLoadingViewCallbackProps,

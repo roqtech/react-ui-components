@@ -1,0 +1,18 @@
+$screen-xs-min: 0;
+$screen-sm-min: 480;
+$screen-md-min: 768;
+$screen-lg-min: 1024;
+$screen-xl-min: 1440;
+$screen-xxl-min: 1920;
+$screen-xxxl-min: 2560;
+
+// TODO: create mixin for CSS variables
+:root {
+  --rw-screen-xs-min: #{$screen-xs-min};
+  --rw-screen-sm-min: #{$screen-sm-min};
+  --rw-screen-md-min: #{$screen-md-min};
+  --rw-screen-lg-min: #{$screen-lg-min};
+  --rw-screen-xl-min: #{$screen-xl-min};
+  --rw-screen-xxl-min: #{$screen-xxl-min};
+  --rw-screen-xxxl-min: #{$screen-xxxl-min};
+}

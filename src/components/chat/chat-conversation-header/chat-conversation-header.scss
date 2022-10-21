@@ -1,0 +1,39 @@
+@import "../../../styles/styles.scss";
+
+$chat-conversation-header-height: 96px;
+
+:root {
+  --rc-chat-conversation-header-height: #{$chat-conversation-header-height};
+  --rc-chat-conversation-header-padding: calc(var(--rc-layout-step) * 2);
+
+  --rc-chat-conversation-header-border-color: var(--rc-divider);
+  --rc-chat-conversation-header-border-width: 2px;
+
+  --rc-chat-conversation-header-info-margin: var(--rc-layout-step);
+}
+
+@include roq-component("chat-conversation-header") {
+  min-height: var(--rc-chat-conversation-header-height);
+  padding: var(--rc-chat-conversation-header-padding);
+
+  border-bottom-color: var(--rc-chat-conversation-header-border-color);
+  border-bottom-width: var(--rc-chat-conversation-header-border-width);
+  border-bottom-style: solid;
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  width: 100%;
+
+  &__avatars {
+  }
+
+  &__info {
+    padding-left: var(--rc-chat-conversation-header-info-margin);
+
+    &__title {
+      font-weight: var(--rc-font-bold);
+    }
+  }
+}

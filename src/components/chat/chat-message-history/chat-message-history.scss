@@ -1,0 +1,30 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-message-history-spacing: var(--rc-layout-step)
+    calc(var(--rc-layout-step) * 2);
+}
+
+@include roq-component("chat-message-history") {
+  height: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+
+  &__line {
+    display: flex;
+    padding: var(--rc-chat-message-history-spacing);
+
+    &-sent {
+      justify-content: flex-end;
+    }
+
+    &-received {
+      justify-content: flex-start;
+    }
+
+    &__message {
+    }
+  }
+}
