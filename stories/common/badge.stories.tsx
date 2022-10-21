@@ -1,25 +1,36 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import React from 'react';
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import React from "react";
 
-import { Badge } from '../../src';
+import { Badge } from "../../src";
 
 export default {
-  title: 'Roq Widgets/Common/Badge',
+  title: "Roq Components/Common/Badge",
   component: Badge,
   argTypes: {
-    maxValue: { control: 'number' },
+    maxValue: { control: "number" },
   },
 } as ComponentMeta<typeof Badge>;
 
-const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />;
+const Template: ComponentStory<typeof Badge> = (args) => (
+  <Badge {...args}>
+    <div
+      style={{
+        width: "32px",
+        height: "32px",
+        display: "block",
+        background: "gray",
+      }}
+    />
+  </Badge>
+);
 
 export const Default = Template.bind({});
 Default.args = {
-  children: 2,
+  count: 2,
 };
 
 export const MaxValue = Template.bind({});
 MaxValue.args = {
-  children: 521,
-  maxValue: 500,
+  count: 521,
+  maxCount: 500,
 };

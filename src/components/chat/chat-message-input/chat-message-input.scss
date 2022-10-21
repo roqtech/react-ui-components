@@ -1,0 +1,63 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-message-input-padding: calc(var(--rc-layout-step) * 2)
+    calc(var(--rc-layout-step) * 2);
+
+  --rc-chat-message-input-border-color: var(--rc-divider);
+  --rc-chat-message-input-border-width: 2px;
+  --rc-chat-message-input-border-style: solid;
+
+  --rc-chat-message-input-textarea-margin: 0 calc(var(--rc-layout-step) * 2) 0
+    var(--rc-layout-step);
+
+  --rc-chat-message-input-send-button-pading: calc(var(--rc-layout-step) / 2);
+}
+
+@include roq-component("chat-message-input") {
+  $container: &;
+  padding: var(--rc-chat-message-input-padding);
+
+  border-top-color: var(--rc-chat-conversation-header-border-color);
+  border-top-width: var(--rc-chat-conversation-header-border-width);
+  border-top-style: var(--rc-chat-message-input-border-style);
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &__textarea {
+    flex: 1;
+    margin: var(--rc-chat-message-input-textarea-margin);
+    border: none;
+    outline: none;
+
+    @include typography;
+  }
+
+  &__send-button {
+    width: 22px;
+    height: 22px;
+    margin: 0 0 0 auto;
+    padding: 0;
+    outline: none;
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+    padding: var(--rc-chat-message-input-send-button-pading);
+
+    &__icon,
+    svg {
+      overflow: hidden;
+      pointer-events: none;
+      max-width: 100%;
+      max-height: 100%;
+      color: var(--rw-primary-text);
+      vertical-align: bottom;
+
+      fill: currentcolor;
+    }
+  }
+}

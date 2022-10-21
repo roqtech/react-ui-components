@@ -1,0 +1,31 @@
+$white: #ffffff;
+$black: #000000;
+
+$primary: #1d4ed8;
+$divider: #e2e8f0;
+$error: #F75959;
+
+$primary-color: rgba(0, 0, 0, 0.87);
+$secondary-color: rgba(0, 0, 0, 0.6);
+$tertiary-color: rgba(0, 0, 0, 0.38);
+$disbled-color: rgba(0, 0, 0, 0.12);
+
+$primary-text-color: #091e42;
+$secondary-text-color: #6b778c;
+$tertiary-text-color: #878c95;
+
+// TODO: create mixin for CSS variables
+:root {
+  --rc-white: #{$white};
+  --rc-black: #{$black};
+  --rc-primary: #{$primary};
+
+  --rc-error: #{$error};
+
+  --rc-divider: #{$divider};
+
+  --rc-text-primary-color: #{$primary-color};
+  --rc-text-secondary-color: #{$secondary-color};
+  --rc-text-tertiary-color: #{$tertiary-color};
+  --rc-text-disbled-color: #{$disbled-color};
+}

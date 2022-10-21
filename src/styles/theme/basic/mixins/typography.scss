@@ -1,0 +1,7 @@
+@mixin typography {
+  font-size: var(--rc-default-font-size);
+  font-weight: var(--rc-default-font-weight);
+  line-height: var(--rc-default-font-line-height);
+  letter-spacing: var(--rc-default-font-spacing);
+  font-family: var(--rc-default-font-name);
+}

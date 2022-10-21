@@ -1,15 +1,18 @@
-import "./stacked-text.css";
+import "./stacked-text.scss";
 
 import clsx from "classnames";
-import React, { ComponentType } from "react";
+import React, { ComponentType, CSSProperties } from "react";
+import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = "roq-widget-" + "stacked-text";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "stacked-text";
 
-interface StackedTextProps {
+export interface StackedTextProps {
   text?: string;
   primaryText?: string;
   secondaryText?: string;
   tertiaryText?: string;
+  disabled?: boolean;
+  style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
@@ -33,6 +36,8 @@ export const StackedText = (props: StackedTextProps) => {
     primaryText,
     secondaryText,
     tertiaryText,
+    disabled,
+    style,
     className,
     classNames,
     components,
@@ -45,9 +50,16 @@ export const StackedText = (props: StackedTextProps) => {
   const TertiaryText = components?.tertiaryText ?? Text;
 
   return (
-    <Container className={clsx(_CLASS_IS, className, classNames?.container)}>
+    <Container
+      className={clsx(_CLASS_IS, className, classNames?.container)}
+      style={style}
+    >
       {text && (
-        <Text className={clsx(_CLASS_IS + "__text", classNames?.text)}>
+        <Text
+          className={clsx(_CLASS_IS + "__text", classNames?.text, {
+            [_CLASS_IS + "__text" + "-disabled"]: disabled,
+          })}
+        >
           {text}
         </Text>
       )}
@@ -56,7 +68,10 @@ export const StackedText = (props: StackedTextProps) => {
           className={clsx(
             _CLASS_IS + "__text",
             _CLASS_IS + "__text-primary",
-            classNames?.primaryText
+            classNames?.primaryText,
+            {
+              [_CLASS_IS + "__text" + "-disabled"]: disabled,
+            }
           )}
         >
           {primaryText}
@@ -67,7 +82,10 @@ export const StackedText = (props: StackedTextProps) => {
           className={clsx(
             _CLASS_IS + "__text",
             _CLASS_IS + "__text-secondary",
-            classNames?.secondaryText
+            classNames?.secondaryText,
+            {
+              [_CLASS_IS + "__text" + "-disabled"]: disabled,
+            }
           )}
         >
           {secondaryText}
@@ -78,7 +96,10 @@ export const StackedText = (props: StackedTextProps) => {
           className={clsx(
             _CLASS_IS + "__text",
             _CLASS_IS + "__text-tertiary",
-            classNames?.tertiaryText
+            classNames?.tertiaryText,
+            {
+              [_CLASS_IS + "__text" + "-disabled"]: disabled,
+            }
           )}
         >
           {tertiaryText}

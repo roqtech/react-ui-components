@@ -1,0 +1,26 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-conversations-padding: 0;
+
+  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 2) 0px;
+}
+
+@include roq-component("chat-conversations") {
+  flex: 1;
+  padding: --rc-chat-conversations-padding;
+
+  &__inner {
+    padding: var(--rc-chat-conversations-inner-padding);
+
+    display: flex;
+    flex-wrap: wrap;
+
+    &__card {
+      flex: 1;
+      max-width: 100%;
+      margin: var(--rc-chat-conversations-inner-card-margin);
+    }
+  }
+}
