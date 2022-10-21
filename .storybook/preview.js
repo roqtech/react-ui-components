@@ -22,7 +22,9 @@ export const decorators = [
         token: process.env.PLATFORM_TOKEN ?? "",
       }}
     >
-      <Story />
+      <ChatProvider socketUrl={"/"} platformToken={process.env.PLATFORM_TOKEN}>
+        <Story />
+      </ChatProvider>
     </RoqProvider>
   ),
 ];

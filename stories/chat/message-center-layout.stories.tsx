@@ -16,43 +16,41 @@ export default {
 } as ComponentMeta<typeof ChatConversations>;
 
 const Template: ComponentStory<typeof ChatConversations> = (args) => (
-  <ChatProvider>
+  <div
+    style={{
+      gap: "14px",
+      height: "100%",
+      maxHeight: 400,
+      display: "flex",
+      boxSizing: "border-box",
+      alignItems: "stretch",
+      flexDirection: "row",
+    }}
+  >
+    <div style={{ width: 300 }}>
+      <ChatConversations />
+    </div>
     <div
       style={{
-        gap: "14px",
-        height: "100%",
-        maxHeight: 400,
+        flexGrow: 1,
+        minWidth: 0,
+        border: `1px solid #e2e8f0`,
         display: "flex",
-        boxSizing: "border-box",
-        alignItems: "stretch",
-        flexDirection: "row",
+        flexDirection: "column",
       }}
     >
-      <div style={{ width: 300 }}>
-        <ChatConversations />
-      </div>
+      <ChatConversationHeader />
       <div
         style={{
           flexGrow: 1,
-          minWidth: 0,
-          border: `1px solid #e2e8f0`,
-          display: "flex",
-          flexDirection: "column",
+          minHeight: 1,
         }}
       >
-        <ChatConversationHeader />
-        <div
-          style={{
-            flexGrow: 1,
-            minHeight: 1,
-          }}
-        >
-          <ChatMessageHistory />
-        </div>
-        <ChatMessageInput />
+        <ChatMessageHistory />
       </div>
+      <ChatMessageInput />
     </div>
-  </ChatProvider>
+  </div>
 );
 
 export const Default = Template.bind({});
