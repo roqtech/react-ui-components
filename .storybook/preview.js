@@ -14,14 +14,16 @@ export const parameters = {
   },
 }
 
+const hostConfig = {
+  host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? '',
+  token: process.env.STORYBOOK_PLATFORM_TOKEN ?? '',
+}
+
 export const decorators = [
   (Story) => (
     <div style={{padding: '2em'}}>
       <RoqProvider
-        config={{
-          host: process.env.PLATFORM_GRAPHQL ?? '',
-          token: process.env.PLATFORM_TOKEN ?? '',
-        }}
+        config={hostConfig}
       >
         <ChatProvider
           socketUrl={'/'}
