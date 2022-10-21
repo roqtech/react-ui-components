@@ -97,6 +97,7 @@ export const ChatProvider = (
 
   const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  const [online, setOnline] = useState<boolean>(false);
   const [unreadCount, setUnreadCount] = useState<number>(1);
 
   useLayoutEffect(function windowIsReady() {
@@ -113,17 +114,26 @@ export const ChatProvider = (
     setSocket(new ChatSocket(client));
   }, []);
 
-  const handleUserConnected = (payload: ChatUserConnectedResponsePayload) => {
-    debugger;
-  };
+  const handleUserConnected = useCallback(
+    (payload: ChatUserConnectedResponsePayload) => {
+      setUnreadCount(payload.unreadCount);
+    },
+    [setUnreadCount]
+  );
 
   const handleConnect = useCallback(() => {
+    setOnline(true);
     socket?.authorize({ userId }, handleUserConnected);
-  }, [userId]);
+  }, [socket, userId, setOnline, handleUserConnected]);
 
-  const handleDisconnect = useCallback(() => {}, []);
+  const handleDisconnect = useCallback(() => {
+    setOnline(false);
+  }, [setOnline]);
 
-  const handleError = useCallback(() => {}, []);
+  const handleError = useCallback((error) => {
+    debugger;
+    console.error(error);
+  }, []);
 
   const handleMessageReceived = useCallback(() => {}, []);
 

@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Button as AntdButton, Badge as AntdBadge } from "antd";
 import React from "react";
 
-import { ChatNotificationBell } from "../../src";
+import { ChatNotificationBell, ChatProvider } from "../../src";
 
 export default {
   title: "Roq Components/Chat/Notification Bell",
@@ -14,6 +14,18 @@ export default {
     isSent: { control: "boolean" },
     showCorner: { control: "boolean" },
   },
+  decorators: [
+    (Story) => (
+      <ChatProvider
+        secure
+        platformUrl={process.env.PLATFORM_HOST}
+        platformToken={process.env.PLATFORM_TOKEN}
+        userId={process.env.ROQ_USER_ID}
+      >
+         <Story />
+      </ChatProvider>
+    ),
+  ],
 } as ComponentMeta<typeof ChatNotificationBell>;
 
 const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (

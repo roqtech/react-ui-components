@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import { io, Socket, ManagerOptions } from "socket.io-client";
 
 const DEFAULT_SOCKET_PATH = "socket.io";
+const DEFAULT_NAMESPACE = "messageCenter";
 
 export interface SocketClientInterface extends Socket {}
 
@@ -19,6 +20,7 @@ export interface SocketClientProps {
   reconnection?: ManagerOptions["reconnection"];
   reconnectionDelay?: ManagerOptions["reconnectionDelay"];
   reconnectionAttempts?: ManagerOptions["reconnectionAttempts"];
+  withCredentials?: ManagerOptions["withCredentials"];
 }
 
 export const socketClient = (
@@ -30,14 +32,14 @@ export const socketClient = (
     platformUrl,
     url,
     path = DEFAULT_SOCKET_PATH,
-    namespace = "",
-    // transports = ["polling", "websocket"],
-    transports = ["websocket"],
+    namespace = DEFAULT_NAMESPACE,
+    transports = ["polling", "websocket"],
     autoConnect = false,
     forceNew = true,
     reconnection = true,
     reconnectionDelay = 3000,
     reconnectionAttempts = Infinity,
+    withCredentials = false,
   } = props;
 
   if (isEmpty(url) && isEmpty(platformUrl)) {
@@ -57,6 +59,7 @@ export const socketClient = (
     reconnection,
     reconnectionDelay,
     reconnectionAttempts,
+    withCredentials,
     extraHeaders: {
       PlatformToken: platformToken,
     },
