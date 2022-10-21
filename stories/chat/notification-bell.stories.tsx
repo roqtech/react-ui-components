@@ -9,6 +9,8 @@ export default {
   title: "Roq Components/Chat/Notification Bell",
   component: ChatNotificationBell,
   argTypes: {
+    unreadCount: { control: "number" },
+    maxUnreadCount: { control: "number" },
     isSent: { control: "boolean" },
     showCorner: { control: "boolean" },
   },
@@ -21,14 +23,11 @@ const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  unreadCount: 2,
-};
+Default.args = {};
 
 export const WithMaxCount = Template.bind({});
 WithMaxCount.args = {
-  unreadCount: 16,
-  maxUnreadCount: 15,
+  maxUnreadCount: 5,
 };
 
 const CustomNotificationIcon = (props) => (

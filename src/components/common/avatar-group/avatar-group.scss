@@ -3,8 +3,8 @@
 $avatar-border-spacing: $step * 2;
 
 :root {
-  --rw-avatar-group-spacing: #{$avatar-border-spacing}px;
-  --rw-avatar-group-item-margin: 0px calc(var(--rw-avatar-group-spacing) * -1)
+  --rc-avatar-group-spacing: #{$avatar-border-spacing}px;
+  --rc-avatar-group-item-margin: 0px calc(var(--rc-avatar-group-spacing) * -1)
     0px 0px;
 }
 
@@ -15,9 +15,9 @@ $avatar-border-spacing: $step * 2;
   line-height: 1;
 
   list-style-type: none !important;
-  padding-right: var(--rw-avatar-group-spacing);
+  padding-right: var(--rc-avatar-group-spacing);
 
   &__item {
-    margin: var(--rw-avatar-group-item-margin);
+    margin: var(--rc-avatar-group-item-margin);
   }
 }

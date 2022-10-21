@@ -3,6 +3,7 @@ $black: #000000;
 
 $primary: #1d4ed8;
 $divider: #e2e8f0;
+$error: #F75959;
 
 $primary-color: rgba(0, 0, 0, 0.87);
 $secondary-color: rgba(0, 0, 0, 0.6);
@@ -18,6 +19,8 @@ $tertiary-text-color: #878c95;
   --rc-white: #{$white};
   --rc-black: #{$black};
   --rc-primary: #{$primary};
+
+  --rc-error: #{$error};
 
   --rc-divider: #{$divider};
 

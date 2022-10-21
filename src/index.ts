@@ -22,6 +22,7 @@ export {
 } from "./components/common";
 
 export {
+  ChatProvider,
   ChatConversationCard,
   ChatConversationHeader,
   ChatMessageBubble,
@@ -30,5 +31,4 @@ export {
   ChatNotificationBell,
   ChatMessageInput,
   ChatConversations,
-  ChatProvider
 } from "./components/chat";

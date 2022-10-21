@@ -10,8 +10,10 @@ import React, {
 import find from "lodash/find";
 import uniqueId from "lodash/uniqueId";
 import { ChatConversationInterface, ChatMessageInterface } from "src/types";
+import { ConversationInterface } from "../chat-conversations/chat-conversations";
 
 export interface ChatStateContextInterface {
+  unreadCount: number;
   currentConversation?: ChatConversationInterface;
   conversations: ChatConversationInterface[];
 }
@@ -69,6 +71,8 @@ export const ChatProvider = (
   props: ChatProviderPropsInterface
 ): ReactElement => {
   const { children } = props;
+
+  const [unreadCount, setUnreadCount] = useState<number>(1);
 
   const [messages, setMessages] = useState<ChatMessageInterface[]>([
     {
@@ -166,7 +170,7 @@ export const ChatProvider = (
         },
       ],
       messages,
-    });
+    } as ChatConversationInterface);
 
   const [conversations, setConversations] = useState<
     ChatConversationInterface[]
@@ -318,10 +322,15 @@ export const ChatProvider = (
       },
     ];
 
-    setCurrentConversation((ps) => ({
-      ...ps,
-      messages: nextMessages,
-    }));
+    setUnreadCount((pv) => pv + 1);
+
+    setCurrentConversation(
+      (ps) =>
+        ({
+          ...ps,
+          messages: nextMessages,
+        } as ChatConversationInterface)
+    );
   };
 
   const editMessage = () => {
@@ -334,10 +343,11 @@ export const ChatProvider = (
 
   const state = useMemo<ChatStateContextInterface>(
     () => ({
+      unreadCount,
       currentConversation,
       conversations,
     }),
-    [currentConversation, conversations]
+    [currentConversation, conversations, unreadCount]
   );
 
   const api = useMemo<ChatApiContextInterface>(

@@ -3,9 +3,12 @@ import "./chat-message.scss";
 import clsx from "classnames";
 import React, { CSSProperties, ReactNode, ComponentType } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatMessageBubble, ChatMessageBubbleProps } from "../chat-message-bubble";
+import {
+  ChatMessageBubble,
+  ChatMessageBubbleProps,
+} from "../chat-message-bubble";
 import { Avatar, TimeAgo } from "src/components/common";
-import { AvatarProps } from "src/components/common/avatar";
+import { ChatUserInterface } from "src/types";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 
@@ -14,7 +17,7 @@ export interface ChatMessageProps
   showUser: boolean;
   message: ReactNode;
   timestamp: Date | string | number;
-  user: AvatarProps;
+  user: ChatUserInterface;
   style?: CSSProperties;
   selected?: boolean;
   className?: string;
@@ -85,7 +88,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
           <UserName
             className={clsx(_CLASS_IS + "__user__name", classNames?.userName)}
           >
-            {user?.name}
+            {user?.fullName}
           </UserName>
           <UserTime
             className={clsx(_CLASS_IS + "__user__time", classNames?.userTime)}

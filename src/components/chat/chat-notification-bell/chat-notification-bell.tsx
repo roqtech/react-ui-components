@@ -6,6 +6,7 @@ import React, { ComponentType, useMemo, CSSProperties } from "react";
 import { Badge as DefaultBadge, BadgeProps } from "../../common/badge/badge";
 import { MessagesIcon as DefaultIcon } from "./messages-icon";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
+import { withChatState } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-notification-bell";
 
@@ -29,7 +30,7 @@ export interface ChatNotificationBellProps {
   };
 }
 
-export const ChatNotificationBell = (props: ChatNotificationBellProps) => {
+const ChatNotificationBell = (props: ChatNotificationBellProps) => {
   const { style, className, classNames, components } = props;
 
   const { unreadCount, maxUnreadCount = 10 } = props;
@@ -49,16 +50,20 @@ export const ChatNotificationBell = (props: ChatNotificationBellProps) => {
       style={style}
     >
       <Button className={clsx(_CLASS_IS + "__button", classNames?.button)}>
-        <Icon
-          className={clsx(_CLASS_IS + "__button__icon", classNames?.icon)}
-        />
+        <Badge
+          className={clsx(_CLASS_IS + "__badge", classNames?.badge)}
+          count={unreadCount}
+          maxCount={maxUnreadCount}
+        >
+          <Icon
+            className={clsx(_CLASS_IS + "__button__icon", classNames?.icon)}
+          />
+        </Badge>
       </Button>
-      <Badge
-        className={clsx(_CLASS_IS + "__badge", classNames?.badge)}
-        maxValue={maxUnreadCount}
-      >
-        {unreadCount}
-      </Badge>
     </Container>
   );
 };
+
+export default withChatState(({ unreadCount }) => ({
+  unreadCount,
+}))(ChatNotificationBell);
