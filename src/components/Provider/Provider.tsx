@@ -2,7 +2,7 @@ import React, { createContext, useContext } from "react";
 import {
   QueryClient,
   QueryClientProvider,
-} from 'react-query';
+} from '@tanstack/react-query';
 import { PLATFORM_GRAPHQL_HOST } from 'src/utils/constant';
 
 type Optional<T> = T | null
@@ -36,8 +36,8 @@ export const RoqProvider = ({ children, config = defaultCtx, withQueryClient = t
 };
 
 export const useRoq = () => useContext(ROQContext);
-export function useResolveProvider(args: Partial<IRoqProvider>) {
-  const { host: hostArg, token: tokenArg } = args
+export function useResolveProvider(args?: Partial<IRoqProvider>) {
+  const { host: hostArg, token: tokenArg } = args || {}
   const { host: hostProvide, token: tokenProvider } = useRoq()
   const host = hostArg ?? hostProvide
   const token = tokenArg ?? tokenProvider

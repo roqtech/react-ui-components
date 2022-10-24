@@ -6,7 +6,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from 'src/compo
 import { request } from 'src/utils';
 import { useRoq } from '../Provider';
 import { MarkNotificationAsRead, MarkNotificationAsUnRead } from 'src/lib/graphql/query';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '../Button';
 
 const IconButton = styled('button', {

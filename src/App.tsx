@@ -2,7 +2,7 @@ import React from 'react'
 import {
   QueryClient,
   QueryClientProvider,
-} from 'react-query';
+} from '@tanstack/react-query';
 import { Notification } from "./components/Notification"
 import { RoqProvider } from './components/Provider/Provider';
 

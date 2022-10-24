@@ -4,7 +4,7 @@ import { print } from "graphql/language/printer"
 
 export interface IRequest {
   url: string
-  query: DocumentNode,
+  query: string,
   headers?: Record<string, unknown>,
   variables?: Record<string, unknown>
 }
@@ -16,7 +16,7 @@ export const request = (args: IRequest, dataPath: string = '') => fetch(args.url
     ...(args.headers ?? {})
   },
   body: JSON.stringify({ 
-    query: print(args.query),
+    query: args.query,
     variables: args.variables ?? undefined
   })
 }).then(async (_data) => {

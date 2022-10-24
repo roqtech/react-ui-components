@@ -1,17 +1,17 @@
 import { request } from '../../utils'
-import React, { ReactNode, useMemo, useState } from 'react'
+import React, { ReactElement, ReactNode, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ToggleGroup, ToggleGroupItem, TypeToggleGroup } from 'src/components/ToggleGroup'
-import { QueryObserverResult, useQuery } from 'react-query'
+import { QueryObserverResult, useQuery } from '@tanstack/react-query'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
   NotificationsInAppForCurrentUser,
 } from 'src/lib/graphql/query'
-import { notificationsInAppForCurrentUser, notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from 'src/lib/graphql/types'
+import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables, OrderEnum, Query, useNotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
 import { NotificationBadge } from './NotificationBadge'
@@ -19,6 +19,7 @@ import { styled } from 'src/styles'
 
 import type { StyledCardPropsType } from 'src/components/Card'
 import type { ClassValue } from 'clsx'
+import { NotificationInAppOrderSortEnum } from 'src/lib/graphql/types'
 import { NotificationReadButton } from './NotificationReadButton'
 
 dayjs.extend(relativeTime)
@@ -34,11 +35,11 @@ export function useNotificationsInApp(
   const type = args.type
   const { host, token } = useResolveProvider(args)
 
-  const variables = {
+  const variables: NotificationsInAppForCurrentUserQueryVariables = {
     limit: 20,
     order: {
-      order: 'DESC',
-      sort: 'createdAt',
+      order: OrderEnum.Desc,
+      sort: NotificationInAppOrderSortEnum.CreatedAt,
     },
     notificationfilter: {
       createdAt: {
@@ -56,39 +57,27 @@ export function useNotificationsInApp(
     },
   }
 
-  return useQuery(
-    ['NotificationsInAppForCurrentUser', variables],
-    async () => {
-      if (!host || !token) {
-        return []
+  return useNotificationsInAppForCurrentUserQuery({
+    endpoint: host,
+    fetchParams: {
+      headers: {
+        'content-type': 'application/json',
+        'roq-platform-authorization': token as string,
       }
-      const items = await request(
-        {
-          url: host,
-          query: NotificationsInAppForCurrentUser,
-          variables,
-          headers: {
-            'roq-platform-authorization': token as string,
-          },
-        },
-        'data',
-      ).catch(() => [])
-      return items
-    },
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
+    }
+  }, variables, {
+    refetchOnWindowFocus: false,
+  })
 }
 
 export type NotificationContentViewCallbackProps = {
-  data: notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data,
+  data: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'][0],
   onRead: () => Promise<Record<string, any>>
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
 
-export type NotificationLoadingViewCallbackProps = QueryObserverResult<notificationsInAppForCurrentUser>
+export type NotificationLoadingViewCallbackProps = QueryObserverResult<NotificationsInAppForCurrentUserQuery>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
@@ -96,21 +85,21 @@ export type NotificationTypeToggleCallbackProps = {
 }
 export interface NotificationProps extends Partial<IRoqProvider> {
   type?: NotificationType
-  children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
-  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | null
+  children?: (callback: NotificationChildrenCallbackProps) => ReactElement
+  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | ReactElement | null
   contentView?: (
     callback: NotificationContentViewCallbackProps,
-  ) => JSX.Element
+  ) => JSX.Element | ReactElement
   contentCardProps?: React.ComponentProps<StyledCardPropsType>
   titleProps?: {
-    children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
+    children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element | ReactElement
     title?: ReactNode,
     count?: number,
     css?: React.ComponentProps<typeof StyledNotificationTitle>['css']
     className?: ClassValue
   }
   typeToggleProps?: {
-    children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element
+    children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
     css?: React.ComponentProps<TypeToggleGroup>['css']
     className?: ClassValue
   }
@@ -154,7 +143,7 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
   }
 
   const { status, data, error, isFetching, refetch } = fetchResult
-  const items = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
+  const items: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'] = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
 
   const renderItems = useMemo(() => {
     return items.map((item) => {
