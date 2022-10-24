@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { ChatApiContext, ChatApiContextInterface } from "./chat-provider";
 import { useChatApi } from "./use-chat-api.hook";
 
@@ -26,12 +26,19 @@ export function withChatApi<TProps, TContext = TProps>(
               <Component
                 {...mapContextToProps(api as ChatApiContextInterface)}
                 {...this.props}
+                ref={this.props.innerRef ?? this.props.forwardedRef}
+                innerRef={this.props.forwardedRef}
               />
             )}
           </ChatApiContext.Consumer>
         );
       }
     }
+
+    return forwardRef((props, ref) => {
+
+      return <WithChatApi {...props} forwardedRef={ref} />;
+    });
 
     return WithChatApi;
   };

@@ -24,6 +24,7 @@ $notification-bell-icon-color: rgb(113 113 113);
 }
 
 @include roq-component("chat-notification-bell") {
+  $container: &;
   position: relative;
   width: var(--rc-chat-notification-bell-size);
   height: var(--rc-chat-notification-bell-size);
@@ -64,5 +65,9 @@ $notification-bell-icon-color: rgb(113 113 113);
   }
 
   &__badge {
+    &-hidden {
+      width: 0;
+      height: 0;
+    }
   }
 }

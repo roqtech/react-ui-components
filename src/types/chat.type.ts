@@ -16,6 +16,7 @@ export interface ChatMessageInterface {
   message: string;
   timestamp: ChatTimestampType;
   user: ChatUserInterface;
+  conversationId: string;
 
   authorId?: string;
   readBy?: string[];

@@ -11,8 +11,7 @@ export default {
   argTypes: {
     unreadCount: { control: "number" },
     maxUnreadCount: { control: "number" },
-    isSent: { control: "boolean" },
-    showCorner: { control: "boolean" },
+    showZero: { control: "boolean" },
   },
   decorators: [
     (Story) => (
@@ -22,7 +21,7 @@ export default {
         platformToken={process.env.PLATFORM_TOKEN}
         userId={process.env.ROQ_USER_ID}
       >
-         <Story />
+        <Story />
       </ChatProvider>
     ),
   ],
@@ -35,11 +34,14 @@ const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  showZero: true,
+};
 
 export const WithMaxCount = Template.bind({});
 WithMaxCount.args = {
   maxUnreadCount: 5,
+  showZero: true,
 };
 
 const CustomNotificationIcon = (props) => (
@@ -58,6 +60,7 @@ const CustomNotificationIcon = (props) => (
 export const CustomIcon = Template.bind({});
 CustomIcon.args = {
   unreadCount: 100,
+  showZero: true,
   components: {
     Icon: CustomNotificationIcon,
   },

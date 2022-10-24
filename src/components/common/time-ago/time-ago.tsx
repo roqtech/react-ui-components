@@ -19,7 +19,7 @@ export interface TimeAgoProps {
   };
 }
 
-const formatTimeAgo = (date: Date | number | string) =>
+export const formatTimeAgo = (date: Date | number | string) =>
   new Date(date).toLocaleString();
 
 export const TimeAgo = (props: TimeAgoProps) => {

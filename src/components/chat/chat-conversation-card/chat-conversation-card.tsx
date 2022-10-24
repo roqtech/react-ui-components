@@ -1,7 +1,7 @@
 import "./chat-conversation-card.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ComponentType } from "react";
+import React, { CSSProperties, ComponentType, useMemo } from "react";
 
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
@@ -12,10 +12,10 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
 export interface ChatConversationCardProps {
   title: string;
-  date: string;
+  timestamp: Date | string;
   message: string;
   members: any[];
-  active?: boolean;
+  selected?: boolean;
   onClick?: () => void;
   style?: CSSProperties;
   className?: string;
@@ -38,10 +38,10 @@ export interface ChatConversationCardProps {
 export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const {
     title,
-    date,
+    timestamp,
     message,
     members,
-    active,
+    selected,
     onClick,
     style,
     className,
@@ -55,10 +55,15 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const Title = components?.Title ?? StackedText;
   const Message = components?.Message ?? "p";
 
+  const formattedTimestamp = useMemo(
+    () => new Date(timestamp).toLocaleString(),
+    [timestamp]
+  );
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
-        [_CLASS_IS + "-active"]: active,
+        [_CLASS_IS + "-selected"]: selected,
       })}
       style={style}
       onClick={onClick}
@@ -73,7 +78,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
           />
           <Title
             primaryText={title}
-            secondaryText={date}
+            secondaryText={formattedTimestamp}
             className={clsx(classNames?.title, _CLASS_IS + "__top__title")}
           />
         </Top>

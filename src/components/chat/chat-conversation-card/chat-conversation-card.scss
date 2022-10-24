@@ -5,7 +5,7 @@
   --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 2);
 
   --rc-chat-conversation-card-background: var(--rc-white);
-  --rc-chat-conversation-card-active-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+  --rc-chat-conversation-card-selected-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
     rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
 
   --rc-chat-conversation-card-border: 1px solid rgb(0 0 0 / 20%);
@@ -22,10 +22,14 @@
 
   cursor: pointer;
 
-  &-active,
+  &-selected {
+    background-color: red;
+  }
+
+  &-selected,
   &:hover,
   &:focus {
-    box-shadow: var(--rc-chat-conversation-card-active-shadow);
+    box-shadow: var(--rc-chat-conversation-card-selected-shadow);
   }
 
   &__top {

@@ -52,7 +52,7 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
   const AvatarComponent = components?.Avatar ?? Avatar;
 
   const usersData = useMemo(
-    () => (maxCount ? users.slice(0, maxCount) : users),
+    () => (maxCount ? (users ?? []).slice(0, maxCount) : users),
     [users, maxCount]
   );
 

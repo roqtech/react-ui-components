@@ -34,7 +34,8 @@ export interface ChatConversationHeaderProps
 }
 
 const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
-  const { title, members, style, className, classNames, components } = props;
+  const { style, className, classNames, components } = props;
+  const { title, members } = props;
 
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
@@ -71,6 +72,7 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
 };
 
 export default withChatState(({ currentConversation }) => ({
+  currentConversation,
   title: currentConversation?.title,
-  members: currentConversation?.members,
+  members: currentConversation?.members ?? [],
 }))(ChatConversationHeader);

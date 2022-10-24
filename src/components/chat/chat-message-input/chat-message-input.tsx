@@ -11,10 +11,9 @@ import React, {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
 import { withChatApi } from "../chat-provider";
+import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.util";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
-
-type ChatMessagePayloadInterface = string;
 
 export interface ChatMessageInputProps {
   value?: string;
@@ -22,9 +21,9 @@ export interface ChatMessageInputProps {
   hideSendButton?: boolean;
   onChange?: (value: string) => void;
   onBeforeSend?: (
-    message: ChatMessagePayloadInterface
-  ) => ChatMessagePayloadInterface;
-  onMessageSend?: (message: ChatMessagePayloadInterface) => void;
+    message: Partial<ChatSendMessageRequestPayloadInterface>
+  ) => Partial<ChatSendMessageRequestPayloadInterface>;
+  onSend?: (message: Partial<ChatSendMessageRequestPayloadInterface>) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -47,7 +46,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     hideSendButton,
     onChange,
     onBeforeSend = (p) => p,
-    onMessageSend = (p) => {},
+    onSend = (p) => {},
   } = props;
   const { style, className, classNames, components } = props;
 
@@ -56,7 +55,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const SendButton = components?.SendButton ?? "button";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
-  const [textareaValue, setValue] = useState(value);
+  const [textareaValue, setValue] = useState<string>(value ?? "");
 
   const reset = useCallback(() => setValue(""), [setValue]);
 
@@ -68,19 +67,22 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   );
 
   const handleSend = useCallback(
-    async (payload: ChatMessagePayloadInterface) => {
+    async (payload: Partial<ChatSendMessageRequestPayloadInterface>) => {
       const messagePayload = await onBeforeSend(payload);
 
       reset();
 
-      onMessageSend(messagePayload);
+      onSend(messagePayload);
     },
-    [reset, onBeforeSend, onMessageSend]
+    [reset, onBeforeSend, onSend]
   );
 
   const handleSendButtonClick = useCallback(
-    () => handleSend(textareaValue as ChatMessagePayloadInterface),
-    [handleSend]
+    () =>
+      handleSend({
+        body: textareaValue,
+      }),
+    [handleSend, textareaValue]
   );
 
   return (
@@ -107,5 +109,5 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
 };
 
 export default withChatApi(({ sendMessage }) => ({
-  onMessageSend: sendMessage,
+  onSend: sendMessage,
 }))(ChatMessageInput);

@@ -7,4 +7,5 @@ export {
   ChatUserPresenceInterface,
 } from "./chat.type";
 
-export { PaginationInterface } from "./common.type";
+export { PaginationInterface, ComplexError } from "./common.type";
+export { InfiniteListInterface } from "./data.type";

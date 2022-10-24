@@ -16,6 +16,7 @@
 
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
     &__card {
       flex: 1;

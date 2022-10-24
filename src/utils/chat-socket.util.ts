@@ -131,7 +131,7 @@ export interface ChatConversationListRequestPayloadInterface {
   limit: number;
   offset: number;
   filter: string;
-  includeArchived: boolean;
+  includeArchived?: boolean;
 }
 
 export interface ChatConversationListResponsePayloadInterface {
@@ -184,6 +184,7 @@ export interface ChatMarkAsReadUnreadMessagesRequestPayloadInterface {
 export interface ChatFetchMessagesRequestPayloadInterface
   extends PaginationInterface {
   conversationId: string;
+  reset?: string;
 }
 
 export interface ChatFetchMoreMessagesResponsePayloadInterface {
