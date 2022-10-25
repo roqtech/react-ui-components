@@ -12,6 +12,37 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  options: {
+    storySort: {
+      order: [
+        "Roq Components",
+        [
+          "Introduction",
+          "Getting started",
+          "Usage",
+          "Styling",
+          "Common",
+          "Chat",
+          [
+            "Panel",
+            "Message Bubble",
+            "Message",
+            "Message History",
+            "Message List",
+            "Conversation Card",
+            "Conversations",
+            "Conversation List",
+            "Conversation Header",
+            "Message Input",
+            "Notification Bell",
+            "Examples",
+            ["Message Center", "Social Messenger", "Team Collaboration"],
+          ],
+          "Typography",
+        ],
+      ],
+    },
+  },
 };
 
 export const decorators = [
