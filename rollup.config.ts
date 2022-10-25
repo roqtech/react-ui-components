@@ -40,7 +40,9 @@ export default [
       commonjs({
         include: [ "./src/index.ts", "node_modules/**" ],
       }),
-      resolve(),
+      resolve({
+        browser: true,
+      }),
       typescript({
         tsconfig: './tsconfig.json',
      }),

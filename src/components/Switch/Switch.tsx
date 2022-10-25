@@ -14,6 +14,7 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   '&:focus': { boxShadow: `0 0 0 2px black` },
   '&[data-state="checked"]': { backgroundColor: 'black' },
+  cursor: 'pointer'
 });
 
 const StyledThumb = styled(SwitchPrimitive.Thumb, {

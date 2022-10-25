@@ -1,23 +1,25 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { FormEvent, useCallback, useMemo } from 'react';
-import { useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
+import { ChangeEvent, FormEvent, useCallback, useMemo } from 'react';
+import { UpsertNotificationTypeUserPreferenceMutation, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
 import { useResolveProvider } from '../Provider';
 import { UseNotificationTypeCategoryInterfaceArg } from './use-notification-category.hook';
 
-interface UseNotificationItemCheckedInterfaceArg  {
+export interface UseNotificationItemCheckedInterfaceArg  {
   type: UseNotificationTypeCategoryInterfaceArg['category']['notificationTypes']['data'][0];
+  onToggle?: (value: UpsertNotificationTypeUserPreferenceMutation) => void
 }
 
 interface UseNotificationItemCheckedInterface {
   checkedAppNotification: boolean;
   checkedEmailNotification: boolean;
   checkedSwitch: boolean;
-  handleSwitchChange(checked: boolean, name: string): void;
+  handleSwitchChange(event: ChangeEvent<HTMLInputElement>): void;
   resetSuccess: () => void;
 }
 
 export const useNotificationTypeItem = ({
   type,
+  onToggle,
 }: UseNotificationItemCheckedInterfaceArg): UseNotificationItemCheckedInterface => {
   const client = useQueryClient()
   const { host, token } = useResolveProvider()
@@ -30,7 +32,8 @@ export const useNotificationTypeItem = ({
       }
     }
   }, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      onToggle && onToggle(data)
       client.invalidateQueries(['NotificationTypeCategories'])
     }
   });
@@ -50,9 +53,9 @@ export const useNotificationTypeItem = ({
   );
 
   const handleSwitchChange = useCallback(
-    (checked: boolean, name: string) => {
-      // const evtName = event.target.name;
-      // const checked = event.target.checked;
+    (evt) => {
+      const evtName = evt.target.name;
+      const checked = evt.target.checked;
       const payload = {
         web: checkedAppNotification,
         mail: checkedEmailNotification,
@@ -60,7 +63,7 @@ export const useNotificationTypeItem = ({
         id: preference?.id,
       };
 
-      switch (name) {
+      switch (evtName) {
         // case 'checkedSwitch': {
         //   payload.web = checked;
         //   payload.mail = checked;

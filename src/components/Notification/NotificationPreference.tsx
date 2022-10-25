@@ -1,18 +1,23 @@
-import React, { ReactElement, ReactNode, useCallback, useMemo, useState } from 'react'
+import React, { ReactElement, ReactNode, useMemo } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
 import { styled } from 'src/styles'
 import { IRoqProvider, useResolveProvider } from '../Provider'
 import { SwitchThumb, Switch } from 'src/components/Switch'
-import { QueryNotificationTypeCategories } from 'src/lib/graphql/query'
-import { request } from 'src/utils'
-import { QueryObserverResult, useQuery } from '@tanstack/react-query'
-import { NotificationTypeCategoriesQuery, useNotificationTypeCategoriesQuery } from 'src/lib/graphql/types'
-
+import { QueryObserverResult } from '@tanstack/react-query'
+import {
+  NotificationTypeCategoriesQuery,
+  useNotificationTypeCategoriesQuery,
+} from 'src/lib/graphql/types'
+import {
+  UseNotificationItemCheckedInterfaceArg,
+  useNotificationTypeItem,
+} from './use-notification-type.hook'
+import {
+  useNotificationTypeCategory,
+  UseNotificationTypeCategoryInterfaceArg,
+} from './use-notification-category.hook'
 import type { ClassValue } from 'clsx'
-import { gray } from '@radix-ui/colors'
-import { useNotificationTypeItem } from './use-notification-type.hook'
-import { useNotificationTypeCategory } from './use-notification-category.hook'
 
 export function useNotificationsCategories(
   args: Pick<NotificationPreferenceProps, 'token' | 'host'>,
@@ -36,9 +41,7 @@ export function useNotificationsCategories(
   )
 }
 
-const StyledNotificationPreference = styled('div', {
-  
-})
+const StyledNotificationPreference = styled('div', {})
 const StyledNotificationPreferenceTitle = styled('h5', {
   margin: 0,
   marginBottom: 12,
@@ -46,40 +49,59 @@ const StyledNotificationPreferenceTitle = styled('h5', {
 })
 const StyledNotificationCategoryItem = styled('div', {
   paddingBottom: 12,
-  'p:nth-child(1)': {
-    margin: '12px 0'
-  },
-  'p:nth-child(2)': {
-    color: gray.gray9
-  },
-  'div': {
+  '> div:nth-child(1)': {
     display: 'flex',
-    flexWrap: 'wrap'
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  'div label': {
-    marginRight: 120
-  }
+  '.roq-notification-preference-category-item-type': {
+    padding: '6px 0',
+  },
+  '.roq-notification-preference-category-item-type > div': {
+    display: 'flex',
+    padding: '4px 0',
+  },
+  '.roq-notification-preference-category-item-type input': {
+    marginRight: 10,
+  },
+  '.roq-notification-preference-category-item-type label': {
+    cursor: 'pointer',
+  },
 })
 
-export type NotificationPreferenceLoadingViewCallbackProps = QueryObserverResult<NotificationTypeCategoriesQuery>
-export type NotificationPreferenceCategoriesViewCallbackProps = NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
+export type NotificationPreferenceLoadingViewCallbackProps =
+  QueryObserverResult<NotificationTypeCategoriesQuery>
+export type NotificationPreferenceCategoriesViewCallbackProps =
+  NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
 const _CLASS_IS = 'roq-' + 'notification-preference'
 interface NotificationPreferenceProps extends Partial<IRoqProvider> {
-  children?: (callback: NotificationPreferenceLoadingViewCallbackProps) => JSX.Element
+  children?: (
+    callback: NotificationPreferenceLoadingViewCallbackProps,
+  ) => JSX.Element
   titleProps?: {
     children?: ReactNode
-    css?: React.ComponentProps<typeof StyledNotificationPreferenceTitle>['css'],
+    css?: React.ComponentProps<typeof StyledNotificationPreferenceTitle>['css']
     className?: ClassValue
   }
-  categoryView?: (callback: NotificationPreferenceLoadingViewCallbackProps) => ReactElement | ReactElement[] | JSX.Element | JSX.Element[] | null
+  categoryView?: (
+    callback: NotificationPreferenceLoadingViewCallbackProps,
+  ) => ReactElement | ReactElement[] | JSX.Element | JSX.Element[] | null
+  categoryItemProps?: {
+    css?: React.ComponentProps<typeof StyledNotificationCategoryItem>['css']
+    className?: ClassValue
+  }
+  onToggle?: NotificationCategoryPreferencesProps['onToggle']
 }
 const NotificationPreference: React.FC<
-  React.ComponentProps<typeof StyledNotificationPreference> & NotificationPreferenceProps
+  React.ComponentProps<typeof StyledNotificationPreference> &
+    NotificationPreferenceProps
 > = (props) => {
   const {
     children,
     titleProps,
     categoryView,
+    categoryItemProps,
+    onToggle,
     ...rest
   } = props
   const fetchResult = useNotificationsCategories(props)
@@ -90,7 +112,7 @@ const NotificationPreference: React.FC<
   const { status, data, error, isFetching, refetch } = fetchResult
   const categories: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'] =
     useMemo(() => data?.notificationTypeCategories?.data || [], [data])
-    
+
   const renderTitle = useMemo(() => {
     if (titleProps?.children) {
       return titleProps.children
@@ -100,7 +122,7 @@ const NotificationPreference: React.FC<
         css={titleProps?.css}
         className={clsx(_CLASS_IS + '-title', titleProps?.className)}
       >
-        Notification
+        Notification preference
       </StyledNotificationPreferenceTitle>
     )
   }, [titleProps])
@@ -109,15 +131,22 @@ const NotificationPreference: React.FC<
     if (categoryView) {
       return categoryView(fetchResult)
     }
-    return (
-      categories?.map((category) => (
-        <StyledNotificationCategoryItem key={category.id}
-        className={clsx(_CLASS_IS + '-category-item', )}
-        >
-          <NotificationCategoryPreferences key={category.id} category={category} />
-        </StyledNotificationCategoryItem>
-      ))
-    )
+    return categories?.map((category) => (
+      <StyledNotificationCategoryItem
+        key={category.id}
+        css={categoryItemProps?.css}
+        className={clsx(
+          _CLASS_IS + '-category-item',
+          categoryItemProps?.className,
+        )}
+      >
+        <NotificationCategoryPreferences
+          key={category.id}
+          category={category}
+          onToggle={onToggle}
+        />
+      </StyledNotificationCategoryItem>
+    ))
   }, [categories])
 
   return (
@@ -135,51 +164,84 @@ export { NotificationPreference, NotificationPreferenceProps }
 
 interface NotificationCategoryPreferencesProps {
   category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0]
+  onToggle?: UseNotificationTypeCategoryInterfaceArg['onToggle']
 }
-const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesProps> = (props) => {
-  const { category } = props
-  const { checkedSwitch, handleSwitchChange } = useNotificationTypeCategory({category})
+const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesProps> =
+  (props) => {
+    const { category, onToggle } = props
+    const { checkedSwitch, handleSwitchChange } = useNotificationTypeCategory({
+      category,
+      onToggle,
+    })
 
-  return (
-    <div >
-      <div >
-        <div >
-          <Switch checked={checkedSwitch} onCheckedChange={(checked) => handleSwitchChange(checked, )} color="secondary" name="checkedSwitch">
-            <SwitchThumb/>
+    return (
+      <>
+        <div className={clsx(_CLASS_IS + '-category-item-type')}>
+          <p>{category?.key}</p>
+          <Switch
+            checked={checkedSwitch}
+            onCheckedChange={(checked) => handleSwitchChange(checked)}
+            color='secondary'
+            name='checkedSwitch'
+          >
+            <SwitchThumb />
           </Switch>
         </div>
         {category.notificationTypes?.data?.map((type) => (
-          <NotificationTypePreferences key={type.id} type={type} />
+          <NotificationTypePreferences
+            key={type.id}
+            type={type}
+            onToggle={onToggle}
+          />
         ))}
-      </div>
-    </div>
-  );
-};
+      </>
+    )
+  }
 
+const Flex = styled('div', {
+  display: 'flex',
+  width: '33.3%',
+  alignItems: 'center',
+})
 interface NotificationTypePreferencesProps {
   type: NotificationCategoryPreferencesProps['category']['notificationTypes']['data'][0]
+  onToggle?: UseNotificationItemCheckedInterfaceArg['onToggle']
 }
-const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> = (props) => {
-  const { type } = props
-  const { checkedAppNotification, checkedEmailNotification, handleSwitchChange, resetSuccess } = useNotificationTypeItem({ type });
+const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
+  (props) => {
+    const { type, onToggle } = props
+    const {
+      checkedAppNotification,
+      checkedEmailNotification,
+      handleSwitchChange,
+      resetSuccess,
+    } = useNotificationTypeItem({ type, onToggle })
 
-  return (
-    <>
-    <p>Type description: {type?.description}</p>
-    <div>
-    <Switch checked={checkedAppNotification} id="in-app" onCheckedChange={(checked) => handleSwitchChange(checked, 'checkedAppNotifications')}>
-      <SwitchThumb />
-    </Switch>
-    <label htmlFor="in-app">
-      In-app
-    </label>
-    <Switch checked={checkedEmailNotification} id="Email" onCheckedChange={(checked) => handleSwitchChange(checked, 'checkedEmailNotifications')}>
-      <SwitchThumb />
-    </Switch>
-    <label htmlFor="Email">
-      Email
-    </label>
-    </div>
-  </>
-  )
-}
+    return (
+      <div className={clsx(_CLASS_IS + '-category-item-type')}>
+        <p>{type?.description}</p>
+        <div>
+          <Flex>
+            <input
+              type='checkbox'
+              id='in-app'
+              name='checkedAppNotifications'
+              checked={checkedAppNotification}
+              onChange={handleSwitchChange}
+            />
+            <label htmlFor='in-app'>In-app</label>
+          </Flex>
+          <Flex>
+            <input
+              type='checkbox'
+              id='email'
+              name='checkedEmailNotifications'
+              checked={checkedEmailNotification}
+              onChange={handleSwitchChange}
+            />
+            <label htmlFor='email'>Email</label>
+          </Flex>
+        </div>
+      </div>
+    )
+  }

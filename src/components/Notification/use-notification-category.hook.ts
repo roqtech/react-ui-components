@@ -1,10 +1,11 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useCallback, useMemo } from 'react';
-import { NotificationTypeCategoriesQuery, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
+import { NotificationTypeCategoriesQuery, UpsertNotificationTypeUserPreferenceMutation, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
 import { useResolveProvider } from '../Provider';
 
 export interface UseNotificationTypeCategoryInterfaceArg {
   category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0];
+  onToggle?: (value: UpsertNotificationTypeUserPreferenceMutation) => void
 }
 
 interface UseNotificationTypeCategoryInterface {
@@ -14,6 +15,7 @@ interface UseNotificationTypeCategoryInterface {
 
 export const useNotificationTypeCategory = ({
   category,
+  onToggle
 }: UseNotificationTypeCategoryInterfaceArg): UseNotificationTypeCategoryInterface => {
   const client = useQueryClient()
   const { host, token } = useResolveProvider()
@@ -26,7 +28,8 @@ export const useNotificationTypeCategory = ({
       }
     }
   }, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      onToggle && onToggle(data)
       client.invalidateQueries(['NotificationTypeCategories'])
     }
   });
