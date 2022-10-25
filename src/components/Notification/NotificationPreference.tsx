@@ -203,6 +203,9 @@ const Flex = styled('div', {
   width: '33.3%',
   alignItems: 'center',
 })
+const Checkbox = styled('input', {
+  cursor: 'pointer'
+})
 interface NotificationTypePreferencesProps {
   type: NotificationCategoryPreferencesProps['category']['notificationTypes']['data'][0]
   onToggle?: UseNotificationItemCheckedInterfaceArg['onToggle']
@@ -222,7 +225,7 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
         <p>{type?.description}</p>
         <div>
           <Flex>
-            <input
+            <Checkbox
               type='checkbox'
               id='in-app'
               name='checkedAppNotifications'
@@ -232,7 +235,7 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
             <label htmlFor='in-app'>In-app</label>
           </Flex>
           <Flex>
-            <input
+            <Checkbox
               type='checkbox'
               id='email'
               name='checkedEmailNotifications'

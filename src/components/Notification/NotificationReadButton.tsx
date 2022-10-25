@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { styled } from '@stitches/react';
-import { violet, mauve, blackA } from '@radix-ui/colors';
+import { blackA } from '@radix-ui/colors';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from 'src/components/Popoever'
 import { request } from 'src/utils';
