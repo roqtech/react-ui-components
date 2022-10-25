@@ -32,7 +32,8 @@ export {
   ChatMessageInput,
   ChatConversations,
   ChatConversationList,
-  ChatMessageList
+  ChatMessageList,
+  ChatPanel
 } from "./components/chat";
 
 export { useInfiniteScroll } from "./hooks";

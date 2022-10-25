@@ -2,39 +2,100 @@
 
 :root {
   --rc-chat-conversation-card-border-radius: var(--rc-layout-border-radius);
-  --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 6);
 
   --rc-chat-conversation-card-background: var(--rc-white);
-  --rc-chat-conversation-card-selected-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
-    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+  --rc-chat-conversation-card-shadow: 0px 4px 16px rgba(13, 28, 70, 0.05);
+  --rc-chat-conversation-card-border: none;
 
-  --rc-chat-conversation-card-border: 1px solid rgb(0 0 0 / 20%);
+  --rc-chat-conversation-card-hover-background: var(--rc-blueGray-50);
+  --rc-chat-conversation-card-hover-border: var(
+    --rc-chat-conversation-card-border
+  );
+  --rc-chat-conversation-card-hover-shadow: var(
+    --rc-chat-conversation-card-shadow
+  );
 
-  --rc-chat-conversation-card-title-margin: calc(var(--rc-layout-step) * 2);
-  --rc-chat-conversation-card-message-margin: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversation-card-active-background: var(--rc-blueGray-300);
+  --rc-chat-conversation-card-active-border: var(
+    --rc-chat-conversation-card-border
+  );
+  --rc-chat-conversation-card-active-shadow: none;
+
+  --rc-chat-conversation-card-selected-background: var(
+    --rc-chat-conversation-card-active-background
+  );
+  --rc-chat-conversation-card-selected-border: var(
+    --rc-chat-conversation-card-active-border
+  );
+  --rc-chat-conversation-card-selected-shadow: var(
+    --rc-chat-conversation-card-active-shadow
+  );
+
+  --rc-chat-conversation-card-selected-hover-background: var(
+    --rc-chat-conversation-card-selected-background
+  );
+  --rc-chat-conversation-card-selected-hover-border: var(
+    --rc-chat-conversation-card-selected-border
+  );
+  --rc-chat-conversation-card-selected-hover-shadow: var(
+    --rc-chat-conversation-card-selected-shadow
+  );
+
+  --rc-chat-conversation-card-title-margin: calc(var(--rc-layout-step) * 3);
+
+  --rc-chat-conversation-card-title-name-font-weight: var(--rc-font-weight-bolder);
+  --rc-chat-conversation-card-title-name-color: var(--rc-blueGray-800);
+
+  --rc-chat-conversation-card-title-timestamp-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-conversation-card-title-timestamp-color: var(--rc-blueGray-500);
+
+  --rc-chat-conversation-card-message-margin: calc(var(--rc-layout-step) * 3);
+  --rc-chat-conversation-card-message-font-family: var(--rc-primary-font);
+  --rc-chat-conversation-card-message-color: var(--rc-blueGray-500);
+  --rc-chat-conversation-card-message-font-size: var(
+    --rc-stacked-text-size-primary
+  );
 }
 
 @include roq-component("chat-conversation-card") {
-  border-radius: var(--rc-chat-conversation-card-border-radius);
+  $container: &;
+
   padding: var(--rc-chat-conversation-card-padding);
   background-color: var(--rc-chat-conversation-card-background);
   border: var(--rc-chat-conversation-card-border);
+  border-radius: var(--rc-chat-conversation-card-border-radius);
+  box-shadow: var(--rc-chat-conversation-card-shadow);
 
   cursor: pointer;
 
-  &-selected {
-    background-color: red;
+  &:hover {
+    background-color: var(--rc-chat-conversation-card-hover-background);
+    box-shadow: var(--rc-chat-conversation-card-hover-shadow);
+    border: var(--rc-chat-conversation-card-hover-border);
   }
 
-  &-selected,
-  &:hover,
   &:focus {
+    background-color: var(--rc-chat-conversation-card-active-background);
+    box-shadow: var(--rc-chat-conversation-card-active-shadow);
+    border: var(--rc-chat-conversation-card-active-border);
+  }
+
+  &-selected {
+    border: var(--rc-chat-conversation-card-selected-border);
+    background-color: var(--rc-chat-conversation-card-selected-background);
     box-shadow: var(--rc-chat-conversation-card-selected-shadow);
+
+    &:hover {
+      border: var(--rc-chat-conversation-card-selected-hover-border);
+      background-color: var(
+        --rc-chat-conversation-card-selected-hover-background
+      );
+      box-shadow: var(--rc-chat-conversation-card-selected-hover-shadow);
+    }
   }
 
   &__top {
-    border-radius: 3px;
-    border: 2px solid transparent;
     color: inherit;
     display: flex;
     align-items: center;
@@ -49,20 +110,27 @@
       font-weight: var(--rc-weight-medium);
 
       &__name {
-        font-weight: var(--rc-weight-medium);
+        font-weight: var(--rc-chat-conversation-card-title-name-font-weight);
+        color: var(--rc-chat-conversation-card-title-name-color);
+      }
+
+      &__timestamp {
+        font-weight: var(--rc-chat-conversation-card-title-timestamp-font-weight);
+        color: var(--rc-chat-conversation-card-title-timestamp-color);
       }
     }
   }
 
   &__message {
-    font-family: var(--rc-primary-font);
     min-width: 0px;
     max-width: 100%;
     flex: 1 1 100%;
-    color: var(--rc-primary-text);
-    font-size: var(--rc-stacked-text-size-primary);
     margin: 0px;
     padding: 0px;
+
     margin-top: var(--rc-chat-conversation-card-message-margin);
+    font-family: var(--rc-chat-conversation-card-message-font-family);
+    color: var(--rc-chat-conversation-card-message-color);
+    font-size: var(--rc-chat-conversation-card-message-font-size);
   }
 }

@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof ChatConversationCard>;
 
 const Template: ComponentStory<typeof ChatConversationCard> = (args) => (
-  <div style={{ width: 320 }}>
+  <div style={{ width: 400 }}>
     <ChatConversationCard {...args} />
   </div>
 );
@@ -19,7 +19,7 @@ const Template: ComponentStory<typeof ChatConversationCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   title: "Chat",
-  date: "2 minutes ago",
+  timestamp: new Date(),
   message: `Hi! How it's going?`,
   members: [
     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },

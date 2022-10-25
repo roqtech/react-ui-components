@@ -1,8 +1,7 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-message-history-spacing: var(--rc-layout-step)
-    calc(var(--rc-layout-step) * 2);
+  --rc-chat-message-history-spacing: calc(var(--rc-layout-step) * 1.5) 0
 }
 
 @include roq-component("chat-message-history") {

@@ -91,8 +91,8 @@ const ChatConversations = (props: ChatConversationsProps) => {
 export default withChatApi(({ selectConversation }) => ({
   onConversationSelect: selectConversation,
 }))(
-  withChatState(({ conversations: { data }, currentConversation }) => ({
-    conversations: data,
+  withChatState(({ conversations, currentConversation }) => ({
+    conversations: conversations?.data,
     selectedConversationId: currentConversation?.id,
   }))(ChatConversations)
 );

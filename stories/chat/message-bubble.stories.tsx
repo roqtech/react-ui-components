@@ -1,14 +1,15 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import React from 'react';
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import React from "react";
 
 import { ChatMessageBubble } from "../../src";
 
 export default {
-  title: 'Roq Components/Chat/Message Bubble',
+  title: "Roq Components/Chat/Message Bubble",
   component: ChatMessageBubble,
   argTypes: {
-    isSent: { control: 'boolean' },
-    showCorner: { control: 'boolean' },
+    message: { control: "string" },
+    isSent: { control: "boolean" },
+    showCorner: { control: "boolean" },
   },
 } as ComponentMeta<typeof ChatMessageBubble>;
 
@@ -20,20 +21,17 @@ const Template: ComponentStory<typeof ChatMessageBubble> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  date: '2 minutes ago',
   message: `Hi! How it's going?`,
 };
 
 export const Sent = Template.bind({});
 Sent.args = {
-  message: 'All good, thanks!',
-  date: '2 minutes ago',
+  message: "All good, thanks!",
   isSent: true,
 };
 
 export const WithCorner = Template.bind({});
 WithCorner.args = {
-  message: 'All good, thanks!',
-  date: '2 minutes ago',
+  message: "All good, thanks!",
   showCorner: true,
 };

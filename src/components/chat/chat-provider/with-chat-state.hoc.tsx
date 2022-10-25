@@ -2,6 +2,32 @@ import React, { forwardRef } from "react";
 import { ChatStateContext, ChatStateContextInterface } from "./chat-provider";
 import { useChatApi } from "./use-chat-api.hook";
 
+// TODO: DEV ONLY!
+const MOCKED_STATE = {
+  setCurrentConversationId: null,
+  currentConversation: {},
+  messages: {
+    error: null,
+    isLoading: false,
+    hasMore: false,
+    offset: 0,
+    limit: 10,
+    totalCount: 0,
+    loadedTotal: 0,
+    data: [],
+  },
+  conversations: {
+    error: null,
+    isLoading: false,
+    hasMore: false,
+    offset: 0,
+    limit: 10,
+    totalCount: 0,
+    loadedTotal: 0,
+    data: [],
+  },
+};
+
 type WithChatStatePropsInterface<T> = {
   mapContextToProps?: (context: ChatStateContextInterface) => T;
 };
@@ -24,10 +50,11 @@ export function withChatState<TProps, TContext = TProps>(
           <ChatStateContext.Consumer>
             {(state) => (
               <Component
-                {...mapContextToProps(state as ChatStateContextInterface)}
+                {...mapContextToProps(
+                  (state ?? MOCKED_STATE) as ChatStateContextInterface
+                )}
                 {...this.props}
-                ref={this.props.innerRef ?? this.props.forwardedRef}
-                innerRef={this.props.forwardedRef}
+                forwardedRef={this.props.forwardedRef}
               />
             )}
           </ChatStateContext.Consumer>

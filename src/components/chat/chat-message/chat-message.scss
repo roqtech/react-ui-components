@@ -7,7 +7,7 @@ $chat-message-user-font-size: 0.92em;
   --rc-chat-message-user-margin: var(--rc-layout-step) 0 0 0;
   --rc-chat-message-user-spacing: calc(var(--rc-layout-step) * 2);
 
-  --rc-chat-message-user-name-font-weight: calc(var(--rc-font-bold) / 1.25);
+  --rc-chat-message-user-name-font-weight: calc(var(--rc-font-weight-bold) / 1.25);
 }
 
 @include roq-component("chat-message") {

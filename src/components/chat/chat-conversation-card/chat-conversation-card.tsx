@@ -68,21 +68,25 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
       style={style}
       onClick={onClick}
     >
-      <Inner className={clsx(classNames?.inner, _CLASS_IS + "__inner")}>
-        <Top className={clsx(classNames?.top, _CLASS_IS + "__top")}>
+      <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
+        <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
           <AvatarGroup
             users={members}
             maxCount={2}
             size="large"
-            className={clsx(classNames?.top, _CLASS_IS + "__top__avatars")}
+            className={clsx(_CLASS_IS + "__top__avatars", classNames?.top)}
           />
           <Title
             primaryText={title}
             secondaryText={formattedTimestamp}
-            className={clsx(classNames?.title, _CLASS_IS + "__top__title")}
+            classNames={{
+              container: clsx(_CLASS_IS + "__top__title", classNames?.title),
+              primaryText: clsx(_CLASS_IS + "__top__title__name"),
+              secondaryText: clsx(_CLASS_IS + "__top__title__timestamp"),
+            }}
           />
         </Top>
-        <Message className={clsx(classNames?.message, _CLASS_IS + "__message")}>
+        <Message className={clsx(_CLASS_IS + "__message", classNames?.message)}>
           {message}
         </Message>
       </Inner>

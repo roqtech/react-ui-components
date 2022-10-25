@@ -21,9 +21,8 @@ Default.args = {
   messages: [
     {
       id: uniqueId(),
-      message: "Hello",
-      showCorner: true,
-      timestamp: new Date(),
+      body: "Hello",
+      createdAt: new Date(),
       user: {
         fullName: "Mose Ewald",
         avatar: "https://i.pravatar.cc/60?img=15",
@@ -32,9 +31,8 @@ Default.args = {
     },
     {
       id: uniqueId(),
-      message: "Hi. Is there an updates?",
-      showCorner: true,
-      timestamp: new Date(),
+      body: "Hi. Is there an updates?",
+      createdAt: new Date(),
       user: {
         fullName: "Susan Gomez",
         avatar: "https://i.pravatar.cc/60?img=1",
@@ -42,9 +40,8 @@ Default.args = {
     },
     {
       id: uniqueId(),
-      message: "Yeah, let`s sync up in 10m",
-      showCorner: true,
-      timestamp: new Date(),
+      body: "Yeah, let`s sync up in 10m",
+      createdAt: new Date(),
       user: {
         fullName: "Piper Wong",
         avatar: "https://i.pravatar.cc/60?img=14",
@@ -53,10 +50,8 @@ Default.args = {
     },
     {
       id: uniqueId(),
-      message: "Sounds good",
-      showCorner: true,
-      showUser: false,
-      timestamp: new Date(),
+      body: "Sounds good",
+      createdAt: new Date(),
       user: {
         fullName: "Jared Brewer",
         avatar: "https://i.pravatar.cc/60?img=12",
@@ -64,10 +59,8 @@ Default.args = {
     },
     {
       id: uniqueId(),
-      message: "I'll let you know",
-      showCorner: true,
-      showUser: true,
-      timestamp: new Date(),
+      body: "I'll let you know",
+      createdAt: new Date(),
       user: {
         fullName: "Jared Brewer",
         avatar: "https://i.pravatar.cc/60?img=12",

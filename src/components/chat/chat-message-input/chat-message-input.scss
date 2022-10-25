@@ -1,8 +1,7 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-message-input-padding: calc(var(--rc-layout-step) * 2)
-    calc(var(--rc-layout-step) * 2);
+  --rc-chat-message-input-padding: calc(var(--rc-layout-step) * 6.5) 0;
 
   --rc-chat-message-input-border-color: var(--rc-divider);
   --rc-chat-message-input-border-width: 2px;

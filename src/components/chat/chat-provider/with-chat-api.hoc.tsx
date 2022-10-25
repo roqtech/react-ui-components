@@ -24,10 +24,9 @@ export function withChatApi<TProps, TContext = TProps>(
           <ChatApiContext.Consumer>
             {(api) => (
               <Component
-                {...mapContextToProps(api as ChatApiContextInterface)}
+                {...mapContextToProps((api ?? {}) as ChatApiContextInterface)}
                 {...this.props}
-                ref={this.props.innerRef ?? this.props.forwardedRef}
-                innerRef={this.props.forwardedRef}
+                forwardedRef={this.props.forwardedRef}
               />
             )}
           </ChatApiContext.Consumer>
@@ -36,10 +35,8 @@ export function withChatApi<TProps, TContext = TProps>(
     }
 
     return forwardRef((props, ref) => {
-
       return <WithChatApi {...props} forwardedRef={ref} />;
     });
 
-    return WithChatApi;
   };
 }

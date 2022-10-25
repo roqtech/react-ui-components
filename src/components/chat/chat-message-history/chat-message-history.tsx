@@ -60,12 +60,12 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
     [LineMessage, classNames?.message]
   );
 
-  console.dir(rest)
+  console.dir(rest);
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
-      ref={rest.innerRef}
+      ref={rest.forwaredRef}
     >
       <Spacer className={clsx(_CLASS_IS + "__spacer", classNames?.spacer)} />
       {children}
@@ -84,7 +84,9 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   );
 };
 
-export default withChatState(({ currentConversation, messages: { data } }) => ({
-  conversationId: currentConversation?.id,
-  messages: data ?? [],
-}))(ChatMessageHistory);
+export default withChatState(
+  ({ currentConversationId, messages: { data } }) => ({
+    conversationId: currentConversationId,
+    messages: data ?? [],
+  })
+)(ChatMessageHistory);

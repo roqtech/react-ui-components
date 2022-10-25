@@ -1,27 +1,45 @@
 @import "../../../styles/styles.scss";
 
-$sent-color: #0f172a;
-$received-color: #e2e8f0;
-
 :root {
-  --chat-message-chat-padding: calc(var(--rc-layout-step) * 1.5);
-  --chat-message-chat-radius: var(--rc-layout-border-radius);
+  --rc-chat-message-bubble-padding: calc(var(--rc-layout-step) * 3);
+  --rc-chat-message-bubble-radius: var(--rc-layout-border-radius);
+  --rc-chat-message-bubble-font-weight: var(--rc-default-font-weight);
+  --rc-chat-message-bubble-font-size: var(--rc-default-font-size);
+  --rc-chat-message-bubble-color: var(--rc-blueGray-900);
 
-  --chat-message-chat-text: var(--rc-white);
-  --chat-message-chat-contrast-text: var(--rw-primary-text);
+  --rc-chat-message-bubble-sent-padding: var(--rc-chat-message-bubble-padding);
+  --rc-chat-message-bubble-sent-radius: var(--rc-chat-message-bubble-radius);
+  --rc-chat-message-bubble-sent-font-weight: var(
+    --rc-chat-message-bubble-font-weight
+  );
+  --rc-chat-message-bubble-sent-font-size: var(
+    --rc-chat-message-bubble-font-size
+  );
+  --rc-chat-message-bubble-sent-color: var(--rc-white);
+  --rc-chat-message-bubble-sent-background-color: var(--rc-primary);
 
-  --chat-message-chat-background-sent: #{$sent-color};
-  --chat-message-chat-background-received: #{$received-color};
+  --rc-chat-message-bubble-received-padding: var(
+    --rc-chat-message-bubble-padding
+  );
+  --rc-chat-message-bubble-received-radius: var(
+    --rc-chat-message-bubble-radius
+  );
+  --rc-chat-message-bubble-received-font-weight: var(
+    --rc-chat-message-bubble-font-weight
+  );
+  --rc-chat-message-bubble-received-font-size: var(
+    --rc-chat-message-bubble-font-size
+  );
+  --rc-chat-message-bubble-received-color: var(--rc-chat-message-bubble-color);
+  --rc-chat-message-bubble-received-background-color: var(--rc-blueGray-200);
 }
 
 @include roq-component("chat-message-bubble") {
   $container: &;
 
   display: inline-flex;
-  padding: var(--chat-message-chat-padding);
-  border-radius: var(--chat-message-chat-radius);
-
-  color: var(--chat-message-chat-text);
+  padding: var(--rc-chat-message-bubble-sent-padding);
+  border-radius: var(--rc-chat-message-bubble-radius);
 
   &__content {
     margin: 0;
@@ -30,12 +48,19 @@ $received-color: #e2e8f0;
   }
 
   &-sent {
-    background-color: var(--chat-message-chat-background-sent);
+    padding: var(--rc-chat-message-bubble-sent-padding);
+    border-radius: var(--rc-chat-message-bubble-sent-radius);
+    font-weight: var(--rc-chat-message-bubble-sent-font-weight);
+    color: var(--rc-chat-message-bubble-sent-color);
+    background-color: var(--rc-chat-message-bubble-sent-background-color);
   }
 
   &-received {
-    color: var(--chat-message-chat-contrast-text);
-    background-color: var(--chat-message-chat-background-received);
+    padding: var(--rc-chat-message-bubble-received-padding);
+    border-radius: var(--rc-chat-message-bubble-received-radius);
+    font-weight: var(--rc-chat-message-bubble-received-font-weight);
+    color: var(--rc-chat-message-bubble-received-color);
+    background-color: var(--rc-chat-message-bubble-received-background-color);
   }
 
   &-corner {

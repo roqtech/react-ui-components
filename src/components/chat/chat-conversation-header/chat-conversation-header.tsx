@@ -62,9 +62,10 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
       <Info
         primaryText={title}
         secondaryText={membersLine}
-        className={clsx(_CLASS_IS + "__info", classNames?.info)}
         classNames={{
-          primaryText: clsx(_CLASS_IS + "__info" + "__title"),
+          container: clsx(_CLASS_IS + "__info", classNames?.info),
+          primaryText: clsx(_CLASS_IS + "__info__name"),
+          secondaryText: clsx(_CLASS_IS + "__info__members"),
         }}
       />
     </Container>

@@ -9,22 +9,38 @@ import {
   ChatNotificationBell,
   ChatConversationList,
   ChatMessageList,
+  ChatPanel,
 } from "../../src";
 
 export default {
   title: "Roq Components/Chat/Examples/Message Center",
   component: ChatConversations,
-  argTypes: {},
+  argTypes: {
+    secure: { control: "boolean" },
+    platformUrl: { control: "string" },
+    platformToken: { control: "string" },
+    userId: { control: "string" },
+  },
 } as ComponentMeta<typeof ChatConversations>;
 
-const Template: ComponentStory<typeof ChatConversations> = (args) => (
+const Template: ComponentStory<typeof ChatConversations> = ({
+  secure,
+  platformUrl,
+  platformToken,
+  userId,
+  ...args
+}) => (
   <ChatProvider
     secure
-    platformUrl={process.env.PLATFORM_HOST}
-    platformToken={process.env.PLATFORM_TOKEN}
-    userId={process.env.ROQ_USER_ID ?? ""}
+    platformUrl={platformUrl}
+    platformToken={platformToken}
+    userId={userId}
   >
-    <section>
+    <section
+      style={{
+        backgroundColor: "#f1f5f8",
+      }}
+    >
       <div
         style={{
           height: "60px",
@@ -42,25 +58,18 @@ const Template: ComponentStory<typeof ChatConversations> = (args) => (
           marginTop: 20,
           gap: "14px",
           height: "100%",
-          maxHeight: 400,
+          maxHeight: 788,
           display: "flex",
           boxSizing: "border-box",
           alignItems: "stretch",
           flexDirection: "row",
+          padding: 20,
         }}
       >
-        <div style={{ width: 300 }}>
+        <div style={{ width: 400 }}>
           <ChatConversationList />
         </div>
-        <div
-          style={{
-            flexGrow: 1,
-            minWidth: 0,
-            border: `1px solid #e2e8f0`,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <ChatPanel>
           <ChatConversationHeader />
           <div
             style={{
@@ -71,11 +80,16 @@ const Template: ComponentStory<typeof ChatConversations> = (args) => (
             <ChatMessageList />
           </div>
           <ChatMessageInput />
-        </div>
+        </ChatPanel>
       </div>
     </section>
   </ChatProvider>
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  secure: true,
+  platformUrl: process.env.PLATFORM_HOST,
+  platformToken: process.env.PLATFORM_TOKEN,
+  userId: process.env.ROQ_USER_ID ?? "",
+};
