@@ -84,6 +84,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
               classNames?.userAvatar
             )}
             {...user}
+            alt={user?.fullName}
+            src={user?.avatar}
           />
           <UserName
             className={clsx(_CLASS_IS + "__user__name", classNames?.userName)}

@@ -44,10 +44,14 @@
 
   --rc-chat-conversation-card-title-margin: calc(var(--rc-layout-step) * 3);
 
-  --rc-chat-conversation-card-title-name-font-weight: var(--rc-font-weight-bolder);
+  --rc-chat-conversation-card-title-name-font-weight: var(
+    --rc-font-weight-bolder
+  );
   --rc-chat-conversation-card-title-name-color: var(--rc-blueGray-800);
 
-  --rc-chat-conversation-card-title-timestamp-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-conversation-card-title-timestamp-font-weight: var(
+    --rc-font-weight-bold
+  );
   --rc-chat-conversation-card-title-timestamp-color: var(--rc-blueGray-500);
 
   --rc-chat-conversation-card-message-margin: calc(var(--rc-layout-step) * 3);
@@ -56,6 +60,8 @@
   --rc-chat-conversation-card-message-font-size: var(
     --rc-stacked-text-size-primary
   );
+
+  --rc-chat-conversation-card-message-unread-font-weight: var(--rc-font-weight-bolder);
 }
 
 @include roq-component("chat-conversation-card") {
@@ -81,7 +87,7 @@
     border: var(--rc-chat-conversation-card-active-border);
   }
 
-  &-selected {
+  &--selected {
     border: var(--rc-chat-conversation-card-selected-border);
     background-color: var(--rc-chat-conversation-card-selected-background);
     box-shadow: var(--rc-chat-conversation-card-selected-shadow);
@@ -115,8 +121,35 @@
       }
 
       &__timestamp {
-        font-weight: var(--rc-chat-conversation-card-title-timestamp-font-weight);
+        font-weight: var(
+          --rc-chat-conversation-card-title-timestamp-font-weight
+        );
         color: var(--rc-chat-conversation-card-title-timestamp-color);
+      }
+    }
+
+    &__actions {
+      flex-shrink: 0;
+      min-width: 0;
+      // color: theme.palette.common.white,
+      // backgroundColor: '#FDA4AF',
+      // borderRadius: theme.spacing(2),
+      // minWidth: theme.spacing(4),
+      // minHeight: theme.spacing(4),
+      // position: 'unset',
+      // transform: 'unset',
+
+      &__unread {
+        width: 40px;
+        height: 24px;
+
+        &__count {
+          width: 40px;
+          background: #cbd5e1;
+          color: #0f172a;
+          border-radius: 8px;
+          transform: translate3d(0, 0, 0);
+        }
       }
     }
   }
@@ -132,5 +165,14 @@
     font-family: var(--rc-chat-conversation-card-message-font-family);
     color: var(--rc-chat-conversation-card-message-color);
     font-size: var(--rc-chat-conversation-card-message-font-size);
+  }
+
+  &--unread {
+    #{$container} {
+      &__message {
+        // color: red;
+        font-weight: var(--rc-chat-conversation-card-message-unread-font-weight);
+      }
+    }
   }
 }

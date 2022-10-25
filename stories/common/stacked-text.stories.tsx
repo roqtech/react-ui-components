@@ -8,9 +8,9 @@ export default {
   component: StackedText,
   argTypes: {
     disabled: { control: "boolean" },
-    primaryText: { control: "string" },
-    secondaryText: { control: "string" },
-    tertiaryText: { control: "string" },
+    primaryText: { control: "text" },
+    secondaryText: { control: "text" },
+    tertiaryText: { control: "text" },
   },
 } as ComponentMeta<typeof StackedText>;
 

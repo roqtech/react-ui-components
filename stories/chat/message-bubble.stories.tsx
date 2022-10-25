@@ -7,7 +7,7 @@ export default {
   title: "Roq Components/Chat/Message Bubble",
   component: ChatMessageBubble,
   argTypes: {
-    message: { control: "string" },
+    message: { control: "text" },
     isSent: { control: "boolean" },
     showCorner: { control: "boolean" },
   },

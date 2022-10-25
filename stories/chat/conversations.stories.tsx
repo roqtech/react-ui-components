@@ -33,6 +33,7 @@ Default.args = {
       id: "c00ea876-8e99-4e8e-8867-b1d148cf5199",
       title: "Susan Gomez",
       timestamp: new Date(),
+      unreadCount: 10,
       message: `Hi! How it's going?`,
       members: [
         { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },

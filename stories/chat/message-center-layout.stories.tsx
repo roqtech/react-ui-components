@@ -17,9 +17,9 @@ export default {
   component: ChatConversations,
   argTypes: {
     secure: { control: "boolean" },
-    platformUrl: { control: "string" },
-    platformToken: { control: "string" },
-    userId: { control: "string" },
+    platformUrl: { control: "text" },
+    platformToken: { control: "text" },
+    userId: { control: "text" },
   },
 } as ComponentMeta<typeof ChatConversations>;
 
