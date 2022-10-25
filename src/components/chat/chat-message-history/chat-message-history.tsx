@@ -47,7 +47,6 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
 
   const renderMessage = useCallback(
     (message: ChatMessageInterface) => {
-      debugger;
       return (
         <LineMessage
           {...message}

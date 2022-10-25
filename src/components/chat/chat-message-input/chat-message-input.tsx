@@ -53,6 +53,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const Container = components?.Container ?? "div";
   const Textarea = components?.Textarea ?? "input";
   const SendButton = components?.SendButton ?? "button";
+  const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
   const [textareaValue, setValue] = useState<string>(value ?? "");
@@ -101,6 +102,9 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
           onClick={handleSendButtonClick}
         >
+          <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
+            send
+          </SendLabel>
           <SendIcon className={clsx(_CLASS_IS + "__send-button__icon")} />
         </SendButton>
       )}

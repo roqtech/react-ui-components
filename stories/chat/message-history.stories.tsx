@@ -11,7 +11,9 @@ export default {
 } as ComponentMeta<typeof ChatMessageHistory>;
 
 const Template: ComponentStory<typeof ChatMessageHistory> = (args) => (
-  <div style={{ width: 520, height: 600 }}>
+  <div
+    style={{ width: 520, height: 600, padding: 20, backgroundColor: "#f1f5f8" }}
+  >
     <ChatMessageHistory {...args} />
   </div>
 );
