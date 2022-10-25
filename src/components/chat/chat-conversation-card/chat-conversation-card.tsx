@@ -7,7 +7,7 @@ import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatUserInterface } from "src/types";
-import { Badge } from "src/components/common";
+import { Badge, TimeAgo } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
@@ -59,11 +59,6 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const Title = components?.Title ?? StackedText;
   const Message = components?.Message ?? "p";
 
-  const formattedTimestamp = useMemo(
-    () => new Date(timestamp).toLocaleString(),
-    [timestamp]
-  );
-
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
 
   return (
@@ -85,7 +80,10 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
           />
           <Title
             primaryText={title}
-            secondaryText={formattedTimestamp}
+            secondaryText={timestamp}
+            components={{
+              secondaryText: TimeAgo,
+            }}
             classNames={{
               container: clsx(_CLASS_IS + "__top__title", classNames?.title),
               primaryText: clsx(_CLASS_IS + "__top__title__name"),

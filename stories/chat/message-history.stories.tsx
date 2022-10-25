@@ -7,19 +7,21 @@ import { ChatMessageHistory } from "../../src";
 export default {
   title: "Roq Components/Chat/Message History",
   component: ChatMessageHistory,
-  argTypes: {},
+  argTypes: {
+    isEmpty: { control: "boolean" },
+    emptyMessage: { control: "text" },
+  },
 } as ComponentMeta<typeof ChatMessageHistory>;
 
 const Template: ComponentStory<typeof ChatMessageHistory> = (args) => (
-  <div
-    style={{ width: 520, height: 600, padding: 20, backgroundColor: "#f1f5f8" }}
-  >
+  <div style={{ width: 520, height: 600 }}>
     <ChatMessageHistory {...args} />
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
+  isEmpty: false,
   messages: [
     {
       id: uniqueId(),
@@ -69,4 +71,56 @@ Default.args = {
       },
     },
   ],
+};
+
+export const Empty = Template.bind({});
+Empty.args = {
+  isEmpty: true,
+  emptyMessage: "This is the very beginning of your messaging",
+  messages: [],
+};
+
+const EmptyIcon = (props) => (
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <defs>
+      <style>
+        {
+          ".cls-1{fill:none;stroke:#94a3b8;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px}"
+        }
+      </style>
+    </defs>
+    <title />
+    <g data-name="23-chat" id="_23-chat">
+      <path className="cls-1" d="M23 2H1v16h5v4l4-4h13V2z" />
+      <path className="cls-1" d="M13 22v4h5v4l4-4h9V10h-4" />
+    </g>
+  </svg>
+);
+
+export const EmptyComponent = Template.bind({});
+EmptyComponent.args = {
+  isEmpty: true,
+  components: {
+    Empty: ({ emptyMessage, children, ...rest }) => (
+      <div {...rest}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "48px auto",
+            textAlign: "center",
+            maxWidth: "464px",
+          }}
+        >
+          <div style={{ width: 80, height: 80 }}>
+            <EmptyIcon />
+          </div>
+          <h4>{children}</h4>
+        </div>
+      </div>
+    ),
+  },
+  emptyMessage: "This is the very beginning of your messaging",
+  messages: [],
 };

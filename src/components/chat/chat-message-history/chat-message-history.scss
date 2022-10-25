@@ -23,6 +23,17 @@
 
   background-color: var(--rc-chat-message-history-background);
 
+  &__empty {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.75px;
+    color: #94a3b8;
+    align-content: flex-start;
+    justify-content: space-around;
+  }
+
   &__spacer {
     flex: 1 1 auto;
   }

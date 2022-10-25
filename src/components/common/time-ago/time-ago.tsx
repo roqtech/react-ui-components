@@ -1,14 +1,16 @@
 import "./time-ago.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties } from "react";
+import React, { ComponentType, CSSProperties, ReactNode, useMemo } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
+import { formatTimeAgo } from "src/utils/format-time-ago.util";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "time-ago";
 
 export interface TimeAgoProps {
-  date: Date | number | string;
-  format?: (d: Date | number | string) => string;
+  children?: ReactNode | string;
+  timestamp?: Date | number | string;
+  format?: (timestamp?: Date | number | string) => string;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -19,12 +21,10 @@ export interface TimeAgoProps {
   };
 }
 
-export const formatTimeAgo = (date: Date | number | string) =>
-  new Date(date).toLocaleString();
-
 export const TimeAgo = (props: TimeAgoProps) => {
   const {
-    date,
+    children,
+    timestamp,
     format = formatTimeAgo,
     style,
     className,
@@ -34,12 +34,17 @@ export const TimeAgo = (props: TimeAgoProps) => {
 
   const Container = components?.container ?? "span";
 
+  const value = useMemo(
+    () => (children ? (children as string) : timestamp),
+    [timestamp, children]
+  );
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
     >
-      {format(date)}
+      {format(value)}
     </Container>
   );
 };

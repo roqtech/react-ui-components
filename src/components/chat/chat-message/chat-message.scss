@@ -3,37 +3,69 @@
 $chat-message-user-font-size: 0.92em;
 
 :root {
-  --rc-chat-message-user-font-size: #{$chat-message-user-font-size};
-  --rc-chat-message-user-margin: var(--rc-layout-step) 0 0 0;
-  --rc-chat-message-user-spacing: calc(var(--rc-layout-step) * 2);
+  --rc-chat-message-display: flex;
+  --rc-chat-message-align-items: flex-start;
+  --rc-chat-message-text-flex-direction: row;
+  --rc-chat-message-text-align: left;
 
-  --rc-chat-message-user-name-font-weight: calc(var(--rc-font-weight-bold) / 1.25);
+  --rc-chat-message-sent-flex-direction: row-reverse;
+  --rc-chat-message-sent-text-align: left;
+
+  --rc-chat-message-user-margin: 0 calc(var(--rc-layout-step) * 4.5) 0 0;
+  --rc-chat-message-sent-user-margin: 0 0 0 calc(var(--rc-layout-step) * 4.5);
+
+  --rc-chat-message-time-margin: calc(var(--rc-layout-step) * 2) 0 0 0;
+  --rc-chat-message-time-color: var(--rc-blueGray-500);
 }
 
 @include roq-component("chat-message") {
   $container: &;
 
-  &-sent {
-    text-align: right;
+  display: var(--rc-chat-message-display);
+  align-items: var(--rc-chat-message-align-items);
+  flex-direction: var(--rc-chat-message-flex-direction);
+  text-align: var(--rc-chat-message-text-align);
+
+  &--sent {
+    text-align: var(--rc-chat-message-sent-text-align);
+    flex-direction: var(--rc-chat-message-sent-flex-direction);
   }
 
   &__user {
     margin: var(--rc-chat-message-user-margin);
-    gap: var(--rc-chat-message-user-spacing);
-    font-size: var(--rc-chat-message-user-font-size);
+  }
 
+  &__inner {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    &__content {
+      &__message {
+        float: left;
+      }
+    }
 
-    &__name {
-      font-weight: var(--rc-chat-message-user-name-font-weight);
+    &__time {
+      margin: var(--rc-chat-message-time-margin);
+      color: var(--rc-chat-message-time-color);
     }
   }
 
-  &-sent {
+  &--sent {
     #{$container} {
       &__user {
-        flex-direction: row-reverse;
+        margin: var(--rc-chat-message-sent-user-margin);
+      }
+
+      &__inner {
+        &__content {
+          &__message {
+            float: right;
+          }
+        }
+
+        &__time {
+          text-align: right;
+        }
       }
     }
   }

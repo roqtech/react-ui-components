@@ -14,6 +14,7 @@ import {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
+import isEmpty from "lodash/isEmpty";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
@@ -42,6 +43,10 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const Info = components?.Info ?? StackedText;
 
   const membersLine = useMemo(() => {
+    if (isEmpty(members)) {
+      return ''
+    }
+
     return (
       `${members.length - 1} members: ` +
       members.map(({ fullName }) => fullName).join(", ")

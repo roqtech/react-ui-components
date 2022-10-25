@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
 } from "react";
 
 import { ChatMessage, ChatMessageProps } from "../chat-message/chat-message";
@@ -20,17 +21,21 @@ export interface ChatMessageHistoryProps {
   children: ReactNode;
   conversationId: string;
   messages: ChatMessageInterface[];
+  isEmpty?: boolean;
+  emptyMessage?: string;
   style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
-    line?: string;
     spacer?: string;
+    empty?: string;
+    line?: string;
     message?: string;
   };
   components?: {
     Container: ComponentType<any>;
     Spacer: ComponentType<any>;
+    Empty: ComponentType<any>;
     Line: ComponentType<any>;
     Message: ComponentType<ChatMessageProps>;
   };
@@ -38,12 +43,22 @@ export interface ChatMessageHistoryProps {
 
 export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   const { style, className, classNames, components, ...rest } = props;
-  const { children, messages, conversationId } = props;
+  const {
+    children,
+    messages,
+    conversationId,
+    isEmpty = false,
+    emptyMessage = "This is the very beginning of your messaging",
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Spacer = components?.Spacer ?? "div";
+  const Empty = components?.Empty ?? "div";
   const Line = components?.Line ?? "div";
   const LineMessage = components?.Message ?? ChatMessage;
+
+  const showSpacer = useMemo(() => !isEmpty, [isEmpty]);
+  const showEmpty = useMemo(() => isEmpty, [isEmpty]);
 
   const renderMessage = useCallback(
     (message: ChatMessageInterface) => {
@@ -67,7 +82,14 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
       style={style}
       ref={rest.forwaredRef}
     >
-      <Spacer className={clsx(_CLASS_IS + "__spacer", classNames?.spacer)} />
+      {showSpacer && (
+        <Spacer className={clsx(_CLASS_IS + "__spacer", classNames?.spacer)} />
+      )}
+      {showEmpty && (
+        <Empty className={clsx(_CLASS_IS + "__empty", classNames?.empty)}>
+          {emptyMessage}
+        </Empty>
+      )}
       {children}
       {messages.map((message) => (
         <Line
@@ -85,8 +107,9 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
 };
 
 export default withChatState(
-  ({ currentConversationId, messages: { data } }) => ({
+  ({ currentConversationId, messages: { data, totalCount } }) => ({
     conversationId: currentConversationId,
     messages: data ?? [],
+    isEmpty: totalCount === 0,
   })
 )(ChatMessageHistory);

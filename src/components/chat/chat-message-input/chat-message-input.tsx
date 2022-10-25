@@ -50,7 +50,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   } = props;
   const { style, className, classNames, components } = props;
 
-  const Container = components?.Container ?? "div";
+  const Container = components?.Container ?? "form";
   const Textarea = components?.Textarea ?? "input";
   const SendButton = components?.SendButton ?? "button";
   const SendLabel = components?.SendLabel ?? "span";
@@ -67,7 +67,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     [onChange]
   );
 
-  const handleSend = useCallback(
+  const send = useCallback(
     async (payload: Partial<ChatSendMessageRequestPayloadInterface>) => {
       const messagePayload = await onBeforeSend(payload);
 
@@ -78,20 +78,31 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     [reset, onBeforeSend, onSend]
   );
 
-  const handleSendButtonClick = useCallback(
+  const handleSend = useCallback(
     () =>
-      handleSend({
+      send({
         body: textareaValue,
       }),
-    [handleSend, textareaValue]
+    [send, textareaValue]
   );
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      send();
+    },
+    [send]
+  );
+    
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
+      onSubmit={handleSubmit}
     >
       <Textarea
+        name="message"
         value={textareaValue}
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
         placeholder={placeholder}
@@ -100,7 +111,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       {(!hideSendButton ?? true) && (
         <SendButton
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
-          onClick={handleSendButtonClick}
+          onClick={handleSend}
         >
           <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
             send
