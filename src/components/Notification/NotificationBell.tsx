@@ -57,7 +57,7 @@ const NotificationBell: React.FC<
     ...rest
   } = props
   const { host, token } = useResolveProvider({ host: _host, token: _token })
-  const [type, setType] = useState<NotificationType>(typeProp || 'all')
+  const [type, setType] = useState<NotificationType>(typeProp || 'unread')
   const fetchResult = useNotificationsInApp({
     host,
     token,
