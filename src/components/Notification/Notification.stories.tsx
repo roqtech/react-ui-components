@@ -3,9 +3,10 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import AppDecorators from '../../../.storybook/decorators'
 import { Notification } from './Notification';
+import { NotificationBadge as RNotificationBadge } from './NotificationBadge';
 
 export default {
-  title: 'Roq Widgets/Notification',
+  title: 'Roq Components/Notification',
   component: Notification,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
@@ -21,11 +22,66 @@ export default {
     token: {
       control: {
         type: 'text'
-      }
+      },
+      description: 'Token to access the API'
+    },
+    loadingView: {
+      control: {
+        type: null
+      },
+      description: 'Callback render when loading'
+    },
+    contentView: {
+      control: {
+        type: null
+      },
+      description: 'Callback render of notification items'
     },
   }
 } as ComponentMeta<typeof Notification>;
 
-const Template: ComponentStory<typeof Notification> = (args) => <Notification {...args} />;
+const Template: ComponentStory<typeof Notification> = (args) => (
+  <Notification
+    {...args}
+  />
+)
 
 export const Primary = Template.bind({});
+Primary.args = {
+  host: undefined
+}
+
+export const CustomCss = (args) => (
+  <Notification
+    {...args}
+    titleProps={{
+      css: {
+        span: {
+          backgroundColor: "var(--colors-green9)"
+        }
+      }
+    }}
+    typeToggleProps={{
+      css: {
+        'button[data-state="on"]': {
+          backgroundColor: "var(--colors-green9)"
+        }
+      }
+    }}
+  />
+)
+CustomCss.args = {
+  host: undefined
+}
+
+export const NotificationBadge = (args) => (
+  <RNotificationBadge {...args} />
+)
+NotificationBadge.args = {
+  count: 4,
+  host: undefined,
+  css: {
+    backgroundColor: 'var(--colors-blue9)',
+    color: 'var(--colors-red11)'
+  }
+}
