@@ -44,7 +44,7 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
 
   const membersLine = useMemo(() => {
     if (isEmpty(members)) {
-      return ''
+      return "";
     }
 
     return (

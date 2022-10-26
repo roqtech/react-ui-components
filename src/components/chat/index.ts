@@ -9,6 +9,9 @@ export { ChatConversationList } from "./chat-conversation-list";
 export { ChatNotificationBell } from "./chat-notification-bell";
 export { ChatMessageList } from "./chat-message-list";
 export { ChatPanel } from "./chat-panel";
+export { ChatFormattedMessage } from "./chat-formatted-message";
+export { ChatLink } from "./chat-link";
+export { ChatMention } from "./chat-mention";
 export {
   ChatProvider,
   useChatApi,

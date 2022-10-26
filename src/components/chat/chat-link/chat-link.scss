@@ -1,0 +1,13 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-link-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-link-color: inherit;
+  --rc-chat-link-text-decoratio: underline;
+}
+
+@include roq-component("chat-link") {
+  font-weight: var(--rc-chat-link-font-weight);
+  color: var(--rc-chat-link-color);
+  text-decoration: var(--rc-chat-link-text-decoratio);
+}

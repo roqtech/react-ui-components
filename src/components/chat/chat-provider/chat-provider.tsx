@@ -102,14 +102,6 @@ export interface ChatProviderPropsInterface
   onUserOffline?: () => void;
 }
 
-const normalizeMessage = (
-  message: Partial<ChatMessageInterface>
-): ChatMessageInterface => {
-  message.createdAt = new Date(message.createdAt);
-  message.updatedAt = new Date(message.updatedAt);
-  return message;
-};
-
 const sortComparer = (a, b) => +a.createdAt - +b.createdAt;
 
 const normalizeMessageHistory = (history: ChatMessageInterface[]) =>
@@ -238,6 +230,18 @@ export const ChatProvider = (
     console.error(error);
   }, []);
 
+  const normalizeMessage = useCallback(
+    (message: Partial<ChatMessageInterface>): ChatMessageInterface => {
+      debugger;
+      message.createdAt = new Date(message.createdAt);
+      message.updatedAt = new Date(message.updatedAt);
+      message.isSent = userId === message.authorId;
+
+      return message;
+    },
+    [userId]
+  );
+
   const handleMessageReceived = useCallback(
     (response: ChatMessageRecieivedResponsePayloadInterface) => {
       const recipientConversation = find(conversations.data, {
@@ -293,6 +297,7 @@ export const ChatProvider = (
       setMessages,
       setConversations,
       setUnreadCount,
+      normalizeMessage,
     ]
   );
 
@@ -355,7 +360,6 @@ export const ChatProvider = (
 
   useEffect(
     function reinitializeSocketWithUserOrPlatformToken() {
-      debugger;
       resetState();
       socket?.disconnect();
       initializeSocket();
@@ -517,7 +521,7 @@ export const ChatProvider = (
         };
       });
     },
-    [socket, setMessages]
+    [socket, setMessages, normalizeMessage]
   );
 
   const onFetchMessageListRequest = useCallback(

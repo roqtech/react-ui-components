@@ -44,6 +44,7 @@ export interface ChatMessageHistoryProps {
 export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   const { style, className, classNames, components, ...rest } = props;
   const {
+    forwardedRef,
     children,
     messages,
     conversationId,
@@ -67,7 +68,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
           {...message}
           message={message.body}
           timestamp={message.createdAt}
-          user={message.user}
+          user={message.author}
           className={clsx(_CLASS_IS + "__line__message", classNames?.message)}
         />
       );
@@ -75,12 +76,14 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
     [LineMessage, classNames?.message]
   );
 
-  console.dir(rest);
+  console.log("ChatMessageHistory", props);
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
-      ref={rest.forwaredRef}
+      ref={forwardedRef}
+      {...rest}
     >
       {showSpacer && (
         <Spacer className={clsx(_CLASS_IS + "__spacer", classNames?.spacer)} />

@@ -33,7 +33,10 @@ export {
   ChatConversations,
   ChatConversationList,
   ChatMessageList,
-  ChatPanel
+  ChatPanel,
+  ChatFormattedMessage,
+  ChatLink,
+  ChatMention
 } from "./components/chat";
 
 export type {

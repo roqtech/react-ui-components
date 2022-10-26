@@ -34,10 +34,9 @@ const Template: ComponentStory<typeof ChatConversations> = ({
   const [_platformUrl, setPlatformUrl] = useState(platformUrl);
   const [_platformToken, setPlatformToken] = useState(platformToken);
   const [_userId, setUserId] = useState(userId);
-  const [initialized, setInitialized] = useState(false);
+  const [initialized, setInitialized] = useState(true);
 
   useEffect(() => {
-    console.log("update args");
     if (initialized) {
       setInitialized(false);
     }
@@ -48,7 +47,6 @@ const Template: ComponentStory<typeof ChatConversations> = ({
     setUserId(userId);
 
     let t = setTimeout(() => {
-      debugger;
       setInitialized(true);
     }, 300);
 
