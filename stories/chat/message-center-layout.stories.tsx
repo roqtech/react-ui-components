@@ -118,10 +118,16 @@ const Template: ComponentStory<typeof ChatConversations> = ({
   );
 };
 
+const MOCKED_PLATFORM_HOST =
+  "https://roq-core-snapshot-gateway.roq-platform.com/v01/";
+const MOCKED_PLATFORM_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6IkNIQU5HRV9NRV8yIiwidXNlcklkIjoiNDhhODJjMDMtM2ZhYy00YzRmLTk2NjMtYjA0MGI5MzIwZDI0IiwiaWF0IjoxNjY2Njk5NTE2LCJleHAiOjE2NjY3ODU5MTZ9.DZrLQ1Ltq2Ez9j3cpowqAwc7vzK10E-gMLKsB-aBiFY";
+const MOCKED_ROQ_USER_ID = "48a82c03-3fac-4c4f-9663-b040b9320d24";
+
 export const Default = Template.bind({});
 Default.args = {
   secure: true,
-  platformUrl: process.env.PLATFORM_HOST,
-  platformToken: process.env.PLATFORM_TOKEN,
-  userId: process.env.ROQ_USER_ID ?? "",
+  platformUrl: process.env.PLATFORM_HOST ?? MOCKED_PLATFORM_HOST,
+  platformToken: process.env.PLATFORM_TOKEN ?? MOCKED_PLATFORM_TOKEN,
+  userId: process.env.ROQ_USER_ID ?? MOCKED_ROQ_USER_ID,
 };
