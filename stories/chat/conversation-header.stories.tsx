@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof ChatConversationHeader>;
 
 const Template: ComponentStory<typeof ChatConversationHeader> = (args) => (
-  <div style={{ width: 520 }}>
+  <div style={{ width: 690 }}>
     <ChatConversationHeader {...args} />
   </div>
 );

@@ -15,6 +15,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 export interface ChatMessageProps
   extends Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
   showUser: boolean;
+  showTime: boolean;
   message: ReactNode;
   timestamp: Date | string | number;
   user: ChatUserInterface;
@@ -43,7 +44,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
   const {
     isSent,
     showCorner,
-    showUser,
+    showTime = true,
+    showUser = true,
     message,
     timestamp,
     user,
@@ -54,28 +56,23 @@ export const ChatMessage = (props: ChatMessageProps) => {
   } = props;
 
   const Container = components?.Container ?? "div";
-  const Content = components?.Content ?? ChatMessageBubble;
+  const Inner = components?.Inner ?? "div";
+  const Content = components?.Content ?? "div";
+  const Message = components?.Message ?? ChatMessageBubble;
 
   const User = components?.User ?? "div";
-  const UserTime = components?.Time ?? TimeAgo;
+  const Time = components?.Time ?? TimeAgo;
   const UserName = components?.Name ?? "span";
   const UserAvatar = components?.Avatar ?? Avatar;
 
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
-        [_CLASS_IS + "-sent"]: isSent,
-        [_CLASS_IS + "-received"]: !isSent,
+        [_CLASS_IS + "--sent"]: isSent,
+        [_CLASS_IS + "--received"]: !isSent,
       })}
       style={style}
     >
-      <Content
-        className={clsx(_CLASS_IS + "__content", classNames?.content)}
-        message={message}
-        isSent={isSent}
-        showCorner={showCorner}
-      />
-
       {(showUser ?? true) && (
         <User className={clsx(_CLASS_IS + "__user", classNames?.user)}>
           <UserAvatar
@@ -84,18 +81,36 @@ export const ChatMessage = (props: ChatMessageProps) => {
               classNames?.userAvatar
             )}
             {...user}
-          />
-          <UserName
-            className={clsx(_CLASS_IS + "__user__name", classNames?.userName)}
-          >
-            {user?.fullName}
-          </UserName>
-          <UserTime
-            className={clsx(_CLASS_IS + "__user__time", classNames?.userTime)}
-            date={timestamp}
+            alt={user?.fullName}
+            src={user?.avatar}
           />
         </User>
       )}
+
+      <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
+        <Content
+          className={clsx(_CLASS_IS + "__inner__content", classNames?.content)}
+        >
+          <Message
+            className={clsx(
+              _CLASS_IS + "__inner__content__message",
+              classNames?.content
+            )}
+            message={message}
+            isSent={isSent}
+            showCorner={showCorner}
+          />
+        </Content>
+
+        {showTime && (
+          <Time
+            components={{ container: "p" }}
+            className={clsx(_CLASS_IS + "__inner__time", classNames?.time)}
+          >
+            {timestamp}
+          </Time>
+        )}
+      </Inner>
     </Container>
   );
 };

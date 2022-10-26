@@ -5,6 +5,13 @@ $primary: #1d4ed8;
 $divider: #e2e8f0;
 $error: #F75959;
 
+$blueGray-50: #F8FAFC;
+$blueGray-200: #E2E8F0;
+$blueGray-300: #CBD5E1;
+$blueGray-500: #64748B;
+$blueGray-800: #1E293B;
+$blueGray-900: #0F172A;
+
 $primary-color: rgba(0, 0, 0, 0.87);
 $secondary-color: rgba(0, 0, 0, 0.6);
 $tertiary-color: rgba(0, 0, 0, 0.38);
@@ -23,6 +30,14 @@ $tertiary-text-color: #878c95;
   --rc-error: #{$error};
 
   --rc-divider: #{$divider};
+
+
+  --rc-blueGray-50: #{$blueGray-50};
+  --rc-blueGray-200: #{$blueGray-200};
+  --rc-blueGray-300: #{$blueGray-300};
+  --rc-blueGray-500: #{$blueGray-500};
+  --rc-blueGray-800: #{$blueGray-800};
+  --rc-blueGray-900: #{$blueGray-900};
 
   --rc-text-primary-color: #{$primary-color};
   --rc-text-secondary-color: #{$secondary-color};

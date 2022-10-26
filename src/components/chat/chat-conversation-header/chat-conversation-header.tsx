@@ -14,6 +14,7 @@ import {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
+import isEmpty from "lodash/isEmpty";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
@@ -34,13 +35,18 @@ export interface ChatConversationHeaderProps
 }
 
 const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
-  const { title, members, style, className, classNames, components } = props;
+  const { style, className, classNames, components } = props;
+  const { title, members } = props;
 
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
   const Info = components?.Info ?? StackedText;
 
   const membersLine = useMemo(() => {
+    if (isEmpty(members)) {
+      return ''
+    }
+
     return (
       `${members.length - 1} members: ` +
       members.map(({ fullName }) => fullName).join(", ")
@@ -61,9 +67,10 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
       <Info
         primaryText={title}
         secondaryText={membersLine}
-        className={clsx(_CLASS_IS + "__info", classNames?.info)}
         classNames={{
-          primaryText: clsx(_CLASS_IS + "__info" + "__title"),
+          container: clsx(_CLASS_IS + "__info", classNames?.info),
+          primaryText: clsx(_CLASS_IS + "__info__name"),
+          secondaryText: clsx(_CLASS_IS + "__info__members"),
         }}
       />
     </Container>
@@ -71,6 +78,7 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
 };
 
 export default withChatState(({ currentConversation }) => ({
+  currentConversation,
   title: currentConversation?.title,
-  members: currentConversation?.members,
+  members: currentConversation?.members ?? [],
 }))(ChatConversationHeader);

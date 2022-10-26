@@ -5,7 +5,10 @@ export { ChatMessageHistory } from "./chat-message-history";
 export { ChatMessage } from "./chat-message";
 export { ChatMessageInput } from "./chat-message-input";
 export { ChatConversations } from "./chat-conversations";
+export { ChatConversationList } from "./chat-conversation-list";
 export { ChatNotificationBell } from "./chat-notification-bell";
+export { ChatMessageList } from "./chat-message-list";
+export { ChatPanel } from "./chat-panel";
 export {
   ChatProvider,
   useChatApi,

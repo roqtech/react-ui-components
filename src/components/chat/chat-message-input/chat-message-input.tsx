@@ -11,10 +11,9 @@ import React, {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
 import { withChatApi } from "../chat-provider";
+import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.util";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
-
-type ChatMessagePayloadInterface = string;
 
 export interface ChatMessageInputProps {
   value?: string;
@@ -22,9 +21,9 @@ export interface ChatMessageInputProps {
   hideSendButton?: boolean;
   onChange?: (value: string) => void;
   onBeforeSend?: (
-    message: ChatMessagePayloadInterface
-  ) => ChatMessagePayloadInterface;
-  onMessageSend?: (message: ChatMessagePayloadInterface) => void;
+    message: Partial<ChatSendMessageRequestPayloadInterface>
+  ) => Partial<ChatSendMessageRequestPayloadInterface>;
+  onSend?: (message: Partial<ChatSendMessageRequestPayloadInterface>) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -47,16 +46,17 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     hideSendButton,
     onChange,
     onBeforeSend = (p) => p,
-    onMessageSend = (p) => {},
+    onSend = (p) => {},
   } = props;
   const { style, className, classNames, components } = props;
 
-  const Container = components?.Container ?? "div";
+  const Container = components?.Container ?? "form";
   const Textarea = components?.Textarea ?? "input";
   const SendButton = components?.SendButton ?? "button";
+  const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
-  const [textareaValue, setValue] = useState(value);
+  const [textareaValue, setValue] = useState<string>(value ?? "");
 
   const reset = useCallback(() => setValue(""), [setValue]);
 
@@ -67,28 +67,42 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     [onChange]
   );
 
-  const handleSend = useCallback(
-    async (payload: ChatMessagePayloadInterface) => {
+  const send = useCallback(
+    async (payload: Partial<ChatSendMessageRequestPayloadInterface>) => {
       const messagePayload = await onBeforeSend(payload);
 
       reset();
 
-      onMessageSend(messagePayload);
+      onSend(messagePayload);
     },
-    [reset, onBeforeSend, onMessageSend]
+    [reset, onBeforeSend, onSend]
   );
 
-  const handleSendButtonClick = useCallback(
-    () => handleSend(textareaValue as ChatMessagePayloadInterface),
-    [handleSend]
+  const handleSend = useCallback(
+    () =>
+      send({
+        body: textareaValue,
+      }),
+    [send, textareaValue]
   );
 
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      send();
+    },
+    [send]
+  );
+    
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
+      onSubmit={handleSubmit}
     >
       <Textarea
+        name="message"
         value={textareaValue}
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
         placeholder={placeholder}
@@ -97,8 +111,11 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       {(!hideSendButton ?? true) && (
         <SendButton
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
-          onClick={handleSendButtonClick}
+          onClick={handleSend}
         >
+          <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
+            send
+          </SendLabel>
           <SendIcon className={clsx(_CLASS_IS + "__send-button__icon")} />
         </SendButton>
       )}
@@ -107,5 +124,5 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
 };
 
 export default withChatApi(({ sendMessage }) => ({
-  onMessageSend: sendMessage,
+  onSend: sendMessage,
 }))(ChatMessageInput);

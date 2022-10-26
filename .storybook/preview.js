@@ -12,6 +12,37 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  options: {
+    storySort: {
+      order: [
+        "Roq Components",
+        [
+          "Introduction",
+          "Getting started",
+          "Usage",
+          "Styling",
+          "Common",
+          "Chat",
+          [
+            "Panel",
+            "Message Bubble",
+            "Message",
+            "Message History",
+            "Message List",
+            "Conversation Card",
+            "Conversations",
+            "Conversation List",
+            "Conversation Header",
+            "Message Input",
+            "Notification Bell",
+            "Examples",
+            ["Message Center", "Social Messenger", "Team Collaboration"],
+          ],
+          "Typography",
+        ],
+      ],
+    },
+  },
 }
 
 const hostConfig = {
@@ -21,17 +52,13 @@ const hostConfig = {
 
 export const decorators = [
   (Story) => (
-    <div style={{padding: '2em'}}>
-      <RoqProvider
-        config={hostConfig}
-      >
-        <ChatProvider
-          socketUrl={'/'}
-          platformToken={process.env.PLATFORM_TOKEN}
-        >
-          <Story />
-        </ChatProvider>
-      </RoqProvider>
-    </div>
+    <RoqProvider
+      config={{
+        host: process.env.PLATFORM_GRAPHQL ?? "",
+        token: process.env.PLATFORM_TOKEN ?? "",
+      }}
+    >
+      <Story />
+    </RoqProvider>
   ),
 ]

@@ -6,12 +6,12 @@ export default {
   title: "Roq Components/Chat/Conversation Card",
   component: ChatConversationCard,
   argTypes: {
-    lastMessage: { control: "string" },
+    lastMessage: { control: "text" },
   },
 } as ComponentMeta<typeof ChatConversationCard>;
 
 const Template: ComponentStory<typeof ChatConversationCard> = (args) => (
-  <div style={{ width: 320 }}>
+  <div style={{ width: 400 }}>
     <ChatConversationCard {...args} />
   </div>
 );
@@ -19,13 +19,28 @@ const Template: ComponentStory<typeof ChatConversationCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   title: "Chat",
-  date: "2 minutes ago",
+  timestamp: new Date(),
   message: `Hi! How it's going?`,
   members: [
     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
     { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
     { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
     { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+  ],
+};
+
+export const WithUnreadMessages = Template.bind({});
+WithUnreadMessages.args = {
+  title: "Chat",
+  timestamp: new Date(),
+  unreadCount: 4,
+  message: `Have you checked your box?`,
+  members: [
+    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+    
   ],
 };
 

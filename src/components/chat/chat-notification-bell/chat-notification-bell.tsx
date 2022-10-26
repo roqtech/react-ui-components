@@ -13,7 +13,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-notification-bell";
 export interface ChatNotificationBellProps {
   unreadCount: number;
   maxUnreadCount: number;
-  displayZero?: boolean;
+  showZero?: boolean;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -33,7 +33,7 @@ export interface ChatNotificationBellProps {
 const ChatNotificationBell = (props: ChatNotificationBellProps) => {
   const { style, className, classNames, components } = props;
 
-  const { unreadCount, maxUnreadCount = 10 } = props;
+  const { unreadCount, maxUnreadCount = 10, showZero = true } = props;
 
   const Container = components?.Container ?? "div";
   const Button = components?.Button ?? "button";
@@ -41,6 +41,11 @@ const ChatNotificationBell = (props: ChatNotificationBellProps) => {
   const Badge = components?.Badge ?? DefaultBadge;
 
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
+
+  const hideBadge = useMemo(
+    () => !hasUnreadMessages && showZero,
+    [hasUnreadMessages, showZero]
+  );
 
   return (
     <Container
@@ -51,7 +56,9 @@ const ChatNotificationBell = (props: ChatNotificationBellProps) => {
     >
       <Button className={clsx(_CLASS_IS + "__button", classNames?.button)}>
         <Badge
-          className={clsx(_CLASS_IS + "__badge", classNames?.badge)}
+          className={clsx(_CLASS_IS + "__badge", classNames?.badge, {
+            [_CLASS_IS + "-hidden"]: hideBadge,
+          })}
           count={unreadCount}
           maxCount={maxUnreadCount}
         >
