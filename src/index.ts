@@ -36,7 +36,8 @@ export {
   ChatPanel,
   ChatFormattedMessage,
   ChatLink,
-  ChatMention
+  ChatMention,
+  ChatMessageEditor,
 } from "./components/chat";
 
 export type {
@@ -47,6 +48,6 @@ export type {
   NotificationContentViewCallbackProps,
   NotificationTitleProps,
   NotificationType,
-} from './components/Notification'
+} from "./components/Notification";
 
 export { useInfiniteScroll } from "./hooks";

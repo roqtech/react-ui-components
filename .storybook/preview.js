@@ -34,6 +34,7 @@ export const parameters = {
             "Conversations",
             "Conversation List",
             "Conversation Header",
+            "Message Textarea",
             "Message Input",
             "Notification Bell",
             "Examples",

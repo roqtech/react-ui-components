@@ -7,8 +7,8 @@ export type ChatTimestampType = Date | number | string;
 export interface ChatUserInterface {
   id: string;
   avatar?: string;
-  fullName?: string;
-  initials?: string;
+  fullName: string;
+  initials: string;
 }
 
 export interface ChatMessageInterface {
@@ -17,7 +17,7 @@ export interface ChatMessageInterface {
   timestamp: ChatTimestampType;
   user: ChatUserInterface;
   conversationId: string;
-  
+
   isSent?: boolean;
 
   authorId?: string;

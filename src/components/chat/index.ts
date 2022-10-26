@@ -12,6 +12,7 @@ export { ChatPanel } from "./chat-panel";
 export { ChatFormattedMessage } from "./chat-formatted-message";
 export { ChatLink } from "./chat-link";
 export { ChatMention } from "./chat-mention";
+export { ChatMessageEditor } from "./chat-message-editor";
 export {
   ChatProvider,
   useChatApi,
