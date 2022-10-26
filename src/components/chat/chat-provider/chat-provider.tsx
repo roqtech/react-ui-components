@@ -115,6 +115,36 @@ const sortComparer = (a, b) => +a.createdAt - +b.createdAt;
 const normalizeMessageHistory = (history: ChatMessageInterface[]) =>
   history.sort(sortComparer);
 
+const INITIAL_CONVERSATIONS_STATE = {
+  // editingId: null,
+  // editingType: null,
+  // selected: null,
+  error: null,
+  isLoading: false,
+  hasMore: false,
+  offset: 0,
+  limit: 10,
+  totalCount: 0,
+  loadedTotal: 0,
+  data: [],
+  // filter: '',
+};
+
+const INITIAL_MESSAGES_STATE = {
+  // active: null,
+  error: null,
+  isLoading: false,
+  hasMore: true,
+  offset: 0,
+  limit: 20,
+  totalCount: 0,
+  loadedTotal: 0,
+  data: [],
+  // filter: '',
+  // history: [],
+  // lastTimestamp: null,
+};
+
 export const ChatProvider = (
   props: ChatProviderPropsInterface
 ): ReactElement => {
@@ -137,37 +167,11 @@ export const ChatProvider = (
 
   const [conversations, setConversations] = useState<
     InfiniteListInterface<ChatConversationInterface>
-  >({
-    // editingId: null,
-    // editingType: null,
-    // selected: null,
-    error: null,
-    isLoading: false,
-    hasMore: false,
-    offset: 0,
-    limit: 10,
-    totalCount: 0,
-    loadedTotal: 0,
-    data: [],
-    // filter: '',
-  });
+  >(INITIAL_CONVERSATIONS_STATE);
 
   const [messages, setMessages] = useState<
     InfiniteListInterface<ChatMessageInterface>
-  >({
-    // active: null,
-    error: null,
-    isLoading: false,
-    hasMore: true,
-    offset: 0,
-    limit: 20,
-    totalCount: 0,
-    loadedTotal: 0,
-    data: [],
-    // filter: '',
-    // history: [],
-    // lastTimestamp: null,
-  });
+  >(INITIAL_MESSAGES_STATE);
 
   const currentConversation: ChatConversationInterface = useMemo(
     () =>
@@ -176,6 +180,24 @@ export const ChatProvider = (
       }) ?? null,
     [conversations?.data, currentConversationId]
   );
+
+  const resetState = useCallback(() => {
+    setConversations(INITIAL_CONVERSATIONS_STATE);
+    setMessages(INITIAL_MESSAGES_STATE);
+    setError(null);
+    setClientId(null);
+    setUnreadCount(0);
+    setCurrentConversationId(null);
+  }, [
+    setSocket,
+    setOnline,
+    setError,
+    setClientId,
+    setUnreadCount,
+    setCurrentConversationId,
+    setConversations,
+    setMessages,
+  ]);
 
   useLayoutEffect(function windowIsReady() {
     if (socket) {
@@ -329,6 +351,16 @@ export const ChatProvider = (
       initializeSocket();
     },
     [initializeSocket]
+  );
+
+  useEffect(
+    function reinitializeSocketWithUserOrPlatformToken() {
+      debugger;
+      resetState();
+      socket?.disconnect();
+      initializeSocket();
+    },
+    [userId, platformToken]
   );
 
   const getId = () => {

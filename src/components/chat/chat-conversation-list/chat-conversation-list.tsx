@@ -92,7 +92,7 @@ const ChatConversationList = (props: ChatConversationListProps) => {
       setInitialized(true);
       loadMore();
     },
-    [disabled,]
+    [disabled]
   );
 
   const loadMore = useCallback(() => {
