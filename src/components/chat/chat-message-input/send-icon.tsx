@@ -1,9 +1,21 @@
 import * as React from "react";
 
 export const SendIcon = (props) => (
-  <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <g fill="currentColor" fill-rule="evenodd">
-      <path d="m0 0 20 10L0 20V0zm0 8v4l10-2L0 8z" />
+  <svg
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width={18}
+    height={18}
+    {...props}
+  >
+    <g fill="currentColor" fillRule="evenodd">
+      <path
+        d="M3.167 9h6.666M3.167 9 1.5 16.5l15-7.5-15-7.5L3.167 9Z"
+        stroke="#F8FAFC"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
   </svg>
 );

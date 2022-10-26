@@ -52,9 +52,16 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
   const AvatarComponent = components?.Avatar ?? Avatar;
 
   const usersData = useMemo(
-    () => (maxCount ? users.slice(0, maxCount) : users),
+    () => (maxCount ? (users ?? []).slice(0, maxCount) : users),
     [users, maxCount]
   );
+
+  const hiddenCount = useMemo(
+    () => users.length - usersData.length,
+    [users, usersData]
+  );
+
+  const showHidden = useMemo(() => hiddenCount > 0, [hiddenCount]);
 
   const renderAvatar = useCallback(
     ({ avatar, ...avatarProps }: Partial<ChatUserInterface>) => {
@@ -91,6 +98,19 @@ export const AvatarGroup = <T extends Partial<AvatarProps>>(
           {renderAvatar(_p)}
         </Wrapper>
       ))}
+      {showHidden && (
+        <Wrapper
+          className={clsx(_CLASS_IS + "__item", classNames?.wrapper)}
+          style={{
+            zIndex: calculateItemWrapperZIndex(
+              usersData.length,
+              usersData.length
+            ),
+          }}
+        >
+          {renderAvatar({ initials: `+${hiddenCount}` })}
+        </Wrapper>
+      )}
     </Container>
   );
 };

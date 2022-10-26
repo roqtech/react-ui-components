@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Button as AntdButton, Badge as AntdBadge } from "antd";
 import React from "react";
 
-import { ChatNotificationBell } from "../../src";
+import { ChatNotificationBell, ChatProvider } from "../../src";
 
 export default {
   title: "Roq Components/Chat/Notification Bell",
@@ -11,9 +11,20 @@ export default {
   argTypes: {
     unreadCount: { control: "number" },
     maxUnreadCount: { control: "number" },
-    isSent: { control: "boolean" },
-    showCorner: { control: "boolean" },
+    showZero: { control: "boolean" },
   },
+  decorators: [
+    (Story) => (
+      <ChatProvider
+        secure
+        platformUrl={process.env.PLATFORM_HOST}
+        platformToken={process.env.PLATFORM_TOKEN}
+        userId={process.env.ROQ_USER_ID}
+      >
+        <Story />
+      </ChatProvider>
+    ),
+  ],
 } as ComponentMeta<typeof ChatNotificationBell>;
 
 const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (
@@ -23,11 +34,14 @@ const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  showZero: true,
+};
 
 export const WithMaxCount = Template.bind({});
 WithMaxCount.args = {
   maxUnreadCount: 5,
+  showZero: true,
 };
 
 const CustomNotificationIcon = (props) => (
@@ -46,6 +60,7 @@ const CustomNotificationIcon = (props) => (
 export const CustomIcon = Template.bind({});
 CustomIcon.args = {
   unreadCount: 100,
+  showZero: true,
   components: {
     Icon: CustomNotificationIcon,
   },

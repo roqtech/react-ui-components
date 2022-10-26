@@ -3,8 +3,9 @@
 :root {
   --rc-chat-conversations-padding: 0;
 
-  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2);
-  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 2) 0px;
+  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2.25);
+  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 0.75)
+    0px 0px 0px;
 }
 
 @include roq-component("chat-conversations") {
@@ -16,6 +17,7 @@
 
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
     &__card {
       flex: 1;

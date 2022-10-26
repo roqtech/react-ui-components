@@ -1,0 +1,28 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-conversations-padding: 0;
+
+  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 2) 0px;
+}
+
+@include roq-component("chat-message-list") {
+  width: 100%;
+  min-height: 165px;
+  max-height: 100%;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: auto;
+
+  &__list {
+    &__loader {
+      flex: 1;
+      flex-shrink: 0;
+      height: 1px;
+      width: 100%;
+
+      text-align: center;
+    }
+  }
+}

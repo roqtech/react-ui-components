@@ -1,26 +1,27 @@
 import "./chat-conversations.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ComponentType, useCallback } from "react";
+import React, {
+  CSSProperties,
+  ComponentType,
+  useCallback,
+  ReactNode,
+} from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatConversationCard,
   ChatConversationCardProps,
 } from "../chat-conversation-card";
 import { withChatApi, withChatState } from "../chat-provider";
+import { ChatConversationInterface } from "src/types";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversations";
 
-export interface ConversationInterface {
-  title?: string;
-  ownerId: unknown;
-  members: unknown[];
-}
-
 export interface ChatConversationsProps {
-  conversations: ConversationInterface[];
+  children?: ReactNode;
+  conversations: ChatConversationInterface[];
   selectedConversationId?: string;
-  onConversationSelect: (conversationId: string) => void;
+  onConversationSelect?: (conversationId: string) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -37,7 +38,12 @@ export interface ChatConversationsProps {
 
 const ChatConversations = (props: ChatConversationsProps) => {
   const { style, className, classNames, components } = props;
-  const { conversations, selectedConversationId, onConversationSelect } = props;
+  const {
+    children,
+    conversations,
+    selectedConversationId,
+    onConversationSelect,
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
@@ -53,12 +59,15 @@ const ChatConversations = (props: ChatConversationsProps) => {
   const renderConversationCard = useCallback(
     (conversationProps) => (
       <ConversationCard
-        id={conversationProps?.id}
-        active={selectedConversationId === conversationProps?.id}
+        key={conversationProps.id}
+        id={conversationProps.id}
+        selected={selectedConversationId === conversationProps?.id}
         className={clsx(
           _CLASS_IS + "__inner" + "__card",
           classNames?.conversationCard
         )}
+        message={conversationProps?.lastMessage?.body}
+        timestamp={conversationProps?.lastMessageTimestamp}
         {...conversationProps}
         onClick={handleConversationClick(conversationProps?.id)}
       />
@@ -73,6 +82,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
     >
       <Inner className={clsx(classNames?.inner, _CLASS_IS + "__inner")}>
         {conversations?.map(renderConversationCard)}
+        {children}
       </Inner>
     </Container>
   );
@@ -82,7 +92,7 @@ export default withChatApi(({ selectConversation }) => ({
   onConversationSelect: selectConversation,
 }))(
   withChatState(({ conversations, currentConversation }) => ({
-    conversations,
+    conversations: conversations?.data,
     selectedConversationId: currentConversation?.id,
   }))(ChatConversations)
 );

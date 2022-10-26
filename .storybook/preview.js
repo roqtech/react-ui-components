@@ -2,7 +2,6 @@ import React from 'react'
 import { RoqProvider } from '../src/components/Provider/Provider'
 import '../stories/assets/custom.css'
 import '../src/styles/global.scss'
-import { ChatProvider } from '../src'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -10,6 +9,37 @@ export const parameters = {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
+    },
+  },
+  options: {
+    storySort: {
+      order: [
+        "Roq Components",
+        [
+          "Introduction",
+          "Getting started",
+          "Usage",
+          "Styling",
+          "Common",
+          "Chat",
+          [
+            "Panel",
+            "Message Bubble",
+            "Message",
+            "Message History",
+            "Message List",
+            "Conversation Card",
+            "Conversations",
+            "Conversation List",
+            "Conversation Header",
+            "Message Input",
+            "Notification Bell",
+            "Examples",
+            ["Message Center", "Social Messenger", "Team Collaboration"],
+          ],
+          "Typography",
+        ],
+      ],
     },
   },
 }
@@ -21,17 +51,10 @@ const hostConfig = {
 
 export const decorators = [
   (Story) => (
-    <div style={{padding: '2em'}}>
-      <RoqProvider
-        config={hostConfig}
-      >
-        <ChatProvider
-          socketUrl={'/'}
-          platformToken={process.env.PLATFORM_TOKEN}
-        >
-          <Story />
-        </ChatProvider>
-      </RoqProvider>
-    </div>
+    <RoqProvider
+      config={hostConfig}
+    >
+      <Story />
+    </RoqProvider>
   ),
 ]
