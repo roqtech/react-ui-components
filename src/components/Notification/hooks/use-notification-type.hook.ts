@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, FormEvent, useCallback, useMemo } from 'react';
 import { UpsertNotificationTypeUserPreferenceMutation, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
-import { useResolveProvider } from '../Provider';
+import { useResolveProvider } from 'src/components/Provider';
 import { UseNotificationTypeCategoryInterfaceArg } from './use-notification-category.hook';
 
 export interface UseNotificationItemCheckedInterfaceArg  {

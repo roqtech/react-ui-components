@@ -8,11 +8,12 @@ import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,
   NotificationType,
-  useNotificationsInApp,
 } from './Notification'
 import { Avatar, AvatarFallback } from './NotificationBadge'
+import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
 
 import type { ClassValue } from 'clsx'
+import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types'
 
 const Circle = styled(Avatar, {
   backgroundColor: redA.redA8,
@@ -42,6 +43,9 @@ interface NotificationBellProps extends Partial<IRoqProvider> {
     children?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element
     css?: React.ComponentProps<typeof Circle>['css']
     className?: ClassValue
+  },
+  fetchProps?: {
+    variables?: NotificationsInAppForCurrentUserQueryVariables
   }
 }
 const NotificationBell: React.FC<
@@ -54,14 +58,16 @@ const NotificationBell: React.FC<
     children,
     bellIcon,
     dotView,
+    fetchProps,
     ...rest
   } = props
   const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
-  const fetchResult = useNotificationsInApp({
+  const fetchResult = useFetchNotificationsInApp({
     host,
     token,
     type,
+    fetchProps,
   })
 
   if (children) {

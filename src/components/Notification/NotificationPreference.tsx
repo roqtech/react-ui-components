@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode, useMemo } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
 import { styled } from 'src/styles'
-import { IRoqProvider, useResolveProvider } from '../Provider'
+import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { SwitchThumb, Switch } from 'src/components/Switch'
 import { QueryObserverResult } from '@tanstack/react-query'
 import {
@@ -12,11 +12,11 @@ import {
 import {
   UseNotificationItemCheckedInterfaceArg,
   useNotificationTypeItem,
-} from './use-notification-type.hook'
+} from './hooks/use-notification-type.hook'
 import {
   useNotificationTypeCategory,
   UseNotificationTypeCategoryInterfaceArg,
-} from './use-notification-category.hook'
+} from './hooks/use-notification-category.hook'
 import type { ClassValue } from 'clsx'
 
 export function useNotificationsCategories(

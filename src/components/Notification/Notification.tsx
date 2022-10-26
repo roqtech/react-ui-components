@@ -5,13 +5,12 @@ import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ToggleGroup, ToggleGroupItem, TypeToggleGroup } from 'src/components/ToggleGroup'
-import { QueryObserverResult, useQuery } from '@tanstack/react-query'
+import { QueryObserverResult } from '@tanstack/react-query'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
-  NotificationsInAppForCurrentUser,
 } from 'src/lib/graphql/query'
-import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables, OrderEnum, Query, useNotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types'
+import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
 import { NotificationBadge } from './NotificationBadge'
@@ -19,64 +18,19 @@ import { styled } from 'src/styles'
 
 import type { StyledCardPropsType } from 'src/components/Card'
 import type { ClassValue } from 'clsx'
-import { NotificationInAppOrderSortEnum } from 'src/lib/graphql/types'
 import { NotificationReadButton } from './NotificationReadButton'
+import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
 
 dayjs.extend(relativeTime)
 
 const _CLASS_IS = 'roq-' + 'notification';
-
-const minDate = '2022-09-19T03:40:40.534Z'
 export type NotificationType = 'all' | 'unread'
-
-export function useNotificationsInApp(
-  args: Pick<NotificationProps, 'token' | 'host' | 'type'>,
-) {
-  const type = args.type
-  const { host, token } = useResolveProvider(args)
-
-  const variables: NotificationsInAppForCurrentUserQueryVariables = {
-    limit: 20,
-    order: {
-      order: OrderEnum.Desc,
-      sort: NotificationInAppOrderSortEnum.CreatedAt,
-    },
-    notificationfilter: {
-      createdAt: {
-        moreThan: minDate,
-      },
-      ...(type === 'unread' ? { read: { equalTo: false } } : {}),
-    },
-    unreadCountFilter: {
-      createdAt: {
-        moreThan: minDate,
-      },
-      read: {
-        equalTo: false,
-      },
-    },
-  }
-
-  return useNotificationsInAppForCurrentUserQuery({
-    endpoint: host,
-    fetchParams: {
-      headers: {
-        'content-type': 'application/json',
-        'roq-platform-authorization': token as string,
-      }
-    }
-  }, variables, {
-    refetchOnWindowFocus: false,
-  })
-}
-
 export type NotificationContentViewCallbackProps = {
   data: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'][0],
   onRead: () => Promise<Record<string, any>>
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
-
 export type NotificationLoadingViewCallbackProps = QueryObserverResult<NotificationsInAppForCurrentUserQuery>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
@@ -102,6 +56,9 @@ export interface NotificationProps extends Partial<IRoqProvider> {
     children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
     css?: React.ComponentProps<TypeToggleGroup>['css']
     className?: ClassValue
+  },
+  fetchProps?: {
+    variables?: NotificationsInAppForCurrentUserQueryVariables
   }
 }
 
@@ -116,7 +73,6 @@ const NotificationContent = styled('div', {
     color: '$red9',
   },
 })
-
 const StyledNotification = styled('div')
 export const Notification: React.FC<React.ComponentProps<typeof StyledNotification> & NotificationProps> = (props) => {
   const {
@@ -129,14 +85,16 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
     titleProps,
     children,
     loadingView,
+    fetchProps,
     ...rest
   } = props
   const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
-  const fetchResult = useNotificationsInApp({
+  const fetchResult = useFetchNotificationsInApp({
     host,
     token,
     type,
+    fetchProps
   })
   if (children) {
     return children({ ...fetchResult, type, setType })
