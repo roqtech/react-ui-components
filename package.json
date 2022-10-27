@@ -1,6 +1,6 @@
 {
-  "name": "rocomp",
-  "version": "0.1.16",
+  "name": "@roq/react-ui-components",
+  "version": "0.0.1",
   "description": "",
   "module": "./dist/index.mjs.js",
   "main": "./dist/index.js",
