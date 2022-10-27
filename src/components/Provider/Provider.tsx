@@ -3,7 +3,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { PLATFORM_GRAPHQL_HOST } from 'src/utils/constant';
+import { config } from 'src/utils/config';
 
 type Optional<T> = T | null
 export interface IRoqProvider {
@@ -12,7 +12,7 @@ export interface IRoqProvider {
 }
 
 const defaultCtx = {
-  host: PLATFORM_GRAPHQL_HOST,
+  host: config.platform.gql,
   token: ''
 };
 

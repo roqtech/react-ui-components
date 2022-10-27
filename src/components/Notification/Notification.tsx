@@ -246,3 +246,14 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
     </StyledNotificationTitle>
   )
 }
+
+export const withNotification = (Component: React.ComponentType<any>) => {
+
+  const [state, setState]
+  
+  return (
+    <Notification>
+      {({ isSuccess }) => <Component {...notificationProps} />}
+    </Notification>
+  )
+}
