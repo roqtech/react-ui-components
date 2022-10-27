@@ -1,0 +1,13 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-mention-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-mention-color: inherit;
+  --rc-chat-mention-text-decoration: underline;
+}
+
+@include roq-component("chat-mention") {
+  font-weight: var(--rc-chat-mention-font-weight);
+  color: var(--rc-chat-mention-color);
+  text-decoration: var(--rc-chat-mention-text-decoration);
+}

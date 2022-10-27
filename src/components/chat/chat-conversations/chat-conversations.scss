@@ -1,28 +1,30 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-conversations-padding: 0;
+  --rc-chat-conversations-padding: calc(var(--rc-layout-step) * 2);
 
-  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2.25);
-  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 0.75)
+  --rc-chat-conversations-inner-gap: calc(var(--rc-layout-step) * 3);
+  --rc-chat-conversations-inner-padding: calc((var(--rc-layout-step) * 2) * -1);
+  --rc-chat-conversations-inner-margin: calc((var(--rc-layout-step) * 2) * -1)
     0px 0px 0px;
 }
 
 @include roq-component("chat-conversations") {
   flex: 1;
-  padding: --rc-chat-conversations-padding;
+  padding: var(--rc-chat-conversations-padding);
 
   &__inner {
     padding: var(--rc-chat-conversations-inner-padding);
+    margin: var(--rc-chat-conversations-inner-margin);
 
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    gap: var(--rc-chat-conversations-inner-gap);
 
     &__card {
       flex: 1;
       max-width: 100%;
-      margin: var(--rc-chat-conversations-inner-card-margin);
     }
   }
 }

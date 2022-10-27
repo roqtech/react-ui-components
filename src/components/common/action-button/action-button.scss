@@ -1,0 +1,140 @@
+@import "../../../styles/styles.scss";
+
+$chat-action-button-size: 48px;
+
+:root {
+  --roq-action-button-width: #{$chat-action-button-size};
+  --roq-action-button-height: #{$chat-action-button-size};
+  --roq-action-button-position: relative;
+
+  --roq-action-button-button-width: #{$chat-action-button-size};
+  --roq-action-button-button-height: #{$chat-action-button-size};
+  --roq-action-button-button-display: inline-flex;
+  --roq-action-button-button-position: relative;
+  --roq-action-button-button-border: none;
+  --roq-action-button-button-radius: 50%;
+
+  --roq-action-button-button-background: transparent;
+
+  --roq-action-button-button-hover-background: var(--rc-blueGray-100);
+
+  --roq-action-button-button-active-background: var(--rc-blueGray-200);
+
+  --roq-action-button-button-dropdown-background: var(--rc-white);
+  --roq-action-button-button-dropdown-min-width: 272px;
+  --roq-action-button-button-dropdown-padding: 0px;
+  --roq-action-button-button-dropdown-shadow: 0px 4px 16px
+    rgba(13, 28, 70, 0.15);
+  --roq-action-button-button-dropdown-transform: translate3d(-100%, 22px, 0px);
+  --roq-action-button-button-dropdown-margin: 0 0 0
+    var(--roq-action-button-button-height);
+
+  --roq-action-button-button-dropdown-action-color: var(--rc-blueGray-800);
+  --roq-action-button-button-dropdown-action-cursor: pointer;
+  --roq-action-button-button-dropdown-action-background: transparent;
+  --roq-action-button-button-dropdown-action-height: 48px;
+  --roq-action-button-button-dropdown-action-padding: calc(
+    var(--rc-layout-step) * 5
+  );
+
+  --roq-action-button-button-dropdown-action-hover-background: var(
+    --rc-blueGray-100
+  );
+}
+
+@include roq-component("action-button") {
+  $container: &;
+
+  width: var(--roq-action-button-width);
+  height: var(--roq-action-button-height);
+  position: var(--roq-action-button-position);
+
+  &__button {
+    width: var(--roq-action-button-button-width);
+    height: var(--roq-action-button-button-height);
+    border: var(--roq-action-button-button-border);
+    border-radius: var(--roq-action-button-button-radius);
+
+    background-color: var(--roq-action-button-button-background);
+
+    display: var(--roq-action-button-button-display);
+    position: var(--roq-action-button-button-position);
+
+    /* display: inline-flex; */
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    outline: 0px;
+    border: 0px;
+    margin: 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    text-align: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--roq-action-button-button-hover-background);
+    }
+
+    &:focus {
+      background-color: var(--roq-action-button-button-hover-background);
+    }
+  }
+
+  &--active {
+    #{$container} {
+      &__button {
+        background-color: var(--roq-action-button-button-hover-background);
+      }
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    position: absolute;
+    background-color: var(--roq-action-button-button-dropdown-background);
+    min-width: var(--roq-action-button-button-dropdown-min-width);
+    box-shadow: var(--roq-action-button-button-dropdown-shadow);
+    padding: var(--roq-action-button-button-dropdown-padding);
+    transform: var(--roq-action-button-button-dropdown-transform);
+    margin: var(--roq-action-button-button-dropdown-margin);
+
+    &__action {
+      @include reset;
+
+      color: var(--roq-action-button-button-dropdown-action-color);
+      cursor: var(--roq-action-button-button-dropdown-action-cursor);
+      background-color: var(
+        --roq-action-button-button-dropdown-action-background
+      );
+      padding: var(--roq-action-button-button-dropdown-action-padding);
+      height: var(--roq-action-button-button-dropdown-action-height);
+
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: var(
+          --roq-action-button-button-dropdown-action-hover-background
+        );
+      }
+    }
+  }
+
+  &--active {
+    #{$container} {
+      &__dropdown {
+        display: block;
+      }
+    }
+  }
+}

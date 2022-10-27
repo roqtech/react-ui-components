@@ -14,6 +14,9 @@ import { ChatMessage, ChatMessageProps } from "../chat-message/chat-message";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatMessageInterface } from "src/types";
+import { ChatMessageHistoryLine } from "../chat-message-history-line";
+import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ActionButton } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -44,6 +47,7 @@ export interface ChatMessageHistoryProps {
 export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   const { style, className, classNames, components, ...rest } = props;
   const {
+    forwardedRef,
     children,
     messages,
     conversationId,
@@ -54,8 +58,8 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   const Container = components?.Container ?? "div";
   const Spacer = components?.Spacer ?? "div";
   const Empty = components?.Empty ?? "div";
-  const Line = components?.Line ?? "div";
-  const LineMessage = components?.Message ?? ChatMessage;
+  const Line = components?.Line ?? ChatMessageHistoryLine;
+  const Message = components?.Message ?? ChatMessage;
 
   const showSpacer = useMemo(() => !isEmpty, [isEmpty]);
   const showEmpty = useMemo(() => isEmpty, [isEmpty]);
@@ -63,24 +67,36 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
   const renderMessage = useCallback(
     (message: ChatMessageInterface) => {
       return (
-        <LineMessage
+        <Message
+          key={message.id}
+          showUser={false}
+          showTime={false}
           {...message}
           message={message.body}
           timestamp={message.createdAt}
-          user={message.user}
+          user={message.author}
           className={clsx(_CLASS_IS + "__line__message", classNames?.message)}
+          actions={
+            <ActionButton
+              components={{
+                Dropdown: ChatConversationMenu,
+              }}
+            />
+          }
         />
       );
     },
-    [LineMessage, classNames?.message]
+    [Message, classNames?.message]
   );
 
-  console.dir(rest);
+  console.log("ChatMessageHistory", props);
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
-      ref={rest.forwaredRef}
+      ref={forwardedRef}
+      {...rest}
     >
       {showSpacer && (
         <Spacer className={clsx(_CLASS_IS + "__spacer", classNames?.spacer)} />
@@ -94,6 +110,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
       {messages.map((message) => (
         <Line
           key={message.id}
+          messageId={message.id}
           className={clsx(_CLASS_IS + "__line", classNames?.line, {
             [_CLASS_IS + "__line-sent"]: message.isSent,
             [_CLASS_IS + "__line-received"]: !message.isSent,
@@ -107,9 +124,9 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
 };
 
 export default withChatState(
-  ({ currentConversationId, messages: { data, totalCount } }) => ({
+  ({ currentConversationId, messages: { data, totalCount, isLoading } }) => ({
     conversationId: currentConversationId,
     messages: data ?? [],
-    isEmpty: totalCount === 0,
+    isEmpty: !isLoading && totalCount === 0,
   })
 )(ChatMessageHistory);

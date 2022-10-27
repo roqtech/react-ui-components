@@ -14,6 +14,8 @@ import {
 } from "../chat-conversation-card";
 import { withChatApi, withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
+import { ActionButton } from "src/components/common";
+import { ChatConversationMenu } from "../chat-conversation-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversations";
 
@@ -22,6 +24,7 @@ export interface ChatConversationsProps {
   conversations: ChatConversationInterface[];
   selectedConversationId?: string;
   onConversationSelect?: (conversationId: string) => void;
+  onAction?: (action: string) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -43,6 +46,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
     conversations,
     selectedConversationId,
     onConversationSelect,
+    onAction,
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -70,6 +74,13 @@ const ChatConversations = (props: ChatConversationsProps) => {
         timestamp={conversationProps?.lastMessageTimestamp}
         {...conversationProps}
         onClick={handleConversationClick(conversationProps?.id)}
+        actions={
+          <ActionButton
+            components={{
+              Dropdown: ChatConversationMenu,
+            }}
+          />
+        }
       />
     ),
     [ConversationCard, selectedConversationId, handleConversationClick]

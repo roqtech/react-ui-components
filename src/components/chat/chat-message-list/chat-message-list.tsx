@@ -145,7 +145,6 @@ const ChatMessageList = (props: ChatMessageListProps) => {
 
   const rootRefSetter = React.useCallback(
     (node: HTMLDivElement) => {
-      debugger;
       rootRef(node);
       scrollableRootRef.current = node;
     },

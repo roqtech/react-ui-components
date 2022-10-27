@@ -12,13 +12,16 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
 import { withChatApi } from "../chat-provider";
 import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.util";
+import { ChatMessageEditor } from "../chat-message-editor";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
 export interface ChatMessageInputProps {
   value?: string;
+  defaultValue?: string;
   placeholder?: string;
   hideSendButton?: boolean;
+  sendLabel?: string;
   onChange?: (value: string) => void;
   onBeforeSend?: (
     message: Partial<ChatSendMessageRequestPayloadInterface>
@@ -35,6 +38,7 @@ export interface ChatMessageInputProps {
     Container: ComponentType<any>;
     Textarea: ComponentType<any>;
     SendButton: ComponentType<any>;
+    SendLabel: ComponentType<any>;
     SendIcon: ComponentType<any>;
   };
 }
@@ -42,8 +46,10 @@ export interface ChatMessageInputProps {
 const ChatMessageInput = (props: ChatMessageInputProps) => {
   const {
     value,
+    defaultValue = "<p></p>",
     placeholder = "Type your message...",
     hideSendButton,
+    sendLabel,
     onChange,
     onBeforeSend = (p) => p,
     onSend = (p) => {},
@@ -51,18 +57,18 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const { style, className, classNames, components } = props;
 
   const Container = components?.Container ?? "form";
-  const Textarea = components?.Textarea ?? "input";
+  const Textarea = components?.Textarea ?? ChatMessageEditor;
   const SendButton = components?.SendButton ?? "button";
   const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
-  const [textareaValue, setValue] = useState<string>(value ?? "");
+  const [textareaValue, setValue] = useState<string>(value ?? defaultValue);
 
-  const reset = useCallback(() => setValue(""), [setValue]);
+  const reset = useCallback(() => setValue(defaultValue), [setValue]);
 
   const handleTextareaChange = useCallback(
-    (e) => {
-      setValue(e.target.value);
+    (value) => {
+      setValue(value);
     },
     [onChange]
   );
@@ -86,15 +92,23 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     [send, textareaValue]
   );
 
+  const handleTextareaEnter = useCallback(() => {
+    send({
+      body: textareaValue,
+    });
+  }, [send]);
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
 
-      send();
+      send({
+        body: textareaValue,
+      });
     },
     [send]
   );
-    
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
@@ -107,15 +121,18 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
         placeholder={placeholder}
         onChange={handleTextareaChange}
+        onEnter={handleTextareaEnter}
       />
       {(!hideSendButton ?? true) && (
         <SendButton
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
           onClick={handleSend}
         >
-          <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
-            send
-          </SendLabel>
+          {sendLabel && (
+            <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
+              sendLabel
+            </SendLabel>
+          )}
           <SendIcon className={clsx(_CLASS_IS + "__send-button__icon")} />
         </SendButton>
       )}
