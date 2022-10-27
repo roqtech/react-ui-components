@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof ActionButton>;
 
 const Template: ComponentStory<typeof ActionButton> = (args) => (
-  <div style={{ width: 400, display: "flex", justifyContent: "flex-end" }}>
+  <div style={{ width: 280, display: "flex", justifyContent: "flex-end" }}>
     <ActionButton {...args} />
   </div>
 );

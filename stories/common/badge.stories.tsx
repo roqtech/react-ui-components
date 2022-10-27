@@ -12,16 +12,25 @@ export default {
 } as ComponentMeta<typeof Badge>;
 
 const Template: ComponentStory<typeof Badge> = (args) => (
-  <Badge {...args}>
+  <div style={{ position: "relative", width: 100 }}>
     <div
       style={{
         width: "32px",
         height: "32px",
-        display: "block",
-        background: "gray",
       }}
-    />
-  </Badge>
+    >
+      <Badge {...args}>
+        <div
+          style={{
+            width: "32px",
+            height: "32px",
+            display: "block",
+            background: "white",
+          }}
+        />
+      </Badge>
+    </div>
+  </div>
 );
 
 export const Default = Template.bind({});

@@ -84,6 +84,7 @@
       border-radius: var(--rc-chat-message-input-send-button-radius);
 
       &__label {
+        margin-left: 12px;
         font-weight: var(--rc-chat-message-input-send-button-label-font-weight);
         color: var(-rc--chat-message-input-send-button-label-color);
         text-transform: var(
