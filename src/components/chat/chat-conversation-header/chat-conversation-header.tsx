@@ -15,17 +15,21 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
 import isEmpty from "lodash/isEmpty";
+import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ActionButton } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
 export interface ChatConversationHeaderProps
   extends Pick<ChatConversationInterface, "title" | "members"> {
+  showActions?: boolean;
   style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
     avatars?: string;
     info?: string;
+    actions?: string;
   };
   components?: {
     Container: ComponentType<any>;
@@ -36,7 +40,7 @@ export interface ChatConversationHeaderProps
 
 const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const { style, className, classNames, components } = props;
-  const { title, members } = props;
+  const { title, members, showActions = true } = props;
 
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
@@ -73,12 +77,22 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
           secondaryText: clsx(_CLASS_IS + "__info__members"),
         }}
       />
+      {showActions && (
+        <ActionButton
+          className={clsx(_CLASS_IS + "__actions", classNames?.actions)}
+          components={{
+            Dropdown: ChatConversationMenu,
+          }}
+        />
+      )}
     </Container>
   );
 };
 
-export default withChatState(({ currentConversation }) => ({
-  currentConversation,
-  title: currentConversation?.title,
-  members: currentConversation?.members ?? [],
-}))(ChatConversationHeader);
+export default withChatState<ChatConversationHeaderProps>(
+  ({ currentConversation }) => ({
+    currentConversation,
+    title: currentConversation?.title ?? "",
+    members: currentConversation?.members || [],
+  })
+)(ChatConversationHeader);

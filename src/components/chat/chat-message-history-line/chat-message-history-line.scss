@@ -1,0 +1,9 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --roq-components-position: relative;
+}
+
+@include roq-component("chat-message-history-line") {
+  position: var(--roq-components-position);
+}

@@ -28,6 +28,7 @@ import {
   ChatSocketInterface,
   ChatUserConnectedResponsePayload,
 } from "src/utils/chat-socket.util";
+import { useSocket } from "src/components/socket";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -72,16 +73,11 @@ export const ChatStateContext =
 export const ChatApiContext =
   createContext<ChatApiContextInterface | null>(null);
 
-export interface ChatProviderPropsInterface
-  extends Pick<SocketClientProps, "secure" | "platformUrl" | "platformToken"> {
+export interface ChatProviderPropsInterface {
   children?: ReactNode;
 
   userId: string;
-  socketUrl?: SocketClientProps["url"];
-  socketConfiguration?: Omit<
-    SocketClientProps,
-    "platformUrl" | "url" | "platformToken"
-  >;
+  conversationId?: string;
 
   onConnect?: () => void;
   onDisconnect?: () => void;
@@ -104,8 +100,39 @@ export interface ChatProviderPropsInterface
 
 const sortComparer = (a, b) => +a.createdAt - +b.createdAt;
 
+const markMessageAsStartOfTheGroup = (message: ChatMessageInterface) => {
+  // showUser
+  // showTime
+
+  message.showUser = true;
+  message.showTime = true;
+
+  return message;
+};
+
+const groupMessages = (
+  currentMessage: ChatMessageInterface,
+  index: number,
+  messages: ChatMessageInterface[]
+) => {
+  const prevMessage = messages[index - 1];
+
+  currentMessage.showUser = false;
+  currentMessage.showTime = false;
+
+  if (!prevMessage) {
+    return markMessageAsStartOfTheGroup(currentMessage);
+  }
+
+  if (currentMessage.authorId !== prevMessage.authorId) {
+    return markMessageAsStartOfTheGroup(currentMessage);
+  }
+
+  return currentMessage;
+};
+
 const normalizeMessageHistory = (history: ChatMessageInterface[]) =>
-  history.sort(sortComparer);
+  history.sort(sortComparer).map(groupMessages);
 
 const INITIAL_CONVERSATIONS_STATE = {
   // editingId: null,
@@ -147,6 +174,7 @@ export const ChatProvider = (
     socketUrl,
     platformToken,
     socketConfiguration = {},
+    conversationId,
   } = props;
 
   const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
@@ -154,8 +182,9 @@ export const ChatProvider = (
   const [error, setError] = useState<ComplexError | null>(null);
   const [clientId, setClientId] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [currentConversationId, setCurrentConversationId] =
-    useState<ChatConversationInterface["id"] | null>(null);
+  const [currentConversationId, setCurrentConversationId] = useState<
+    ChatConversationInterface["id"] | null
+  >(conversationId ?? null);
 
   const [conversations, setConversations] = useState<
     InfiniteListInterface<ChatConversationInterface>
@@ -191,23 +220,18 @@ export const ChatProvider = (
     setMessages,
   ]);
 
-  useLayoutEffect(function windowIsReady() {
-    if (socket) {
-      return;
-    }
+  const { socket: socketClient } = useSocket();
 
-    const clientProps: SocketClientProps = {
-      platformUrl,
-      url: socketUrl,
-      platformToken,
+  useEffect(
+    function whaitForSocketReady() {
+      if (!socketClient) {
+        return;
+      }
 
-      ...socketConfiguration,
-    };
-
-    const client = socketClient(clientProps);
-
-    setSocket(new ChatSocket(client));
-  }, []);
+      setSocket(new ChatSocket(socketClient));
+    },
+    [socketClient]
+  );
 
   const handleUserConnected = useCallback(
     (payload: ChatUserConnectedResponsePayload) => {
@@ -232,7 +256,6 @@ export const ChatProvider = (
 
   const normalizeMessage = useCallback(
     (message: Partial<ChatMessageInterface>): ChatMessageInterface => {
-      debugger;
       message.createdAt = new Date(message.createdAt);
       message.updatedAt = new Date(message.updatedAt);
       message.isSent = userId === message.authorId;

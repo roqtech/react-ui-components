@@ -1,33 +1,25 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React, { useEffect, useState } from "react";
 
-import {
-  ChatConversationHeader,
-  ChatConversations,
-  ChatMessageInput,
-  ChatProvider,
-  ChatNotificationBell,
-  ChatConversationList,
-  ChatMessageList,
-  ChatPanel,
-} from "../../src";
+import { Chat, ChatProvider, SocketProvider } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Examples/Message Center",
-  component: ChatConversations,
+  title: "Roq Components/Chat/Chat",
+  component: Chat,
   argTypes: {
     secure: { control: "boolean" },
     platformUrl: { control: "text" },
     platformToken: { control: "text" },
     userId: { control: "text" },
   },
-} as ComponentMeta<typeof ChatConversations>;
+} as ComponentMeta<typeof Chat>;
 
-const Template: ComponentStory<typeof ChatConversations> = ({
+const Template: ComponentStory<typeof Chat> = ({
   secure,
   platformUrl,
   platformToken,
   userId,
+  conversationId,
   ...args
 }) => {
   const [_secure, setSecure] = useState(secure);
@@ -60,59 +52,17 @@ const Template: ComponentStory<typeof ChatConversations> = ({
   }
 
   return (
-    <ChatProvider
+    <SocketProvider
       secure
       platformUrl={_platformUrl}
       platformToken={_platformToken}
-      userId={_userId}
     >
-      <section
-        style={{
-          backgroundColor: "#f1f5f8",
-        }}
-      >
-        <div
-          style={{
-            height: "60px",
-            background: "rgb(250, 250, 250)",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            padding: "4px 12px",
-          }}
-        >
-          <ChatNotificationBell />
+      <ChatProvider userId={_userId}>
+        <div style={{ height: "calc(70vh)", minHeight: "700px" }}>
+          <Chat />
         </div>
-        <div
-          style={{
-            gap: "24px",
-            height: "calc(100vh - 250px)",
-            display: "flex",
-            boxSizing: "border-box",
-            marginTop: "24px",
-            alignItems: "stretch",
-            flexDirection: "row",
-            padding: 20,
-          }}
-        >
-          <div style={{ width: 400 }}>
-            <ChatConversationList />
-          </div>
-          <ChatPanel>
-            <ChatConversationHeader />
-            <div
-              style={{
-                flexGrow: 1,
-                minHeight: 1,
-              }}
-            >
-              <ChatMessageList />
-            </div>
-            <ChatMessageInput />
-          </ChatPanel>
-        </div>
-      </section>
-    </ChatProvider>
+      </ChatProvider>
+    </SocketProvider>
   );
 };
 

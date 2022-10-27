@@ -19,6 +19,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 export interface ChatConversationCardProps extends ChatConversationInterface {
   selected?: boolean;
   onClick?: () => void;
+  actions?: ReactNode;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -49,6 +50,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
     selected,
     unreadCount = 0,
     onClick,
+    actions,
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -93,6 +95,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
           <Actions
             className={clsx(_CLASS_IS + "__top__actions", classNames?.actions)}
           >
+            {actions}
             {hasUnreadMessages && (
               <UnreadBadge
                 classNames={{

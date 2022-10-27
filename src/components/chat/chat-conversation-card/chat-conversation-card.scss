@@ -1,5 +1,7 @@
 @import "../../../styles/styles.scss";
 
+$chat-conversation-font-card-line-height: $default-font-line-height;
+
 :root {
   --rc-chat-conversation-card-border-radius: var(--rc-layout-border-radius);
   --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 6);
@@ -61,7 +63,13 @@
     --rc-stacked-text-size-primary
   );
 
-  --rc-chat-conversation-card-message-unread-font-weight: var(--rc-font-weight-bolder);
+  --rc-chat-conversation-card-message-line-height: var(
+    #{$chat-conversation-font-card-line-height}
+  );
+
+  --rc-chat-conversation-card-message-unread-font-weight: var(
+    --rc-font-weight-bolder
+  );
 }
 
 @include roq-component("chat-conversation-card") {
@@ -165,13 +173,18 @@
     font-family: var(--rc-chat-conversation-card-message-font-family);
     color: var(--rc-chat-conversation-card-message-color);
     font-size: var(--rc-chat-conversation-card-message-font-size);
+    line-height: var(--rc-chat-conversation-card-message-line-height);
+
+    @include line-clamp(2, $chat-conversation-font-card-line-height);
   }
 
   &--unread {
     #{$container} {
       &__message {
         // color: red;
-        font-weight: var(--rc-chat-conversation-card-message-unread-font-weight);
+        font-weight: var(
+          --rc-chat-conversation-card-message-unread-font-weight
+        );
       }
     }
   }

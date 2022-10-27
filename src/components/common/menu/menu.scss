@@ -1,0 +1,45 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-menu-display: none;
+  --rc-menu-padding: 0px;
+  --rc-menu-position: absolute;
+  --rc-menu-min-width: 272px;
+  --rc-menu-z-index: 999;
+  --rc-menu-overflow: hidden;
+
+  --rc-menu-background: var(--rc-white);
+  --rc-menu-shadow: 0px 4px 16px rgba(13, 28, 70, 0.15);
+  --rc-menu-radius: var(--rc-layout-border-radius);
+  --rc-menu-top-margin: var(--rc-layout-step) * 1.5;
+  --rc-menu-transform: translate3d(
+    0,
+    calc(100% + var(--rc-menu-top-margin)),
+    0px
+  );
+
+  --rc-menu-open-display: block;
+}
+
+@include roq-component("menu") {
+  display: var(--rc-menu-display);
+  position: var(--rc-menu-position);
+  padding: var(--rc-menu-padding);
+  z-index: var(--rc-menu-z-index);
+  overflow: var(--rc-menu-overflow);
+  min-width: var(--rc-menu-min-width);
+
+  background: var(--rc-menu-background);
+
+  box-shadow: var(--rc-menu-shadow);
+  border-radius: var(--rc-menu-radius);
+  transform: var(--rc-menu-transform);
+
+  &--open {
+    display: var(--rc-menu-open-display);
+
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
+}

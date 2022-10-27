@@ -2,7 +2,7 @@ import React from "react";
 import { RoqProvider } from "../src/components/Provider/Provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
-import { ChatProvider } from "../src";
+import "../src/styles/styles.scss";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -22,8 +22,11 @@ export const parameters = {
           "Usage",
           "Styling",
           "Common",
+          ["Avatar", "Avatar Group", "Badge", "Action Button"],
           "Chat",
           [
+            "Message Center",
+            "Chat",
             "Panel",
             "Message Bubble",
             "Message",
@@ -34,11 +37,9 @@ export const parameters = {
             "Conversations",
             "Conversation List",
             "Conversation Header",
-            "Message Textarea",
+            "Message Editor",
             "Message Input",
             "Notification Bell",
-            "Examples",
-            ["Message Center", "Social Messenger", "Team Collaboration"],
           ],
           "Typography",
         ],
