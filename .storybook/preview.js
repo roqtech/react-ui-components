@@ -56,10 +56,7 @@ const hostConfig = {
 export const decorators = [
   (Story) => (
     <RoqProvider
-      config={{
-        host: process.env.PLATFORM_GRAPHQL ?? "",
-        token: process.env.PLATFORM_TOKEN ?? "",
-      }}
+      config={hostConfig}
     >
       <Story />
     </RoqProvider>
