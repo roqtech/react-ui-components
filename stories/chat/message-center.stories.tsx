@@ -87,7 +87,7 @@ const Template: ComponentStory<typeof ChatConversations> = ({
 const MOCKED_PLATFORM_HOST =
   "https://roq-core-snapshot-gateway.roq-platform.com/v01/";
 const MOCKED_PLATFORM_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6IkNIQU5HRV9NRV8yIiwidXNlcklkIjoiNDhhODJjMDMtM2ZhYy00YzRmLTk2NjMtYjA0MGI5MzIwZDI0IiwiaWF0IjoxNjY2Njk5NTE2LCJleHAiOjE2NjY3ODU5MTZ9.DZrLQ1Ltq2Ez9j3cpowqAwc7vzK10E-gMLKsB-aBiFY";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6IkNIQU5HRV9NRV8yIiwidXNlcklkIjoiNDhhODJjMDMtM2ZhYy00YzRmLTk2NjMtYjA0MGI5MzIwZDI0IiwiaWF0IjoxNjY2ODczNTEzLCJleHAiOjE2NjY5NTk5MTN9.ONWRlLjmQBEnJ2yh1hoffPyKwo4tkFGPC22bOPDSCoc";
 const MOCKED_ROQ_USER_ID = "48a82c03-3fac-4c4f-9663-b040b9320d24";
 
 export const Default = Template.bind({});

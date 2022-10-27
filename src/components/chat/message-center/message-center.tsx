@@ -1,7 +1,7 @@
 import "./message-center.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode } from "react";
+import React, { ComponentType, CSSProperties, ReactNode, useCallback } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { Chat, ChatConversationList, ChatPanel } from "src/index";
@@ -53,6 +53,11 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const Sidebar = components?.Sidebar ?? ChatConversationList;
   const Panel = components?.Panel ?? Chat;
 
+
+  const handleActionButtonClick = useCallback(() => {
+    alert('in development :)')
+  }, [])
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
@@ -66,6 +71,7 @@ export const MessageCenter = (props: MessageCenterProps) => {
         </Title>
         <Button
           className={clsx(_CLASS_IS + "__header__button", classNames?.button)}
+          onClick={handleActionButtonClick}
         >
           <ButtonIcon className={clsx(_CLASS_IS + "__header__button__icon")} />
           {buttonLabel && (
