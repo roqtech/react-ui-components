@@ -1,7 +1,7 @@
 import "./chat-message.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ReactNode, ComponentType } from "react";
+import React, { CSSProperties, ReactNode, ComponentType, useMemo } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatMessageBubble,
@@ -17,14 +17,16 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 export interface ChatMessageProps
   extends ChatMessageInterface,
     Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
-  showUser: boolean;
-  showTime: boolean;
+  isDeleted?: boolean;
+  isUpdated?: boolean;
+  showUser?: boolean;
+  showTime?: boolean;
   style?: CSSProperties;
   selected?: boolean;
   className?: string;
   classNames?: {
     container?: string;
-  content?: string;
+    content?: string;
     user?: string;
     userTime?: string;
     userName?: string;
@@ -44,6 +46,7 @@ export interface ChatMessageProps
 }
 
 export const ChatMessage = (props: ChatMessageProps) => {
+  const { style, className, classNames, components } = props;
   const {
     isSent,
     showCorner,
@@ -52,10 +55,10 @@ export const ChatMessage = (props: ChatMessageProps) => {
     message,
     timestamp,
     user,
-    style,
-    className,
-    classNames,
-    components,
+    isDeleted,
+    isUpdated,
+    deletedAt,
+    updatedAt,
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -69,10 +72,17 @@ export const ChatMessage = (props: ChatMessageProps) => {
   const UserName = components?.Name ?? "span";
   const UserAvatar = components?.Avatar ?? Avatar;
 
+  const messageContent = useMemo(
+    () => (isDeleted ? "Message deleted..." : message),
+    [message, isDeleted]
+  );
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
         [_CLASS_IS + "--sent"]: isSent,
+        [_CLASS_IS + "--deleted"]: isDeleted,
+        [_CLASS_IS + "--updated"]: isUpdated,
         [_CLASS_IS + "--received"]: !isSent,
         [_CLASS_IS + "--no-user"]: !showUser,
         [_CLASS_IS + "--no-time"]: !showTime,
@@ -102,7 +112,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
               _CLASS_IS + "__inner__content__message",
               classNames?.content
             )}
-            message={<Message content={message} />}
+            message={<Message content={messageContent} />}
             isSent={isSent}
             showCorner={showCorner}
           />

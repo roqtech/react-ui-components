@@ -42,6 +42,7 @@ export interface ChatMessageEditorProps {
   // children?: ReactNode;
   // rounded?: boolean;
   // rows?: number;
+  forwardedRef?: unknown;
   id?: string;
   name?: string;
   max?: number;
@@ -156,6 +157,7 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
     placeholder,
     onChange,
     onEnter,
+    forwardedRef,
     convertToHTMLConfig = defaultConvertToHTMLConfig,
     convertFromHTMLConfig = defaultConvertFromHTMLConfig,
     ...rest
@@ -164,7 +166,6 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   const Container = components?.Container ?? "div";
 
   const [rawValue, setRawValue] = useState(value ?? "<p></p>");
-  const textareaRef = useRef<Editor>(null);
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createWithContent(convertFromHTML(convertFromHTMLConfig)(value))
@@ -208,7 +209,7 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   const getRawValue = (stateToConvert?: EditorState): string =>
     convertToHTML(convertToHTMLConfig)(stateToConvert?.getCurrentContent());
 
-  const handleEditorClick = () => textareaRef.current?.focus();
+  const handleEditorClick = () => forwardedRef?.current?.focus();
 
   const handleChange = (nextState: EditorState) => {
     setEditorState(nextState);
@@ -434,7 +435,7 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
       onClick={handleEditorClick}
     >
       <Editor
-        ref={textareaRef}
+        ref={forwardedRef}
         plugins={plugins}
         editorKey={id || `${name}-id`}
         editorState={editorState}

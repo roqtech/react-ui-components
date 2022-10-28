@@ -48,7 +48,7 @@ export {
   ChatMember,
   ChatMembers,
   ChatMembersPanel,
-  ChatConversationNotSelectedPanel
+  ChatConversationNotSelectedPanel,
 } from "./components/chat";
 
 export type {
@@ -66,4 +66,8 @@ export {
   useScrollControl,
   useRightClick,
   useClickOutside,
+  useChatScreen,
+  ChatScreenEnum,
+  useCurrentConversation,
+  useArchiveConversation,
 } from "./hooks";

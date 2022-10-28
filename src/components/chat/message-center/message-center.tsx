@@ -21,10 +21,13 @@ import {
 import { CreateConversationIcon as DefaultCreateConversationIcon } from "./create-conversation-icon";
 import {
   ChatScreenEnum,
+  useArchiveConversation,
   useChatScreen,
   useCurrentConversation,
 } from "src/hooks";
 import { MessageCenterScreenEnum } from "../types.work";
+import { ChatConversationListProps } from "../chat-conversation-list";
+import { ChatConversationMenu } from "../chat-conversation-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
@@ -56,7 +59,7 @@ export interface MessageCenterProps {
     ButtonLabel: ComponentType<any>;
     ButtonIcon: ComponentType<any>;
     Content: ComponentType<any>;
-    Sidebar: ComponentType<any>;
+    Sidebar: ComponentType<ChatConversationListProps>;
     Panel: ComponentType<any>;
 
     ConversationSelected: ComponentType<any>;
@@ -96,20 +99,53 @@ export const MessageCenter = (props: MessageCenterProps) => {
 
   const { screen, setScreen } = useChatScreen({});
 
-  useEffect(
-    function handleConversationChanged() {
-      if (!currentConversationId) {
-        return;
-      }
+  const { archiveConversation } = useArchiveConversation();
 
-      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
-    },
-    [currentConversationId]
-  );
+  // useEffect(
+  //   function handleSelectedConversationChanged() {
+  //     if (!currentConversationId) {
+  //       return;
+  //     }
+
+  //     setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+  //   },
+  //   [currentConversationId]
+  // );
 
   const unselectConversation = useCallback(() => {
     selectConversation(null);
   }, [selectConversation]);
+
+  const handleConversationClick = useCallback(
+    (conversationId) => {
+      debugger;
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [selectConversation, setScreen]
+  );
+
+  const handleArchiveConversationClick = useCallback(
+    (conversationId) => {
+      archiveConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    },
+    [setScreen, archiveConversation]
+  );
+
+  const handleGoToConversationAddMembersCLick = useCallback(() => {
+    alert("In progress..");
+    setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
+  }, [setScreen]);
+
+  const handleGoToConversationRemoveMembersCLick = useCallback(() => {
+    alert("In progress..");
+    setScreen(ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS);
+  }, [setScreen]);
+
+  const handleRenameConversationClick = useCallback(() => {
+    alert("In progress..");
+  }, []);
 
   const handleActionButtonClick = useCallback(() => {
     setScreen(ChatScreenEnum.CREATE_NEW_CONVERSATION);
@@ -157,8 +193,23 @@ export const MessageCenter = (props: MessageCenterProps) => {
   );
 
   const showSidebar = useMemo(
-    () => isConversationNotSelectedScreen || isConversationSelectedScreen,
+    () =>
+      isConversationNotSelectedScreen ||
+      isConversationSelectedScreen ||
+      isConversationAddMembersSceen ||
+      isConversationRemoveMembersSceen,
     [isConversationNotSelectedScreen, isConversationSelectedScreen]
+  );
+
+  const renderConversationMenu = (menuProps) => (
+    <ChatConversationMenu
+      conversationId={currentConversationId}
+      onArchive={handleArchiveConversationClick}
+      onInvite={handleGoToConversationAddMembersCLick}
+      onRemove={handleGoToConversationRemoveMembersCLick}
+      onRename={handleRenameConversationClick}
+      {...menuProps}
+    />
   );
 
   return (
@@ -195,11 +246,38 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar
               )}
+              onConversationSelect={handleConversationClick}
+              components={{
+                ConversationMenu: renderConversationMenu,
+              }}
             />
 
-            {isConversationSelectedScreen && <ConversationSelected />}
-
             {isConversationNotSelectedScreen && <ConversationNotSelected />}
+
+            {isConversationSelectedScreen && (
+              <ConversationSelected
+                components={{
+                  ConversationMenu: renderConversationMenu,
+                }}
+              />
+            )}
+
+            {isConversationAddMembersSceen && (
+              <AddMembers
+                className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
+                onCancel={handleAddMembersCancel}
+              />
+            )}
+
+            {isConversationRemoveMembersSceen && (
+              <RemoveMembers
+                className={clsx(
+                  _CLASS_IS + "__remove-members",
+                  classNames?.panel
+                )}
+                onCancel={handleRemoveMembersCancel}
+              />
+            )}
           </>
         )}
 
@@ -210,20 +288,6 @@ export const MessageCenter = (props: MessageCenterProps) => {
               classNames?.panel
             )}
             onCancel={handleCreateNewConversationCancel}
-          />
-        )}
-
-        {isConversationAddMembersSceen && (
-          <AddMembers
-            className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
-            onCancel={handleAddMembersCancel}
-          />
-        )}
-
-        {isConversationRemoveMembersSceen && (
-          <RemoveMembers
-            className={clsx(_CLASS_IS + "__remove-members", classNames?.panel)}
-            onCancel={handleRemoveMembersCancel}
           />
         )}
       </Content>

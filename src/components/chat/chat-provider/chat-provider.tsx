@@ -22,7 +22,10 @@ import {
   ChatConversationListRequestPayloadInterface,
   ChatConversationListResponsePayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
+  ChatMessageDeletedResponsePayloadInterface,
+  ChatMessageEditRequestPayloadInterface,
   ChatMessageRecieivedResponsePayloadInterface,
+  ChatMessageUpdatedResponsePayloadInterface,
   ChatSendMessageRequestPayloadInterface,
   ChatSocket,
   ChatSocketInterface,
@@ -57,7 +60,10 @@ export interface ChatApiContextInterface {
   getConversationMessageList: (payload: unknown) => void;
   markAsReadUnreadConversationMessages: (payload: unknown) => void;
   sendMessage: (payload: ChatSendMessageRequestPayloadInterface) => void;
-  editMessage: (payload: unknown) => void;
+  editMessage: (
+    payload: Partial<ChatMessageEditRequestPayloadInterface>
+  ) => void;
+  setEditableMessage: (messageId: string) => void;
   deleteMessage: (messageId: string) => void;
 
   fetchConversationList: (
@@ -128,6 +134,13 @@ const groupMessages = (
     return markMessageAsStartOfTheGroup(currentMessage);
   }
 
+  if (
+    !!currentMessage.bodyUpdatedAt &&
+    currentMessage.bodyUpdatedAt !== currentMessage.updatedAt
+  ) {
+    currentMessage.showTime = true;
+  }
+
   return currentMessage;
 };
 
@@ -150,7 +163,7 @@ const INITIAL_CONVERSATIONS_STATE = {
 };
 
 const INITIAL_MESSAGES_STATE = {
-  // active: null,
+  editableMessageId: null,
   error: null,
   isLoading: false,
   hasMore: true,
@@ -200,6 +213,14 @@ export const ChatProvider = (
         id: currentConversationId,
       }) ?? null,
     [conversations?.data, currentConversationId]
+  );
+
+  const editableMessage: ChatMessageInterface = useMemo(
+    () =>
+      find(messages.data, {
+        id: messages?.editableMessageId,
+      }) ?? null,
+    [messages?.data, messages?.editableMessageId]
   );
 
   const resetState = useCallback(() => {
@@ -257,8 +278,19 @@ export const ChatProvider = (
   const normalizeMessage = useCallback(
     (message: Partial<ChatMessageInterface>): ChatMessageInterface => {
       message.createdAt = new Date(message.createdAt);
-      message.updatedAt = new Date(message.updatedAt);
       message.isSent = userId === message.authorId;
+
+      if (message.updatedAt) {
+        message.updatedAt = new Date(message.updatedAt);
+      }
+
+      if (message.deletedAt) {
+        message.deletedAt = new Date(message.deletedAt);
+      }
+
+      if (message.bodyUpdatedAt) {
+        message.bodyUpdatedAt = new Date(message.bodyUpdatedAt);
+      }
 
       return message;
     },
@@ -324,45 +356,180 @@ export const ChatProvider = (
     ]
   );
 
+  const handleConversationCreated = useCallback(() => {
+    alert("handleConversationCreated");
+  }, []);
+
+  const handleConversationExists = useCallback(() => {
+    alert("handleConversationExists");
+  }, []);
+
+  const handleConversationMembersChanged = useCallback(() => {
+    alert("handleConversationMembersChanged");
+  }, []);
+
+  const handleConversationTitleChanged = useCallback(() => {
+    alert("handleConversationTitleChanged");
+  }, []);
+
+  const handleConversationArchived = useCallback(
+    (payload) => {
+      const { conversationId } = payload;
+      const isSelectedConversationRecipient =
+        currentConversationId === conversationId;
+
+      if (isSelectedConversationRecipient) {
+        setCurrentConversationId(null);
+      }
+
+      setConversations((ps) => ({
+        ...ps,
+        data: ps.data.filter(
+          (conversation) => conversation.id !== conversationId
+        ),
+        loadedTotal: ps.loadedTotal - 1,
+        totalCount: ps.totalCount - 1,
+      }));
+    },
+    [currentConversationId, setConversations, setCurrentConversationId]
+  );
+
+  const handleMemberQuitConversation = useCallback(() => {
+    alert("handleMemberQuitConversation");
+  }, []);
+
+  const handleMessageUpdated = useCallback(
+    (payload: ChatMessageUpdatedResponsePayloadInterface) => {
+      const { id, body, conversationId, bodyUpdatedAt } = payload;
+
+      if (conversationId !== currentConversationId) {
+        return;
+      }
+
+      const messageUpdates = { body, bodyUpdatedAt };
+
+      setMessages((ps) => ({
+        ...ps,
+        data: normalizeMessageHistory(
+          ps.data.map((message) =>
+            message.id === id
+              ? normalizeMessage({
+                  ...message,
+                  ...messageUpdates,
+                })
+              : message
+          )
+        ),
+      }));
+    },
+    [currentConversationId, setMessages, normalizeMessage]
+  );
+
+  const handleMessageDeleted = useCallback(
+    (payload: ChatMessageDeletedResponsePayloadInterface) => {
+      const { id, body, deletedAt, conversationId } = payload;
+      if (conversationId !== currentConversationId) {
+        return;
+      }
+
+      const messageUpdates = { body, deletedAt };
+
+      setMessages((ps) => ({
+        ...ps,
+        data: normalizeMessageHistory(
+          ps.data.map((message) =>
+            message.id === id
+              ? normalizeMessage({
+                  ...message,
+                  ...messageUpdates,
+                })
+              : message
+          )
+        ),
+      }));
+    },
+    [currentConversationId, setMessages, normalizeMessage]
+  );
+
+  const handleUserOnline = useCallback(() => {
+    console.log("handleUserOnline");
+  }, []);
+
+  const handleUserOffline = useCallback(() => {
+    console.log("handleUserOffline");
+  }, []);
+
+  const handleMessagesRead = useCallback(() => {
+    alert("handleMessagesRead");
+  }, []);
+
   const initializeSocketListeners = useCallback(() => {
     if (!socket) {
       return;
     }
 
-    socket?.onConnect(handleConnect);
-    socket?.onDisconnect(handleDisconnect);
-    socket?.onError(handleError);
-    socket?.onServerException(handleError);
+    socket.onConnect(handleConnect);
+    socket.onDisconnect(handleDisconnect);
+    socket.onError(handleError);
+    socket.onServerException(handleError);
 
     return () => {
-      socket?.offConnect(handleConnect);
-      socket?.offDisconnect(handleDisconnect);
-      socket?.offError(handleError);
-      socket?.offServerException(handleError);
+      socket.offConnect(handleConnect);
+      socket.offDisconnect(handleDisconnect);
+      socket.offError(handleError);
+      socket.offServerException(handleError);
     };
-  }, [
-    socket,
-    handleConnect,
-    handleDisconnect,
-    handleError,
-    handleMessageReceived,
-    handleConnect,
-    handleDisconnect,
-  ]);
+  }, [socket, handleConnect, handleDisconnect, handleError]);
 
   useEffect(
     function attachSocketListeners() {
-      if (!online) {
+      if (!online || !socket) {
         return;
       }
 
-      socket?.onMessageRecieived(handleMessageReceived);
+      socket.onMessageRecieived(handleMessageReceived);
+      socket.onConversationCreated(handleConversationCreated);
+      socket.onConversationExists(handleConversationExists);
+      socket.onConversationMembersChanged(handleConversationMembersChanged);
+      socket.onConversationTitleChanged(handleConversationTitleChanged);
+      socket.onConversationArchived(handleConversationArchived);
+      socket.onMemberQuitConversation(handleMemberQuitConversation);
+      socket.onMessageUpdated(handleMessageUpdated);
+      socket.onMessageDeleted(handleMessageDeleted);
+      socket.onUserOnline(handleUserOnline);
+      socket.onUserOffline(handleUserOffline);
+      socket.onMessagesRead(handleMessagesRead);
 
       return () => {
-        socket?.offMessageRecieived(handleMessageReceived);
+        socket.offMessageRecieived(handleMessageReceived);
+        socket.offConversationCreated(handleConversationCreated);
+        socket.offConversationExists(handleConversationExists);
+        socket.offConversationMembersChanged(handleConversationMembersChanged);
+        socket.offConversationTitleChanged(handleConversationTitleChanged);
+        socket.offConversationArchived(handleConversationArchived);
+        socket.offMemberQuitConversation(handleMemberQuitConversation);
+        socket.offMessageUpdated(handleMessageUpdated);
+        socket.offMessageDeleted(handleMessageDeleted);
+        socket.offUserOnline(handleUserOnline);
+        socket.offUserOffline(handleUserOffline);
+        socket.offMessagesRead(handleMessagesRead);
       };
     },
-    [online, handleMessageReceived]
+    [
+      online,
+      handleMessageReceived,
+      handleConversationCreated,
+      handleConversationExists,
+      handleConversationMembersChanged,
+      handleConversationTitleChanged,
+      handleConversationArchived,
+      handleMemberQuitConversation,
+      handleMessageUpdated,
+      handleMessageDeleted,
+      handleUserOnline,
+      handleUserOffline,
+      handleMessagesRead,
+    ]
   );
 
   const initializeSocket = useCallback(() => {
@@ -421,9 +588,12 @@ export const ChatProvider = (
     [setCurrentConversationId]
   );
 
-  const archiveConversation = () => {
-    console.log("archiveConversation");
-  };
+  const archiveConversation = useCallback(
+    (conversationId) => {
+      socket?.archiveConversation(conversationId);
+    },
+    [socket]
+  );
 
   const renameConversation = () => {
     console.log("renameConversation");
@@ -454,24 +624,45 @@ export const ChatProvider = (
   };
 
   const sendMessage = useCallback(
-    (
-      message: Omit<ChatSendMessageRequestPayloadInterface, "conversationId">
-    ) => {
+    (message: Partial<ChatSendMessageRequestPayloadInterface>) => {
       socket?.sendMessage({
-        ...message,
         conversationId: currentConversationId,
+        ...message,
       });
     },
     [socket, currentConversationId]
   );
 
-  const editMessage = () => {
-    console.log("editMessage");
-  };
+  const setEditableMessage = useCallback(
+    (messageId: string | null) => {
+      debugger;
 
-  const deleteMessage = () => {
-    console.log("deleteMessage");
-  };
+      setMessages((ps) => ({
+        ...ps,
+        editableMessageId: messageId,
+      }));
+    },
+    [setMessages]
+  );
+
+  const editMessage = useCallback(
+    (payload: Partial<ChatMessageEditRequestPayloadInterface>) => {
+      socket?.editMessage({
+        id: messages?.editableMessageId,
+        ...payload,
+      });
+
+      setEditableMessage(null);
+    },
+    [messages?.editableMessageId, setEditableMessage]
+  );
+
+  const deleteMessage = useCallback(
+    (messageId) => {
+      socket?.deleteMessage(messageId);
+    },
+    [socket]
+  );
 
   const onFetchConversationListSuccess = useCallback(
     (response: ChatConversationListResponsePayloadInterface) => {
@@ -592,6 +783,7 @@ export const ChatProvider = (
       currentConversation,
       conversations,
       messages,
+      editableMessage,
     }),
     [
       online,
@@ -602,6 +794,7 @@ export const ChatProvider = (
       currentConversation,
       conversations,
       messages,
+      editableMessage,
     ]
   );
 
@@ -623,6 +816,7 @@ export const ChatProvider = (
       markAsReadUnreadConversationMessages,
       sendMessage,
       editMessage,
+      setEditableMessage,
       deleteMessage,
       fetchConversationList,
       fetchMessageList,
@@ -644,6 +838,7 @@ export const ChatProvider = (
       markAsReadUnreadConversationMessages,
       sendMessage,
       editMessage,
+      setEditableMessage,
       deleteMessage,
       fetchConversationList,
     ]

@@ -17,7 +17,7 @@ import {
   StackedTextProps,
 } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { withChatState } from "../chat-provider";
+import { withChatApi, withChatState } from "../chat-provider";
 import { ChatConversationInterface, ChatMessageInterface } from "src/types";
 import isEmpty from "lodash/isEmpty";
 import { Menu, MenuItem } from "src";
@@ -73,3 +73,8 @@ export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
     </Container>
   );
 };
+
+export default withChatApi((api) => ({
+  onDelete: api.deleteMessage,
+  onEdit: api.setEditableMessage,
+}))(ChatMessageMenu);

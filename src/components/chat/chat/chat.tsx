@@ -1,7 +1,12 @@
 import "./chat.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+  useEffect,
+} from "react";
 
 import {
   AvatarGroup,
@@ -36,6 +41,7 @@ export interface ChatProps {
     Header: ComponentType<any>;
     Messages: ComponentType<any>;
     Input: ComponentType<any>;
+    ConversationMenu: ComponentType<any>;
   };
 }
 
@@ -53,7 +59,12 @@ export const Chat = (props: ChatProps) => {
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
     >
-      <Header className={clsx(_CLASS_IS + "__header", classNames?.container)} />
+      <Header
+        className={clsx(_CLASS_IS + "__header", classNames?.container)}
+        components={{
+          ConversationMenu: components?.ConversationMenu,
+        }}
+      />
       <Messages
         className={clsx(_CLASS_IS + "__messages", classNames?.container)}
       />

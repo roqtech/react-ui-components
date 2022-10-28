@@ -29,11 +29,17 @@ const MOCKED_STATE = {
 };
 
 type WithChatStatePropsInterface<T> = {
-  mapContextToProps?: (context: ChatStateContextInterface) => T;
+  mapContextToProps?: (
+    context: ChatStateContextInterface,
+    ownProps: unknown
+  ) => T;
 };
 
 export function withChatState<TProps, TContext = TProps>(
-  mapContextToProps: (context: ChatStateContextInterface) => TContext
+  mapContextToProps: (
+    context: ChatStateContextInterface,
+    ownProps: unknown
+  ) => TContext
 ): (
   Component: React.ComponentType<any>
 ) => React.ComponentType<
@@ -50,9 +56,7 @@ export function withChatState<TProps, TContext = TProps>(
           <ChatStateContext.Consumer>
             {(state) => (
               <Component
-                {...mapContextToProps(
-                  (state ?? MOCKED_STATE) as ChatStateContextInterface
-                )}
+                {...mapContextToProps(state ?? MOCKED_STATE, this.props)}
                 {...this.props}
                 ref={this.props.forwardedRef}
                 forwardedRef={this.props.forwardedRef}

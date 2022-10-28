@@ -3,4 +3,4 @@ export { useScrollControl } from "./use-scroll-control.hook";
 export { useRightClick } from "./use-right-click.hook";
 export { useClickOutside } from "./use-click-outside.hook";
 
-export { useChatScreen, ChatScreenEnum, useCurrentConversation } from "./chat";
+export { useChatScreen, ChatScreenEnum, useCurrentConversation, useArchiveConversation } from "./chat";
