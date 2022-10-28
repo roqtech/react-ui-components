@@ -1,6 +1,8 @@
 @import "../../../styles/styles.scss";
 
 :root {
+  --rc-chat-panel-width: 100%;
+  --rc-chat-panel-height: 100%;
   --rc-chat-panel-display: flex;
   --rc-chat-panel-flex-grow: 1;
   --rc-chat-panel-flex-direction: column;
@@ -13,6 +15,8 @@
 }
 
 @include roq-component("chat-panel") {
+  width: var(--rc-chat-panel-width);
+  height: var(--rc-chat-panel-height);
   display: var(--rc-chat-panel-display);
   flex-grow: var(--rc-chat-panel-flex-grow);
   min-width: var(--rc-chat-panel-min-width);

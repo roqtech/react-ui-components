@@ -1,0 +1,25 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-members-width: 100%;
+  --rc-chat-members-height: 100%;
+  --rc-chat-members-background: transparent;
+  --rc-chat-members-padding: 0;
+
+  --rc-chat-members-inner-display: flex;
+  --rc-chat-members-inner-flex-direction: column;
+  --rc-chat-members-inner-spacing: calc(var(--rc-layout-step) * 1);
+}
+
+@include roq-component("chat-members") {
+  width: var(--rc-chat-members-width);
+  height: var(--rc-chat-members-height);
+  background: var(--rc-chat-members-background);
+  padding: var(--rc-chat-members-padding);
+
+  &__inner {
+    display: var(--rc-chat-members-inner-display);
+    flex-direction: var(--rc-chat-members-inner-flex-direction);
+    gap: var(--rc-chat-members-inner-spacing);
+  }
+}

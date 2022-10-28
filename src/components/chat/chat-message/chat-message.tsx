@@ -74,6 +74,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
       className={clsx(_CLASS_IS, className, classNames?.container, {
         [_CLASS_IS + "--sent"]: isSent,
         [_CLASS_IS + "--received"]: !isSent,
+        [_CLASS_IS + "--no-user"]: !showUser,
+        [_CLASS_IS + "--no-time"]: !showTime,
       })}
       style={style}
     >

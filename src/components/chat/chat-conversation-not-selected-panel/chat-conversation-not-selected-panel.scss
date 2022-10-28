@@ -1,0 +1,18 @@
+@import "../../../styles/styles.scss";
+
+:root {
+
+  --rc-chat-conversation-not-selected-panel-message-color: var(
+    --rc-blueGray-400
+  );
+}
+
+@include roq-component("chat-conversation-not-selected-panel") {
+  flex-direction: center;
+  justify-content: center;
+
+  &__message {
+    text-align: center;
+    color: var(--rc-chat-conversation-not-selected-panel-message-color);
+  }
+}

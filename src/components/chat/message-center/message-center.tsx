@@ -1,11 +1,30 @@
 import "./message-center.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode, useCallback } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { Chat, ChatConversationList, ChatPanel } from "src/index";
+import {
+  Chat,
+  ChatConversationList,
+  ChatConversationNotSelectedPanel,
+  ChatMembersPanel,
+  ChatPanel,
+} from "src/index";
 import { CreateConversationIcon as DefaultCreateConversationIcon } from "./create-conversation-icon";
+import {
+  ChatScreenEnum,
+  useChatScreen,
+  useCurrentConversation,
+} from "src/hooks";
+import { MessageCenterScreenEnum } from "../types.work";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
@@ -24,6 +43,10 @@ export interface MessageCenterProps {
     content?: string;
     sidebar?: string;
     panel?: string;
+
+    createConversation?: string;
+    addMembers?: string;
+    removeMembers?: string;
   };
   components?: {
     Container: ComponentType<any>;
@@ -35,6 +58,13 @@ export interface MessageCenterProps {
     Content: ComponentType<any>;
     Sidebar: ComponentType<any>;
     Panel: ComponentType<any>;
+
+    ConversationSelected: ComponentType<any>;
+    ConversationNotSelected: ComponentType<any>;
+    ConversationChat: ComponentType<any>;
+    CreateConversation: ComponentType<any>;
+    AddMembers: ComponentType<any>;
+    RemoveMembers: ComponentType<any>;
   };
 }
 
@@ -51,12 +81,85 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const Content = components?.Content || "div";
 
   const Sidebar = components?.Sidebar ?? ChatConversationList;
-  const Panel = components?.Panel ?? Chat;
 
+  const ConversationNotSelected =
+    components?.ConversationNotSelected ?? ChatConversationNotSelectedPanel;
+
+  const ConversationSelected = components?.ConversationSelected ?? Chat;
+
+  const CreateConversation = components?.CreateConversation ?? ChatMembersPanel;
+  const AddMembers = components?.AddMembers ?? ChatMembersPanel;
+  const RemoveMembers = components?.RemoveMembers ?? ChatMembersPanel;
+
+  const { currentConversationId, selectConversation } =
+    useCurrentConversation();
+
+  const { screen, setScreen } = useChatScreen({});
+
+  useEffect(
+    function handleConversationChanged() {
+      if (!currentConversationId) {
+        return;
+      }
+
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [currentConversationId]
+  );
+
+  const unselectConversation = useCallback(() => {
+    selectConversation(null);
+  }, [selectConversation]);
 
   const handleActionButtonClick = useCallback(() => {
-    alert('in development :)')
-  }, [])
+    setScreen(ChatScreenEnum.CREATE_NEW_CONVERSATION);
+    unselectConversation();
+  }, [setScreen, unselectConversation]);
+
+  const handleCreateNewConversationCancel = useCallback(() => {
+    setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    unselectConversation();
+  }, [setScreen, unselectConversation]);
+
+  const handleAddMembersCancel = useCallback(() => {
+    setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    unselectConversation();
+  }, [setScreen, unselectConversation]);
+
+  const handleRemoveMembersCancel = useCallback(() => {
+    setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    unselectConversation();
+  }, [setScreen, unselectConversation]);
+
+  const isConversationNotSelectedScreen = useMemo(
+    () => screen === ChatScreenEnum.CONVERSATION_NOT_SELECTED,
+    [screen]
+  );
+
+  const isConversationSelectedScreen = useMemo(
+    () => screen === ChatScreenEnum.CONVERSATION_SELECTED,
+    [screen]
+  );
+
+  const isCreateNewConversationScreen = useMemo(
+    () => screen === ChatScreenEnum.CREATE_NEW_CONVERSATION,
+    [screen]
+  );
+
+  const isConversationAddMembersSceen = useMemo(
+    () => screen === ChatScreenEnum.CONVERSATION_ADD_MEMBERS,
+    [screen]
+  );
+
+  const isConversationRemoveMembersSceen = useMemo(
+    () => screen === ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS,
+    [screen]
+  );
+
+  const showSidebar = useMemo(
+    () => isConversationNotSelectedScreen || isConversationSelectedScreen,
+    [isConversationNotSelectedScreen, isConversationSelectedScreen]
+  );
 
   return (
     <Container
@@ -83,16 +186,46 @@ export const MessageCenter = (props: MessageCenterProps) => {
           )}
         </Button>
       </Header>
+
       <Content className={clsx(_CLASS_IS + "__content", classNames?.content)}>
-        <Sidebar
-          className={clsx(
-            _CLASS_IS + "__content__sidebar",
-            classNames?.sidebar
-          )}
-        />
-        <Panel
-          className={clsx(_CLASS_IS + "__content__panel", classNames?.panel)}
-        />
+        {showSidebar && (
+          <>
+            <Sidebar
+              className={clsx(
+                _CLASS_IS + "__content__sidebar",
+                classNames?.sidebar
+              )}
+            />
+
+            {isConversationSelectedScreen && <ConversationSelected />}
+
+            {isConversationNotSelectedScreen && <ConversationNotSelected />}
+          </>
+        )}
+
+        {isCreateNewConversationScreen && (
+          <CreateConversation
+            className={clsx(
+              _CLASS_IS + "__create-conversation",
+              classNames?.panel
+            )}
+            onCancel={handleCreateNewConversationCancel}
+          />
+        )}
+
+        {isConversationAddMembersSceen && (
+          <AddMembers
+            className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
+            onCancel={handleAddMembersCancel}
+          />
+        )}
+
+        {isConversationRemoveMembersSceen && (
+          <RemoveMembers
+            className={clsx(_CLASS_IS + "__remove-members", classNames?.panel)}
+            onCancel={handleRemoveMembersCancel}
+          />
+        )}
       </Content>
     </Container>
   );

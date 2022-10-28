@@ -45,6 +45,10 @@ export {
   ChatMessageEditor,
   Chat,
   MessageCenter,
+  ChatMember,
+  ChatMembers,
+  ChatMembersPanel,
+  ChatConversationNotSelectedPanel
 } from "./components/chat";
 
 export type {

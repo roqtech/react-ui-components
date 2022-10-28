@@ -46,7 +46,7 @@ export interface ChatApiContextInterface {
   isConnected: () => boolean;
   connect: () => void;
   disconnect: () => void;
-  selectConversation: (conversationId: string) => void;
+  selectConversation: (conversationId: string | null) => void;
   createConversation: (payload: unknown) => void;
   archiveConversation: (conversationId: string) => void;
   renameConversation: (payload: unknown) => void;

@@ -1,16 +1,16 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React, { useState, useEffect } from "react";
-import { ChatMenu, ChatMenuItem } from "../../src";
+import { Menu, MenuItem } from "../../src";
 
 export default {
   title: "Roq Components/Chat/Menu",
-  component: ChatMenu,
+  component: Menu,
   argTypes: {},
-} as ComponentMeta<typeof ChatMenu>;
+} as ComponentMeta<typeof Menu>;
 
-const Template: ComponentStory<typeof ChatMenu> = (args) => (
+const Template: ComponentStory<typeof Menu> = (args) => (
   <div style={{ width: 400 }}>
-    <ChatMenu {...args} />
+    <Menu {...args} />
   </div>
 );
 
@@ -19,9 +19,9 @@ Default.args = {
   open: true,
   children: (
     <>
-      <ChatMenuItem>copy</ChatMenuItem>
-      <ChatMenuItem>delete</ChatMenuItem>
-      <ChatMenuItem>edit</ChatMenuItem>
+      <MenuItem>copy</MenuItem>
+      <MenuItem>delete</MenuItem>
+      <MenuItem>edit</MenuItem>
     </>
   ),
 };
@@ -31,9 +31,9 @@ WithTrigger.args = {
   open: true,
   children: (
     <>
-      <ChatMenuItem>copy</ChatMenuItem>
-      <ChatMenuItem>delete</ChatMenuItem>
-      <ChatMenuItem>edit</ChatMenuItem>
+      <MenuItem>copy</MenuItem>
+      <MenuItem>delete</MenuItem>
+      <MenuItem>edit</MenuItem>
     </>
   ),
 };

@@ -75,7 +75,9 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
           message={message.body}
           timestamp={message.createdAt}
           user={message.author}
-          className={clsx(_CLASS_IS + "__line__message", classNames?.message)}
+          className={clsx(_CLASS_IS + "__line__message", classNames?.message, {
+            [_CLASS_IS + "__line__message" + "--no-user"]: !message.showUser,
+          })}
           actions={
             <ActionButton
               components={{
