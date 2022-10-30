@@ -1,3 +1,5 @@
+export { Notification, NotificationBell } from './Notification'
+
 export {
   ChatProvider,
   useChatApi,

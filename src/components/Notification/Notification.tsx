@@ -1,5 +1,5 @@
 import { request } from '../../utils'
-import React, { ReactNode, useMemo, useState } from 'react'
+import React, { ComponentType, ReactNode, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import _get from 'lodash/get'
 import dayjs from 'dayjs'
@@ -14,12 +14,10 @@ import {
 import { notificationsInAppForCurrentUser, notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from 'src/lib/graphql/types'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
-import { NotificationBadge } from './NotificationBadge'
-import { styled } from 'src/styles'
-
-import type { StyledCardPropsType } from 'src/components/Card'
 import type { ClassValue } from 'clsx'
-import { NotificationReadButton } from './NotificationReadButton'
+import { NotificationReadButton } from './notification-read-button'
+import { Avatar } from '../common'
+import './notification.scss'
 
 dayjs.extend(relativeTime)
 
@@ -96,17 +94,20 @@ export type NotificationTypeToggleCallbackProps = {
 }
 export interface NotificationProps extends Partial<IRoqProvider> {
   type?: NotificationType
+  components?: {
+    Container?: ComponentType<any>;
+  }
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
   loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | null
   contentView?: (
     callback: NotificationContentViewCallbackProps,
   ) => JSX.Element
-  contentCardProps?: React.ComponentProps<StyledCardPropsType>
+  className?: ClassValue
   titleProps?: {
+    Container?: ComponentType<any>;
     children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
     title?: ReactNode,
     count?: number,
-    css?: React.ComponentProps<typeof StyledNotificationTitle>['css']
     className?: ClassValue
   }
   typeToggleProps?: {
@@ -116,26 +117,13 @@ export interface NotificationProps extends Partial<IRoqProvider> {
   }
 }
 
-const NotificationContent = styled('div', {
-  position: 'relative',
-  '> span': {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 4,
-    height: 4,
-    color: '$red9',
-  },
-})
-
-const StyledNotification = styled('div')
-export const Notification: React.FC<React.ComponentProps<typeof StyledNotification> & NotificationProps> = (props) => {
+export const Notification: React.FC<NotificationProps> = (props) => {
   const {
+    components,
     type: typeProp,
     contentView,
     host: _host,
     token: _token,
-    contentCardProps,
     typeToggleProps,
     titleProps,
     children,
@@ -189,13 +177,11 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
 
       return (
         <Card
-          {...contentCardProps}
           key={item.id}
           title={item.title}
           subTitle={dayjs(item.createdAt).fromNow()}
-          id={item.id}
           content={
-            <NotificationContent>
+            <div className={clsx(_CLASS_IS + '-item-content')}>
               {item.content}{' '}
               {!item.read && (
                 <span>
@@ -213,10 +199,10 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
                   </svg>
                 </span>
               )}
-            </NotificationContent>
+            </div>
           }
           headerExtraContent={<NotificationReadButton id={item.id} read={item.read} />}
-          className={clsx(_CLASS_IS + '-item', contentCardProps?.className)}
+          className={clsx(_CLASS_IS + '-item')}
         />
       )
     })
@@ -247,11 +233,10 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
     return <div>{isFetching && token && host && !data && 'Loading...'}</div>
   }, [loadingView, token, host, data, isFetching])
   
+  const Container = components?.Container ?? 'div'
+
   return (
-    <StyledNotification
-      {...rest}
-      className={clsx(_CLASS_IS, rest?.className)}
-    >
+    <Container className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
         {...titleProps || {}}
         count={data?.loadUnreadNotificationCount?.totalCount ?? 0}
@@ -260,13 +245,9 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
       {renderToggleType}
       {renderLoading}
       {renderItems}
-    </StyledNotification>
+    </Container>
   )
 }
-
-const StyledNotificationTitle = styled('div', {
-  marginBottom: '16px'
-})
 
 export interface NotificationTitleChildrenCallbackProps {
   count: number
@@ -276,16 +257,17 @@ export type NotificationTitleProps = NotificationProps['titleProps'] & {
   children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
   count: number,
   loading: boolean
+
 }
 const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
   const { children, count, loading, title } = props
   if (children) {
     return children({ count, loading })
   }
+  const Container = props?.Container ?? 'div'
 
   return (
-    <StyledNotificationTitle
-      css={props.css}
+    <Container
       className={clsx(
         _CLASS_IS + '-title',
         props.className,
@@ -293,9 +275,7 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
       >
       {title ?? 'Notification'}
       {' '}
-      <NotificationBadge className={clsx(_CLASS_IS + '-title-badges')}>
-        {count}
-      </NotificationBadge>
-    </StyledNotificationTitle>
+      <Avatar className={clsx(_CLASS_IS + '-title-badges')} initials={count.toString()} />
+    </Container>
   )
 }
