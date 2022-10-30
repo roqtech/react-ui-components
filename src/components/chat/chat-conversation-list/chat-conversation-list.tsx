@@ -37,7 +37,7 @@ export interface ChatConversationListProps
   currentConversationId: string;
   initialLoad?: boolean;
   disabled?: boolean;
-  onLoadMore?: (query: ChatConversationListRequestPayloadInterface) => void;
+  onLoadMore: (query: ChatConversationListRequestPayloadInterface) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -152,10 +152,12 @@ const ChatConversationList = (props: ChatConversationListProps) => {
     </Container>
   );
 };
-export default withChatApi(({ fetchConversationList, selectConversation }) => ({
-  onLoadMore: fetchConversationList,
-  onConversationSelect: selectConversation,
-}))(
+export default withChatApi<ChatConversationListProps>(
+  ({ fetchConversationList, selectConversation }) => ({
+    onLoadMore: fetchConversationList,
+    onConversationSelect: selectConversation,
+  })
+)(
   withChatState(
     ({
       online,

@@ -1,0 +1,39 @@
+@import "../../styles/styles.scss";
+
+$notification-title-mb: 16px;
+
+:root {
+  --rc-notification-title-mb: #{$notification-title-mb}px;
+}
+
+.roq-notification-title {
+  color: var(--rc-primary-text-color);
+  margin-bottom: #{$notification-title-mb};
+  > .roq-component-avatar {
+    display: inline-flex;
+    background-color: var(--rc-blueGray-900);
+    font-weight: medium;
+  }
+}
+
+.roq-notification-item-content {
+  position: relative;
+  > span {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 4px;
+      height: 4px;
+      color: var(--rc-error)
+  }
+}
+
+.roq-notification-bell {
+  display: flex;
+  > svg {
+    margin-top: 8px;
+  }
+  &-badge {
+    background-color: var(--rc-error);
+  }
+}

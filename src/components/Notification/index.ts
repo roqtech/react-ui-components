@@ -1,4 +1,5 @@
-export { Notification } from './Notification'
+export { Notification } from './notification'
+export { NotificationBell } from './notification-bell'
 export type {
   NotificationLoadingViewCallbackProps,
   NotificationChildrenCallbackProps,
@@ -7,5 +8,5 @@ export type {
   NotificationContentViewCallbackProps,
   NotificationTitleProps,
   NotificationType,
-} from './Notification'
+} from './notification'
 

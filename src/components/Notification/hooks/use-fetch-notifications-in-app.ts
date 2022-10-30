@@ -1,6 +1,6 @@
 import { useResolveProvider } from 'src/components/Provider'
 import { NotificationsInAppForCurrentUserQueryVariables, useNotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types'
-import { NotificationProps } from '../Notification'
+import { NotificationProps } from '../notification'
 import { useDefaultNotificationsVariables } from './use-fetch-notification-variables'
 
 type UseFetchNotificationsInAppArgs = Pick<

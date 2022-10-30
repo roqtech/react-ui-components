@@ -1,0 +1,30 @@
+@import "../../../styles/styles.scss";
+
+$send-button-min-width: 32px;
+$send-button-height: 32px;
+
+:root {
+  --rc-chat-message-textarea: calc(var(--rc-layout-step) * 4);
+
+  --rc-chat-message-textarea: calc(var(--rc-layout-step) * 4);
+}
+
+@include roq-component("chat-message-editor") {
+  $container: &;
+
+  resize: none;
+  outline: none;
+  padding: 12px 24px;
+  overflow: scroll;
+  position: relative;
+  max-height: 192px;
+  border-color: #cbd5e1;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  overflow-wrap: break-word;
+
+  &__textarea {
+    @include typography;
+  }
+}

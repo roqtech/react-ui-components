@@ -3,7 +3,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { Notification } from "./components/Notification"
+import { Notification } from "./components/notification"
 import { RoqProvider } from './components/Provider/Provider';
 
 const queryClient = new QueryClient();

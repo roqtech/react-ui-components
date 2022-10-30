@@ -1,12 +1,12 @@
 @import "../../../styles/styles.scss";
 
-$send-button-width: 103px;
-$send-button-height: 36px;
+$send-button-min-width: 32px;
+$send-button-height: 32px;
 
 :root {
-  --rc-chat-message-input-padding: calc(var(--rc-layout-step) * 6);
-  --rc-chat-message-input-border-color: var(--rc-divider);
-  --rc-chat-message-input-border-width: 2px;
+  --rc-chat-message-input-padding: calc(var(--rc-layout-step) * 4);
+  --rc-chat-message-input-border-color: transparent;
+  --rc-chat-message-input-border-width: 0;
   --rc-chat-message-input-border-style: solid;
 
   --rc-chat-message-input-textarea-margin: 0 calc(var(--rc-layout-step) * 2) 0
@@ -19,7 +19,7 @@ $send-button-height: 36px;
 
   --rc-chat-message-input-send-button-cursor: pointer;
   --rc-chat-message-input-send-button-border: none;
-  --rc-chat-message-input-send-button-width: #{$send-button-width};
+  --rc-chat-message-input-send-button-min-width: #{$send-button-min-width};
   --rc-chat-message-input-send-button-height: #{$send-button-height};
   --rc-chat-message-input-send-button-color: var(--rc-blueGray-50);
   --rc-chat-message-input-send-button-background: var(--rc-primary);
@@ -43,13 +43,14 @@ $send-button-height: 36px;
   $container: &;
   padding: var(--rc-chat-message-input-padding);
 
-  border-top-color: var(--rc-chat-conversation-header-border-color);
-  border-top-width: var(--rc-chat-conversation-header-border-width);
+  border-top-color: var(--rc-chat-message-input-border-color);
+  border-top-width: var(--rc-chat-message-input-border-width);
   border-top-style: var(--rc-chat-message-input-border-style);
 
   overflow: hidden;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   width: 100%;
 
   &__textarea {
@@ -69,7 +70,7 @@ $send-button-height: 36px;
 
     cursor: var(--rc-chat-message-input-send-button-cursor);
     border: var(--rc-chat-message-input-send-button-border);
-    width: var(--rc-chat-message-input-send-button-width);
+    min-width: var(--rc-chat-message-input-send-button-width);
     height: var(--rc-chat-message-input-send-button-height);
     padding: var(--rc-chat-message-input-send-button-pading);
     background: var(--rc-chat-message-input-send-button-background);

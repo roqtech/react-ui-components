@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import AppDecorators from '../../../.storybook/decorators'
-import { NotificationBell } from './NotificationBell';
+import { NotificationBell } from './notification-bell';
 
 export default {
   title: 'Roq Components/NotificationBell',
@@ -41,20 +41,6 @@ Primary.args = {
 
 export const Secondary = (args) => (
   <NotificationBell
-    dotView={{
-      css: {
-        backgroundColor: 'var(--colors-green9)'
-      }
-    }}
-  />
-)
-Secondary.args = {
-  host: undefined,
-  token: undefined,
-}
-
-export const Third = (args) => (
-  <NotificationBell
     bellIcon={
       <svg
         width='24'
@@ -72,15 +58,9 @@ export const Third = (args) => (
         ></path>
       </svg>
     }
-    dotView={{
-      css: {
-        backgroundColor: 'var(--colors-gray9)',
-        color: 'var(--colors-gray12)'
-      }
-    }}
   />
 )
-Third.args = {
+Secondary.args = {
   host: undefined,
   token: undefined,
 }

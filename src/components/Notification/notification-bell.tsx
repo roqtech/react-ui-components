@@ -1,56 +1,32 @@
-import { redA } from '@radix-ui/colors'
 import React, { ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { styled } from 'src/styles'
 import { IRoqProvider, useResolveProvider } from '../Provider'
 import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,
   NotificationType,
-} from './Notification'
-import { Avatar, AvatarFallback } from './NotificationBadge'
-import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
-
+} from './notification'
 import type { ClassValue } from 'clsx'
+import { Avatar } from '../common'
 import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types'
-
-const Circle = styled(Avatar, {
-  backgroundColor: redA.redA8,
-  color: '#fff',
-  width: 16,
-  height: 16,
-  marginTop: -4,
-})
-const StyledNotificationBell = styled('div', {
-  display: 'flex',
-  svg: {
-    backgroundColor: 'inherit',
-  },
-})
-const StyledNotificationBadge = styled(AvatarFallback, {
-  backgroundColor: 'inherit',
-  color: 'inherit',
-  fontSize: '0.65rem',
-})
+import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
 interface NotificationBellProps extends Partial<IRoqProvider> {
+  className?: ClassValue
   type?: NotificationType
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
   bellIcon?: ReactNode
   dotView?: {
     children?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element
-    css?: React.ComponentProps<typeof Circle>['css']
     className?: ClassValue
   },
   fetchProps?: {
     variables?: NotificationsInAppForCurrentUserQueryVariables
   }
 }
-const NotificationBell: React.FC<
-  React.ComponentProps<typeof StyledNotificationBell> & NotificationBellProps
-> = (props) => {
+const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   const {
     type: typeProp,
     host: _host,
@@ -84,24 +60,12 @@ const NotificationBell: React.FC<
       return dotView.children(fetchResult)
     }
     return (
-      <Circle
-        css={{
-          width: count > 10 ? 20 : 16,
-          height: count > 10 ? 20 : 16,
-          ...dotView?.css,
-        }}
-        className={clsx(_CLASS_IS + '-dot', dotView?.className)}
-      >
-        <StyledNotificationBadge>{count}</StyledNotificationBadge>
-      </Circle>
+      <Avatar size='small' className={clsx(_CLASS_IS + '-badge')} initials={count.toString()} classNames={{}} />
     )
   }, [dotView, count])
 
   return (
-    <StyledNotificationBell
-      css={rest?.css}
-      className={clsx(_CLASS_IS, rest?.className)}
-    >
+    <div className={clsx(_CLASS_IS, rest?.className)}>
       {bellIcon ?? (
         <svg
           width='24'
@@ -119,7 +83,7 @@ const NotificationBell: React.FC<
         </svg>
       )}
       {renderDot}
-    </StyledNotificationBell>
+    </div>
   )
 }
 

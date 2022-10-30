@@ -3,22 +3,23 @@ import "./chat-conversation-card.scss";
 import clsx from "classnames";
 import React, { CSSProperties, ComponentType, useMemo, ReactNode } from "react";
 
-import { AvatarGroup } from "../../common/avatar-group/avatar-group";
-import { StackedText } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatUserInterface } from "src/types";
-import { Badge, TimeAgo } from "src/components/common";
+import { ChatConversationInterface, ChatUserInterface } from "src/types";
+import {
+  ChatFormattedMessage,
+  Badge,
+  TimeAgo,
+  AvatarGroup,
+  StackedText,
+} from "src";
+import { ChatFormattedMessageProps } from "../chat-formatted-message";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
-export interface ChatConversationCardProps {
-  title: string;
-  timestamp: Date | string;
-  message: ReactNode | string;
-  members: ChatUserInterface[];
+export interface ChatConversationCardProps extends ChatConversationInterface {
   selected?: boolean;
-  unreadCount?: number;
   onClick?: () => void;
+  actions?: ReactNode;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -35,7 +36,7 @@ export interface ChatConversationCardProps {
     Actions?: ComponentType<any>;
     UnreadBadge?: ComponentType<any>;
     Title?: ComponentType<any>;
-    Message?: ComponentType<any>;
+    Message?: ComponentType<ChatFormattedMessageProps>;
   };
 }
 
@@ -49,6 +50,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
     selected,
     unreadCount = 0,
     onClick,
+    actions,
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -57,7 +59,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const Actions = components?.Actions ?? "div";
   const UnreadBadge = components?.UnreadBadge ?? Badge;
   const Title = components?.Title ?? StackedText;
-  const Message = components?.Message ?? "p";
+  const Message = components?.Message ?? ChatFormattedMessage;
 
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
 
@@ -93,6 +95,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
           <Actions
             className={clsx(_CLASS_IS + "__top__actions", classNames?.actions)}
           >
+            {actions}
             {hasUnreadMessages && (
               <UnreadBadge
                 classNames={{
@@ -110,9 +113,11 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
             )}
           </Actions>
         </Top>
-        <Message className={clsx(_CLASS_IS + "__message", classNames?.message)}>
-          {message}
-        </Message>
+        <Message
+          className={clsx(_CLASS_IS + "__message", classNames?.message)}
+          content={message}
+          prevew
+        />
       </Inner>
     </Container>
   );

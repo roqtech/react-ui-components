@@ -2,8 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import AppDecorators from '../../../.storybook/decorators'
-import { Notification } from './Notification';
-import { NotificationBadge as RNotificationBadge } from './NotificationBadge';
+import { Notification } from './notification';
 
 export default {
   title: 'Roq Components/Notification',
@@ -72,16 +71,4 @@ export const CustomCss = (args) => (
 )
 CustomCss.args = {
   host: undefined
-}
-
-export const NotificationBadge = (args) => (
-  <RNotificationBadge {...args} />
-)
-NotificationBadge.args = {
-  count: 4,
-  host: undefined,
-  css: {
-    backgroundColor: 'var(--colors-blue9)',
-    color: 'var(--colors-red11)'
-  }
 }

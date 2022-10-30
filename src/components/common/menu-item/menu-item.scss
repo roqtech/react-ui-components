@@ -1,0 +1,33 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-menu-item-padding: calc(var(--rc-layout-step) * 3)
+    calc(var(--rc-layout-step) * 4);
+
+  --rc-menu-item-cursor: pointer;
+  --rc-menu-item-color: var(--rc-blueGray-900);
+
+  --rc-menu-item-background: transparent;
+
+  --rc-menu-item-hover-background: var(--rc-blueGray-100);
+
+  --rc-menu-item-focus-background: var(--rc-menu-item-hover-background);
+}
+
+@include roq-component("menu-item") {
+  padding: var(--rc-menu-item-padding);
+  background: var(--rc-menu-item-background);
+  cursor: var(--rc-menu-item-cursor);
+  color: var(--rc-menu-item-color);
+
+  &:hover {
+    background: var(--rc-menu-item-hover-background);
+  }
+
+  &:focus {
+    background: var(--rc-menu-item-focus-background);
+  }
+
+  &__inner {
+  }
+}

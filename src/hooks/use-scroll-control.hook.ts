@@ -27,7 +27,6 @@ export const useScrollControl = (
   const elementRef = React.useCallback((node: HTMLDivElement) => {
     scrollableRootRef.current = node;
     scrollableRootRef.scrollTop = scrollableRootRef.scrollHeight;
-    debugger;
   }, []);
 
   const scrollDown = useCallback(() => {
@@ -37,7 +36,6 @@ export const useScrollControl = (
   const scroll = useMemo(() => {
     scrollDown;
   }, [scrollDown]);
-
 
   useEffect(() => {
     const scrollableRoot = scrollableRootRef.current;

@@ -54,6 +54,7 @@ export function withChatState<TProps, TContext = TProps>(
                   (state ?? MOCKED_STATE) as ChatStateContextInterface
                 )}
                 {...this.props}
+                ref={this.props.forwardedRef}
                 forwardedRef={this.props.forwardedRef}
               />
             )}

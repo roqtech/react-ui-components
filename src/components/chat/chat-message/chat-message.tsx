@@ -8,23 +8,23 @@ import {
   ChatMessageBubbleProps,
 } from "../chat-message-bubble";
 import { Avatar, TimeAgo } from "src/components/common";
-import { ChatUserInterface } from "src/types";
+import { ChatMessageInterface, ChatUserInterface } from "src/types";
+import { ChatFormattedMessage } from "src/index";
+import { ChatFormattedMessageProps } from "../chat-formatted-message";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 
 export interface ChatMessageProps
-  extends Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
+  extends ChatMessageInterface,
+    Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
   showUser: boolean;
   showTime: boolean;
-  message: ReactNode;
-  timestamp: Date | string | number;
-  user: ChatUserInterface;
   style?: CSSProperties;
   selected?: boolean;
   className?: string;
   classNames?: {
     container?: string;
-    content?: string;
+  content?: string;
     user?: string;
     userTime?: string;
     userName?: string;
@@ -32,7 +32,10 @@ export interface ChatMessageProps
   };
   components?: {
     Container: ComponentType<any>;
-    Content: ComponentType<ChatMessageBubbleProps>;
+    Inner: ComponentType<any>;
+    Content: ComponentType<any>;
+    MessageBubble: ComponentType<ChatMessageBubbleProps>;
+    Message: ComponentType<ChatFormattedMessageProps>;
     User: ComponentType<any>;
     Time: ComponentType<any>;
     Name: ComponentType<any>;
@@ -58,7 +61,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
   const Content = components?.Content ?? "div";
-  const Message = components?.Message ?? ChatMessageBubble;
+  const MessageBubble = components?.MessageBubble ?? ChatMessageBubble;
+  const Message = components?.Message ?? ChatFormattedMessage;
 
   const User = components?.User ?? "div";
   const Time = components?.Time ?? TimeAgo;
@@ -91,12 +95,12 @@ export const ChatMessage = (props: ChatMessageProps) => {
         <Content
           className={clsx(_CLASS_IS + "__inner__content", classNames?.content)}
         >
-          <Message
+          <MessageBubble
             className={clsx(
               _CLASS_IS + "__inner__content__message",
               classNames?.content
             )}
-            message={message}
+            message={<Message content={message} />}
             isSent={isSent}
             showCorner={showCorner}
           />

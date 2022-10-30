@@ -1,10 +1,9 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-conversations-padding: 0;
-
-  --rc-chat-conversations-inner-padding: calc(var(--rc-layout-step) * 2);
-  --rc-chat-conversations-inner-card-margin: calc(var(--rc-layout-step) * 2) 0px;
+  --rc-chat-message-list-list-padding: calc(var(--rc-layout-step) * 7)
+    calc(var(--rc-layout-step) * 8) calc(var(--rc-layout-step) * 5)
+    calc(var(--rc-layout-step) * 8);
 }
 
 @include roq-component("chat-message-list") {
@@ -16,6 +15,8 @@
   overflow-y: auto;
 
   &__list {
+    padding: var(--rc-chat-message-list-list-padding);
+
     &__loader {
       flex: 1;
       flex-shrink: 0;
