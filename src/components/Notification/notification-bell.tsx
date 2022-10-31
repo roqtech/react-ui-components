@@ -9,7 +9,7 @@ import {
 } from './notification'
 import type { ClassValue } from 'clsx'
 import { Avatar } from '../common'
-import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types'
+import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'

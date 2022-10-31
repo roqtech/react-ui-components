@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useMemo } from 'react';
-import { UpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
+import { UpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types/graphql';
 import { UseNotificationTypeCategoryInterfaceArg } from './use-notification-category.hook';
 import { useMutation } from '@apollo/client';
 import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/query';

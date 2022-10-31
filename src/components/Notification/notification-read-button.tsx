@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { MarkNotificationAsRead, MarkNotificationAsUnRead } from 'src/lib/graphql/query';
 import { ActionButton, Menu, MenuItem } from '../common';
-import { useMutation } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
 
 export function useReadNotification(id: string) {
   return useMutation(MarkNotificationAsRead, {
@@ -24,16 +24,19 @@ export interface NotificationReadButtonProps {
 
 const NotificationReadButton: React.FC<NotificationReadButtonProps> = (props) => {
   const { id, read } = props
+  const client = useApolloClient()
   const [readMutate] = useReadNotification(id)
   const [unreadMutate] = useUnReadNotification(id)
   
   const onClick = useCallback(() => {
     if (read) {
       unreadMutate().then(() => {
+        client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
       })
       return
     } 
     readMutate().then(() => {
+      client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
     })
   }, [read])
   

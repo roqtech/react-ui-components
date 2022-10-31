@@ -8,7 +8,7 @@ import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
 } from 'src/lib/graphql/query'
-import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types'
+import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
 import type { ClassValue } from 'clsx'

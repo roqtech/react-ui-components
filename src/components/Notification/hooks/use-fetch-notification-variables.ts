@@ -1,4 +1,4 @@
-import { NotificationInAppOrderSortEnum, NotificationsInAppForCurrentUserQueryVariables, OrderEnum } from "src/lib/graphql/types"
+import { NotificationInAppOrderSortEnum, NotificationsInAppForCurrentUserQueryVariables, OrderEnum } from 'src/lib/graphql/types/graphql'
 import { NotificationType } from "../notification"
 
 const minDate = '2022-09-19T03:40:40.534Z'

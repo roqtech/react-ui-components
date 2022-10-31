@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { config } from 'src/utils/config';
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "src/hooks/apollo-client";
+import { useApollo } from 'src/hooks/use-apollo';
 
 type Optional<T> = T | null
 export interface IRoqProvider {

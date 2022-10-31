@@ -1,29 +1,10 @@
-import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
+/* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      ...requestInit,
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -31,7 +12,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** Date custom scalar type */
   Date: any;
+  /** JSONObject custom scalar type */
   JsonObject: any;
 };
 
@@ -3356,151 +3339,8 @@ export type UpsertNotificationTypeUserPreferenceMutationVariables = Exact<{
 export type UpsertNotificationTypeUserPreferenceMutation = { __typename?: 'Mutation', upsertNotificationTypeUserPreference: { __typename?: 'NotificationTypeUserPreferenceModel', id: string, web: boolean, mail: boolean, key?: string | null, userId: string, notificationTypeId: string } };
 
 
-export const NotificationsInAppForCurrentUserDocument = `
-    query notificationsInAppForCurrentUser($limit: Int, $order: NotificationInAppOrderArgType!, $notificationfilter: NotificationInAppFilterArgType, $unreadCountFilter: NotificationInAppFilterArgType) {
-  loadNotifications: notificationsInAppForCurrentUser(
-    limit: $limit
-    order: $order
-    filter: $notificationfilter
-  ) {
-    totalCount
-    data {
-      id
-      title
-      content
-      locale
-      createdAt
-      read
-      icon
-    }
-  }
-  loadUnreadNotificationCount: notificationsInAppForCurrentUser(
-    limit: $limit
-    filter: $unreadCountFilter
-  ) {
-    totalCount
-  }
-}
-    `;
-export const useNotificationsInAppForCurrentUserQuery = <
-      TData = NotificationsInAppForCurrentUserQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables: NotificationsInAppForCurrentUserQueryVariables,
-      options?: UseQueryOptions<NotificationsInAppForCurrentUserQuery, TError, TData>
-    ) =>
-    useQuery<NotificationsInAppForCurrentUserQuery, TError, TData>(
-      ['notificationsInAppForCurrentUser', variables],
-      fetcher<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, NotificationsInAppForCurrentUserDocument, variables),
-      options
-    );
-export const MarkAsReadNotificationDocument = `
-    mutation MarkAsReadNotification($id: ID!) {
-  markAsReadNotification(id: $id) {
-    id
-    read
-  }
-}
-    `;
-export const useMarkAsReadNotificationMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<MarkAsReadNotificationMutation, TError, MarkAsReadNotificationMutationVariables, TContext>
-    ) =>
-    useMutation<MarkAsReadNotificationMutation, TError, MarkAsReadNotificationMutationVariables, TContext>(
-      ['MarkAsReadNotification'],
-      (variables?: MarkAsReadNotificationMutationVariables) => fetcher<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, MarkAsReadNotificationDocument, variables)(),
-      options
-    );
-export const MarkAsUnreadNotificationDocument = `
-    mutation MarkAsUnreadNotification($id: ID!) {
-  markAsUnreadNotification(id: $id) {
-    id
-    read
-  }
-}
-    `;
-export const useMarkAsUnreadNotificationMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<MarkAsUnreadNotificationMutation, TError, MarkAsUnreadNotificationMutationVariables, TContext>
-    ) =>
-    useMutation<MarkAsUnreadNotificationMutation, TError, MarkAsUnreadNotificationMutationVariables, TContext>(
-      ['MarkAsUnreadNotification'],
-      (variables?: MarkAsUnreadNotificationMutationVariables) => fetcher<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, MarkAsUnreadNotificationDocument, variables)(),
-      options
-    );
-export const NotificationTypeCategoriesDocument = `
-    query NotificationTypeCategories {
-  notificationTypeCategories {
-    data {
-      id
-      key
-      description
-      notificationTypes {
-        data {
-          id
-          key
-          description
-          defaultUserActiveWeb
-          defaultUserActiveMail
-          notificationTypeUserPreferences {
-            data {
-              id
-              key
-              web
-              mail
-              userId
-              notificationTypeId
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-export const useNotificationTypeCategoriesQuery = <
-      TData = NotificationTypeCategoriesQuery,
-      TError = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      variables?: NotificationTypeCategoriesQueryVariables,
-      options?: UseQueryOptions<NotificationTypeCategoriesQuery, TError, TData>
-    ) =>
-    useQuery<NotificationTypeCategoriesQuery, TError, TData>(
-      variables === undefined ? ['NotificationTypeCategories'] : ['NotificationTypeCategories', variables],
-      fetcher<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, NotificationTypeCategoriesDocument, variables),
-      options
-    );
-export const UpsertNotificationTypeUserPreferenceDocument = `
-    mutation UpsertNotificationTypeUserPreference($web: Boolean!, $mail: Boolean!, $notificationTypeId: ID!, $id: ID) {
-  upsertNotificationTypeUserPreference(
-    notificationTypeUserPreference: {id: $id, web: $web, mail: $mail, notificationTypeId: $notificationTypeId}
-  ) {
-    id
-    web
-    mail
-    key
-    userId
-    notificationTypeId
-  }
-}
-    `;
-export const useUpsertNotificationTypeUserPreferenceMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      dataSource: { endpoint: string, fetchParams?: RequestInit },
-      options?: UseMutationOptions<UpsertNotificationTypeUserPreferenceMutation, TError, UpsertNotificationTypeUserPreferenceMutationVariables, TContext>
-    ) =>
-    useMutation<UpsertNotificationTypeUserPreferenceMutation, TError, UpsertNotificationTypeUserPreferenceMutationVariables, TContext>(
-      ['UpsertNotificationTypeUserPreference'],
-      (variables?: UpsertNotificationTypeUserPreferenceMutationVariables) => fetcher<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpsertNotificationTypeUserPreferenceDocument, variables)(),
-      options
-    );
+export const NotificationsInAppForCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppOrderArgType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"loadNotifications"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"locale"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"read"}},{"kind":"Field","name":{"kind":"Name","value":"icon"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"loadUnreadNotificationCount"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>;
+export const MarkAsReadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsReadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsReadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>;
+export const MarkAsUnreadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsUnreadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsUnreadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>;
+export const NotificationTypeCategoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NotificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveWeb"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveMail"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeUserPreferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>;
+export const UpsertNotificationTypeUserPreferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpsertNotificationTypeUserPreference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"web"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mail"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertNotificationTypeUserPreference"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"notificationTypeUserPreference"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"web"},"value":{"kind":"Variable","name":{"kind":"Name","value":"web"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"mail"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mail"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"notificationTypeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]} as unknown as DocumentNode<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>;
