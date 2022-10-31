@@ -34,6 +34,8 @@
   --rc-message-center-content-sidebar-width: 400px;
   --rc-message-center-content-sidebar-flex-shrink: 0;
   --rc-message-center-content-sidebar-min-width: 0;
+  --rc-message-center-content-sidebar-margin: 0 0 0
+    calc(var(--rc-layout-step) * 6);
 
   --rc-message-center-content-chat-flex-grow: 1;
   --rc-message-center-content-chat-flex-shrink: 0;
@@ -123,9 +125,11 @@
     gap: var(--rc-message-center-content-spacing);
 
     &__sidebar {
+      background-color: red;
       width: var(--rc-message-center-content-sidebar-width);
       flex-shrink: var(--rc-message-center-content-sidebar-flex-shrink);
       min-width: var(--rc-message-center-content-sidebar-min-width);
+      margin-left: var(--rc-message-center-content-sidebar-margin);
     }
 
     &__chat {

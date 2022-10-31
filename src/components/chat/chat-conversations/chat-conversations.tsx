@@ -23,6 +23,7 @@ export interface ChatConversationsProps {
   children?: ReactNode;
   conversations: ChatConversationInterface[];
   selectedConversationId?: string;
+  editableConversationId?: string;
   onConversationSelect?: (conversationId: string) => void;
   onAction?: (action: string) => void;
   style?: CSSProperties;
@@ -36,6 +37,8 @@ export interface ChatConversationsProps {
     Container?: ComponentType<any>;
     Inner?: ComponentType<any>;
     ConversationCard?: ComponentType<ChatConversationCardProps>;
+    ConversationForm?: ComponentType<any>;
+    ConversationMenu?: ComponentType<any>;
   };
 }
 
@@ -45,6 +48,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
     children,
     conversations,
     selectedConversationId,
+    editableConversationId,
     onConversationSelect,
     onAction,
   } = props;
@@ -52,6 +56,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
   const ConversationCard = components?.ConversationCard ?? ChatConversationCard;
+  const ConversationForm = components?.ConversationForm ?? "div";
   const ConversationMenu = components?.ConversationMenu ?? ChatConversationMenu;
 
   const handleConversationClick = useCallback(
@@ -61,38 +66,59 @@ const ChatConversations = (props: ChatConversationsProps) => {
     [onConversationSelect]
   );
 
+  const isConversationEditable = useCallback(
+    (conversation: ChatConversationInterface) => {
+      return conversation.id === editableConversationId;
+    },
+    [editableConversationId]
+  );
+
+  const renderConversationCardEditForm = useCallback(() => {
+    return <ConversationForm>form</ConversationForm>;
+  }, [ConversationForm]);
+
   const renderConversationCard = useCallback(
-    (conversationProps) => (
-      <ConversationCard
-        key={conversationProps.id}
-        id={conversationProps.id}
-        selected={selectedConversationId === conversationProps?.id}
-        className={clsx(
-          _CLASS_IS + "__inner" + "__card",
-          classNames?.conversationCard
-        )}
-        message={conversationProps?.lastMessage?.body}
-        timestamp={conversationProps?.lastMessageTimestamp}
-        {...conversationProps}
-        onClick={handleConversationClick(conversationProps?.id)}
-        actions={
-          <ActionButton
-            components={{
-              Dropdown: (props) =>
-                ConversationMenu({
-                  ...props,
-                  conversationId: conversationProps.id,
-                }),
-            }}
-          />
-        }
-      />
-    ),
+    (conversationProps) => {
+      const content = isConversationEditable(conversationProps)
+        ? renderConversationCardEditForm(conversationProps)
+        : null;
+
+      return (
+        <ConversationCard
+          key={conversationProps.id}
+          id={conversationProps.id}
+          selected={selectedConversationId === conversationProps?.id}
+          className={clsx(
+            _CLASS_IS + "__inner" + "__card",
+            classNames?.conversationCard
+          )}
+          message={conversationProps?.lastMessage?.body}
+          timestamp={conversationProps?.lastMessageTimestamp}
+          {...conversationProps}
+          onClick={handleConversationClick(conversationProps?.id)}
+          actions={
+            <ActionButton
+              components={{
+                Dropdown: (props) =>
+                  ConversationMenu({
+                    ...props,
+                    conversationId: conversationProps.id,
+                  }),
+              }}
+            />
+          }
+        >
+          {content}
+        </ConversationCard>
+      );
+    },
     [
       ConversationCard,
       ConversationMenu,
       selectedConversationId,
       handleConversationClick,
+      isConversationEditable,
+      renderConversationCardEditForm,
     ]
   );
 
@@ -115,5 +141,6 @@ export default withChatApi(({ selectConversation }) => ({
   withChatState(({ conversations, currentConversation }) => ({
     conversations: conversations?.data,
     selectedConversationId: currentConversation?.id,
+    editableConversationId: conversations.editableId,
   }))(ChatConversations)
 );

@@ -91,7 +91,10 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
           {titleLabel}
         </Title>
       </Header>
-      <List className={clsx(_CLASS_IS + "__list", classNames?.list)} />
+      <List
+        className={clsx(_CLASS_IS + "__list", classNames?.list)}
+        selectedIds={selectedIds}
+      />
       <Actions className={clsx(_CLASS_IS + "__actions", classNames?.list)}>
         <CancelButton
           className={clsx(_CLASS_IS + "__actions__cancel", classNames?.list)}

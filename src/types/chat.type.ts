@@ -41,6 +41,8 @@ export interface ChatConversationInterface {
   title: string;
   timestamp: ChatTimestampType;
   message: string;
+
+  memberIds: string[];
   members: ChatUserInterface[];
 
   lastMessage?: ChatMessageInterface;

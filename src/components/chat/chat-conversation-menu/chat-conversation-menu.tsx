@@ -63,7 +63,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose]);
 
   const handleRenameClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }

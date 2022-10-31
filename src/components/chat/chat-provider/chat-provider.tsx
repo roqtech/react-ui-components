@@ -91,6 +91,8 @@ export interface ChatApiContextInterface {
   fetchConversationList: (
     query: ChatConversationListRequestPayloadInterface
   ) => void;
+  resetEditableConversation: () => void;
+  setEditableConversation: (conversationId: string) => void;
 
   fetchMessageList: (query: ChatFetchMessagesRequestPayloadInterface) => void;
 
@@ -553,7 +555,7 @@ export const ChatProvider = (
 
       // messageCenterPresenceAdapter.updateOne(state.presence, { id, changes: userPresenceChanges });
     },
-    [socket]
+    [socket, setPresence]
   );
 
   const handleUserOffline = useCallback(
@@ -564,7 +566,7 @@ export const ChatProvider = (
 
       // messageCenterPresenceAdapter.updateOne(state.presence, { id, changes: userPresenceChanges });
     },
-    [socket]
+    [socket, setPresence]
   );
 
   const handleMessagesRead = useCallback(() => {
@@ -743,11 +745,15 @@ export const ChatProvider = (
     (conversationId: string | null) => {
       setConversations((ps) => ({
         ...ps,
-        editableConversationId: conversationId,
+        editableId: conversationId,
       }));
     },
     [setConversations]
   );
+
+  const resetEditableConversation = useCallback(() => {
+    setEditableConversation(null);
+  }, [setEditableConversation]);
 
   const sendMessage = useCallback(
     (message: Partial<ChatSendMessageRequestPayloadInterface>) => {
@@ -769,6 +775,10 @@ export const ChatProvider = (
     [setMessages]
   );
 
+  const resetEditableMessage = useCallback(() => {
+    setEditableMessage(null);
+  }, [setEditableMessage]);
+
   const editMessage = useCallback(
     (payload: Partial<ChatMessageEditRequestPayloadInterface>) => {
       socket?.editMessage({
@@ -776,9 +786,9 @@ export const ChatProvider = (
         ...payload,
       });
 
-      setEditableMessage(null);
+      resetEditableMessage();
     },
-    [messages?.editableId, setEditableMessage]
+    [messages?.editableId, resetEditableMessage]
   );
 
   const deleteMessage = useCallback(
@@ -1055,6 +1065,8 @@ export const ChatProvider = (
       fetchRecipientList,
       resetSelectedRecipients,
       setSelectedRecipients,
+      resetEditableConversation,
+      setEditableConversation,
     }),
     [
       getId,
@@ -1081,6 +1093,8 @@ export const ChatProvider = (
       fetchRecipientList,
       resetSelectedRecipients,
       setSelectedRecipients,
+      resetEditableConversation,
+      setEditableConversation,
     ]
   );
 
