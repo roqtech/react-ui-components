@@ -1,0 +1,61 @@
+@import "../../styles/styles.scss";
+
+.roq-card {
+  border-width: 1px;
+  border-color: var(--rc-blueGray-200);
+  border-style: solid;
+  min-width: 240px;
+  max-width: 480px;
+  box-shadow: none;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.roq-card-body {
+  padding: 1rem;
+  font-Size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--rc-text-primary-color)
+}
+
+.roq-card-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.roq-card-header-extra {
+  color: var(--rc-blueGray-800);
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.15px;
+}
+
+.roq-card-title {
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.15px;
+  color: var(--rc-blueGray-800);
+}
+.roq-card-subtitle {
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 24px;
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing: 0.15px;
+  font-weight: 300;
+  color: var(--rc-blueGray-800);
+}

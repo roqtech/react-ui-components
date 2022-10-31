@@ -1,47 +1,45 @@
-import React, { ReactNode, useMemo } from "react"
-import { CSS } from '@stitches/react'
-import { styled } from '../../styles'
-import { CardHeader, CardHeaderExtra } from "./CardHeader"
-import { CardSubTitle, CardTitle } from "./CardTitle"
+import React, { ComponentType, ReactNode, useMemo } from 'react'
+import clsx from 'clsx'
+import './card.scss'
+import type { ClassValue } from 'clsx'
 
+const _CLASS_IS = 'roq-' + 'card'
+interface ChildrenBaseProps {
+  Container?: ComponentType<any>
+  className?: ClassValue
+}
 export interface CardProps {
   title?: string | ReactNode
   subTitle?: string | ReactNode
-  headerExtraContent?: string | ReactNode,
+  headerExtraContent?: string | ReactNode
   children?: ReactNode
   content?: ReactNode
+  className?: ClassValue
+  components?: {
+    Container?: ComponentType<any>
+  }
+  titleProps?: ChildrenBaseProps
+  bodyProps?: ChildrenBaseProps
+  headerProps?: ChildrenBaseProps
+  headerExtraProps?: ChildrenBaseProps
 }
 
-const StyledCard = styled('div', {
-  fontFamily: '$main',
-  borderWidth: 1,
-  borderColor: '$gray12',
-  borderStyle: 'solid',
-  minWidth: 240,
-  maxWidth: 480,
-  boxShadow: "none",
-  boxSizing: "border-box",
-  borderRadius: "8px",
-  marginBottom: "12px"
-})
-export type StyledCardPropsType = typeof StyledCard
+const Card: React.FC<CardProps> = (props) => {
+  const {
+    components,
+    title,
+    subTitle,
+    headerExtraContent,
+    content,
+    bodyProps,
+    headerProps,
+    headerExtraProps,
+    ...rest
+  } = props
 
-const StyledCardBody = styled('div', {
-  padding: '1rem',
-  fontSize: "14px",
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "20px",
-  letterSpacing: "0",
-  color: "$gray7"
-})
-
-const Card: React.FC<CardProps & React.ComponentProps<typeof StyledCard>> = (props) => {
-  const { title, subTitle, headerExtraContent, content, ...rest } = props
-  
   const renderSubtitle = useMemo(() => {
     if (typeof subTitle === 'string') {
-      return <CardSubTitle>{subTitle}</CardSubTitle>
+      return <p className={clsx(_CLASS_IS + '-subtitle')}>{subTitle}</p>
     }
     if (typeof subTitle === 'object') {
       return subTitle
@@ -50,27 +48,56 @@ const Card: React.FC<CardProps & React.ComponentProps<typeof StyledCard>> = (pro
   }, [subTitle])
 
   const renderTitle = useMemo(() => {
-    if (!title) {
-      return <CardTitle>Title {renderSubtitle}</CardTitle>
-    }
-    if (typeof title === 'string') {
-      return <CardTitle>{title} {renderSubtitle}</CardTitle>
+    if (!title || typeof title === 'string') {
+      return (
+        <div>
+          <p className={clsx(_CLASS_IS + '-title')}>{title ?? 'Title'}</p>
+          {renderSubtitle}
+        </div>
+      )
     }
     if (typeof title === 'object') {
-      return <>{title} {renderSubtitle}</>
+      return (
+        <>
+          {title} {renderSubtitle}
+        </>
+      )
     }
     return null
   }, [title])
 
   const children = props.children || content
-  
+
+  const Container = components?.Container || 'div'
+  const ContainerBody = bodyProps?.Container || 'div'
+  const ContainerHeader = headerProps?.Container || 'div'
+  const ContainerHeaderExtra = headerExtraProps?.Container || 'div'
+
   return (
-    <StyledCard {...rest}>
-      <CardHeader>
-        {renderTitle} {headerExtraContent && <CardHeaderExtra>{headerExtraContent}</CardHeaderExtra>}
-      </CardHeader>
-      {children && <StyledCardBody>{children}</StyledCardBody>}
-    </StyledCard>
+    <Container className={clsx(_CLASS_IS, rest.className)}>
+      <ContainerHeader
+        className={clsx(_CLASS_IS + '-header', headerProps?.className)}
+      >
+        {renderTitle}{' '}
+        {headerExtraContent && (
+          <ContainerHeaderExtra
+            className={clsx(
+              _CLASS_IS + '-header-extra',
+              headerExtraProps?.className,
+            )}
+          >
+            {headerExtraContent}
+          </ContainerHeaderExtra>
+        )}
+      </ContainerHeader>
+      {children && (
+        <ContainerBody
+          className={clsx(_CLASS_IS + '-body', bodyProps?.className)}
+        >
+          {children}
+        </ContainerBody>
+      )}
+    </Container>
   )
 }
 

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const NotificationsInAppForCurrentUser = gql`
   query notificationsInAppForCurrentUser(
@@ -33,7 +33,7 @@ export const NotificationsInAppForCurrentUser = gql`
 `
 
 export const MarkNotificationAsRead = gql`
-  mutation MarkAsReadNotificationMutation($id: ID!) {
+  mutation MarkAsReadNotification($id: ID!) {
     markAsReadNotification(id: $id) {
       id
       read
@@ -42,10 +42,65 @@ export const MarkNotificationAsRead = gql`
 `
 
 export const MarkNotificationAsUnRead = gql`
-  mutation MarkAsUnreadNotificationMutation($id: ID!) {
+  mutation MarkAsUnreadNotification($id: ID!) {
     markAsUnreadNotification(id: $id) {
       id
       read
+    }
+  }
+`
+
+export const QueryNotificationTypeCategories = gql`
+  query NotificationTypeCategories {
+    notificationTypeCategories {
+      data {
+        id
+        key
+        description
+        notificationTypes {
+          data {
+            id
+            key
+            description
+            defaultUserActiveWeb
+            defaultUserActiveMail
+            notificationTypeUserPreferences {
+              data {
+                id
+                key
+                web
+                mail
+                userId
+                notificationTypeId
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+export const UpsertNotificationTypeUserPreference = gql`
+  mutation UpsertNotificationTypeUserPreference(
+    $web: Boolean!
+    $mail: Boolean!
+    $notificationTypeId: ID!
+    $id: ID
+  ) {
+    upsertNotificationTypeUserPreference(
+      notificationTypeUserPreference: {
+        id: $id
+        web: $web
+        mail: $mail
+        notificationTypeId: $notificationTypeId
+      }
+    ) {
+      id
+      web
+      mail
+      key
+      userId
+      notificationTypeId
     }
   }
 `

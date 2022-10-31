@@ -1,13 +1,4 @@
-export { Notification } from "./components/Notification";
-export { Button } from "./components/Button";
-export {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardHeaderExtra,
-  CardSubTitle,
-  CardProps,
-} from "./components/Card";
+export { Notification, NotificationBell, NotificationPreference } from "./components/notification";
 export { RoqProvider, useRoq } from "./components/Provider";
 export { styled, theme, css, globalStyles } from "./styles";
 
@@ -59,7 +50,7 @@ export type {
   NotificationContentViewCallbackProps,
   NotificationTitleProps,
   NotificationType,
-} from "./components/Notification";
+} from "./components/notification";
 
 export {
   useInfiniteScroll,

@@ -1,94 +1,34 @@
-import { request } from '../../utils'
-import React, { ReactNode, useMemo, useState } from 'react'
+import React, { ReactElement, ComponentType, ReactNode, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ToggleGroup, ToggleGroupItem, TypeToggleGroup } from 'src/components/ToggleGroup'
-import { QueryObserverResult, useQuery } from 'react-query'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
-  NotificationsInAppForCurrentUser,
 } from 'src/lib/graphql/query'
-import { notificationsInAppForCurrentUser, notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data } from 'src/lib/graphql/types'
+import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
-import { NotificationBadge } from './NotificationBadge'
-import { styled } from 'src/styles'
-
-import type { StyledCardPropsType } from 'src/components/Card'
 import type { ClassValue } from 'clsx'
-import { NotificationReadButton } from './NotificationReadButton'
+import { NotificationReadButton } from './notification-read-button'
+import { Avatar } from '../common'
+import './notification.scss'
+import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
+import { QueryResult } from '@apollo/client'
 
 dayjs.extend(relativeTime)
 
 const _CLASS_IS = 'roq-' + 'notification';
-
-const minDate = '2022-09-19T03:40:40.534Z'
 export type NotificationType = 'all' | 'unread'
-
-export function useNotificationsInApp(
-  args: Pick<NotificationProps, 'token' | 'host' | 'type'>,
-) {
-  const type = args.type
-  const { host, token } = useResolveProvider(args)
-
-  const variables = {
-    limit: 20,
-    order: {
-      order: 'DESC',
-      sort: 'createdAt',
-    },
-    notificationfilter: {
-      createdAt: {
-        moreThan: minDate,
-      },
-      ...(type === 'unread' ? { read: { equalTo: false } } : {}),
-    },
-    unreadCountFilter: {
-      createdAt: {
-        moreThan: minDate,
-      },
-      read: {
-        equalTo: false,
-      },
-    },
-  }
-
-  return useQuery(
-    ['NotificationsInAppForCurrentUser', variables],
-    async () => {
-      if (!host || !token) {
-        return []
-      }
-      const items = await request(
-        {
-          url: host,
-          query: NotificationsInAppForCurrentUser,
-          variables,
-          headers: {
-            'roq-platform-authorization': token as string,
-          },
-        },
-        'data',
-      ).catch(() => [])
-      return items
-    },
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-}
-
 export type NotificationContentViewCallbackProps = {
-  data: notificationsInAppForCurrentUser_notificationsInAppForCurrentUser_data,
+  data: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'][0],
   onRead: () => Promise<Record<string, any>>
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
-
-export type NotificationLoadingViewCallbackProps = QueryObserverResult<notificationsInAppForCurrentUser>
+export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
@@ -96,65 +36,58 @@ export type NotificationTypeToggleCallbackProps = {
 }
 export interface NotificationProps extends Partial<IRoqProvider> {
   type?: NotificationType
-  children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
-  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | null
+  className?: ClassValue
+  components?: {
+    Container?: ComponentType<any>;
+  }
+  children?: (callback: NotificationChildrenCallbackProps) => ReactElement
+  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | ReactElement | null
   contentView?: (
     callback: NotificationContentViewCallbackProps,
-  ) => JSX.Element
-  contentCardProps?: React.ComponentProps<StyledCardPropsType>
+  ) => JSX.Element | ReactElement
   titleProps?: {
-    children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
+    Container?: ComponentType<any>;
+    children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element | ReactElement
     title?: ReactNode,
     count?: number,
-    css?: React.ComponentProps<typeof StyledNotificationTitle>['css']
     className?: ClassValue
   }
   typeToggleProps?: {
-    children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element
+    children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
     css?: React.ComponentProps<TypeToggleGroup>['css']
     className?: ClassValue
+  },
+  fetchProps?: {
+    variables?: NotificationsInAppForCurrentUserQueryVariables
   }
 }
 
-const NotificationContent = styled('div', {
-  position: 'relative',
-  '> span': {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 4,
-    height: 4,
-    color: '$red9',
-  },
-})
-
-const StyledNotification = styled('div')
-export const Notification: React.FC<React.ComponentProps<typeof StyledNotification> & NotificationProps> = (props) => {
+export const Notification: React.FC<NotificationProps> = (props) => {
   const {
+    components,
     type: typeProp,
     contentView,
     host: _host,
     token: _token,
-    contentCardProps,
     typeToggleProps,
     titleProps,
     children,
     loadingView,
+    fetchProps,
     ...rest
   } = props
   const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
-  const fetchResult = useNotificationsInApp({
-    host,
-    token,
+  const fetchResult = useFetchNotificationsInApp({
     type,
+    fetchProps
   })
   if (children) {
     return children({ ...fetchResult, type, setType })
   }
 
-  const { status, data, error, isFetching, refetch } = fetchResult
-  const items = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
+  const { data, loading, refetch, client } = fetchResult
+  const items: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'] = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
 
   const renderItems = useMemo(() => {
     return items.map((item) => {
@@ -162,40 +95,28 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
         return contentView({
           data: item,
           onRead: () =>
-            request({
-              url: host as string,
-              query: MarkNotificationAsRead,
+            client.mutate({
+              mutation: MarkNotificationAsRead,
               variables: { id: item.id },
-              headers: {
-                'roq-platform-authorization': token as string,
-              },
-            })
-            .then((res) => res.json())
-            .catch(() => false),
+              context: { service: 'platform' },
+            }),
           onUnRead: () =>
-            request({
-              url: host as string,
-              query: MarkNotificationAsUnRead,
+            client.mutate({
+              mutation: MarkNotificationAsUnRead,
               variables: { id: item.id },
-              headers: {
-                'roq-platform-authorization': token as string,
-              },
-            })
-              .then((res) => res.json())
-              .catch(() => false),
+              context: { service: 'platform' },
+            }),
           refetch,
         })
       }
 
       return (
         <Card
-          {...contentCardProps}
           key={item.id}
           title={item.title}
           subTitle={dayjs(item.createdAt).fromNow()}
-          id={item.id}
           content={
-            <NotificationContent>
+            <div className={clsx(_CLASS_IS + '-item-content')}>
               {item.content}{' '}
               {!item.read && (
                 <span>
@@ -213,10 +134,10 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
                   </svg>
                 </span>
               )}
-            </NotificationContent>
+            </div>
           }
           headerExtraContent={<NotificationReadButton id={item.id} read={item.read} />}
-          className={clsx(_CLASS_IS + '-item', contentCardProps?.className)}
+          className={clsx(_CLASS_IS + '-item')}
         />
       )
     })
@@ -244,29 +165,24 @@ export const Notification: React.FC<React.ComponentProps<typeof StyledNotificati
     if (loadingView) {
       return loadingView(fetchResult)
     }
-    return <div>{isFetching && token && host && !data && 'Loading...'}</div>
-  }, [loadingView, token, host, data, isFetching])
+    return <div>{loading && token && host && !data && 'Loading...'}</div>
+  }, [loadingView, token, host, data, loading])
   
+  const Container = components?.Container ?? 'div'
+
   return (
-    <StyledNotification
-      {...rest}
-      className={clsx(_CLASS_IS, rest?.className)}
-    >
+    <Container className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
         {...titleProps || {}}
         count={data?.loadUnreadNotificationCount?.totalCount ?? 0}
-        loading={isFetching}
+        loading={loading}
       />
       {renderToggleType}
       {renderLoading}
       {renderItems}
-    </StyledNotification>
+    </Container>
   )
 }
-
-const StyledNotificationTitle = styled('div', {
-  marginBottom: '16px'
-})
 
 export interface NotificationTitleChildrenCallbackProps {
   count: number
@@ -276,16 +192,17 @@ export type NotificationTitleProps = NotificationProps['titleProps'] & {
   children?: (callback: NotificationTitleChildrenCallbackProps) => JSX.Element
   count: number,
   loading: boolean
+
 }
 const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
   const { children, count, loading, title } = props
   if (children) {
     return children({ count, loading })
   }
+  const Container = props?.Container ?? 'div'
 
   return (
-    <StyledNotificationTitle
-      css={props.css}
+    <Container
       className={clsx(
         _CLASS_IS + '-title',
         props.className,
@@ -293,9 +210,7 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
       >
       {title ?? 'Notification'}
       {' '}
-      <NotificationBadge className={clsx(_CLASS_IS + '-title-badges')}>
-        {count}
-      </NotificationBadge>
-    </StyledNotificationTitle>
+      <Avatar className={clsx(_CLASS_IS + '-title-badges')} initials={count.toString()} />
+    </Container>
   )
 }
