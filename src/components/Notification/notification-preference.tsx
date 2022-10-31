@@ -2,13 +2,8 @@ import React, { ReactElement, ReactNode, useMemo } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
 import { styled } from 'src/styles'
-import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { SwitchThumb, Switch } from 'src/components/Switch'
-import { QueryObserverResult } from '@tanstack/react-query'
-import {
-  NotificationTypeCategoriesQuery,
-  useNotificationTypeCategoriesQuery,
-} from 'src/lib/graphql/types'
+import { QueryNotificationTypeCategories } from 'src/lib/graphql/query'
 import {
   UseNotificationItemCheckedInterfaceArg,
   useNotificationTypeItem,
@@ -18,28 +13,12 @@ import {
   UseNotificationTypeCategoryInterfaceArg,
 } from './hooks/use-notification-category.hook'
 import type { ClassValue } from 'clsx'
+import { QueryResult, useQuery } from '@apollo/client'
 
-export function useNotificationsCategories(
-  args: Pick<NotificationPreferenceProps, 'token' | 'host'>,
-) {
-  const { host, token } = useResolveProvider({
-    host: args.host,
-    token: args.token,
+export function useNotificationsCategories() {
+  return useQuery<any, any>(QueryNotificationTypeCategories, {
+    context: { service: 'platform' },
   })
-  
-  return useNotificationTypeCategoriesQuery(
-    {
-      endpoint: host,
-      fetchParams: {
-        headers: {
-          'content-type': 'application/json',
-          'roq-platform-authorization': token as string,
-        },
-      },
-    },
-    undefined,
-    { refetchOnWindowFocus: false },
-  )
 }
 
 const StyledNotificationPreference = styled('div', {})
@@ -71,11 +50,11 @@ const StyledNotificationCategoryItem = styled('div', {
 })
 
 export type NotificationPreferenceLoadingViewCallbackProps =
-  QueryObserverResult<NotificationTypeCategoriesQuery>
-export type NotificationPreferenceCategoriesViewCallbackProps =
-  NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
+  QueryResult<unknown, unknown>
+// export type NotificationPreferenceCategoriesViewCallbackProps =
+//   NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
 const _CLASS_IS = 'roq-' + 'notification-preference'
-interface NotificationPreferenceProps extends Partial<IRoqProvider> {
+interface NotificationPreferenceProps {
   children?: (
     callback: NotificationPreferenceLoadingViewCallbackProps,
   ) => JSX.Element
@@ -105,14 +84,13 @@ const NotificationPreference: React.FC<
     onToggle,
     ...rest
   } = props
-  const fetchResult = useNotificationsCategories(props)
+  const fetchResult = useNotificationsCategories()
   if (children) {
     return children(fetchResult)
   }
 
-  const { status, data, error, isFetching, refetch } = fetchResult
-  const categories: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'] =
-    useMemo(() => data?.notificationTypeCategories?.data || [], [data])
+  const { data, error, refetch } = fetchResult
+  const categories = useMemo(() => data?.notificationTypeCategories?.data || [], [data])
 
   const renderTitle = useMemo(() => {
     if (titleProps?.children) {
@@ -164,7 +142,7 @@ const NotificationPreference: React.FC<
 export { NotificationPreference, NotificationPreferenceProps }
 
 interface NotificationCategoryPreferencesProps {
-  category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0]
+  category: any
   onToggle?: UseNotificationTypeCategoryInterfaceArg['onToggle']
 }
 const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesProps> =

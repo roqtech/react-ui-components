@@ -1,9 +1,7 @@
 import React, { createContext, useContext } from "react";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
 import { config } from 'src/utils/config';
+import { ApolloProvider } from "@apollo/client";
+import { useApollo } from "src/hooks/apollo-client";
 
 type Optional<T> = T | null
 export interface IRoqProvider {
@@ -12,30 +10,29 @@ export interface IRoqProvider {
 }
 
 const defaultCtx = {
-  host: config.platform.gql,
-  token: ''
+  host: config.platform.graphqlUri,
 };
 
-const ROQContext = createContext(defaultCtx);
+export const ROQContext = createContext(defaultCtx);
+export const useRoq = () => useContext(ROQContext) as IRoqProvider;
 
-const queryClient = new QueryClient();
-
-export const RoqProvider = ({ children, config = defaultCtx, withQueryClient = true }: { children: JSX.Element, config: Partial<IRoqProvider>, withQueryClient?: boolean}) => {
-  if (withQueryClient) {
-    return (
-      <ROQContext.Provider value={{...defaultCtx, ...config}}>
-        <QueryClientProvider client={queryClient}>
-            {children}
-        </QueryClientProvider>
-      </ROQContext.Provider>
-    )
-  }
+export const RoqProvider = ({ children, config = defaultCtx as IRoqProvider }: { children: JSX.Element, config: IRoqProvider}) => {
   return (
-    <ROQContext.Provider value={{...defaultCtx, ...config}}>{children}</ROQContext.Provider>
+    <ROQContext.Provider value={{...defaultCtx, ...config}}>
+      <ApolloWrapper>
+        {children}
+      </ApolloWrapper>
+    </ROQContext.Provider>
   )
 };
 
-export const useRoq = () => useContext(ROQContext);
+const ApolloWrapper = ({ children }) => {
+  const client = useApollo() 
+  return (
+    <ApolloProvider client={client}>{children}</ApolloProvider>
+  )
+}
+
 export function useResolveProvider(args?: Partial<IRoqProvider>) {
   const { host: hostArg, token: tokenArg } = args || {}
   const { host: hostProvide, token: tokenProvider } = useRoq()

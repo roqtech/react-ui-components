@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { FormEvent, useCallback, useMemo } from 'react';
-import { NotificationTypeCategoriesQuery, UpsertNotificationTypeUserPreferenceMutation, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
-import { useResolveProvider } from 'src/components/Provider';
+import { useCallback, useMemo } from 'react';
+import { NotificationTypeCategoriesQuery, UpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
+import { useMutation } from '@apollo/client';
+import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/query';
 
 export interface UseNotificationTypeCategoryInterfaceArg {
   category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0];
@@ -17,22 +17,12 @@ export const useNotificationTypeCategory = ({
   category,
   onToggle
 }: UseNotificationTypeCategoryInterfaceArg): UseNotificationTypeCategoryInterface => {
-  const client = useQueryClient()
-  const { host, token } = useResolveProvider()
-  const { mutate } = useUpsertNotificationTypeUserPreferenceMutation({
-    endpoint: host,
-    fetchParams: {
-      headers: {
-        'content-type': 'application/json',
-        'roq-platform-authorization': token as string,
-      }
+  const [mutate, ] = useMutation(UpsertNotificationTypeUserPreference, {
+    context: { service: 'platform' },
+    onCompleted(data) {
+      onToggle?.(data)
     }
-  }, {
-    onSuccess: (data) => {
-      onToggle && onToggle(data)
-      client.invalidateQueries(['NotificationTypeCategories'])
-    }
-  });
+  })
   const checkedSwitch = useMemo(() => category?.notificationTypes?.data.every(
     ({ notificationTypeUserPreferences: preference, defaultUserActiveMail, defaultUserActiveWeb}) =>
       preference ? preference.data?.[0]?.mail && preference?.data?.[0]?.web : defaultUserActiveMail &&  defaultUserActiveWeb
@@ -48,7 +38,7 @@ export const useNotificationTypeCategory = ({
           notificationTypeId: type.id,
           id: preference?.id,
         };
-        mutate(payload);
+        mutate({ variables: payload });
       });
     },
     [category],

@@ -49,7 +49,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   if (children) {
     return children({ ...fetchResult, type, setType })
   }
-  const { status, data, error, isFetching, refetch } = fetchResult
+  const { data, error, refetch } = fetchResult
   const count = useMemo(
     () => _get(data, 'loadNotifications.totalCount', 0),
     [data],

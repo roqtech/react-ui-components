@@ -1,8 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, FormEvent, useCallback, useMemo } from 'react';
-import { UpsertNotificationTypeUserPreferenceMutation, useUpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
-import { useResolveProvider } from 'src/components/Provider';
+import { ChangeEvent, useCallback, useMemo } from 'react';
+import { UpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types';
 import { UseNotificationTypeCategoryInterfaceArg } from './use-notification-category.hook';
+import { useMutation } from '@apollo/client';
+import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/query';
 
 export interface UseNotificationItemCheckedInterfaceArg  {
   type: UseNotificationTypeCategoryInterfaceArg['category']['notificationTypes']['data'][0];
@@ -21,22 +21,12 @@ export const useNotificationTypeItem = ({
   type,
   onToggle,
 }: UseNotificationItemCheckedInterfaceArg): UseNotificationItemCheckedInterface => {
-  const client = useQueryClient()
-  const { host, token } = useResolveProvider()
-  const { mutate } = useUpsertNotificationTypeUserPreferenceMutation({
-    endpoint: host,
-    fetchParams: {
-      headers: {
-        'content-type': 'application/json',
-        'roq-platform-authorization': token as string,
-      }
+  const [mutate, ] = useMutation(UpsertNotificationTypeUserPreference, {
+    context: { service: 'platform' },
+    onCompleted(data) {
+      onToggle?.(data)
     }
-  }, {
-    onSuccess: (data) => {
-      onToggle && onToggle(data)
-      client.invalidateQueries(['NotificationTypeCategories'])
-    }
-  });
+  })
 
   const preference = useMemo(() => type.notificationTypeUserPreferences?.data?.[0], [type]);
   const checkedAppNotification = useMemo(
@@ -78,7 +68,7 @@ export const useNotificationTypeItem = ({
           break;
         }
       }
-      mutate(payload)
+      mutate({ variables: payload })
     },
     [checkedAppNotification, checkedEmailNotification, preference, type],
   );

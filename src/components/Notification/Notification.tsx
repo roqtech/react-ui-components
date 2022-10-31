@@ -1,11 +1,9 @@
-import { request } from '../../utils'
 import React, { ReactElement, ComponentType, ReactNode, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ToggleGroup, ToggleGroupItem, TypeToggleGroup } from 'src/components/ToggleGroup'
-import { QueryObserverResult } from '@tanstack/react-query'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
@@ -18,6 +16,7 @@ import { NotificationReadButton } from './notification-read-button'
 import { Avatar } from '../common'
 import './notification.scss'
 import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
+import { QueryResult } from '@apollo/client'
 
 dayjs.extend(relativeTime)
 
@@ -29,7 +28,7 @@ export type NotificationContentViewCallbackProps = {
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
-export type NotificationLoadingViewCallbackProps = QueryObserverResult<NotificationsInAppForCurrentUserQuery>
+export type NotificationLoadingViewCallbackProps = QueryResult<unknown, unknown>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
@@ -80,8 +79,6 @@ export const Notification: React.FC<NotificationProps> = (props) => {
   const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
   const fetchResult = useFetchNotificationsInApp({
-    host,
-    token,
     type,
     fetchProps
   })
@@ -89,7 +86,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     return children({ ...fetchResult, type, setType })
   }
 
-  const { status, data, error, isFetching, refetch } = fetchResult
+  const { data, loading, refetch, client } = fetchResult
   const items: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'] = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
 
   const renderItems = useMemo(() => {
@@ -98,27 +95,17 @@ export const Notification: React.FC<NotificationProps> = (props) => {
         return contentView({
           data: item,
           onRead: () =>
-            request({
-              url: host as string,
-              query: MarkNotificationAsRead,
+            client.mutate({
+              mutation: MarkNotificationAsRead,
               variables: { id: item.id },
-              headers: {
-                'roq-platform-authorization': token as string,
-              },
-            })
-            .then((res) => res.json())
-            .catch(() => false),
+              context: { service: 'platform' },
+            }),
           onUnRead: () =>
-            request({
-              url: host as string,
-              query: MarkNotificationAsUnRead,
+            client.mutate({
+              mutation: MarkNotificationAsUnRead,
               variables: { id: item.id },
-              headers: {
-                'roq-platform-authorization': token as string,
-              },
-            })
-              .then((res) => res.json())
-              .catch(() => false),
+              context: { service: 'platform' },
+            }),
           refetch,
         })
       }
@@ -178,8 +165,8 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     if (loadingView) {
       return loadingView(fetchResult)
     }
-    return <div>{isFetching && token && host && !data && 'Loading...'}</div>
-  }, [loadingView, token, host, data, isFetching])
+    return <div>{loading && token && host && !data && 'Loading...'}</div>
+  }, [loadingView, token, host, data, loading])
   
   const Container = components?.Container ?? 'div'
 
@@ -188,7 +175,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
       <NotificationTitle
         {...titleProps || {}}
         count={data?.loadUnreadNotificationCount?.totalCount ?? 0}
-        loading={isFetching}
+        loading={loading}
       />
       {renderToggleType}
       {renderLoading}

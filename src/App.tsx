@@ -1,23 +1,18 @@
 import React from 'react'
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
 import { Notification } from "./components/notification"
 import { RoqProvider } from './components/Provider/Provider';
 
-const queryClient = new QueryClient();
-
-export const token = ''
+const hostConfig = {
+  host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "",
+  token: process.env.STORYBOOK_PLATFORM_TOKEN ?? "",
+};
 
 function App() {
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RoqProvider config={{ token }}>
-        <Notification />
-      </RoqProvider>
-    </QueryClientProvider>
+    <RoqProvider config={hostConfig}>
+      <Notification />
+    </RoqProvider>
   )
 }
 
