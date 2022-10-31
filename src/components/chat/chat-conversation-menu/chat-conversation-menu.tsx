@@ -73,7 +73,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onRename, onClose, conversationId]);
 
   const handleArchiveClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
@@ -83,7 +82,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose, onClose, conversationId]);
 
   const handleEditClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
@@ -93,7 +91,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose, onClose, conversationId]);
 
   const handleRemoveClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }

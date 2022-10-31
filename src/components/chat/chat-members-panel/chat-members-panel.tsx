@@ -8,9 +8,10 @@ import React, {
   useCallback,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatMembers, ChatPanel } from "src/index";
+import { ChatMemberList, ChatMembers, ChatPanel } from "src/index";
 import { ChatMembersProps } from "../chat-members/chat-members";
 import { ChatUserInterface } from "src/types";
+import { withChatState } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
@@ -47,7 +48,7 @@ export interface ChatMembersPanelProps
   };
 }
 
-export const ChatMembersPanel = (props: ChatMembersPanelProps) => {
+const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   const { style, className, classNames, components } = props;
   const {
     titleLabel = "With whom would you like to start a conversation?",
@@ -61,7 +62,7 @@ export const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   const Container = components?.Container ?? ChatPanel;
   const Header = components?.Header ?? "div";
   const Title = components?.Title ?? "h4";
-  const List = components?.List ?? ChatMembers;
+  const List = components?.List ?? ChatMemberList;
   const Actions = components?.Actions ?? "div";
   const CancelButton = components?.CancelButton ?? "button";
   const CancelButtonLabel = components?.CancelButtonLabel ?? "span";
@@ -75,7 +76,7 @@ export const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   }, [onCancel]);
 
   const handleSubmitClick = useCallback(() => {
-    onSubmit?.(selectedIds);
+    onSubmit?.(selectedIds ?? []);
   }, [onSubmit, selectedIds]);
 
   return (
@@ -90,11 +91,7 @@ export const ChatMembersPanel = (props: ChatMembersPanelProps) => {
           {titleLabel}
         </Title>
       </Header>
-      <List
-        className={clsx(_CLASS_IS + "__list", classNames?.list)}
-        selectedIds={selectedIds}
-        onMemberSelect={handleMemberSelect}
-      />
+      <List className={clsx(_CLASS_IS + "__list", classNames?.list)} />
       <Actions className={clsx(_CLASS_IS + "__actions", classNames?.list)}>
         <CancelButton
           className={clsx(_CLASS_IS + "__actions__cancel", classNames?.list)}
@@ -126,3 +123,7 @@ export const ChatMembersPanel = (props: ChatMembersPanelProps) => {
     </Container>
   );
 };
+
+export default withChatState(({ recipients: { selectedIds } = {} }) => ({
+  selectedIds,
+}))(ChatMembersPanel);

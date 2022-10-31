@@ -7,14 +7,14 @@ import {
   ChatStateContextInterface,
 } from "src/components/chat/chat-provider/chat-provider";
 
-export interface UseArchiveConversationHookInterface
-  extends Pick<ChatApiContextInterface, "archiveConversation"> {}
+export interface UseCreateConversationHookInterface
+  extends Pick<ChatApiContextInterface, "createConversation"> {}
 
-export const useArchiveConversation =
-  (): UseArchiveConversationHookInterface => {
+export const useCreateConversation =
+  (): UseCreateConversationHookInterface => {
     const api = useChatApi();
 
-    const { archiveConversation } = api;
+    const { createConversation } = api;
 
-    return { archiveConversation };
+    return { createConversation };
   };

@@ -19,8 +19,10 @@ import {
 } from "src/types";
 import { socketClient, SocketClientProps } from "src/utils/socket-client.util";
 import {
+  ChatConversationCreatedResponsePayloadInterface,
   ChatConversationListRequestPayloadInterface,
   ChatConversationListResponsePayloadInterface,
+  ChatCreateConversationRequestPayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
   ChatMessageDeletedResponsePayloadInterface,
   ChatMessageEditRequestPayloadInterface,
@@ -32,6 +34,22 @@ import {
   ChatUserConnectedResponsePayload,
 } from "src/utils/chat-socket.util";
 import { useSocket } from "src/components/socket";
+import { QueryObserverResult, useQuery } from "react-query";
+import { useRoq } from "src/index";
+import gql from "graphql-tag";
+import { request } from "src/utils";
+import {
+  ChatConversationListInterface,
+  ChatFetchRecipientsResponseInterface,
+  ChatFetchRecipientsVariablesInterface,
+  ChatMessageListInterface,
+  ChatRecipientListInterface,
+  ChatRecipientsListInterface,
+  ChatUserInterface,
+  ChatUserListInterface,
+  ChatUserPresenceListInterface,
+} from "src/types/chat.type";
+import { uniq } from "lodash/fp";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -40,8 +58,10 @@ export interface ChatStateContextInterface {
   unreadCount: number;
   currentConversationId: string | null;
   currentConversation?: ChatConversationInterface;
-  conversations: InfiniteListInterface<ChatConversationInterface>;
-  messages: InfiniteListInterface<ChatMessageInterface>;
+  conversations: ChatConversationListInterface;
+  messages: ChatMessageListInterface;
+  recipients: ChatRecipientListInterface;
+  presense: ChatUserPresenceListInterface;
 }
 
 export interface ChatApiContextInterface {
@@ -50,7 +70,9 @@ export interface ChatApiContextInterface {
   connect: () => void;
   disconnect: () => void;
   selectConversation: (conversationId: string | null) => void;
-  createConversation: (payload: unknown) => void;
+  createConversation: (
+    payload: ChatCreateConversationRequestPayloadInterface
+  ) => void;
   archiveConversation: (conversationId: string) => void;
   renameConversation: (payload: unknown) => void;
   getConversationDetails: (conversationId: string) => void;
@@ -71,6 +93,10 @@ export interface ChatApiContextInterface {
   ) => void;
 
   fetchMessageList: (query: ChatFetchMessagesRequestPayloadInterface) => void;
+
+  resetSelectedRecipients: () => void;
+  setSelectedRecipients: (selectedIds: string[]) => void;
+  fetchRecipientList: (query: ChatFetchRecipientsVariablesInterface) => void;
 }
 
 export const ChatStateContext =
@@ -151,6 +177,7 @@ const INITIAL_CONVERSATIONS_STATE = {
   // editingId: null,
   // editingType: null,
   // selected: null,
+  editableId: null,
   error: null,
   isLoading: false,
   hasMore: false,
@@ -163,7 +190,7 @@ const INITIAL_CONVERSATIONS_STATE = {
 };
 
 const INITIAL_MESSAGES_STATE = {
-  editableMessageId: null,
+  editableId: null,
   error: null,
   isLoading: false,
   hasMore: true,
@@ -175,6 +202,27 @@ const INITIAL_MESSAGES_STATE = {
   // filter: '',
   // history: [],
   // lastTimestamp: null,
+};
+
+const INITIAL_RECIPIENTS_STATE = {
+  selectedIds: [],
+  error: null,
+  isLoading: false,
+  hasMore: true,
+  offset: 0,
+  limit: 10,
+  totalCount: 0,
+  loadedTotal: 0,
+  data: [],
+};
+
+const normalizeRecipient = (
+  recipient: ChatUserInterface
+): ChatUserInterface => {
+  recipient.fullName = `${recipient.firstName ?? ""} ${
+    recipient.lastName ?? ""
+  }`.trim();
+  return recipient;
 };
 
 export const ChatProvider = (
@@ -190,6 +238,8 @@ export const ChatProvider = (
     conversationId,
   } = props;
 
+  const { host, token } = useRoq();
+
   const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
   const [online, setOnline] = useState<boolean>(false);
   const [error, setError] = useState<ComplexError | null>(null);
@@ -199,15 +249,22 @@ export const ChatProvider = (
     ChatConversationInterface["id"] | null
   >(conversationId ?? null);
 
-  const [conversations, setConversations] = useState<
-    InfiniteListInterface<ChatConversationInterface>
-  >(INITIAL_CONVERSATIONS_STATE);
+  const [conversations, setConversations] =
+    useState<ChatConversationListInterface>(INITIAL_CONVERSATIONS_STATE);
 
-  const [messages, setMessages] = useState<
-    InfiniteListInterface<ChatMessageInterface>
-  >(INITIAL_MESSAGES_STATE);
+  const [messages, setMessages] = useState<ChatMessageListInterface>(
+    INITIAL_MESSAGES_STATE
+  );
 
-  const currentConversation: ChatConversationInterface = useMemo(
+  const [recipients, setRecipients] = useState<ChatRecipientListInterface>(
+    INITIAL_RECIPIENTS_STATE
+  );
+
+  const [presence, setPresence] = useState<ChatUserPresenceListInterface>(
+    INITIAL_RECIPIENTS_STATE
+  );
+
+  const currentConversation: ChatConversationInterface | null = useMemo(
     () =>
       find(conversations.data, {
         id: currentConversationId,
@@ -215,12 +272,12 @@ export const ChatProvider = (
     [conversations?.data, currentConversationId]
   );
 
-  const editableMessage: ChatMessageInterface = useMemo(
+  const editableMessage: ChatMessageInterface | null = useMemo(
     () =>
       find(messages.data, {
-        id: messages?.editableMessageId,
+        id: messages?.editableId,
       }) ?? null,
-    [messages?.data, messages?.editableMessageId]
+    [messages?.data, messages?.editableId]
   );
 
   const resetState = useCallback(() => {
@@ -297,6 +354,17 @@ export const ChatProvider = (
     [userId]
   );
 
+  const normalizeConversation = useCallback(
+    (
+      conversation: Partial<ChatConversationInterface>
+    ): ChatConversationInterface => {
+      conversation.isOwner = conversation.ownerId === userId;
+
+      return conversation;
+    },
+    [userId]
+  );
+
   const handleMessageReceived = useCallback(
     (response: ChatMessageRecieivedResponsePayloadInterface) => {
       const recipientConversation = find(conversations.data, {
@@ -356,9 +424,35 @@ export const ChatProvider = (
     ]
   );
 
-  const handleConversationCreated = useCallback(() => {
-    alert("handleConversationCreated");
-  }, []);
+  const handleConversationCreated = useCallback(
+    (payload: ChatConversationCreatedResponsePayloadInterface) => {
+      debugger;
+
+      const newConversation = normalizeConversation(payload);
+
+      if (newConversation.lastMessage) {
+        newConversation.lastMessage = normalizeMessage(
+          newConversation.lastMessage
+        );
+      }
+
+      setConversations((ps) => {
+        const nextConversations = [newConversation, ...ps.data];
+        const totalCount = ps.totalCount + 1;
+
+        return {
+          ...ps,
+          data: nextConversations,
+          totalCount,
+          loadedTotal: nextConversations.length,
+          hasMore: nextConversations.length < totalCount,
+        };
+      });
+
+      setCurrentConversationId(newConversation.id);
+    },
+    [normalizeConversation, normalizeMessage, setCurrentConversationId]
+  );
 
   const handleConversationExists = useCallback(() => {
     alert("handleConversationExists");
@@ -451,13 +545,27 @@ export const ChatProvider = (
     [currentConversationId, setMessages, normalizeMessage]
   );
 
-  const handleUserOnline = useCallback(() => {
-    console.log("handleUserOnline");
-  }, []);
+  const handleUserOnline = useCallback(
+    (payload) => {
+      console.log("handleUserOnline");
+      const { id, isOnline } = payload;
+      const userPresenceChanges = { isOnline };
 
-  const handleUserOffline = useCallback(() => {
-    console.log("handleUserOffline");
-  }, []);
+      // messageCenterPresenceAdapter.updateOne(state.presence, { id, changes: userPresenceChanges });
+    },
+    [socket]
+  );
+
+  const handleUserOffline = useCallback(
+    (payload) => {
+      console.log("handleUserOffline");
+      const { id, isOnline } = payload;
+      const userPresenceChanges = { isOnline };
+
+      // messageCenterPresenceAdapter.updateOne(state.presence, { id, changes: userPresenceChanges });
+    },
+    [socket]
+  );
 
   const handleMessagesRead = useCallback(() => {
     alert("handleMessagesRead");
@@ -577,9 +685,17 @@ export const ChatProvider = (
     console.log("disconnect");
   };
 
-  const createConversation = () => {
-    console.log("createConversation");
-  };
+  const createConversation = useCallback(
+    (payload: ChatCreateConversationRequestPayloadInterface) => {
+      const createConversationPayload = {
+        ...payload,
+        memberIds: uniq([...payload.memberIds, userId]),
+      };
+
+      socket?.createConversation(createConversationPayload);
+    },
+    [socket, userId]
+  );
 
   const selectConversation = useCallback(
     (conversationId: string) => {
@@ -623,6 +739,16 @@ export const ChatProvider = (
     console.log("markAsReadUnreadConversationMessages");
   };
 
+  const setEditableConversation = useCallback(
+    (conversationId: string | null) => {
+      setConversations((ps) => ({
+        ...ps,
+        editableConversationId: conversationId,
+      }));
+    },
+    [setConversations]
+  );
+
   const sendMessage = useCallback(
     (message: Partial<ChatSendMessageRequestPayloadInterface>) => {
       socket?.sendMessage({
@@ -635,11 +761,9 @@ export const ChatProvider = (
 
   const setEditableMessage = useCallback(
     (messageId: string | null) => {
-      debugger;
-
       setMessages((ps) => ({
         ...ps,
-        editableMessageId: messageId,
+        editableId: messageId,
       }));
     },
     [setMessages]
@@ -648,13 +772,13 @@ export const ChatProvider = (
   const editMessage = useCallback(
     (payload: Partial<ChatMessageEditRequestPayloadInterface>) => {
       socket?.editMessage({
-        id: messages?.editableMessageId,
+        id: messages?.editableId,
         ...payload,
       });
 
       setEditableMessage(null);
     },
-    [messages?.editableMessageId, setEditableMessage]
+    [messages?.editableId, setEditableMessage]
   );
 
   const deleteMessage = useCallback(
@@ -690,7 +814,7 @@ export const ChatProvider = (
         error: null,
         isLoading: true,
         offset: query.offset,
-        // filter: query.filter || '';
+        filter: query.filter || "",
       }));
     },
     [socket, setConversations]
@@ -746,7 +870,7 @@ export const ChatProvider = (
         isLoading: true,
         offset: query.offset,
         data: query?.reset ? [] : ps.data,
-        // filter: query.filter || '';
+        filter: query.filter || "",
       }));
     },
     [socket, setMessages]
@@ -773,6 +897,111 @@ export const ChatProvider = (
     ]
   );
 
+  const resetSelectedRecipients = useCallback(() => {
+    setRecipients((ps) => ({
+      ...ps,
+      selectedIds: [],
+    }));
+  }, [setRecipients]);
+
+  const setSelectedRecipients = useCallback(
+    (selectedIds: string[]) => {
+      setRecipients((ps) => ({
+        ...ps,
+        selectedIds,
+      }));
+    },
+    [setRecipients]
+  );
+
+  const onFetchRecipientListRequest = useCallback(
+    (query: ChatFetchRecipientsVariablesInterface) => {
+      setRecipients((ps) => ({
+        ...ps,
+        error: null,
+        isLoading: true,
+        offset: query.offset,
+        filter: query.filter || "",
+      }));
+    },
+    [setRecipients]
+  );
+
+  const onFetchRecipientListSuccess = useCallback(
+    (response: ChatFetchRecipientsResponseInterface) => {
+      setRecipients((ps) => {
+        const nextRecipients = ps.data.concat(
+          (response.data ?? []).map(normalizeRecipient)
+        );
+
+        return {
+          ...ps,
+          error: null,
+          isLoading: false,
+          data: nextRecipients,
+          totalCount: response.totalCount,
+          loadedTotal: nextRecipients.length,
+          hasMore: nextRecipients.length < response.totalCount,
+        };
+      });
+    },
+    [setRecipients]
+  );
+
+  const fetchRecipientList = useCallback(
+    async (params: ChatFetchRecipientsVariablesInterface) => {
+      onFetchRecipientListRequest(params);
+      const variables = {
+        ...params,
+      };
+
+      const query = gql`
+        query getRecipients(
+          $limit: Int!
+          $offset: Int!
+          $ids: [String!]
+          $excludeIds: [String!]
+        ) {
+          users(
+            limit: $limit
+            offset: $offset
+            filter: {
+              roqIdentifier: { valueIn: $ids, valueNotIn: $excludeIds }
+            }
+          ) {
+            data {
+              id
+              firstName
+              lastName
+              fullName
+              initials
+              roqIdentifier
+              initials
+              avatar
+            }
+            totalCount
+          }
+        }
+      `;
+
+      const result = await request(
+        {
+          url: host,
+          query,
+          variables,
+          headers: {
+            authorization: process.env.STORYBOOK_TOKEN,
+            "roq-platform-authorization": token as string,
+          },
+        },
+        "data"
+      ).catch(() => []);
+
+      onFetchRecipientListSuccess(result.users);
+    },
+    [host, token, onFetchRecipientListRequest, onFetchRecipientListSuccess]
+  );
+
   const state = useMemo<ChatStateContextInterface>(
     () => ({
       online,
@@ -784,6 +1013,7 @@ export const ChatProvider = (
       conversations,
       messages,
       editableMessage,
+      recipients,
     }),
     [
       online,
@@ -795,6 +1025,7 @@ export const ChatProvider = (
       conversations,
       messages,
       editableMessage,
+      recipients,
     ]
   );
 
@@ -813,6 +1044,7 @@ export const ChatProvider = (
       leaveConversation,
       getConversationList,
       getConversationMessageList,
+      setEditableConversation,
       markAsReadUnreadConversationMessages,
       sendMessage,
       editMessage,
@@ -820,6 +1052,9 @@ export const ChatProvider = (
       deleteMessage,
       fetchConversationList,
       fetchMessageList,
+      fetchRecipientList,
+      resetSelectedRecipients,
+      setSelectedRecipients,
     }),
     [
       getId,
@@ -835,12 +1070,17 @@ export const ChatProvider = (
       leaveConversation,
       getConversationList,
       getConversationMessageList,
+      setEditableConversation,
       markAsReadUnreadConversationMessages,
       sendMessage,
       editMessage,
       setEditableMessage,
       deleteMessage,
       fetchConversationList,
+      fetchMessageList,
+      fetchRecipientList,
+      resetSelectedRecipients,
+      setSelectedRecipients,
     ]
   );
 

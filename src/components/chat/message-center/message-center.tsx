@@ -23,17 +23,22 @@ import {
   ChatScreenEnum,
   useArchiveConversation,
   useChatScreen,
+  useCreateConversation,
   useCurrentConversation,
 } from "src/hooks";
 import { MessageCenterScreenEnum } from "../types.work";
 import { ChatConversationListProps } from "../chat-conversation-list";
 import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatCreateConversationRequestPayloadInterface } from "src/utils/chat-socket.util";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
 export interface MessageCenterProps {
   title?: string;
   buttonLabel?: string;
+  chatTitle?: string;
+  groupChatTitle?: string;
+
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -73,7 +78,12 @@ export interface MessageCenterProps {
 
 export const MessageCenter = (props: MessageCenterProps) => {
   const { style, className, classNames, components } = props;
-  const { title = "Message Center", buttonLabel = "CREATE NEW CHAT" } = props;
+  const {
+    title = "Message Center",
+    buttonLabel = "CREATE NEW CHAT",
+    chatTitle = "Chat",
+    groupChatTitle = "Group Chat",
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Header = components?.Header || "div";
@@ -97,20 +107,23 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const { currentConversationId, selectConversation } =
     useCurrentConversation();
 
-  const { screen, setScreen } = useChatScreen({});
+  const { screen, setScreen } = useChatScreen({
+    defaultScreen: ChatScreenEnum.CREATE_NEW_CONVERSATION,
+  });
+
+  useEffect(
+    function handleConversationChanged() {
+      if (!currentConversationId) {
+        return;
+      }
+
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [currentConversationId]
+  );
 
   const { archiveConversation } = useArchiveConversation();
-
-  // useEffect(
-  //   function handleSelectedConversationChanged() {
-  //     if (!currentConversationId) {
-  //       return;
-  //     }
-
-  //     setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
-  //   },
-  //   [currentConversationId]
-  // );
+  const { createConversation } = useCreateConversation();
 
   const unselectConversation = useCallback(() => {
     selectConversation(null);
@@ -118,7 +131,6 @@ export const MessageCenter = (props: MessageCenterProps) => {
 
   const handleConversationClick = useCallback(
     (conversationId) => {
-      debugger;
       selectConversation(conversationId);
       setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
     },
@@ -151,6 +163,19 @@ export const MessageCenter = (props: MessageCenterProps) => {
     setScreen(ChatScreenEnum.CREATE_NEW_CONVERSATION);
     unselectConversation();
   }, [setScreen, unselectConversation]);
+
+  const handleCreateNewConversation = useCallback(
+    (memberIds: string[]) => {
+      const conversation: ChatCreateConversationRequestPayloadInterface = {
+        title: memberIds.length > 1 ? groupChatTitle : chatTitle,
+        memberIds,
+      };
+
+      createConversation(conversation);
+      setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    },
+    [createConversation, chatTitle, groupChatTitle]
+  );
 
   const handleCreateNewConversationCancel = useCallback(() => {
     setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
@@ -287,6 +312,7 @@ export const MessageCenter = (props: MessageCenterProps) => {
               _CLASS_IS + "__create-conversation",
               classNames?.panel
             )}
+            onSubmit={handleCreateNewConversation}
             onCancel={handleCreateNewConversationCancel}
           />
         )}

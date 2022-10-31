@@ -103,7 +103,7 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   const showLoader = useMemo(() => hasMore && !isLoading, [isLoading, hasMore]);
 
   const readMessages = useCallback(() => {
-    console.log("bottom!");
+    console.log("TODO: read messages request!");
   }, []);
 
   const {

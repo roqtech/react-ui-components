@@ -15,7 +15,10 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
 import isEmpty from "lodash/isEmpty";
-import { ChatConversationMenu, ChatConversationMenuProps } from "../chat-conversation-menu";
+import {
+  ChatConversationMenu,
+  ChatConversationMenuProps,
+} from "../chat-conversation-menu";
 import { ActionButton } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
@@ -53,7 +56,7 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
     }
 
     return (
-      `${members.length - 1} members: ` +
+      `${members.length} members: ` +
       members.map(({ fullName }) => fullName).join(", ")
     );
   }, [members]);

@@ -47,6 +47,7 @@ export {
   MessageCenter,
   ChatMember,
   ChatMembers,
+  ChatMemberList,
   ChatMembersPanel,
   ChatConversationNotSelectedPanel,
 } from "./components/chat";
