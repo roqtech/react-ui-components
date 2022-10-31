@@ -15,7 +15,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
 import isEmpty from "lodash/isEmpty";
-import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatConversationMenu, ChatConversationMenuProps } from "../chat-conversation-menu";
 import { ActionButton } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
@@ -35,6 +35,7 @@ export interface ChatConversationHeaderProps
     Container: ComponentType<any>;
     Avatars: ComponentType<AvatarGroupProps>;
     Info: ComponentType<StackedTextProps>;
+    ConversationMenu?: ComponentType<ChatConversationMenuProps>;
   };
 }
 
@@ -81,7 +82,7 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
         <ActionButton
           className={clsx(_CLASS_IS + "__actions", classNames?.actions)}
           components={{
-            Dropdown: ChatConversationMenu,
+            Dropdown: components?.ConversationMenu,
           }}
         />
       )}

@@ -1,0 +1,86 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-member-display: flex;
+  --rc-chat-member-flex-direction: row;
+  --rc-chat-member-align-items: center;
+  --rc-chat-member-cursor: pointer;
+  --rc-chat-member-color: var(--rc-blueGray-800);
+  --rc-chat-member-background: transparent;
+  --rc-chat-member-radius: calc(var(--rc-layout-step) * 2);
+
+  --rc-chat-member-gap: calc(var(--rc-layout-step) * 3);
+  --rc-chat-member-padding: calc(var(--rc-layout-step) * 1.5)
+    calc(var(--rc-layout-step) * 3);
+
+  --rc-chat-member-hover-color: var(--rc-chat-member-color);
+  --rc-chat-member-hover-background: var(--rc-blueGray-200);
+
+  --rc-chat-member-selected-color: var(--rc-chat-member-color);
+  --rc-chat-member-selected-background: var(--rc-blueGray-300);
+
+  --rc-chat-member-avatar-flex-shrink: 0;
+
+  --rc-chat-member-content-flex-grow: 1;
+
+  --rc-chat-member-content-name-font-weight: var(--rc-font-weight-bold);
+
+  --rc-chat-member-actions-display: flex;
+  --rc-chat-member-actions-justify-content: center;
+  --rc-chat-member-actions-align-items: center;
+  --rc-chat-member-actions-flex-shrink: 0;
+
+  --rc-chat-member-actions-icon-color: var(--rc-primary);
+}
+
+@include roq-component("chat-member") {
+  display: var(--rc-chat-member-display);
+  flex-direction: var(--rc-chat-member-flex-direction);
+  align-items: var(--rc-chat-member-align-items);
+  cursor: var(--rc-chat-member-cursor);
+  color: var(--rc-chat-member-color);
+  padding: var(--rc-chat-member-padding);
+  border-radius: var(--rc-chat-member-radius);
+  gap: var(--rc-chat-member-gap);
+
+  &:hover {
+    color: var(--rc-chat-member-hover-color);
+    background: var(--rc-chat-member-hover-background);
+  }
+
+  &--selected {
+    color: var(--rc-chat-member-selected-color);
+    background: var(--rc-chat-member-selected-background);
+  }
+
+  &__avatar {
+    flex-shrink: var(--rc-chat-member-avatar-flex-shrink);
+  }
+
+  &__content {
+    flex-grow: var(--rc-chat-member-content-flex-grow);
+
+    &__name {
+      font-weight: var(--rc-chat-member-content-name-font-weight);
+    }
+  }
+
+  &__actions {
+    display: var(--rc-chat-member-actions-display);
+    justify-content: var(--rc-chat-member-actions-justify-content);
+    align-items: var(--rc-chat-member-actions-align-items);
+    flex-shrink: var(--rc-chat-member-actions-flex-shrink);
+
+    &__icon,
+    svg {
+      overflow: hidden;
+      pointer-events: none;
+      max-width: 100%;
+      max-height: 100%;
+      color: var(--rc-chat-member-actions-icon-color);
+      vertical-align: bottom;
+
+      fill: transparent;
+    }
+  }
+}

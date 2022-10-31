@@ -129,7 +129,6 @@ const ChatMessageList = (props: ChatMessageListProps) => {
 
   // We keep the scroll position when new items are added etc.
   useEffect(() => {
-    console.log("heehe");
     const scrollableRoot = scrollableRootRef.current;
     const lastScrollDistanceToBottom =
       lastScrollDistanceToBottomRef.current ?? 0;
@@ -152,7 +151,6 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   );
 
   const handleRootScroll = React.useCallback(() => {
-    console.log("ok!");
     const rootNode = scrollableRootRef.current;
     if (rootNode) {
       const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;

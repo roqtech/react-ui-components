@@ -15,8 +15,9 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 import { ChatMessageInterface } from "src/types";
 import { ChatMessageHistoryLine } from "../chat-message-history-line";
-import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatMessageMenu } from "src/index";
 import { ActionButton } from "src/components/common";
+import _isEmpty from "lodash/isEmpty";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -66,6 +67,11 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
 
   const renderMessage = useCallback(
     (message: ChatMessageInterface) => {
+      const isDeleted = !!message.deletedAt;
+      const isUpdated = !isDeleted && !!message.bodyUpdatedAt;
+
+      const showActions = !isDeleted;
+
       return (
         <Message
           key={message.id}
@@ -74,22 +80,26 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
           {...message}
           message={message.body}
           timestamp={message.createdAt}
+          isDeleted={isDeleted}
+          isUpdated={isUpdated}
           user={message.author}
-          className={clsx(_CLASS_IS + "__line__message", classNames?.message)}
+          className={clsx(_CLASS_IS + "__line__message", classNames?.message, {
+            [_CLASS_IS + "__line__message" + "--no-user"]: !message.showUser,
+          })}
           actions={
-            <ActionButton
-              components={{
-                Dropdown: ChatConversationMenu,
-              }}
-            />
+            showActions && (
+              <ActionButton
+                components={{
+                  Dropdown: ChatMessageMenu,
+                }}
+              />
+            )
           }
         />
       );
     },
     [Message, classNames?.message]
   );
-
-  console.log("ChatMessageHistory", props);
 
   return (
     <Container

@@ -62,3 +62,14 @@ Sent.args = {
   showTime: true,
   showUser: true,
 };
+
+export const Deleted = Template.bind({});
+Deleted.args = {
+  timestamp: 1666169576672,
+  message: `Hi! How it's going?`,
+  user: { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+  isDeleted: true,
+  showCorner: false,
+  showTime: true,
+  showUser: true,
+};

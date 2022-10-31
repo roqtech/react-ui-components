@@ -36,7 +36,7 @@ const Template: ComponentStory<typeof ChatConversations> = ({
   const [_platformUrl, setPlatformUrl] = useState(platformUrl);
   const [_platformToken, setPlatformToken] = useState(platformToken);
   const [_userId, setUserId] = useState(userId);
-  const [initialized, setInitialized] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (initialized) {

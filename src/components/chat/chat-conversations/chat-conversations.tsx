@@ -52,6 +52,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
   const ConversationCard = components?.ConversationCard ?? ChatConversationCard;
+  const ConversationMenu = components?.ConversationMenu ?? ChatConversationMenu;
 
   const handleConversationClick = useCallback(
     (id) => () => {
@@ -77,13 +78,22 @@ const ChatConversations = (props: ChatConversationsProps) => {
         actions={
           <ActionButton
             components={{
-              Dropdown: ChatConversationMenu,
+              Dropdown: (props) =>
+                ConversationMenu({
+                  ...props,
+                  conversationId: conversationProps.id,
+                }),
             }}
           />
         }
       />
     ),
-    [ConversationCard, selectedConversationId, handleConversationClick]
+    [
+      ConversationCard,
+      ConversationMenu,
+      selectedConversationId,
+      handleConversationClick,
+    ]
   );
 
   return (

@@ -17,14 +17,16 @@ export interface ChatMessageInterface {
   timestamp: ChatTimestampType;
   user: ChatUserInterface;
   conversationId: string;
-
+  
+  authorId?: string;
   isSent?: boolean;
 
-  authorId?: string;
   readBy?: string[];
   author?: ChatUserInterface;
   createdAt?: Date;
   updatedAt?: Date;
+  deletedAt?: Date;
+  bodyUpdatedAt?: Date;
 }
 
 export interface ChatConversationInterface {

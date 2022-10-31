@@ -24,6 +24,7 @@ import {
   ChatConversationListRequestPayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
 } from "src/utils/chat-socket.util";
+import { ChatConversationMenuProps } from "../chat-conversation-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-list";
 
@@ -49,6 +50,7 @@ export interface ChatConversationListProps
     Container?: ComponentType<any>;
     List?: ComponentType<ChatConversationsProps>;
     Loader?: ComponentType<any>;
+    ConversationMenu?: ComponentType<ChatConversationMenuProps>;
   };
 }
 
@@ -67,6 +69,7 @@ const ChatConversationList = (props: ChatConversationListProps) => {
     totalCount,
     loadedTotal,
     onLoadMore,
+    onConversationSelect,
   } = props;
 
   const [initialized, setInitialized] = useState(false);
@@ -146,6 +149,10 @@ const ChatConversationList = (props: ChatConversationListProps) => {
         className={clsx(_CLASS_IS + "__list", classNames?.list)}
         conversations={conversations}
         selectedConversationId={currentConversationId}
+        onConversationSelect={onConversationSelect}
+        components={{
+          ConversationMenu: components?.ConversationMenu,
+        }}
       >
         {showLoader && renderLoader()}
       </List>

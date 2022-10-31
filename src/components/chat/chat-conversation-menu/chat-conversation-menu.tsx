@@ -27,7 +27,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-menu";
 
 export interface ChatConversationMenuProps
   extends Omit<MenuProps, "classNames" | "components"> {
-  conversationId: ChatConversationInterface["id"];
+  conversationId?: ChatConversationInterface["id"];
   onRename?: (conversationId: string) => void;
   onArchive?: (conversationId: string) => void;
   onInvite?: (conversationId: string) => void;
@@ -46,7 +46,7 @@ export interface ChatConversationMenuProps
 export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   const { className, classNames, components } = props;
   const {
-    conversationId,
+    conversationId = null,
     onClose,
     onRename,
     onArchive,
@@ -63,21 +63,41 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose]);
 
   const handleRenameClick = useCallback(() => {
+    debugger;
+    if (!conversationId) {
+      return;
+    }
+
     onRename?.(conversationId);
     onClose?.();
   }, [onRename, onClose, conversationId]);
 
   const handleArchiveClick = useCallback(() => {
+    debugger;
+    if (!conversationId) {
+      return;
+    }
+
     onArchive?.(conversationId);
     onClose?.();
   }, [onClose, onClose, conversationId]);
 
   const handleEditClick = useCallback(() => {
+    debugger;
+    if (!conversationId) {
+      return;
+    }
+
     onInvite?.(conversationId);
     onClose?.();
   }, [onClose, onClose, conversationId]);
 
   const handleRemoveClick = useCallback(() => {
+    debugger;
+    if (!conversationId) {
+      return;
+    }
+
     onRemove?.(conversationId);
     onClose?.();
   }, [onClose, onClose, conversationId]);

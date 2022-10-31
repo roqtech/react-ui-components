@@ -67,10 +67,14 @@ export interface ChatConverstionArchivedResponsePayloadInterface {
 }
 
 export interface ChatMessageRecieivedResponsePayloadInterface
-  extends ChatMessageInterface {}
+  extends ChatMessageInterface {
+  body: string;
+}
 
 export interface ChatMessageUpdatedResponsePayloadInterface
-  extends ChatMessageInterface {}
+  extends ChatMessageInterface {
+  body: string;
+}
 
 export interface ChatMessageDeletedResponsePayloadInterface {
   id: string;

@@ -7,6 +7,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "stacked-text";
 
 export interface StackedTextProps {
+  children?: ReactNode;
   text?: string;
   primaryText?: string;
   secondaryText?: string;
@@ -32,6 +33,7 @@ export interface StackedTextProps {
 
 export const StackedText = (props: StackedTextProps) => {
   const {
+    children,
     text,
     primaryText,
     secondaryText,
@@ -54,13 +56,13 @@ export const StackedText = (props: StackedTextProps) => {
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
     >
-      {text && (
+      {(children ?? text) && (
         <Text
           className={clsx(_CLASS_IS + "__text", classNames?.text, {
             [_CLASS_IS + "__text" + "-disabled"]: disabled,
           })}
         >
-          {text}
+          {children ?? text}
         </Text>
       )}
       {primaryText && (

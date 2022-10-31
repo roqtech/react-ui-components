@@ -1,0 +1,176 @@
+@import "../../../styles/styles.scss";
+
+$cancel-button-min-width: 98px;
+$cancel-button-height: 36px;
+
+$submit-button-min-width: 98px;
+$submit-button-height: 36px;
+
+:root {
+  --rc-chat-members-panel-padding: calc(var(--rc-layout-step) * 6);
+
+  --rc-chat-members-panel-header-height: 40px;
+
+  --rc-chat-members-panel-header-title-line-height: var(
+    --rc-chat-members-panel-header-height
+  );
+  --rc-chat-members-panel-header-title-margin: 0;
+  --rc-chat-members-panel-header-title-font-size: 1.25em;
+  --rc-chat-members-panel-header-title-font-weight: var(
+    --rc-font-weight-medium
+  );
+  --rc-chat-members-panel-header-title-color: var(--rc-blueGray-900);
+
+  --rc-chat-members-panel-actions-spacing: calc(var(--rc-layout-step) * 3);
+  --rc-chat-members-panel-actions-margin: 0;
+  --rc-chat-members-panel-actions-display: flex;
+  --rc-chat-members-panel-actions-justify-content: flex-end;
+
+  --rc-chat-members-panel-actions-cancel-button-display: flex;
+  --rc-chat-members-panel-actions-cancel-button-flex-direction: row;
+  --rc-chat-members-panel-actions-cancel-button-justify-content: space-between;
+  --rc-chat-members-panel-actions-cancel-button-align-items: center;
+
+  --rc-chat-members-panel-actions-cancel-button-cursor: pointer;
+  --rc-chat-members-panel-actions-cancel-button-border: 2px solid
+    var(--rc-primary);
+  --rc-chat-members-panel-actions-cancel-button-min-width: #{$cancel-button-min-width};
+  --rc-chat-members-panel-actions-cancel-button-height: #{$cancel-button-height};
+  --rc-chat-members-panel-actions-cancel-button-color: var(--rc-primary);
+  --rc-chat-members-panel-actions-cancel-button-background: transparent;
+  --rc-chat-members-panel-actions-cancel-button-pading: calc(
+      var(--rc-layout-step) / 1.5
+    )
+    calc(var(--rc-layout-step) * 4);
+  --rc-chat-members-panel-actions-cancel-button-shadow: none;
+  --rc-chat-members-panel-actions-cancel-button-radius: var(
+    --rc-layout-border-radius
+  );
+
+  --rc-chat-members-panel-actions-cancel-button-label-color: var(
+    --rc-chat-members-panel-actions-cancel-button-color
+  );
+
+  --rc-chat-members-panel-actions-cancel-button-label-font-weight: var(
+    --rc-font-weight-bolder
+  );
+  --rc-chat-members-panel-actions-cancel-button-label-text-transform: uppercase;
+
+  --rc-chat-members-panel-actions-submit-button-cursor: pointer;
+  --rc-chat-members-panel-actions-submit-button-border: none;
+  --rc-chat-members-panel-actions-submit-button-min-width: #{$submit-button-min-width};
+  --rc-chat-members-panel-actions-submit-button-height: #{$submit-button-height};
+  --rc-chat-members-panel-actions-submit-button-color: var(--rc-blueGray-50);
+  --rc-chat-members-panel-actions-submit-button-background: var(--rc-primary);
+  --rc-chat-members-panel-actions-submit-button-pading: calc(
+      var(--rc-layout-step) / 1.5
+    )
+    calc(var(--rc-layout-step) * 4);
+
+  --rc-chat-members-panel-actions-submit-button-shadow: 0px 4px 16px
+    rgba(13, 28, 70, 0.15);
+  --rc-chat-members-panel-actions-submit-button-radius: var(
+    --rc-layout-border-radius
+  );
+
+  --rc-chat-members-panel-actions-submit-button-label-color: var(
+    --rc-chat-members-panel-actions-submit-button-color
+  );
+
+  --rc-chat-members-panel-actions-submit-button-label-font-weight: var(
+    --rc-font-weight-bolder
+  );
+  --rc-chat-members-panel-actions-submit-button-label-text-transform: uppercase;
+}
+
+@include roq-component("chat-members-panel") {
+  padding: var(--rc-chat-members-panel-padding);
+
+  &__header {
+    height: var(--rc-chat-members-panel-header-height);
+
+    &__title {
+      line-height: var(--rc-chat-members-panel-header-height);
+      margin: var(--rc-chat-members-panel-header-title-margin);
+      font-size: var(--rc-chat-members-panel-header-title-font-size);
+      font-weight: var(--rc-chat-members-panel-header-title-font-weight);
+      color: var(--rc-chat-members-panel-header-title-color);
+    }
+  }
+
+  &__list {
+  }
+
+  &__actions {
+    margin: var(--rc-chat-members-panel-actions-margin);
+    display: var(--rc-chat-members-panel-actions-display);
+    justify-content: var(--rc-chat-members-panel-actions-justify-content);
+    gap: var(--rc-chat-members-panel-actions-spacing);
+
+    &__cancel {
+      display: var(--rc-chat-members-panel-actions-cancel-button-display);
+      flex-direction: var(
+        --rc-chat-members-panel-actions-cancel-button-flex-direction
+      );
+      justify-content: var(
+        --rc-chat-members-panel-actions-cancel-button-justify-content
+      );
+      align-items: var(
+        --rc-chat-members-panel-actions-cancel-button-align-items
+      );
+
+      cursor: var(--rc-chat-members-panel-actions-cancel-button-cursor);
+      border: var(--rc-chat-members-panel-actions-cancel-button-border);
+      min-width: var(--rc-chat-members-panel-actions-cancel-button-width);
+      height: var(--rc-chat-members-panel-actions-cancel-button-height);
+      padding: var(--rc-chat-members-panel-actions-cancel-button-pading);
+      background: var(--rc-chat-members-panel-actions-cancel-button-background);
+      color: var(--rc-chat-members-panel-actions-cancel-button-color);
+      box-shadow: var(--rc-chat-members-panel-actions-cancel-button-shadow);
+      border-radius: var(--rc-chat-members-panel-actions-cancel-button-radius);
+
+      &__label {
+        font-weight: var(
+          --rc-chat-members-panel-actions-cancel-button-label-font-weight
+        );
+        color: var(--rc-chat-members-panel-actions-cancel-button-label-color);
+        text-transform: var(
+          --rc-chat-members-panel-actions-cancel-button-label-text-transform
+        );
+      }
+    }
+
+    &__submit {
+      display: var(--rc-chat-members-panel-actions-submit-button-display);
+      flex-direction: var(
+        --rc-chat-members-panel-actions-submit-button-flex-direction
+      );
+      justify-content: var(
+        --rc-chat-members-panel-actions-submit-button-justify-content
+      );
+      align-items: var(
+        --rc-chat-members-panel-actions-submit-button-align-items
+      );
+
+      cursor: var(--rc-chat-members-panel-actions-submit-button-cursor);
+      border: var(--rc-chat-members-panel-actions-submit-button-border);
+      min-width: var(--rc-chat-members-panel-actions-submit-button-width);
+      height: var(--rc-chat-members-panel-actions-submit-button-height);
+      padding: var(--rc-chat-members-panel-actions-submit-button-pading);
+      background: var(--rc-chat-members-panel-actions-submit-button-background);
+      color: var(--rc-chat-members-panel-actions-submit-button-color);
+      box-shadow: var(--rc-chat-members-panel-actions-submit-button-shadow);
+      border-radius: var(--rc-chat-members-panel-actions-submit-button-radius);
+
+      &__label {
+        font-weight: var(
+          --rc-chat-members-panel-actions-submit-button-label-font-weight
+        );
+        color: var(--rc-chat-members-panel-actions-submit-button-label-color);
+        text-transform: var(
+          --rc-chat-members-panel-actions-submit-button-label-text-transform
+        );
+      }
+    }
+  }
+}

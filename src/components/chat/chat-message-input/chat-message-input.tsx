@@ -7,12 +7,18 @@ import React, {
   ComponentType,
   useCallback,
   useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useLayoutEffect,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
-import { withChatApi } from "../chat-provider";
+import { withChatApi, withChatState } from "../chat-provider";
 import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.util";
 import { ChatMessageEditor } from "../chat-message-editor";
+import { Editor } from "draft-js";
+import { isEmpty } from "lodash";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
@@ -22,7 +28,9 @@ export interface ChatMessageInputProps {
   placeholder?: string;
   hideSendButton?: boolean;
   sendLabel?: string;
+  edit?: boolean;
   onChange?: (value: string) => void;
+  onFocus: () => void;
   onBeforeSend?: (
     message: Partial<ChatSendMessageRequestPayloadInterface>
   ) => Partial<ChatSendMessageRequestPayloadInterface>;
@@ -50,7 +58,9 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
     placeholder = "Type your message...",
     hideSendButton,
     sendLabel,
+    edit,
     onChange,
+    onFocus,
     onBeforeSend = (p) => p,
     onSend = (p) => {},
   } = props;
@@ -62,7 +72,31 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
+  const textareaRef = useRef<Editor>(null);
   const [textareaValue, setValue] = useState<string>(value ?? defaultValue);
+
+  const focusTextarea = useCallback(() => {
+    window.requestAnimationFrame(() => {
+      textareaRef.current?.focus();
+      onFocus?.();
+    });
+  }, [textareaRef, onFocus]);
+
+  const isValueEmpty = useMemo(() => {
+    return isEmpty(textareaValue) || textareaValue === defaultValue;
+  }, [textareaValue, defaultValue]);
+
+  useLayoutEffect(function windowIsReady() {
+    focusTextarea();
+  }, []);
+
+  useEffect(
+    function handleValueChanged() {
+      setValue(value);
+      focusTextarea();
+    },
+    [value, focusTextarea]
+  );
 
   const reset = useCallback(() => setValue(defaultValue), [setValue]);
 
@@ -82,14 +116,6 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       onSend(messagePayload);
     },
     [reset, onBeforeSend, onSend]
-  );
-
-  const handleSend = useCallback(
-    () =>
-      send({
-        body: textareaValue,
-      }),
-    [send, textareaValue]
   );
 
   const handleTextareaEnter = useCallback(() => {
@@ -116,6 +142,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       onSubmit={handleSubmit}
     >
       <Textarea
+        forwardedRef={textareaRef}
         name="message"
         value={textareaValue}
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
@@ -126,11 +153,10 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       {(!hideSendButton ?? true) && (
         <SendButton
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
-          onClick={handleSend}
         >
           {sendLabel && (
             <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>
-              sendLabel
+              {sendLabel}
             </SendLabel>
           )}
           <SendIcon className={clsx(_CLASS_IS + "__send-button__icon")} />
@@ -140,6 +166,13 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   );
 };
 
-export default withChatApi(({ sendMessage }) => ({
-  onSend: sendMessage,
-}))(ChatMessageInput);
+export default withChatState(
+  ({ messages: { editableMessageId }, editableMessage }) => ({
+    value: editableMessageId ? editableMessage?.body : undefined,
+    edit: !!editableMessageId,
+  })
+)(
+  withChatApi(({ sendMessage, editMessage }, { edit }) => ({
+    onSend: edit ? editMessage : sendMessage,
+  }))(ChatMessageInput)
+);

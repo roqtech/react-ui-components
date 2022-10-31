@@ -35,9 +35,15 @@ export const MenuItem = (props: MenuItemProps) => {
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
 
-  const handleClick = useCallback(() => {
-    onClick?.();
-  }, [onClick]);
+  const handleClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      onClick?.();
+    },
+    [onClick]
+  );
 
   return (
     <Container
