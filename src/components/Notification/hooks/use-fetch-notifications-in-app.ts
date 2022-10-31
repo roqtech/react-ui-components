@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { NotificationsInAppForCurrentUser } from 'src/lib/graphql/query'
+import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { NotificationProps } from '../notification'
 import { useDefaultNotificationsVariables } from './use-fetch-notification-variables'
 
@@ -13,7 +14,7 @@ export function useFetchNotificationsInApp(
   const type = args.type || 'all'
   const variables = useDefaultNotificationsVariables({ type, variables: args?.fetchProps?.variables })
 
-  return useQuery<any, any>(NotificationsInAppForCurrentUser, {
+  return useQuery<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>(NotificationsInAppForCurrentUser, {
     variables,
     context: { service: 'platform' },
   })

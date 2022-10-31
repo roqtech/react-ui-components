@@ -14,9 +14,10 @@ import {
 } from './hooks/use-notification-category.hook'
 import type { ClassValue } from 'clsx'
 import { QueryResult, useQuery } from '@apollo/client'
+import { NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables } from 'src/lib/graphql/types/graphql'
 
 export function useNotificationsCategories() {
-  return useQuery<any, any>(QueryNotificationTypeCategories, {
+  return useQuery<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>(QueryNotificationTypeCategories, {
     context: { service: 'platform' },
   })
 }
@@ -50,7 +51,7 @@ const StyledNotificationCategoryItem = styled('div', {
 })
 
 export type NotificationPreferenceLoadingViewCallbackProps =
-  QueryResult<unknown, unknown>
+  QueryResult<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>
 // export type NotificationPreferenceCategoriesViewCallbackProps =
 //   NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
 const _CLASS_IS = 'roq-' + 'notification-preference'
@@ -142,7 +143,7 @@ const NotificationPreference: React.FC<
 export { NotificationPreference, NotificationPreferenceProps }
 
 interface NotificationCategoryPreferencesProps {
-  category: any
+  category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0]
   onToggle?: UseNotificationTypeCategoryInterfaceArg['onToggle']
 }
 const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesProps> =
@@ -206,22 +207,22 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
           <Flex>
             <Checkbox
               type='checkbox'
-              id='in-app'
+              id={`in-app-${type.key}`}
               name='checkedAppNotifications'
               checked={checkedAppNotification}
               onChange={handleSwitchChange}
             />
-            <label htmlFor='in-app'>In-app</label>
+            <label htmlFor={`in-app-${type.key}`}>In-app</label>
           </Flex>
           <Flex>
             <Checkbox
               type='checkbox'
-              id='email'
+              id={`email-${type.key}`}
               name='checkedEmailNotifications'
               checked={checkedEmailNotification}
               onChange={handleSwitchChange}
             />
-            <label htmlFor='email'>Email</label>
+            <label htmlFor={`email-${type.key}`}>Email</label>
           </Flex>
         </div>
       </div>

@@ -28,7 +28,7 @@ export type NotificationContentViewCallbackProps = {
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
-export type NotificationLoadingViewCallbackProps = QueryResult<unknown, unknown>
+export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
