@@ -26,6 +26,7 @@ export function useNotificationsCategories(
     host: args.host,
     token: args.token,
   })
+  
   return useNotificationTypeCategoriesQuery(
     {
       endpoint: host,

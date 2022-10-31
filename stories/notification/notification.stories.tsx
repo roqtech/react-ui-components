@@ -1,8 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AppDecorators from '../../../.storybook/decorators'
-import { Notification } from './notification';
+import AppDecorators from '../../.storybook/decorators'
+import { Notification } from '../../src/components/notification';
 
 export default {
   title: 'Roq Components/Notification',

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AppDecorators from '../../../.storybook/decorators'
-import { NotificationPreference } from './NotificationPreference';
+import AppDecorators from '../../.storybook/decorators'
+import { NotificationPreference } from '../../src/components/notification';
 
 export default {
   title: 'Roq Components/NotificationPreference',
