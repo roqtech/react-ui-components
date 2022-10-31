@@ -27,7 +27,7 @@ import {
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat";
 
 export interface ChatProps {
-  children?: ReactNode;
+  showEditingForm?: boolean;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -47,7 +47,7 @@ export interface ChatProps {
 
 export const Chat = (props: ChatProps) => {
   const { style, className, classNames, components } = props;
-  const { children } = props;
+  const { showEditingForm } = props;
 
   const Container = components?.Container ?? ChatPanel;
   const Header = components?.Header ?? ChatConversationHeader;
@@ -64,6 +64,7 @@ export const Chat = (props: ChatProps) => {
         components={{
           ConversationMenu: components?.ConversationMenu,
         }}
+        showEditingForm={showEditingForm}
       />
       <Messages
         className={clsx(_CLASS_IS + "__messages", classNames?.container)}

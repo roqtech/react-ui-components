@@ -65,6 +65,8 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
 
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
 
+  console.log(children)
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {

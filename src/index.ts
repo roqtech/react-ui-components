@@ -50,6 +50,7 @@ export {
   ChatMemberList,
   ChatMembersPanel,
   ChatConversationNotSelectedPanel,
+  ChatConversationCardForm,
 } from "./components/chat";
 
 export type {

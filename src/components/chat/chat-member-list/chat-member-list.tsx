@@ -187,7 +187,12 @@ export default withChatState(
       onLoadMore: fetchRecipientList,
       onReset: resetSelectedRecipients,
       onMemberSelect: (memberId) => {
-        setSelectedRecipients([...selectedIds, memberId]);
+        const isSelected = selectedIds.includes(memberId);
+        const nextSelectedIds = isSelected
+          ? selectedIds.filter((id) => id !== memberId)
+          : [...selectedIds, memberId];
+
+        setSelectedRecipients(nextSelectedIds);
       },
     })
   )(ChatMemberList)

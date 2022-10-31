@@ -16,6 +16,7 @@ import { withChatApi, withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
 import { ActionButton } from "src/components/common";
 import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatConversationCardForm } from "../chat-conversation-card-form";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversations";
 
@@ -25,7 +26,8 @@ export interface ChatConversationsProps {
   selectedConversationId?: string;
   editableConversationId?: string;
   onConversationSelect?: (conversationId: string) => void;
-  onAction?: (action: string) => void;
+  onEditFormCancel: () => void;
+  onEditFormSubmit: (values: Partial<ChatConversationInterface>) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -50,13 +52,15 @@ const ChatConversations = (props: ChatConversationsProps) => {
     selectedConversationId,
     editableConversationId,
     onConversationSelect,
-    onAction,
+    onEditFormCancel,
+    onEditFormSubmit,
   } = props;
 
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
   const ConversationCard = components?.ConversationCard ?? ChatConversationCard;
-  const ConversationForm = components?.ConversationForm ?? "div";
+  const ConversationForm =
+    components?.ConversationForm ?? ChatConversationCardForm;
   const ConversationMenu = components?.ConversationMenu ?? ChatConversationMenu;
 
   const handleConversationClick = useCallback(
@@ -73,9 +77,18 @@ const ChatConversations = (props: ChatConversationsProps) => {
     [editableConversationId]
   );
 
-  const renderConversationCardEditForm = useCallback(() => {
-    return <ConversationForm>form</ConversationForm>;
-  }, [ConversationForm]);
+  const renderConversationCardEditForm = useCallback(
+    (conversation: ChatConversationInterface) => {
+      return (
+        <ConversationForm
+          initialValues={conversation}
+          onSubmit={onEditFormSubmit}
+          onCancel={onEditFormCancel}
+        />
+      );
+    },
+    [ConversationForm, onEditFormCancel, onEditFormSubmit]
+  );
 
   const renderConversationCard = useCallback(
     (conversationProps) => {
@@ -135,9 +148,16 @@ const ChatConversations = (props: ChatConversationsProps) => {
   );
 };
 
-export default withChatApi(({ selectConversation }) => ({
-  onConversationSelect: selectConversation,
-}))(
+export default withChatApi(
+  ({ selectConversation, resetEditableConversation, renameConversation }) => ({
+    onConversationSelect: selectConversation,
+    onEditFormCancel: resetEditableConversation,
+    onEditFormSubmit: ({ title }) => {
+      renameConversation(title);
+      resetEditableConversation();
+    },
+  })
+)(
   withChatState(({ conversations, currentConversation }) => ({
     conversations: conversations?.data,
     selectedConversationId: currentConversation?.id,

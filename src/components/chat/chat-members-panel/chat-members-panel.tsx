@@ -6,12 +6,13 @@ import React, {
   CSSProperties,
   ReactNode,
   useCallback,
+  useEffect,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatMemberList, ChatMembers, ChatPanel } from "src/index";
 import { ChatMembersProps } from "../chat-members/chat-members";
 import { ChatUserInterface } from "src/types";
-import { withChatState } from "../chat-provider";
+import { withChatApi, withChatState } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
@@ -23,6 +24,8 @@ export interface ChatMembersPanelProps
 
   onCancel?: () => void;
   onSubmit?: (ids: ChatUserInterface["id"][]) => void;
+  onInitialize: (defaultSelectedIds: string[]) => void;
+  defaultSelectedIds?: string[];
 
   style?: CSSProperties;
   className?: string;
@@ -55,8 +58,10 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
     cancelLabel = "Cancel",
     submitLabel = "Submit",
     selectedIds,
+    defaultSelectedIds,
     onCancel,
     onSubmit,
+    onInitialize,
   } = props;
 
   const Container = components?.Container ?? ChatPanel;
@@ -68,6 +73,17 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   const CancelButtonLabel = components?.CancelButtonLabel ?? "span";
   const SubmitButton = components?.SubmitButton ?? "button";
   const SubmitButtonLabel = components?.SubmitButtonLabel ?? "span";
+
+  useEffect(
+    function handleDefaultSelectedIdsChanged() {
+      if (!defaultSelectedIds) {
+        return;
+      }
+
+      onInitialize?.(defaultSelectedIds);
+    },
+    [defaultSelectedIds]
+  );
 
   const handleMemberSelect = useCallback(() => {}, []);
 
@@ -129,4 +145,8 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
 
 export default withChatState(({ recipients: { selectedIds } = {} }) => ({
   selectedIds,
-}))(ChatMembersPanel);
+}))(
+  withChatApi(({ setSelectedRecipients }) => ({
+    onInitialize: setSelectedRecipients,
+  }))(ChatMembersPanel)
+);

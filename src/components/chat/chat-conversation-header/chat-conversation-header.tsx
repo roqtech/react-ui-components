@@ -20,6 +20,7 @@ import {
   ChatConversationMenuProps,
 } from "../chat-conversation-menu";
 import { ActionButton } from "src/components/common";
+import { ChatConversationCardForm } from "src/index";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
@@ -39,6 +40,7 @@ export interface ChatConversationHeaderProps
     Avatars: ComponentType<AvatarGroupProps>;
     Info: ComponentType<StackedTextProps>;
     ConversationMenu?: ComponentType<ChatConversationMenuProps>;
+    ConversationForm?: ComponentType<ChatConversationCardFormProps>;
   };
 }
 
@@ -49,6 +51,8 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
   const Info = components?.Info ?? StackedText;
+  const ConversationForm =
+    components?.ConversationForm ?? ChatConversationCardForm;
 
   const membersLine = useMemo(() => {
     if (isEmpty(members)) {

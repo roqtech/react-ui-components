@@ -22,15 +22,19 @@ import {
   ChatConversationCreatedResponsePayloadInterface,
   ChatConversationListRequestPayloadInterface,
   ChatConversationListResponsePayloadInterface,
+  ChatConversationMembersChangedResponsePayloadInterface,
+  ChatConversationTitleChangedResponsePayloadInterface,
   ChatCreateConversationRequestPayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
   ChatMessageDeletedResponsePayloadInterface,
   ChatMessageEditRequestPayloadInterface,
   ChatMessageRecieivedResponsePayloadInterface,
   ChatMessageUpdatedResponsePayloadInterface,
+  ChatRenameConversationRequestPayloadInterface,
   ChatSendMessageRequestPayloadInterface,
   ChatSocket,
   ChatSocketInterface,
+  ChatUpdateConversationMembersRequestPayloadInterface,
   ChatUserConnectedResponsePayload,
 } from "src/utils/chat-socket.util";
 import { useSocket } from "src/components/socket";
@@ -74,7 +78,7 @@ export interface ChatApiContextInterface {
     payload: ChatCreateConversationRequestPayloadInterface
   ) => void;
   archiveConversation: (conversationId: string) => void;
-  renameConversation: (payload: unknown) => void;
+  renameConversation: (title: string) => void;
   getConversationDetails: (conversationId: string) => void;
   updateConversationMembers: (payload: unknown) => void;
   leaveConversation: (conversationId: string) => void;
@@ -428,8 +432,6 @@ export const ChatProvider = (
 
   const handleConversationCreated = useCallback(
     (payload: ChatConversationCreatedResponsePayloadInterface) => {
-      debugger;
-
       const newConversation = normalizeConversation(payload);
 
       if (newConversation.lastMessage) {
@@ -460,13 +462,52 @@ export const ChatProvider = (
     alert("handleConversationExists");
   }, []);
 
-  const handleConversationMembersChanged = useCallback(() => {
-    alert("handleConversationMembersChanged");
-  }, []);
+  const handleConversationMembersChanged = useCallback(
+    (payload: ChatConversationMembersChangedResponsePayloadInterface) => {
+      const { conversationId, memberIds, members } = payload;
 
-  const handleConversationTitleChanged = useCallback(() => {
-    alert("handleConversationTitleChanged");
-  }, []);
+      const conversationChanges = {
+        memberIds,
+        members,
+      };
+
+      setConversations((ps) => ({
+        ...ps,
+        data: ps.data.map((conversation) =>
+          conversation.id === conversationId
+            ? {
+                ...conversation,
+                ...conversationChanges,
+              }
+            : conversation
+        ),
+      }));
+    },
+    [setConversations]
+  );
+
+  const handleConversationTitleChanged = useCallback(
+    (payload: ChatConversationTitleChangedResponsePayloadInterface) => {
+      const { conversationId, title } = payload;
+
+      const conversationChanges = {
+        title,
+      };
+
+      setConversations((ps) => ({
+        ...ps,
+        data: ps.data.map((conversation) =>
+          conversation.id === conversationId
+            ? {
+                ...conversation,
+                ...conversationChanges,
+              }
+            : conversation
+        ),
+      }));
+    },
+    [setConversations]
+  );
 
   const handleConversationArchived = useCallback(
     (payload) => {
@@ -713,17 +754,43 @@ export const ChatProvider = (
     [socket]
   );
 
-  const renameConversation = () => {
-    console.log("renameConversation");
-  };
+  const renameConversation = useCallback(
+    (title) => {
+      const { editableId } = conversations;
+
+      if (!editableId) {
+        return;
+      }
+
+      const payload: ChatRenameConversationRequestPayloadInterface = {
+        conversationId: editableId,
+        title,
+      };
+
+      socket?.renameConversation(payload);
+    },
+    [socket, conversations]
+  );
 
   const getConversationDetails = () => {
     console.log("getConversationDetails");
   };
 
-  const updateConversationMembers = () => {
-    console.log("updateConversationMembers");
-  };
+  const updateConversationMembers = useCallback(
+    (memberIds: string[]) => {
+      if (!currentConversationId) {
+        return;
+      }
+
+      const payload: ChatUpdateConversationMembersRequestPayloadInterface = {
+        conversationId: currentConversationId,
+        memberIds,
+      };
+
+      socket?.updateConversationMembers(payload);
+    },
+    [socket, currentConversationId]
+  );
 
   const leaveConversation = () => {
     console.log("leaveConversation");
@@ -1054,6 +1121,7 @@ export const ChatProvider = (
       leaveConversation,
       getConversationList,
       getConversationMessageList,
+      resetEditableConversation,
       setEditableConversation,
       markAsReadUnreadConversationMessages,
       sendMessage,
@@ -1065,8 +1133,6 @@ export const ChatProvider = (
       fetchRecipientList,
       resetSelectedRecipients,
       setSelectedRecipients,
-      resetEditableConversation,
-      setEditableConversation,
     }),
     [
       getId,

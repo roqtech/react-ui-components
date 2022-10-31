@@ -8,6 +8,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
@@ -26,6 +27,7 @@ import {
   useCreateConversation,
   useCurrentConversation,
   useUpdateConversation,
+  useUpdateConversationMembers,
 } from "src/hooks";
 import { MessageCenterScreenEnum } from "../types.work";
 import { ChatConversationListProps } from "../chat-conversation-list";
@@ -81,6 +83,8 @@ export interface MessageCenterProps {
   };
 }
 
+type EditingTriggerType = "sidebar" | "chat";
+
 export const MessageCenter = (props: MessageCenterProps) => {
   const { style, className, classNames, components } = props;
   const {
@@ -111,12 +115,20 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const AddMembers = components?.AddMembers ?? ChatMembersPanel;
   const RemoveMembers = components?.RemoveMembers ?? ChatMembersPanel;
 
+  const { archiveConversation } = useArchiveConversation();
+  const { createConversation } = useCreateConversation();
+  const { updateConversationMembers } = useUpdateConversationMembers();
+
+  const { setEditableConversation, resetEditableConversation } =
+    useUpdateConversation();
+
   const { currentConversationId, selectConversation, currentConversation } =
     useCurrentConversation();
 
-  const { screen, setScreen } = useChatScreen({
-    // defaultScreen: ChatScreenEnum.CREATE_NEW_CONVERSATION,
-  });
+  const { screen, setScreen } = useChatScreen();
+
+  const [editingTrigger, setEditingTrigger] =
+    useState<EditingTriggerType | null>(null);
 
   useEffect(
     function handleConversationChanged() {
@@ -125,13 +137,10 @@ export const MessageCenter = (props: MessageCenterProps) => {
       }
 
       setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+      resetEditableConversation();
     },
-    [currentConversationId]
+    [currentConversationId, resetEditableConversation]
   );
-
-  const { archiveConversation } = useArchiveConversation();
-  const { createConversation } = useCreateConversation();
-  const { setEditableConversation } = useUpdateConversation();
 
   const unselectConversation = useCallback(() => {
     selectConversation(null);
@@ -162,10 +171,11 @@ export const MessageCenter = (props: MessageCenterProps) => {
   }, [setScreen]);
 
   const handleRenameConversationClick = useCallback(
-    (conversationId: string) => {
+    (triggeredBy: EditingTriggerType) => (conversationId: string) => {
       setEditableConversation(conversationId);
+      setEditingTrigger(triggeredBy);
     },
-    [setEditableConversation]
+    [setEditableConversation, setEditingTrigger]
   );
 
   const handleActionButtonClick = useCallback(() => {
@@ -199,12 +209,28 @@ export const MessageCenter = (props: MessageCenterProps) => {
     [setScreen, selectConversation]
   );
 
+  const handleAddMembers = useCallback(
+    (memberIds: string) => {
+      updateConversationMembers(memberIds);
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [setScreen, updateConversationMembers]
+  );
+
   const handleRemoveMembersCancel = useCallback(
     (conversationId) => {
       selectConversation(conversationId);
       setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
     },
     [setScreen, selectConversation]
+  );
+
+  const handleRemoveMembers = useCallback(
+    (memberIds: string) => {
+      updateConversationMembers(memberIds);
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [setScreen, updateConversationMembers]
   );
 
   const isConversationNotSelectedScreen = useMemo(
@@ -241,16 +267,17 @@ export const MessageCenter = (props: MessageCenterProps) => {
     [isConversationNotSelectedScreen, isConversationSelectedScreen]
   );
 
-  const renderConversationMenu = (menuProps) => (
-    <ChatConversationMenu
-      conversationId={currentConversationId}
-      onArchive={handleArchiveConversationClick}
-      onInvite={handleGoToConversationAddMembersCLick}
-      onRemove={handleGoToConversationRemoveMembersCLick}
-      onRename={handleRenameConversationClick}
-      {...menuProps}
-    />
-  );
+  const renderConversationMenu = (trigger: EditingTriggerType) => (menuProps) =>
+    (
+      <ChatConversationMenu
+        conversationId={currentConversationId}
+        onArchive={handleArchiveConversationClick}
+        onInvite={handleGoToConversationAddMembersCLick}
+        onRemove={handleGoToConversationRemoveMembersCLick}
+        onRename={handleRenameConversationClick(trigger)}
+        {...menuProps}
+      />
+    );
 
   return (
     <Container
@@ -286,9 +313,10 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar
               )}
+              showEditForm={editingTrigger === "sidebar"}
               onConversationSelect={handleConversationClick}
               components={{
-                ConversationMenu: renderConversationMenu,
+                ConversationMenu: renderConversationMenu("sidebar"),
               }}
             />
 
@@ -296,8 +324,9 @@ export const MessageCenter = (props: MessageCenterProps) => {
 
             {isConversationSelectedScreen && (
               <ConversationSelected
+                showEditForm={editingTrigger === "sidebar"}
                 components={{
-                  ConversationMenu: renderConversationMenu,
+                  ConversationMenu: renderConversationMenu("chat"),
                 }}
               />
             )}
@@ -307,7 +336,8 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 titleLabel={addMemberTitle}
                 className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
                 onCancel={handleAddMembersCancel}
-                selectedIds={currentConversation?.memberIds ?? []}
+                onSubmit={handleAddMembers}
+                defaultSelectedIds={currentConversation?.memberIds ?? []}
               />
             )}
 
@@ -319,7 +349,8 @@ export const MessageCenter = (props: MessageCenterProps) => {
                   classNames?.panel
                 )}
                 onCancel={handleRemoveMembersCancel}
-                selectedIds={currentConversation?.memberIds ?? []}
+                onSubmit={handleRemoveMembers}
+                defaultSelectedIds={currentConversation?.memberIds ?? []}
               />
             )}
           </>

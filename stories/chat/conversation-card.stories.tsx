@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React, { useState, useEffect } from "react";
-import { ChatConversationCard } from "../../src";
+import { ChatConversationCard, ChatConversationCardForm } from "../../src";
 
 export default {
   title: "Roq Components/Chat/Conversation Card",
@@ -40,8 +40,25 @@ WithUnreadMessages.args = {
     { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
     { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
     { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
-    
   ],
+};
+
+const MOCKED_CONVERSATION = {
+  title: "Chat",
+  timestamp: new Date(),
+  message: `Have you checked your box?`,
+  members: [
+    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
+    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
+    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
+    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+  ],
+};
+
+export const EditForm = Template.bind({});
+EditForm.args = {
+  ...MOCKED_CONVERSATION,
+  children: <ChatConversationCardForm initialValues={MOCKED_CONVERSATION} />,
 };
 
 // const StyledTailwindText = (props) => {
