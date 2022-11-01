@@ -250,7 +250,7 @@ export const ChatProvider = (
 ): ReactElement => {
   const { children, userId, platformToken, conversationId } = props;
 
-  const { host, token } = useRoq();
+  const { host, token, userToken } = useRoq();
 
   const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
   const [online, setOnline] = useState<boolean>(false);
@@ -1266,7 +1266,7 @@ export const ChatProvider = (
           query,
           variables,
           headers: {
-            authorization: process.env.STORYBOOK_TOKEN,
+            authorization: userToken as string,
             "roq-platform-authorization": token as string,
           },
         },
@@ -1275,7 +1275,7 @@ export const ChatProvider = (
 
       onFetchRecipientListSuccess(result.users);
     },
-    [host, token, onFetchRecipientListRequest, onFetchRecipientListSuccess]
+    [host, userToken, token, onFetchRecipientListRequest, onFetchRecipientListSuccess]
   );
 
   const state = useMemo<ChatStateContextInterface>(

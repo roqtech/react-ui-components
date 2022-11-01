@@ -50,6 +50,8 @@ export const socketClient = (
 
   const socketUrl = new URL(url ?? `${platformUrl}${path}`);
 
+  const PlatformToken = platformToken.replace("Bearer ", " ").trim();
+
   return io(`${socketUrl.origin}/${namespace}`, {
     secure,
     path: socketUrl.pathname,
@@ -61,7 +63,7 @@ export const socketClient = (
     reconnectionAttempts,
     withCredentials,
     extraHeaders: {
-      PlatformToken: platformToken,
+      PlatformToken,
     },
   });
 };
