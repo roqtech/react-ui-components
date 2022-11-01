@@ -53,12 +53,18 @@ const hostConfig = {
   token: process.env.STORYBOOK_PLATFORM_TOKEN ?? "",
 };
 
+const PREVIEW_COMPONENT = ["roq-components-chat-message-center"];
+
 export const decorators = [
-  (Story) => (
-    <RoqProvider
-      config={hostConfig}
-    >
-      <Story />
-    </RoqProvider>
-  ),
+  (Story, context) => {
+    if (PREVIEW_COMPONENT.includes(context.componentId)) {
+      return <Story />;
+    }
+
+    return (
+      <RoqProvider config={hostConfig}>
+        <Story />
+      </RoqProvider>
+    );
+  },
 ];
