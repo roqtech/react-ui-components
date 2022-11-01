@@ -27,6 +27,9 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-menu";
 
 export interface ChatMessageMenuProps
   extends Omit<MenuProps, "classNames" | "components"> {
+  isAuthor?: boolean;
+  showEdit?: boolean;
+  showDelete?: boolean;
   messageId: ChatMessageInterface["id"];
   onClose?: () => void;
   onEdit?: (messageId: string) => void;
@@ -43,7 +46,16 @@ export interface ChatMessageMenuProps
 
 export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
   const { className, classNames, components } = props;
-  const { messageId, onClose, onEdit, onDelete, ...rest } = props;
+  const {
+    isAuthor,
+    showEdit = true,
+    showDelete = true,
+    messageId,
+    onClose,
+    onEdit,
+    onDelete,
+    ...rest
+  } = props;
 
   const Container = components?.Container ?? Menu;
   const Item = components?.Item ?? MenuItem;
@@ -68,8 +80,10 @@ export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
       onClose={handleClose}
       {...rest}
     >
-      <Item onClick={handleEditClick}>Edit</Item>
-      <Item onClick={handleDeleteClick}>Delete</Item>
+      {isAuthor && showEdit && <Item onClick={handleEditClick}>Edit</Item>}
+      {isAuthor && showDelete && (
+        <Item onClick={handleDeleteClick}>Delete</Item>
+      )}
     </Container>
   );
 };

@@ -65,6 +65,7 @@ export interface ChatStateContextInterface {
   currentConversation?: ChatConversationInterface;
   conversations: ChatConversationListInterface;
   messages: ChatMessageListInterface;
+  editableMessage: ChatMessageInterface | null;
   recipients: ChatRecipientListInterface;
   presense: ChatUserPresenceListInterface;
 }
@@ -929,9 +930,16 @@ export const ChatProvider = (
     [socket, currentConversationId]
   );
 
-  const leaveConversation = useCallback((conversationId: string) => {
-    socket?.leaveConversation(conversationId);
-  }, [socket])
+  const leaveConversation = useCallback(
+    (conversationId: string) => {
+      socket?.leaveConversation(conversationId);
+
+      if (currentConversationId === conversationId) {
+        setCurrentConversationId(null);
+      }
+    },
+    [socket, currentConversationId, setCurrentConversationId]
+  );
 
   const markAsReadUnreadConversationMessages = useCallback(() => {
     if (!currentConversation) {

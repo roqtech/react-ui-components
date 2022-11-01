@@ -26,15 +26,14 @@ import {
   useChatScreen,
   useCreateConversation,
   useCurrentConversation,
+  useLeaveConversationMembers,
   useUpdateConversation,
   useUpdateConversationMembers,
 } from "src/hooks";
-import { MessageCenterScreenEnum } from "../types.work";
 import { ChatConversationListProps } from "../chat-conversation-list";
 import { ChatConversationMenu } from "../chat-conversation-menu";
 import { ChatCreateConversationRequestPayloadInterface } from "src/utils/chat-socket.util";
 import _ from "lodash";
-import { ChatUserInterface } from "src/types";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
@@ -118,6 +117,7 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const { archiveConversation } = useArchiveConversation();
   const { createConversation } = useCreateConversation();
   const { updateConversationMembers } = useUpdateConversationMembers();
+  const { leaveConversation } = useLeaveConversationMembers();
 
   const { setEditableConversation, resetEditableConversation } =
     useUpdateConversation();
@@ -133,11 +133,22 @@ export const MessageCenter = (props: MessageCenterProps) => {
   useEffect(
     function handleConversationChanged() {
       if (!currentConversationId) {
+        if (
+          screen === ChatScreenEnum.CONVERSATION_SELECTED ||
+          screen === ChatScreenEnum.CONVERSATION_ADD_MEMBERS ||
+          screen === ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS
+        ) {
+          setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+        }
+
         return;
       }
 
-      // setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
       resetEditableConversation();
+
+      if (ChatScreenEnum.CONVERSATION_NOT_SELECTED) {
+        setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+      }
     },
     [currentConversationId, resetEditableConversation]
   );
@@ -168,6 +179,13 @@ export const MessageCenter = (props: MessageCenterProps) => {
       setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
     },
     [setScreen, selectConversation]
+  );
+
+  const handleLeaveConversation = useCallback(
+    (conversationId: string) => {
+      leaveConversation(conversationId);
+    },
+    [selectConversation, leaveConversation]
   );
 
   const handleGoToConversationRemoveMembersCLick = useCallback(
@@ -283,6 +301,8 @@ export const MessageCenter = (props: MessageCenterProps) => {
         onInvite={handleGoToConversationAddMembersCLick}
         onRemove={handleGoToConversationRemoveMembersCLick}
         onRename={handleRenameConversationClick(trigger)}
+        onLeave={handleLeaveConversation}
+        isOwner={currentConversation?.isOwner}
         {...menuProps}
       />
     );

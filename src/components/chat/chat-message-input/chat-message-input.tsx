@@ -167,9 +167,9 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
 };
 
 export default withChatState(
-  ({ messages: { editableMessageId }, editableMessage }) => ({
-    value: editableMessageId ? editableMessage?.body : undefined,
-    edit: !!editableMessageId,
+  ({ messages: { editableId }, editableMessage }) => ({
+    value: editableId ? editableMessage?.body : undefined,
+    edit: !!editableId,
   })
 )(
   withChatApi(({ sendMessage, editMessage }, { edit }) => ({
