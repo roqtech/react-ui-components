@@ -1,10 +1,11 @@
 export {
   ChatSocket,
-  ChatTimestampType,
   ChatUserInterface,
   ChatMessageInterface,
   ChatConversationInterface,
   ChatUserPresenceInterface,
+  ChatConversationSchemaInterface,
+  ChatMessageSchemaInterface
 } from "./chat.type";
 
 export { PaginationInterface, ComplexError } from "./common.type";

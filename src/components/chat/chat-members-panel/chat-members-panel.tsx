@@ -13,6 +13,7 @@ import { ChatMemberList, ChatMembers, ChatPanel } from "src/index";
 import { ChatMembersProps } from "../chat-members/chat-members";
 import { ChatUserInterface } from "src/types";
 import { withChatApi, withChatState } from "../chat-provider";
+import { ChatFetchRecipientsVariablesInterface } from "src/types/chat.type";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
@@ -24,8 +25,22 @@ export interface ChatMembersPanelProps
 
   onCancel?: () => void;
   onSubmit?: (ids: ChatUserInterface["id"][]) => void;
-  onInitialize: (defaultSelectedIds: string[]) => void;
-  defaultSelectedIds?: string[];
+  onInitialize: ({
+    initialSelectedIds,
+    initialFilter,
+  }: {
+    initialSelectedIds: string[];
+    initialFilter: Pick<
+      ChatFetchRecipientsVariablesInterface,
+      "filter" | "ids" | "excludeIds" | "includeIds"
+    >;
+  }) => void;
+
+  initialSelectedIds: string[];
+  initialFilter: Pick<
+    ChatFetchRecipientsVariablesInterface,
+    "filter" | "ids" | "excludeIds" | "includeIds"
+  >;
 
   style?: CSSProperties;
   className?: string;
@@ -58,7 +73,8 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
     cancelLabel = "Cancel",
     submitLabel = "Submit",
     selectedIds,
-    defaultSelectedIds,
+    initialSelectedIds,
+    initialFilter,
     onCancel,
     onSubmit,
     onInitialize,
@@ -75,14 +91,22 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   const SubmitButtonLabel = components?.SubmitButtonLabel ?? "span";
 
   useEffect(
-    function handleDefaultSelectedIdsChanged() {
-      if (!defaultSelectedIds) {
+    function handleInitialValuesChanged() {
+      if (!initialSelectedIds && !initialFilter) {
         return;
       }
 
-      onInitialize?.(defaultSelectedIds);
+      onInitialize?.({
+        initialSelectedIds,
+        initialFilter,
+      });
     },
-    [defaultSelectedIds]
+    [
+      initialFilter?.filter,
+      initialFilter?.ids,
+      initialFilter?.excludeIds,
+      initialFilter?.includeIds,
+    ]
   );
 
   const handleMemberSelect = useCallback(() => {}, []);
@@ -146,7 +170,23 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
 export default withChatState(({ recipients: { selectedIds } = {} }) => ({
   selectedIds,
 }))(
-  withChatApi(({ setSelectedRecipients }) => ({
-    onInitialize: setSelectedRecipients,
-  }))(ChatMembersPanel)
+  withChatApi(
+    ({
+      resetRecipientList,
+      setSelectedRecipients,
+      setRecipientListFilter,
+    }) => ({
+      onInitialize: ({ initialSelectedIds, initialFilter }) => {
+        resetRecipientList();
+
+        if (initialSelectedIds) {
+          setSelectedRecipients(initialSelectedIds);
+        }
+
+        if (initialFilter) {
+          setRecipientListFilter(initialFilter);
+        }
+      },
+    })
+  )(ChatMembersPanel)
 );

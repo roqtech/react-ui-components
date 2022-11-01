@@ -4,7 +4,9 @@
   --rc-chat-message-history-background: var(--rc-white);
   --rc-chat-message-history-spacing: calc(var(--rc-layout-step) * 1.5) 0;
 
-  --rc-chat-message-history-line-message-no-user-padding: 0px 48px 0px 0px;
+  --rc-chat-message-history-line-message-no-user-padding: calc(
+    var(--rc-avatar-size_medium) + calc(var(--rc-layout-step) * 4.5)
+  );
 }
 
 @include roq-component("chat-message-history") {
@@ -41,20 +43,36 @@
   }
 
   &__line {
+    $line: &;
+
     display: flex;
     padding: var(--rc-chat-message-history-spacing);
 
     &-sent {
       justify-content: flex-end;
+
+      #{$line} {
+        &__message {
+          &--no-user {
+            padding-right: var(
+              --rc-chat-message-history-line-message-no-user-padding
+            );
+          }
+        }
+      }
     }
 
     &-received {
       justify-content: flex-start;
-    }
 
-    &__message {
-      &--no-user {
-        padding: var(--rc-chat-message-history-line-message-no-user-padding);
+      #{$line} {
+        &__message {
+          &--no-user {
+            padding-left: var(
+              --rc-chat-message-history-line-message-no-user-padding
+            );
+          }
+        }
       }
     }
   }

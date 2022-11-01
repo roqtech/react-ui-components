@@ -3,8 +3,6 @@ import { InfiniteListInterface, PaginationInterface } from "src/types";
 
 export interface ChatSocket extends Socket {}
 
-export type ChatTimestampType = Date | number | string;
-
 export interface ChatUserInterface {
   id: string;
   roqIdentifier: string;
@@ -21,41 +19,62 @@ export interface ChatUserInterface {
 export interface ChatMessageInterface {
   id: string;
   message: string;
-  timestamp: ChatTimestampType;
   user: ChatUserInterface;
   conversationId: string;
-
-  authorId?: string;
-  isSent?: boolean;
-
-  readBy?: string[];
-  author?: ChatUserInterface;
-  createdAt?: Date;
+  readBy: string[];
+  authorId: string;
+  author: ChatUserInterface;
+  createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
   bodyUpdatedAt?: Date;
+
+  isSent: boolean;
+  isUnread: boolean;
+}
+
+export interface ChatMessageSchemaInterface
+  extends Omit<
+    ChatMessageInterface,
+    "createdAt" | "updatedAt" | "deletedAt" | "bodyUpdatedAt"
+  > {
+  createdAt: string;
+  updatedAt?: string;
+  deletedAt?: string;
+  bodyUpdatedAt?: string;
 }
 
 export interface ChatConversationInterface {
   id: string;
   title: string;
-  timestamp: ChatTimestampType;
+
   message: string;
 
   memberIds: string[];
   members: ChatUserInterface[];
 
   lastMessage?: ChatMessageInterface;
+  lastMessageTimestamp: Date;
 
-  unreadCount?: number;
-
+  
   ownerId: string;
-  owner?: ChatUserInterface;
-
+  owner: ChatUserInterface;
+  
   createdAt?: Date;
   messages?: ChatMessageInterface[];
+  
+  isOwner: boolean;
+  unreadCount: number;
+}
 
-  isOwner?: boolean;
+export interface ChatConversationSchemaInterface
+  extends Omit<
+    ChatConversationInterface,
+    "createdAt" | "isOwner" | "lastMessageTimestamp" | "lastMessage"
+  > {
+  createdAt: string;
+  lastMessageTimestamp: string;
+  lastMessage?: ChatMessageSchemaInterface;
 }
 
 export interface ChatUserPresenceInterface {
@@ -84,11 +103,16 @@ export interface ChatConversationListInterface
 export interface ChatMessageListInterface
   extends InfiniteListInterface<ChatMessageInterface> {
   editableId: string | null;
+  lastTimestamp?: Date;
 }
 
 export interface ChatRecipientListInterface
   extends InfiniteListInterface<ChatUserInterface> {
   selectedIds: string[];
+  filter: Pick<
+    ChatFetchRecipientsVariablesInterface,
+    "filter" | "ids" | "excludeIds" | "includeIds"
+  >;
 }
 
 export interface ChatUserPresenceListInterface

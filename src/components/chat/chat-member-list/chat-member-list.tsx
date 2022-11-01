@@ -16,15 +16,20 @@ import { ChatMembers } from "src/index";
 import { ChatUserInterface, InfiniteListInterface } from "src/types";
 import { ChatConversationListRequestPayloadInterface } from "src/utils/chat-socket.util";
 import { ChatMembersProps } from "../chat-members";
+import { ChatFetchRecipientsVariablesInterface } from "src/types/chat.type";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-member-list";
 
 export interface ChatMemberListProps
   extends Pick<ChatMembersProps, "members" | "selectedIds" | "onMemberSelect">,
     Omit<InfiniteListInterface<ChatUserInterface>, "data"> {
+  filter: Pick<
+    ChatFetchRecipientsVariablesInterface,
+    "filter" | "ids" | "excludeIds" | "includeIds"
+  >;
   initialLoad?: boolean;
   disabled?: boolean;
-  onLoadMore: (query: ChatConversationListRequestPayloadInterface) => void;
+  onLoadMore: (query: ChatFetchRecipientsVariablesInterface) => void;
   onReset: () => void;
   style?: CSSProperties;
   className?: string;
@@ -43,6 +48,7 @@ export interface ChatMemberListProps
 const ChatMemberList = (props: ChatMemberListProps) => {
   const { style, className, classNames, components } = props;
   const {
+    filter,
     initialLoad = true,
     disabled = true,
     members,
@@ -64,6 +70,8 @@ const ChatMemberList = (props: ChatMemberListProps) => {
   const Container = components?.Container ?? "div";
   const List = components?.List ?? ChatMembers;
   const Loader = components?.Loader ?? "div";
+
+  const handleReset = useCallback(() => onReset?.(), [onReset]);
 
   useEffect(
     function fetchInitialData() {
@@ -90,14 +98,27 @@ const ChatMemberList = (props: ChatMemberListProps) => {
       return;
     }
 
+    if (!initialized) {
+      return;
+    }
+
     void onLoadMore?.({
       offset: loadedTotal,
       limit,
-      filter: "",
+      ...filter,
     });
-  }, [onLoadMore, isLoading, hasMore, limit]);
+  }, [
+    onLoadMore,
+    isLoading,
+    hasMore,
+    limit,
+    initialized,
 
-  const handleReset = useCallback(() => onReset?.(), [onReset]);
+    filter?.filter,
+    filter?.ids,
+    filter?.excludeIds,
+    filter?.includeIds,
+  ]);
 
   useEffect(function handleUnmount() {
     return () => {
@@ -165,6 +186,7 @@ export default withChatState(
       loadedTotal,
       data,
       selectedIds,
+      filter,
     } = {},
   }) => ({
     disabled: !online,
@@ -177,15 +199,16 @@ export default withChatState(
     loadedTotal,
     members: data,
     selectedIds,
+    filter,
   })
 )(
   withChatApi(
     (
-      { fetchRecipientList, resetSelectedRecipients, setSelectedRecipients },
+      { fetchRecipientList, resetRecipientList, setSelectedRecipients },
       { selectedIds }
     ) => ({
       onLoadMore: fetchRecipientList,
-      onReset: resetSelectedRecipients,
+      onReset: resetRecipientList,
       onMemberSelect: (memberId) => {
         const isSelected = selectedIds.includes(memberId);
         const nextSelectedIds = isSelected

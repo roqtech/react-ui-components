@@ -4,31 +4,34 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useState,
 } from "react";
 
-import find from "lodash/find";
-import update from "lodash/update";
+import _find from "lodash/find";
+import _uniq from "lodash/uniq";
+import _omit from "lodash/omit";
+import _without from "lodash/without";
 import {
   ChatConversationInterface,
   ChatMessageInterface,
   ComplexError,
-  InfiniteListInterface,
 } from "src/types";
-import { socketClient, SocketClientProps } from "src/utils/socket-client.util";
 import {
   ChatConversationCreatedResponsePayloadInterface,
+  ChatConversationExistsResponsePayloadInterface,
   ChatConversationListRequestPayloadInterface,
   ChatConversationListResponsePayloadInterface,
   ChatConversationMembersChangedResponsePayloadInterface,
   ChatConversationTitleChangedResponsePayloadInterface,
   ChatCreateConversationRequestPayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
+  ChatMarkAsReadUnreadMessagesRequestPayloadInterface,
+  ChatMemberQuitConversationResponsePayloadInterface,
   ChatMessageDeletedResponsePayloadInterface,
   ChatMessageEditRequestPayloadInterface,
   ChatMessageRecieivedResponsePayloadInterface,
+  ChatMessagesReadResponsePayloadInterface,
   ChatMessageUpdatedResponsePayloadInterface,
   ChatRenameConversationRequestPayloadInterface,
   ChatSendMessageRequestPayloadInterface,
@@ -38,22 +41,20 @@ import {
   ChatUserConnectedResponsePayload,
 } from "src/utils/chat-socket.util";
 import { useSocket } from "src/components/socket";
-import { QueryObserverResult, useQuery } from "react-query";
 import { useRoq } from "src/index";
 import gql from "graphql-tag";
 import { request } from "src/utils";
 import {
   ChatConversationListInterface,
+  ChatConversationSchemaInterface,
   ChatFetchRecipientsResponseInterface,
   ChatFetchRecipientsVariablesInterface,
   ChatMessageListInterface,
+  ChatMessageSchemaInterface,
   ChatRecipientListInterface,
-  ChatRecipientsListInterface,
   ChatUserInterface,
-  ChatUserListInterface,
   ChatUserPresenceListInterface,
 } from "src/types/chat.type";
-import { uniq } from "lodash/fp";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -82,8 +83,6 @@ export interface ChatApiContextInterface {
   getConversationDetails: (conversationId: string) => void;
   updateConversationMembers: (payload: unknown) => void;
   leaveConversation: (conversationId: string) => void;
-  getConversationList: (payload: unknown) => void;
-  getConversationMessageList: (payload: unknown) => void;
   markAsReadUnreadConversationMessages: (payload: unknown) => void;
   sendMessage: (payload: ChatSendMessageRequestPayloadInterface) => void;
   editMessage: (
@@ -98,10 +97,15 @@ export interface ChatApiContextInterface {
   resetEditableConversation: () => void;
   setEditableConversation: (conversationId: string) => void;
 
+  resetMessageList: () => void;
   fetchMessageList: (query: ChatFetchMessagesRequestPayloadInterface) => void;
 
   resetSelectedRecipients: () => void;
+  resetRecipientList: () => void;
   setSelectedRecipients: (selectedIds: string[]) => void;
+  setRecipientListFilter: (
+    filter: ChatRecipientListInterface["filter"]
+  ) => void;
   fetchRecipientList: (query: ChatFetchRecipientsVariablesInterface) => void;
 }
 
@@ -115,6 +119,7 @@ export interface ChatProviderPropsInterface {
   children?: ReactNode;
 
   userId: string;
+  platformToken: string;
   conversationId?: string;
 
   onConnect?: () => void;
@@ -136,7 +141,15 @@ export interface ChatProviderPropsInterface {
   onUserOffline?: () => void;
 }
 
-const sortComparer = (a, b) => +a.createdAt - +b.createdAt;
+const messageSortComparer = (
+  a: ChatMessageInterface,
+  b: ChatMessageInterface
+): number => +a.createdAt - +b.createdAt;
+
+const conversatonSortComparer = (
+  a: ChatConversationInterface,
+  b: ChatConversationInterface
+): number => +b.lastMessageTimestamp - +a.lastMessageTimestamp;
 
 const markMessageAsStartOfTheGroup = (message: ChatMessageInterface) => {
   // showUser
@@ -177,12 +190,9 @@ const groupMessages = (
 };
 
 const normalizeMessageHistory = (history: ChatMessageInterface[]) =>
-  history.sort(sortComparer).map(groupMessages);
+  history.sort(messageSortComparer).map(groupMessages);
 
 const INITIAL_CONVERSATIONS_STATE = {
-  // editingId: null,
-  // editingType: null,
-  // selected: null,
   editableId: null,
   error: null,
   isLoading: false,
@@ -192,7 +202,6 @@ const INITIAL_CONVERSATIONS_STATE = {
   totalCount: 0,
   loadedTotal: 0,
   data: [],
-  // filter: '',
 };
 
 const INITIAL_MESSAGES_STATE = {
@@ -205,9 +214,7 @@ const INITIAL_MESSAGES_STATE = {
   totalCount: 0,
   loadedTotal: 0,
   data: [],
-  // filter: '',
-  // history: [],
-  // lastTimestamp: null,
+  lastTimestamp: undefined,
 };
 
 const INITIAL_RECIPIENTS_STATE = {
@@ -220,6 +227,12 @@ const INITIAL_RECIPIENTS_STATE = {
   totalCount: 0,
   loadedTotal: 0,
   data: [],
+  filter: {
+    filter: undefined,
+    ids: undefined,
+    excludeIds: undefined,
+    includeIds: undefined,
+  },
 };
 
 const normalizeRecipient = (
@@ -234,15 +247,7 @@ const normalizeRecipient = (
 export const ChatProvider = (
   props: ChatProviderPropsInterface
 ): ReactElement => {
-  const {
-    children,
-    userId,
-    platformUrl,
-    socketUrl,
-    platformToken,
-    socketConfiguration = {},
-    conversationId,
-  } = props;
+  const { children, userId, platformToken, conversationId } = props;
 
   const { host, token } = useRoq();
 
@@ -272,7 +277,7 @@ export const ChatProvider = (
 
   const currentConversation: ChatConversationInterface | null = useMemo(
     () =>
-      find(conversations.data, {
+      _find(conversations.data, {
         id: currentConversationId,
       }) ?? null,
     [conversations?.data, currentConversationId]
@@ -280,7 +285,7 @@ export const ChatProvider = (
 
   const editableMessage: ChatMessageInterface | null = useMemo(
     () =>
-      find(messages.data, {
+      _find(messages.data, {
         id: messages?.editableId,
       }) ?? null,
     [messages?.data, messages?.editableId]
@@ -303,6 +308,61 @@ export const ChatProvider = (
     setConversations,
     setMessages,
   ]);
+
+  const normalizeMessage = useCallback(
+    (messageSchema: ChatMessageSchemaInterface): ChatMessageInterface => {
+      const {
+        createdAt,
+        authorId,
+        updatedAt,
+        deletedAt,
+        bodyUpdatedAt,
+        readBy,
+        ...rest
+      } = messageSchema;
+
+      return {
+        ...rest,
+        readBy,
+        authorId,
+        createdAt: new Date(createdAt),
+        deletedAt: deletedAt ? new Date(deletedAt) : undefined,
+        bodyUpdatedAt: bodyUpdatedAt ? new Date(bodyUpdatedAt) : undefined,
+        isSent: authorId === userId,
+        isUnread: !readBy.includes(userId),
+      };
+    },
+    [userId]
+  );
+
+  const normalizeConversation = useCallback(
+    (
+      conversationSchema: ChatConversationSchemaInterface
+    ): ChatConversationInterface => {
+      const { createdAt, ownerId, lastMessageTimestamp, lastMessage, ...rest } =
+        conversationSchema;
+
+      return {
+        ...rest,
+        ownerId,
+        createdAt: new Date(createdAt),
+        isOwner: ownerId === userId,
+        lastMessageTimestamp: new Date(lastMessageTimestamp),
+        lastMessage: lastMessage && normalizeMessage(lastMessage),
+      };
+    },
+    [userId, normalizeMessage]
+  );
+
+  const normalizeConversations = useCallback(
+    (conversations: ChatConversationInterface[]) =>
+      conversations.sort(conversatonSortComparer),
+    []
+  );
+
+  const resetMessageList = useCallback(() => {
+    setMessages(INITIAL_MESSAGES_STATE);
+  }, [setMessages]);
 
   const { socket: socketClient } = useSocket();
 
@@ -338,42 +398,9 @@ export const ChatProvider = (
     console.error(error);
   }, []);
 
-  const normalizeMessage = useCallback(
-    (message: Partial<ChatMessageInterface>): ChatMessageInterface => {
-      message.createdAt = new Date(message.createdAt);
-      message.isSent = userId === message.authorId;
-
-      if (message.updatedAt) {
-        message.updatedAt = new Date(message.updatedAt);
-      }
-
-      if (message.deletedAt) {
-        message.deletedAt = new Date(message.deletedAt);
-      }
-
-      if (message.bodyUpdatedAt) {
-        message.bodyUpdatedAt = new Date(message.bodyUpdatedAt);
-      }
-
-      return message;
-    },
-    [userId]
-  );
-
-  const normalizeConversation = useCallback(
-    (
-      conversation: Partial<ChatConversationInterface>
-    ): ChatConversationInterface => {
-      conversation.isOwner = conversation.ownerId === userId;
-
-      return conversation;
-    },
-    [userId]
-  );
-
   const handleMessageReceived = useCallback(
     (response: ChatMessageRecieivedResponsePayloadInterface) => {
-      const recipientConversation = find(conversations.data, {
+      const recipientConversation = _find(conversations.data, {
         id: response.conversationId,
       });
 
@@ -393,28 +420,34 @@ export const ChatProvider = (
         if (isSelectedConversationRecipient) {
           setMessages((ps) => ({
             ...ps,
-            data: [...ps.data, newMessage],
+            data: normalizeMessageHistory([...ps.data, newMessage]),
             totalCount: ps.totalCount + 1,
             loadedTotal: ps.loadedTotal + 1,
           }));
         }
 
-        // state.messages.lastTimestamp = action.payload.message.createdAt;
-        //   if (action.payload.message.isUnread) {
-        //     conversationChanges.unreadCount += 1;
-        //     state.unreadCount += 1;
-        //   }
+        setMessages((ps) => ({
+          ...ps,
+          lastTimestamp: newMessage.createdAt,
+        }));
+
+        if (newMessage.isUnread) {
+          conversationChanges.unreadCount += 1;
+          state.unreadCount += 1;
+        }
 
         setConversations((ps) => ({
           ...ps,
-          data: ps.data.map((_conversation) =>
-            _conversation.id === newMessage.conversationId
-              ? { ..._conversation, ...conversationChanges }
-              : _conversation
+          data: normalizeConversations(
+            ps.data.map((_conversation) =>
+              _conversation.id === newMessage.conversationId
+                ? { ..._conversation, ...conversationChanges }
+                : _conversation
+            )
           ),
         }));
       } else {
-        if (!response.readBy?.includes(userId)) {
+        if (newMessage.isUnread) {
           setUnreadCount((ps) => ps + 1);
         }
       }
@@ -427,6 +460,8 @@ export const ChatProvider = (
       setConversations,
       setUnreadCount,
       normalizeMessage,
+      normalizeMessageHistory,
+      normalizeConversations,
     ]
   );
 
@@ -458,9 +493,47 @@ export const ChatProvider = (
     [normalizeConversation, normalizeMessage, setCurrentConversationId]
   );
 
-  const handleConversationExists = useCallback(() => {
-    alert("handleConversationExists");
-  }, []);
+  const handleConversationExists = useCallback(
+    (payload: ChatConversationExistsResponsePayloadInterface) => {
+      const { id, conversation } = payload;
+
+      const existConversation = _find(conversations.data, { id });
+      if (existConversation) {
+        setCurrentConversationId(id);
+      } else {
+        const newConversation = normalizeConversation(conversation);
+
+        if (newConversation.lastMessage) {
+          newConversation.lastMessage = normalizeMessage(
+            newConversation.lastMessage
+          );
+        }
+
+        setConversations((ps) => {
+          const nextConversations = [newConversation, ...ps.data];
+          const totalCount = ps.totalCount + 1;
+
+          return {
+            ...ps,
+            data: nextConversations,
+            totalCount,
+            loadedTotal: nextConversations.length,
+            hasMore: nextConversations.length < totalCount,
+          };
+        });
+      }
+
+      resetMessageList();
+    },
+    [
+      setCurrentConversationId,
+      conversations,
+      setCurrentConversationId,
+      normalizeConversation,
+      normalizeMessage,
+      resetMessageList,
+    ]
+  );
 
   const handleConversationMembersChanged = useCallback(
     (payload: ChatConversationMembersChangedResponsePayloadInterface) => {
@@ -531,9 +604,27 @@ export const ChatProvider = (
     [currentConversationId, setConversations, setCurrentConversationId]
   );
 
-  const handleMemberQuitConversation = useCallback(() => {
-    alert("handleMemberQuitConversation");
-  }, []);
+  const handleMemberQuitConversation = useCallback(
+    (payload: ChatMemberQuitConversationResponsePayloadInterface) => {
+      const { conversationId } = payload;
+      const isSelectedConversationRecipient =
+        currentConversationId === conversationId;
+
+      if (isSelectedConversationRecipient) {
+        setCurrentConversationId(null);
+      }
+
+      setConversations((ps) => ({
+        ...ps,
+        data: ps.data.filter(
+          (conversation) => conversation.id !== conversationId
+        ),
+        loadedTotal: ps.loadedTotal - 1,
+        totalCount: ps.totalCount - 1,
+      }));
+    },
+    [currentConversationId, setCurrentConversationId, setConversations]
+  );
 
   const handleMessageUpdated = useCallback(
     (payload: ChatMessageUpdatedResponsePayloadInterface) => {
@@ -610,9 +701,55 @@ export const ChatProvider = (
     [socket, setPresence]
   );
 
-  const handleMessagesRead = useCallback(() => {
-    alert("handleMessagesRead");
-  }, []);
+  const handleMessagesRead = useCallback(
+    (payload: ChatMessagesReadResponsePayloadInterface) => {
+      const { messageIds, conversationId, memberId } = payload;
+      const isSelectedConversationRecipient =
+        currentConversationId === conversationId;
+
+      if (isSelectedConversationRecipient) {
+        setMessages((ps) => ({
+          ...ps,
+          data: normalizeMessageHistory(
+            ps.data.map((message) =>
+              messageIds.includes(message.id)
+                ? {
+                    ...message,
+                    isUnread: false,
+                    readBy: [...message.readBy, memberId],
+                  }
+                : message
+            )
+          ),
+        }));
+
+        setConversations((ps) => ({
+          ...ps,
+          data: ps.data.map((conversation) =>
+            conversation.id === conversationId
+              ? {
+                  ...conversation,
+                  unreadCount: 0,
+                }
+              : conversation
+          ),
+        }));
+      }
+
+      if (userId === memberId) {
+        setUnreadCount((_unreadCount) => _unreadCount - messageIds.length);
+      }
+    },
+    [
+      currentConversationId,
+      userId,
+      normalizeMessageHistory,
+      setUnreadCount,
+      setMessages,
+      normalizeMessageHistory,
+      setConversations,
+    ]
+  );
 
   const initializeSocketListeners = useCallback(() => {
     if (!socket) {
@@ -732,7 +869,7 @@ export const ChatProvider = (
     (payload: ChatCreateConversationRequestPayloadInterface) => {
       const createConversationPayload = {
         ...payload,
-        memberIds: uniq([...payload.memberIds, userId]),
+        memberIds: _uniq([...payload.memberIds, userId]),
       };
 
       socket?.createConversation(createConversationPayload);
@@ -792,21 +929,29 @@ export const ChatProvider = (
     [socket, currentConversationId]
   );
 
-  const leaveConversation = () => {
-    console.log("leaveConversation");
-  };
+  const leaveConversation = useCallback((conversationId: string) => {
+    socket?.leaveConversation(conversationId);
+  }, [socket])
 
-  const getConversationList = () => {
-    console.log("getConversationList");
-  };
+  const markAsReadUnreadConversationMessages = useCallback(() => {
+    if (!currentConversation) {
+      return;
+    }
 
-  const getConversationMessageList = () => {
-    console.log("getConversationMessageList");
-  };
+    const { unreadCount = 0 } = currentConversation;
+    const { lastTimestamp } = messages;
 
-  const markAsReadUnreadConversationMessages = () => {
-    console.log("markAsReadUnreadConversationMessages");
-  };
+    if (!lastTimestamp || unreadCount === 0) {
+      return;
+    }
+
+    const payload: ChatMarkAsReadUnreadMessagesRequestPayloadInterface = {
+      conversationId: currentConversation.id,
+      lastTimestamp,
+    };
+
+    socket?.markAsReadUnreadMessages(payload);
+  }, [socket, currentConversation, messages?.lastTimestamp]);
 
   const setEditableConversation = useCallback(
     (conversationId: string | null) => {
@@ -868,8 +1013,14 @@ export const ChatProvider = (
   const onFetchConversationListSuccess = useCallback(
     (response: ChatConversationListResponsePayloadInterface) => {
       setConversations((ps) => {
-        const loadedConversations = [].concat(response.data);
-        const nextConversations = [...ps.data, ...loadedConversations];
+        const loadedConversations = [].concat(
+          response.data.map(normalizeConversation)
+        );
+
+        const nextConversations = normalizeConversations([
+          ...ps.data,
+          ...loadedConversations,
+        ]);
 
         return {
           ...ps,
@@ -881,7 +1032,13 @@ export const ChatProvider = (
         };
       });
     },
-    [socket, conversations, setConversations]
+    [
+      socket,
+      conversations,
+      setConversations,
+      normalizeConversations,
+      normalizeConversation,
+    ]
   );
 
   const onFetchConversationListRequest = useCallback(
@@ -926,6 +1083,9 @@ export const ChatProvider = (
           ...ps.data,
         ]);
 
+        const lastMessage = nextMessages[nextMessages.length - 1];
+        const lastTimestamp = lastMessage && lastMessage.createdAt;
+
         return {
           ...ps,
           isLoading: false,
@@ -933,6 +1093,7 @@ export const ChatProvider = (
           totalCount: response.totalCount,
           loadedTotal: nextMessages.length,
           hasMore: nextMessages.length < response.totalCount,
+          lastTimestamp,
         };
       });
     },
@@ -991,17 +1152,47 @@ export const ChatProvider = (
     [setRecipients]
   );
 
+  const setRecipientListFilter = useCallback(
+    (initialFilter) => {
+      const { filter, ids, excludeIds, includeIds } = initialFilter;
+
+      setRecipients((ps) => ({
+        ...ps,
+        filter: {
+          ...ps.filter,
+          filter: filter ?? ps.filter.filter,
+          ids: ids ? _without(ids, userId) : ps?.ids,
+          includeIds: includeIds ?? ps.filter.includeIds,
+          excludeIds: _uniq([...(excludeIds ?? []), userId]),
+        },
+      }));
+    },
+    [setRecipients, userId]
+  );
+
+  const resetRecipientList = useCallback(() => {
+    setRecipients(INITIAL_RECIPIENTS_STATE);
+  }, [setRecipients]);
+
   const onFetchRecipientListRequest = useCallback(
     (query: ChatFetchRecipientsVariablesInterface) => {
+      const { filter, ids, excludeIds, includeIds } = query;
+
       setRecipients((ps) => ({
         ...ps,
         error: null,
         isLoading: true,
         offset: query.offset,
-        filter: query.filter || "",
+        filter: {
+          ...ps.filter,
+          filter: filter ?? ps.filter.filter,
+          ids: ids ? _without(ids, userId) : ps?.ids,
+          includeIds: includeIds ?? ps.filter.includeIds,
+          excludeIds: _uniq([...(excludeIds ?? []), userId]),
+        },
       }));
     },
-    [setRecipients]
+    [setRecipients, userId]
   );
 
   const onFetchRecipientListSuccess = useCallback(
@@ -1119,8 +1310,6 @@ export const ChatProvider = (
       getConversationDetails,
       updateConversationMembers,
       leaveConversation,
-      getConversationList,
-      getConversationMessageList,
       resetEditableConversation,
       setEditableConversation,
       markAsReadUnreadConversationMessages,
@@ -1129,10 +1318,13 @@ export const ChatProvider = (
       setEditableMessage,
       deleteMessage,
       fetchConversationList,
+      resetMessageList,
       fetchMessageList,
       fetchRecipientList,
       resetSelectedRecipients,
       setSelectedRecipients,
+      setRecipientListFilter,
+      resetRecipientList,
     }),
     [
       getId,
@@ -1146,8 +1338,7 @@ export const ChatProvider = (
       getConversationDetails,
       updateConversationMembers,
       leaveConversation,
-      getConversationList,
-      getConversationMessageList,
+      resetEditableConversation,
       setEditableConversation,
       markAsReadUnreadConversationMessages,
       sendMessage,
@@ -1155,12 +1346,13 @@ export const ChatProvider = (
       setEditableMessage,
       deleteMessage,
       fetchConversationList,
+      resetMessageList,
       fetchMessageList,
       fetchRecipientList,
       resetSelectedRecipients,
       setSelectedRecipients,
-      resetEditableConversation,
-      setEditableConversation,
+      setRecipientListFilter,
+      resetRecipientList,
     ]
   );
 

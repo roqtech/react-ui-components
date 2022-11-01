@@ -1,6 +1,6 @@
 import {
-  ChatConversationInterface,
-  ChatMessageInterface,
+  ChatConversationSchemaInterface,
+  ChatMessageSchemaInterface,
   ChatUserInterface,
   ChatUserPresenceInterface,
   PaginationInterface,
@@ -44,7 +44,7 @@ export enum ChatSocketResponseMessageEnum {
 }
 
 export interface ChatConversationCreatedResponsePayloadInterface
-  extends ChatConversationInterface {}
+  extends ChatConversationSchemaInterface {}
 
 export interface ChatConversationMembersChangedResponsePayloadInterface {
   conversationId: string;
@@ -59,7 +59,7 @@ export interface ChatConversationTitleChangedResponsePayloadInterface {
 
 export interface ChatConversationExistsResponsePayloadInterface {
   id: string;
-  conversation: ChatConversationInterface;
+  conversation: ChatConversationSchemaInterface;
 }
 
 export interface ChatConverstionArchivedResponsePayloadInterface {
@@ -67,12 +67,12 @@ export interface ChatConverstionArchivedResponsePayloadInterface {
 }
 
 export interface ChatMessageRecieivedResponsePayloadInterface
-  extends ChatMessageInterface {
+  extends ChatMessageSchemaInterface {
   body: string;
 }
 
 export interface ChatMessageUpdatedResponsePayloadInterface
-  extends ChatMessageInterface {
+  extends ChatMessageSchemaInterface {
   body: string;
 }
 
@@ -139,7 +139,7 @@ export interface ChatConversationListRequestPayloadInterface {
 }
 
 export interface ChatConversationListResponsePayloadInterface {
-  data: ChatConversationInterface[];
+  data: ChatConversationSchemaInterface[];
   totalCount: number;
 }
 
@@ -148,7 +148,7 @@ export interface ChatConversationDetailsRequestPayloadInterface {
 }
 
 export interface ChatConversationDetailsResponsePayloadInterface {
-  conversation: ChatConversationInterface;
+  conversation: ChatConversationSchemaInterface;
 }
 
 export interface ChatSendMessageRequestPayloadInterface {
@@ -192,7 +192,7 @@ export interface ChatFetchMessagesRequestPayloadInterface
 }
 
 export interface ChatFetchMoreMessagesResponsePayloadInterface {
-  data: ChatMessageInterface[];
+  data: ChatMessageSchemaInterface[];
   totalCount: number;
 }
 

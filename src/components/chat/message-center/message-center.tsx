@@ -136,7 +136,7 @@ export const MessageCenter = (props: MessageCenterProps) => {
         return;
       }
 
-      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+      // setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
       resetEditableConversation();
     },
     [currentConversationId, resetEditableConversation]
@@ -162,13 +162,21 @@ export const MessageCenter = (props: MessageCenterProps) => {
     [setScreen, archiveConversation]
   );
 
-  const handleGoToConversationAddMembersCLick = useCallback(() => {
-    setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
-  }, [setScreen]);
+  const handleGoToConversationAddMembersCLick = useCallback(
+    (conversationId: string) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
+    },
+    [setScreen, selectConversation]
+  );
 
-  const handleGoToConversationRemoveMembersCLick = useCallback(() => {
-    setScreen(ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS);
-  }, [setScreen]);
+  const handleGoToConversationRemoveMembersCLick = useCallback(
+    (conversationId: string) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS);
+    },
+    [setScreen, selectConversation]
+  );
 
   const handleRenameConversationClick = useCallback(
     (triggeredBy: EditingTriggerType) => (conversationId: string) => {
@@ -279,6 +287,11 @@ export const MessageCenter = (props: MessageCenterProps) => {
       />
     );
 
+  const currentConversationMemberIds = useMemo(
+    () => currentConversation?.memberIds,
+    [currentConversation]
+  );
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
@@ -337,7 +350,10 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
                 onCancel={handleAddMembersCancel}
                 onSubmit={handleAddMembers}
-                defaultSelectedIds={currentConversation?.memberIds ?? []}
+                initialSelectedIds={currentConversationMemberIds}
+                initialFilter={{
+                  excludeIds: currentConversationMemberIds,
+                }}
               />
             )}
 
@@ -350,7 +366,10 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 )}
                 onCancel={handleRemoveMembersCancel}
                 onSubmit={handleRemoveMembers}
-                defaultSelectedIds={currentConversation?.memberIds ?? []}
+                initialSelectedIds={currentConversationMemberIds}
+                initialFilter={{
+                  ids: currentConversationMemberIds,
+                }}
               />
             )}
           </>
