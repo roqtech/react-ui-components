@@ -121,9 +121,10 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
         <Line
           key={message.id}
           messageId={message.id}
+          isSent={message.isSent}
           className={clsx(_CLASS_IS + "__line", classNames?.line, {
-            [_CLASS_IS + "__line-sent"]: message.isSent,
-            [_CLASS_IS + "__line-received"]: !message.isSent,
+            [_CLASS_IS + "__line--sent"]: message.isSent,
+            [_CLASS_IS + "__line--received"]: !message.isSent,
           })}
         >
           {renderMessage(message)}

@@ -28,10 +28,17 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-menu";
 export interface ChatConversationMenuProps
   extends Omit<MenuProps, "classNames" | "components"> {
   conversationId?: ChatConversationInterface["id"];
+  isOwner?: boolean;
+  showRename?: boolean;
+  showArchive: boolean;
+  showInvite: boolean;
+  showRemove: boolean;
+  showLeave: boolean;
   onRename?: (conversationId: string) => void;
   onArchive?: (conversationId: string) => void;
   onInvite?: (conversationId: string) => void;
   onRemove?: (conversationId: string) => void;
+  onLeave?: (conversationId: string) => void;
   classNames?: {
     container?: string;
     item?: string;
@@ -47,11 +54,18 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   const { className, classNames, components } = props;
   const {
     conversationId = null,
+    isOwner,
+    showRename = true,
+    showArchive = true,
+    showInvite = true,
+    showRemove = true,
+    showLeave = true,
     onClose,
     onRename,
     onArchive,
     onInvite,
     onRemove,
+    onLeave,
     ...rest
   } = props;
 
@@ -63,7 +77,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose]);
 
   const handleRenameClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
@@ -73,7 +86,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onRename, onClose, conversationId]);
 
   const handleArchiveClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
@@ -83,7 +95,6 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose, onClose, conversationId]);
 
   const handleEditClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
@@ -93,12 +104,20 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
   }, [onClose, onClose, conversationId]);
 
   const handleRemoveClick = useCallback(() => {
-    debugger;
     if (!conversationId) {
       return;
     }
 
     onRemove?.(conversationId);
+    onClose?.();
+  }, [onClose, onClose, conversationId]);
+
+  const handleLeave = useCallback(() => {
+    if (!conversationId) {
+      return;
+    }
+
+    onLeave?.(conversationId);
     onClose?.();
   }, [onClose, onClose, conversationId]);
 
@@ -108,10 +127,23 @@ export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
       onClose={handleClose}
       {...rest}
     >
-      <Item onClick={handleRenameClick}>Rename group</Item>
-      <Item onClick={handleArchiveClick}>Archive group</Item>
-      <Item onClick={handleEditClick}>Add user</Item>
-      <Item onClick={handleRemoveClick}>Remove user</Item>
+      {isOwner && showRename && (
+        <Item onClick={handleRenameClick}>Rename group</Item>
+      )}
+
+      {isOwner && showArchive && (
+        <Item onClick={handleArchiveClick}>Archive group</Item>
+      )}
+
+      {isOwner && showInvite && <Item onClick={handleEditClick}>Add user</Item>}
+
+      {isOwner && showRemove && (
+        <Item onClick={handleRemoveClick}>Remove user</Item>
+      )}
+
+      {!isOwner && showLeave && (
+        <Item onClick={handleLeave}>Leave conversation</Item>
+      )}
     </Container>
   );
 };

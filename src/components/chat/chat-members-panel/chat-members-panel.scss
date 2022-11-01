@@ -21,6 +21,8 @@ $submit-button-height: 36px;
   );
   --rc-chat-members-panel-header-title-color: var(--rc-blueGray-900);
 
+  --rc-chat-members-panel-list-margin: calc(var(--rc-layout-step) * 3) 0 calc(var(--rc-layout-step) * 2) 0;
+
   --rc-chat-members-panel-actions-spacing: calc(var(--rc-layout-step) * 3);
   --rc-chat-members-panel-actions-margin: 0;
   --rc-chat-members-panel-actions-display: flex;
@@ -99,6 +101,7 @@ $submit-button-height: 36px;
   }
 
   &__list {
+    margin: var(--rc-chat-members-panel-list-margin);
   }
 
   &__actions {

@@ -8,6 +8,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
@@ -23,17 +24,27 @@ import {
   ChatScreenEnum,
   useArchiveConversation,
   useChatScreen,
+  useCreateConversation,
   useCurrentConversation,
+  useLeaveConversationMembers,
+  useUpdateConversation,
+  useUpdateConversationMembers,
 } from "src/hooks";
-import { MessageCenterScreenEnum } from "../types.work";
 import { ChatConversationListProps } from "../chat-conversation-list";
 import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatCreateConversationRequestPayloadInterface } from "src/utils/chat-socket.util";
+import _ from "lodash";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
 export interface MessageCenterProps {
   title?: string;
   buttonLabel?: string;
+  chatTitle?: string;
+  groupChatTitle?: string;
+  addMemberTitle?: string;
+  removeMemberTitle?: string;
+
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -71,9 +82,18 @@ export interface MessageCenterProps {
   };
 }
 
+type EditingTriggerType = "sidebar" | "chat";
+
 export const MessageCenter = (props: MessageCenterProps) => {
   const { style, className, classNames, components } = props;
-  const { title = "Message Center", buttonLabel = "CREATE NEW CHAT" } = props;
+  const {
+    title = "Message Center",
+    buttonLabel = "CREATE NEW CHAT",
+    chatTitle = "Chat",
+    groupChatTitle = "Group Chat",
+    addMemberTitle = "Add users to the group",
+    removeMemberTitle = "Remove users from the group",
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Header = components?.Header || "div";
@@ -94,23 +114,44 @@ export const MessageCenter = (props: MessageCenterProps) => {
   const AddMembers = components?.AddMembers ?? ChatMembersPanel;
   const RemoveMembers = components?.RemoveMembers ?? ChatMembersPanel;
 
-  const { currentConversationId, selectConversation } =
+  const { archiveConversation } = useArchiveConversation();
+  const { createConversation } = useCreateConversation();
+  const { updateConversationMembers } = useUpdateConversationMembers();
+  const { leaveConversation } = useLeaveConversationMembers();
+
+  const { setEditableConversation, resetEditableConversation } =
+    useUpdateConversation();
+
+  const { currentConversationId, selectConversation, currentConversation } =
     useCurrentConversation();
 
-  const { screen, setScreen } = useChatScreen({});
+  const { screen, setScreen } = useChatScreen();
 
-  const { archiveConversation } = useArchiveConversation();
+  const [editingTrigger, setEditingTrigger] =
+    useState<EditingTriggerType | null>(null);
 
-  // useEffect(
-  //   function handleSelectedConversationChanged() {
-  //     if (!currentConversationId) {
-  //       return;
-  //     }
+  useEffect(
+    function handleConversationChanged() {
+      if (!currentConversationId) {
+        if (
+          screen === ChatScreenEnum.CONVERSATION_SELECTED ||
+          screen === ChatScreenEnum.CONVERSATION_ADD_MEMBERS ||
+          screen === ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS
+        ) {
+          setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+        }
 
-  //     setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
-  //   },
-  //   [currentConversationId]
-  // );
+        return;
+      }
+
+      resetEditableConversation();
+
+      if (ChatScreenEnum.CONVERSATION_NOT_SELECTED) {
+        setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+      }
+    },
+    [currentConversationId, resetEditableConversation]
+  );
 
   const unselectConversation = useCallback(() => {
     selectConversation(null);
@@ -118,7 +159,6 @@ export const MessageCenter = (props: MessageCenterProps) => {
 
   const handleConversationClick = useCallback(
     (conversationId) => {
-      debugger;
       selectConversation(conversationId);
       setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
     },
@@ -133,39 +173,91 @@ export const MessageCenter = (props: MessageCenterProps) => {
     [setScreen, archiveConversation]
   );
 
-  const handleGoToConversationAddMembersCLick = useCallback(() => {
-    alert("In progress..");
-    setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
-  }, [setScreen]);
+  const handleGoToConversationAddMembersCLick = useCallback(
+    (conversationId: string) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_ADD_MEMBERS);
+    },
+    [setScreen, selectConversation]
+  );
 
-  const handleGoToConversationRemoveMembersCLick = useCallback(() => {
-    alert("In progress..");
-    setScreen(ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS);
-  }, [setScreen]);
+  const handleLeaveConversation = useCallback(
+    (conversationId: string) => {
+      leaveConversation(conversationId);
+    },
+    [selectConversation, leaveConversation]
+  );
 
-  const handleRenameConversationClick = useCallback(() => {
-    alert("In progress..");
-  }, []);
+  const handleGoToConversationRemoveMembersCLick = useCallback(
+    (conversationId: string) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_REMOVE_MEMBERS);
+    },
+    [setScreen, selectConversation]
+  );
+
+  const handleRenameConversationClick = useCallback(
+    (triggeredBy: EditingTriggerType) => (conversationId: string) => {
+      setEditableConversation(conversationId);
+      setEditingTrigger(triggeredBy);
+    },
+    [setEditableConversation, setEditingTrigger]
+  );
 
   const handleActionButtonClick = useCallback(() => {
     setScreen(ChatScreenEnum.CREATE_NEW_CONVERSATION);
     unselectConversation();
   }, [setScreen, unselectConversation]);
 
+  const handleCreateNewConversation = useCallback(
+    (memberIds: string[]) => {
+      const conversation: ChatCreateConversationRequestPayloadInterface = {
+        title: memberIds.length > 1 ? groupChatTitle : chatTitle,
+        memberIds,
+      };
+
+      createConversation(conversation);
+      setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    },
+    [createConversation, chatTitle, groupChatTitle]
+  );
+
   const handleCreateNewConversationCancel = useCallback(() => {
     setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
     unselectConversation();
   }, [setScreen, unselectConversation]);
 
-  const handleAddMembersCancel = useCallback(() => {
-    setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
-    unselectConversation();
-  }, [setScreen, unselectConversation]);
+  const handleAddMembersCancel = useCallback(
+    (conversationId) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    },
+    [setScreen, selectConversation]
+  );
 
-  const handleRemoveMembersCancel = useCallback(() => {
-    setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
-    unselectConversation();
-  }, [setScreen, unselectConversation]);
+  const handleAddMembers = useCallback(
+    (memberIds: string) => {
+      updateConversationMembers(memberIds);
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [setScreen, updateConversationMembers]
+  );
+
+  const handleRemoveMembersCancel = useCallback(
+    (conversationId) => {
+      selectConversation(conversationId);
+      setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
+    },
+    [setScreen, selectConversation]
+  );
+
+  const handleRemoveMembers = useCallback(
+    (memberIds: string) => {
+      updateConversationMembers(memberIds);
+      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
+    },
+    [setScreen, updateConversationMembers]
+  );
 
   const isConversationNotSelectedScreen = useMemo(
     () => screen === ChatScreenEnum.CONVERSATION_NOT_SELECTED,
@@ -201,15 +293,23 @@ export const MessageCenter = (props: MessageCenterProps) => {
     [isConversationNotSelectedScreen, isConversationSelectedScreen]
   );
 
-  const renderConversationMenu = (menuProps) => (
-    <ChatConversationMenu
-      conversationId={currentConversationId}
-      onArchive={handleArchiveConversationClick}
-      onInvite={handleGoToConversationAddMembersCLick}
-      onRemove={handleGoToConversationRemoveMembersCLick}
-      onRename={handleRenameConversationClick}
-      {...menuProps}
-    />
+  const renderConversationMenu = (trigger: EditingTriggerType) => (menuProps) =>
+    (
+      <ChatConversationMenu
+        conversationId={currentConversationId}
+        onArchive={handleArchiveConversationClick}
+        onInvite={handleGoToConversationAddMembersCLick}
+        onRemove={handleGoToConversationRemoveMembersCLick}
+        onRename={handleRenameConversationClick(trigger)}
+        onLeave={handleLeaveConversation}
+        isOwner={currentConversation?.isOwner}
+        {...menuProps}
+      />
+    );
+
+  const currentConversationMemberIds = useMemo(
+    () => currentConversation?.memberIds,
+    [currentConversation]
   );
 
   return (
@@ -246,9 +346,10 @@ export const MessageCenter = (props: MessageCenterProps) => {
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar
               )}
+              showEditForm={editingTrigger === "sidebar"}
               onConversationSelect={handleConversationClick}
               components={{
-                ConversationMenu: renderConversationMenu,
+                ConversationMenu: renderConversationMenu("sidebar"),
               }}
             />
 
@@ -256,26 +357,39 @@ export const MessageCenter = (props: MessageCenterProps) => {
 
             {isConversationSelectedScreen && (
               <ConversationSelected
+                showEditForm={editingTrigger === "sidebar"}
                 components={{
-                  ConversationMenu: renderConversationMenu,
+                  ConversationMenu: renderConversationMenu("chat"),
                 }}
               />
             )}
 
             {isConversationAddMembersSceen && (
               <AddMembers
+                titleLabel={addMemberTitle}
                 className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
                 onCancel={handleAddMembersCancel}
+                onSubmit={handleAddMembers}
+                initialSelectedIds={currentConversationMemberIds}
+                initialFilter={{
+                  excludeIds: currentConversationMemberIds,
+                }}
               />
             )}
 
             {isConversationRemoveMembersSceen && (
               <RemoveMembers
+                titleLabel={removeMemberTitle}
                 className={clsx(
                   _CLASS_IS + "__remove-members",
                   classNames?.panel
                 )}
                 onCancel={handleRemoveMembersCancel}
+                onSubmit={handleRemoveMembers}
+                initialSelectedIds={currentConversationMemberIds}
+                initialFilter={{
+                  ids: currentConversationMemberIds,
+                }}
               />
             )}
           </>
@@ -287,6 +401,7 @@ export const MessageCenter = (props: MessageCenterProps) => {
               _CLASS_IS + "__create-conversation",
               classNames?.panel
             )}
+            onSubmit={handleCreateNewConversation}
             onCancel={handleCreateNewConversationCancel}
           />
         )}

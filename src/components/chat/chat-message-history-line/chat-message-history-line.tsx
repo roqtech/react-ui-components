@@ -18,6 +18,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history-line";
 
 export interface ChatMessageHistoryLineProps {
   messageId: string;
+  isSent?: boolean;
   onRightClick?: () => void;
   children: ReactNode;
   style?: CSSProperties;
@@ -34,7 +35,7 @@ export interface ChatMessageHistoryLineProps {
 
 export const ChatMessageHistoryLine = (props: ChatMessageHistoryLineProps) => {
   const { style, className, classNames, components, ...rest } = props;
-  const { messageId, children, onRightClick } = props;
+  const { isSent, messageId, children, onRightClick } = props;
 
   const Container = components?.Container ?? "div";
   const Menu = components?.Menu ?? ChatMessageMenu;
@@ -55,7 +56,10 @@ export const ChatMessageHistoryLine = (props: ChatMessageHistoryLineProps) => {
 
   return (
     <Container
-      className={clsx(_CLASS_IS, className, classNames?.container)}
+      className={clsx(_CLASS_IS, className, classNames?.container, {
+        [_CLASS_IS + "--sent"]: isSent,
+        [_CLASS_IS + "--received"]: !isSent,
+      })}
       style={style}
       ref={ref}
       {...rest}
@@ -66,6 +70,7 @@ export const ChatMessageHistoryLine = (props: ChatMessageHistoryLineProps) => {
         open={menuOpen}
         onClose={handleMenuClose}
         messageId={messageId}
+        isAuthor={isSent}
       />
     </Container>
   );

@@ -16,6 +16,7 @@ import { withChatApi, withChatState } from "../chat-provider";
 import { ChatConversationInterface } from "src/types";
 import { ActionButton } from "src/components/common";
 import { ChatConversationMenu } from "../chat-conversation-menu";
+import { ChatConversationCardForm } from "../chat-conversation-card-form";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversations";
 
@@ -23,8 +24,10 @@ export interface ChatConversationsProps {
   children?: ReactNode;
   conversations: ChatConversationInterface[];
   selectedConversationId?: string;
+  editableConversationId?: string;
   onConversationSelect?: (conversationId: string) => void;
-  onAction?: (action: string) => void;
+  onEditFormCancel: () => void;
+  onEditFormSubmit: (values: Partial<ChatConversationInterface>) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -36,6 +39,8 @@ export interface ChatConversationsProps {
     Container?: ComponentType<any>;
     Inner?: ComponentType<any>;
     ConversationCard?: ComponentType<ChatConversationCardProps>;
+    ConversationForm?: ComponentType<any>;
+    ConversationMenu?: ComponentType<any>;
   };
 }
 
@@ -45,13 +50,17 @@ const ChatConversations = (props: ChatConversationsProps) => {
     children,
     conversations,
     selectedConversationId,
+    editableConversationId,
     onConversationSelect,
-    onAction,
+    onEditFormCancel,
+    onEditFormSubmit,
   } = props;
 
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
   const ConversationCard = components?.ConversationCard ?? ChatConversationCard;
+  const ConversationForm =
+    components?.ConversationForm ?? ChatConversationCardForm;
   const ConversationMenu = components?.ConversationMenu ?? ChatConversationMenu;
 
   const handleConversationClick = useCallback(
@@ -61,38 +70,68 @@ const ChatConversations = (props: ChatConversationsProps) => {
     [onConversationSelect]
   );
 
+  const isConversationEditable = useCallback(
+    (conversation: ChatConversationInterface) => {
+      return conversation.id === editableConversationId;
+    },
+    [editableConversationId]
+  );
+
+  const renderConversationCardEditForm = useCallback(
+    (conversation: ChatConversationInterface) => {
+      return (
+        <ConversationForm
+          initialValues={conversation}
+          onSubmit={onEditFormSubmit}
+          onCancel={onEditFormCancel}
+        />
+      );
+    },
+    [ConversationForm, onEditFormCancel, onEditFormSubmit]
+  );
+
   const renderConversationCard = useCallback(
-    (conversationProps) => (
-      <ConversationCard
-        key={conversationProps.id}
-        id={conversationProps.id}
-        selected={selectedConversationId === conversationProps?.id}
-        className={clsx(
-          _CLASS_IS + "__inner" + "__card",
-          classNames?.conversationCard
-        )}
-        message={conversationProps?.lastMessage?.body}
-        timestamp={conversationProps?.lastMessageTimestamp}
-        {...conversationProps}
-        onClick={handleConversationClick(conversationProps?.id)}
-        actions={
-          <ActionButton
-            components={{
-              Dropdown: (props) =>
-                ConversationMenu({
-                  ...props,
-                  conversationId: conversationProps.id,
-                }),
-            }}
-          />
-        }
-      />
-    ),
+    (conversationProps) => {
+      const content = isConversationEditable(conversationProps)
+        ? renderConversationCardEditForm(conversationProps)
+        : null;
+
+      return (
+        <ConversationCard
+          key={conversationProps.id}
+          id={conversationProps.id}
+          selected={selectedConversationId === conversationProps?.id}
+          className={clsx(
+            _CLASS_IS + "__inner" + "__card",
+            classNames?.conversationCard
+          )}
+          message={conversationProps?.lastMessage?.body}
+          timestamp={conversationProps?.lastMessageTimestamp}
+          {...conversationProps}
+          onClick={handleConversationClick(conversationProps?.id)}
+          actions={
+            <ActionButton
+              components={{
+                Dropdown: (props) =>
+                  ConversationMenu({
+                    ...props,
+                    conversationId: conversationProps.id,
+                  }),
+              }}
+            />
+          }
+        >
+          {content}
+        </ConversationCard>
+      );
+    },
     [
       ConversationCard,
       ConversationMenu,
       selectedConversationId,
       handleConversationClick,
+      isConversationEditable,
+      renderConversationCardEditForm,
     ]
   );
 
@@ -109,11 +148,19 @@ const ChatConversations = (props: ChatConversationsProps) => {
   );
 };
 
-export default withChatApi(({ selectConversation }) => ({
-  onConversationSelect: selectConversation,
-}))(
+export default withChatApi(
+  ({ selectConversation, resetEditableConversation, renameConversation }) => ({
+    onConversationSelect: selectConversation,
+    onEditFormCancel: resetEditableConversation,
+    onEditFormSubmit: ({ title }) => {
+      renameConversation(title);
+      resetEditableConversation();
+    },
+  })
+)(
   withChatState(({ conversations, currentConversation }) => ({
     conversations: conversations?.data,
     selectedConversationId: currentConversation?.id,
+    editableConversationId: conversations.editableId,
   }))(ChatConversations)
 );

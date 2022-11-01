@@ -19,8 +19,10 @@ export { MessageCenter } from "./message-center";
 export { Chat } from "./chat";
 export { ChatMember } from "./chat-member";
 export { ChatMembers } from "./chat-members";
+export { ChatMemberList } from "./chat-member-list";
 export { ChatMembersPanel } from "./chat-members-panel";
 export { ChatConversationNotSelectedPanel } from "./chat-conversation-not-selected-panel";
+export { ChatConversationCardForm } from "./chat-conversation-card-form";
 export {
   ChatProvider,
   useChatApi,

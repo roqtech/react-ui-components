@@ -42,6 +42,8 @@ export interface ChatMessageListProps
   disabled?: boolean;
   thresholdBottom?: number;
   onLoadMore?: (query: ChatFetchMessagesRequestPayloadInterface) => void;
+  onReset?: () => void;
+  onScrollBottom?: () => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -61,7 +63,7 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   const {
     initialLoad = true,
     disabled = true,
-    thresholdBottom = 300,
+    thresholdBottom = 200,
     messages,
     conversationId,
     error,
@@ -72,15 +74,25 @@ const ChatMessageList = (props: ChatMessageListProps) => {
     totalCount,
     loadedTotal,
     onLoadMore,
+    onReset,
+    onScrollBottom,
   } = props;
-
-  const [initialized, setInitialized] = useState(false);
 
   const Container = components?.Container ?? "div";
   const List = components?.List ?? ChatMessageHistory;
   const Loader = components?.Loader ?? "div";
 
+  const handleReadMessages = useCallback(() => {
+    console.log("handleReadMessages");
+    if (loadedTotal === 0) {
+      return;
+    }
+
+    onScrollBottom?.();
+  }, [onScrollBottom, loadedTotal]);
+
   useEffect(() => {
+    onReset?.();
     loadMore(true);
   }, [conversationId]);
 
@@ -102,10 +114,6 @@ const ChatMessageList = (props: ChatMessageListProps) => {
 
   const showLoader = useMemo(() => hasMore && !isLoading, [isLoading, hasMore]);
 
-  const readMessages = useCallback(() => {
-    console.log("bottom!");
-  }, []);
-
   const {
     refs: [infiniteRef, { rootRef }],
   } = useInfiniteScroll({
@@ -122,28 +130,43 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   useEffect(() => {
     lastScrollDistanceToBottomRef.current = 0;
 
+    const rootNode = scrollableRootRef.current;
+    if (rootNode) {
+      rootNode.scrollTop = 0;
+    }
+
     if (!hasMore) {
-      readMessages();
+      handleReadMessages();
     }
   }, [conversationId]);
 
   // We keep the scroll position when new items are added etc.
   useEffect(() => {
     const scrollableRoot = scrollableRootRef.current;
+
+    if (!scrollableRoot) {
+      return;
+    }
+
     const lastScrollDistanceToBottom =
       lastScrollDistanceToBottomRef.current ?? 0;
+
     if (scrollableRoot) {
-      scrollableRoot.scrollTop =
-        scrollableRoot.scrollHeight - lastScrollDistanceToBottom;
+      const height = scrollableRoot.scrollHeight - scrollableRoot.clientHeight;
+      scrollableRoot.scrollTop = height - lastScrollDistanceToBottom;
     }
 
     if (lastScrollDistanceToBottom <= thresholdBottom) {
-      readMessages();
+      handleReadMessages();
     }
   }, [loadedTotal, rootRef]);
 
   const rootRefSetter = React.useCallback(
     (node: HTMLDivElement) => {
+      if (scrollableRootRef.current) {
+        return;
+      }
+
       rootRef(node);
       scrollableRootRef.current = node;
     },
@@ -153,7 +176,9 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   const handleRootScroll = React.useCallback(() => {
     const rootNode = scrollableRootRef.current;
     if (rootNode) {
-      const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;
+      const height = rootNode.scrollHeight - rootNode.clientHeight;
+
+      const scrollDistanceToBottom = height - rootNode.scrollTop;
       lastScrollDistanceToBottomRef.current = scrollDistanceToBottom;
     }
   }, []);
@@ -195,9 +220,17 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   );
 };
 
-export default withChatApi(({ fetchMessageList, selectConversation }) => ({
-  onLoadMore: fetchMessageList,
-}))(
+export default withChatApi(
+  ({
+    fetchMessageList,
+    resetMessageList,
+    markAsReadUnreadConversationMessages,
+  }) => ({
+    onLoadMore: fetchMessageList,
+    onReset: resetMessageList,
+    onScrollBottom: markAsReadUnreadConversationMessages,
+  })
+)(
   withChatState(
     ({
       online,

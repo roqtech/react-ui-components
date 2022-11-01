@@ -17,6 +17,7 @@ import { ChatFormattedMessageProps } from "../chat-formatted-message";
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
 export interface ChatConversationCardProps extends ChatConversationInterface {
+  children?: ReactNode;
   selected?: boolean;
   onClick?: () => void;
   actions?: ReactNode;
@@ -43,6 +44,7 @@ export interface ChatConversationCardProps extends ChatConversationInterface {
 export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const { style, className, classNames, components } = props;
   const {
+    children,
     title,
     timestamp,
     message,
@@ -73,51 +75,62 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
       onClick={onClick}
     >
       <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
-        <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
-          <AvatarGroup
-            users={members}
-            maxCount={2}
-            size="large"
-            className={clsx(_CLASS_IS + "__top__avatars", classNames?.top)}
-          />
-          <Title
-            primaryText={title}
-            secondaryText={timestamp}
-            components={{
-              secondaryText: TimeAgo,
-            }}
-            classNames={{
-              container: clsx(_CLASS_IS + "__top__title", classNames?.title),
-              primaryText: clsx(_CLASS_IS + "__top__title__name"),
-              secondaryText: clsx(_CLASS_IS + "__top__title__timestamp"),
-            }}
-          />
-          <Actions
-            className={clsx(_CLASS_IS + "__top__actions", classNames?.actions)}
-          >
-            {actions}
-            {hasUnreadMessages && (
-              <UnreadBadge
+        {children}
+        {!children && (
+          <>
+            <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
+              <AvatarGroup
+                users={members}
+                maxCount={2}
+                size="large"
+                className={clsx(_CLASS_IS + "__top__avatars", classNames?.top)}
+              />
+              <Title
+                primaryText={title}
+                secondaryText={timestamp}
+                components={{
+                  secondaryText: TimeAgo,
+                }}
                 classNames={{
                   container: clsx(
-                    _CLASS_IS + "__top__actions__unread",
-                    classNames?.unread
+                    _CLASS_IS + "__top__title",
+                    classNames?.title
                   ),
-                  count: clsx(
-                    _CLASS_IS + "__top__actions__unread__count",
-                    classNames?.unreadCount
-                  ),
+                  primaryText: clsx(_CLASS_IS + "__top__title__name"),
+                  secondaryText: clsx(_CLASS_IS + "__top__title__timestamp"),
                 }}
-                count={unreadCount}
               />
-            )}
-          </Actions>
-        </Top>
-        <Message
-          className={clsx(_CLASS_IS + "__message", classNames?.message)}
-          content={message}
-          prevew
-        />
+              <Actions
+                className={clsx(
+                  _CLASS_IS + "__top__actions",
+                  classNames?.actions
+                )}
+              >
+                {actions}
+                {hasUnreadMessages && (
+                  <UnreadBadge
+                    classNames={{
+                      container: clsx(
+                        _CLASS_IS + "__top__actions__unread",
+                        classNames?.unread
+                      ),
+                      count: clsx(
+                        _CLASS_IS + "__top__actions__unread__count",
+                        classNames?.unreadCount
+                      ),
+                    }}
+                    count={unreadCount}
+                  />
+                )}
+              </Actions>
+            </Top>
+            <Message
+              className={clsx(_CLASS_IS + "__message", classNames?.message)}
+              content={message}
+              prevew
+            />
+          </>
+        )}
       </Inner>
     </Container>
   );

@@ -63,18 +63,17 @@ export const ChatMember = (props: ChatMemberProps) => {
   const Actions = components?.Actions ?? "div";
   const CheckedIcon = components?.CheckedIcon ?? DefaultCheckedIcon;
 
-  const handleClick = useCallback(() => {}, [onClick]);
-
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
         [_CLASS_IS + "--selected"]: selected,
       })}
       style={style}
-      onClick={handleClick}
+      onClick={onClick}
     >
       <AvatarComponent
         className={clsx(_CLASS_IS + "__avatar", classNames?.avatar)}
+        size="large"
         {...user}
       />
       <Content className={clsx(_CLASS_IS + "__content", classNames?.content)}>
@@ -83,12 +82,7 @@ export const ChatMember = (props: ChatMemberProps) => {
         </Name>
       </Content>
       {selected && (
-        <Actions
-          className={clsx(
-            _CLASS_IS + "__actions",
-            classNames?.actions
-          )}
-        >
+        <Actions className={clsx(_CLASS_IS + "__actions", classNames?.actions)}>
           <CheckedIcon
             className={clsx(
               _CLASS_IS + "__actions__icon",

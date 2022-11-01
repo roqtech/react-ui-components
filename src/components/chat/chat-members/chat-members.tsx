@@ -17,8 +17,9 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members";
 export interface ChatMembersProps {
   children?: ReactNode;
   members: ChatUserInterface[];
-  selectedIds: ChatUserInterface["id"][];
-  onMemberSelect: (memberId) => void;
+  selectedIds?: string[];
+  getMemberId?: (member: ChatUserInterface) => string;
+  onMemberSelect?: (memberId: string) => void;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -34,9 +35,18 @@ export interface ChatMembersProps {
   };
 }
 
+const getMemberRoqIdentifier = (member: ChatUserInterface): string =>
+  member.roqIdentifier;
+
 export const ChatMembers = (props: ChatMembersProps) => {
   const { style, className, classNames, components } = props;
-  const { children, members, selectedIds = [], onMemberSelect } = props;
+  const {
+    children,
+    members,
+    selectedIds = [],
+    getMemberId = getMemberRoqIdentifier,
+    onMemberSelect,
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
@@ -56,17 +66,20 @@ export const ChatMembers = (props: ChatMembersProps) => {
 
   const renderMemberItem = useCallback(
     (member: ChatUserInterface) => {
+      const id = getMemberId(member);
+
       return (
         <Item
+          key={id}
           {...member}
-          selected={isSelected(member.id)}
-          memberId={member.id}
+          selected={isSelected(id)}
+          memberId={id}
           className={clsx(classNames?.inner, _CLASS_IS + "__inner__item")}
-          onClick={handleMemberClick(member.id)}
+          onClick={handleMemberClick(id)}
         />
       );
     },
-    [Item, isSelected, handleMemberClick]
+    [Item, isSelected, handleMemberClick, getMemberId]
   );
 
   return (
