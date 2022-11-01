@@ -17,6 +17,8 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 export interface ChatMessageProps
   extends ChatMessageInterface,
     Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
+  message: string;
+  timestamp: Date;
   isDeleted?: boolean;
   isUpdated?: boolean;
   showUser?: boolean;
@@ -77,6 +79,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
     [message, isDeleted]
   );
 
+
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container, {
@@ -121,7 +124,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
         {showTime && (
           <Time
             components={{ container: "p" }}
-            className={clsx(_CLASS_IS + "__inner__time", classNames?.time)}
+            className={clsx(_CLASS_IS + "__inner__time", classNames?.userTime)}
           >
             {timestamp}
           </Time>

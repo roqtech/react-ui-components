@@ -18,7 +18,7 @@ export interface ChatUserInterface {
 
 export interface ChatMessageInterface {
   id: string;
-  message: string;
+  body: string;
   user: ChatUserInterface;
   conversationId: string;
   readBy: string[];
@@ -31,6 +31,9 @@ export interface ChatMessageInterface {
 
   isSent: boolean;
   isUnread: boolean;
+
+  isFirstInUserGroup?: boolean;
+  isFirstInTimeGroup?: boolean;  
 }
 
 export interface ChatMessageSchemaInterface
@@ -56,13 +59,12 @@ export interface ChatConversationInterface {
   lastMessage?: ChatMessageInterface;
   lastMessageTimestamp: Date;
 
-  
   ownerId: string;
   owner: ChatUserInterface;
-  
+
   createdAt?: Date;
   messages?: ChatMessageInterface[];
-  
+
   isOwner: boolean;
   unreadCount: number;
 }

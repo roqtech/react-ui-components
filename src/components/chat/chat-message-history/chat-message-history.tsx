@@ -27,6 +27,8 @@ export interface ChatMessageHistoryProps {
   messages: ChatMessageInterface[];
   isEmpty?: boolean;
   emptyMessage?: string;
+  showAvatarInGroup?: boolean;
+  showTimeInGroup?: boolean;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -51,7 +53,8 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
     forwardedRef,
     children,
     messages,
-    conversationId,
+    showAvatarInGroup = false,
+    showTimeInGroup = false,
     isEmpty = false,
     emptyMessage = "This is the very beginning of your messaging",
   } = props;
@@ -75,8 +78,8 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
       return (
         <Message
           key={message.id}
-          showUser={false}
-          showTime={false}
+          showUser={message.isFirstInUserGroup ?? showAvatarInGroup}
+          showTime={message.isFirstInTimeGroup ?? showTimeInGroup}
           {...message}
           message={message.body}
           timestamp={message.createdAt}
@@ -84,7 +87,8 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
           isUpdated={isUpdated}
           user={message.author}
           className={clsx(_CLASS_IS + "__line__message", classNames?.message, {
-            [_CLASS_IS + "__line__message" + "--no-user"]: !message.showUser,
+            [_CLASS_IS + "__line__message" + "--no-user"]:
+              !message.isFirstInUserGroup,
           })}
           actions={
             showActions && (
@@ -98,7 +102,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
         />
       );
     },
-    [Message, classNames?.message]
+    [Message, classNames?.message, showAvatarInGroup, showTimeInGroup]
   );
 
   return (
