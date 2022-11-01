@@ -90,7 +90,7 @@ const Template: ComponentStory<typeof ChatConversations> = ({
 
 const MOCKED_USER_ID = "48a82c03-3fac-4c4f-9663-b040b9320d24";
 const MOCKED_PLATFORM_URL =
-  "https://roq-core-snapshot-gateway.roq-platform.com/v01";
+  "https://roq-core-snapshot-gateway.roq-platform.com/v01/";
 const MOCKED_PLATFORM_TOKEN =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6IkNIQU5HRV9NRV8yIiwidXNlcklkIjoiNGZmZjNhY2EtMDEyNS00ZWJhLThiYWYtODY2ZWZmMzYwNGNjIiwiaWF0IjoxNjY3Mjk1NjY1LCJleHAiOjE2NjczODIwNjV9.6ClV9JYxskFsAeXIXwG6AEICj7TH8Xu7yS9SiH9Ktdw";
 
@@ -100,7 +100,10 @@ const MOCKED_USER_TOKEN =
 export const Default = Template.bind({});
 Default.args = {
   secure: true,
-  host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "",
+  host: (process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "").replace(
+    "v01/server",
+    ""
+  ),
   token: process.env.STORYBOOK_PLATFORM_TOKEN ?? MOCKED_PLATFORM_TOKEN,
   socketUrl: (process.env.PLATFORM_HOST ?? MOCKED_PLATFORM_URL).replace(
     "graphql",
