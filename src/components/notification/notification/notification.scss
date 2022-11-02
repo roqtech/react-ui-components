@@ -1,4 +1,4 @@
-@import "../../styles/styles.scss";
+@import "../../../styles/styles.scss";
 
 $notification-title-mb: 16px;
 
@@ -6,6 +6,9 @@ $notification-title-mb: 16px;
   --rc-notification-title-mb: #{$notification-title-mb}px;
 }
 
+.roq-notification {
+  padding: 1rem;
+}
 .roq-notification-title {
   color: var(--rc-primary-text-color);
   margin-bottom: #{$notification-title-mb};
@@ -25,15 +28,5 @@ $notification-title-mb: 16px;
       width: 4px;
       height: 4px;
       color: var(--rc-error)
-  }
-}
-
-.roq-notification-bell {
-  display: flex;
-  > svg {
-    margin-top: 8px;
-  }
-  &-badge {
-    background-color: var(--rc-error);
   }
 }

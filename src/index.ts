@@ -1,6 +1,5 @@
 export { Notification, NotificationBell, NotificationPreference } from "./components/notification";
 export { RoqProvider, useRoq } from "./components/Provider";
-export { styled, theme, css, globalStyles } from "./styles";
 
 export { SocketProvider, useSocket } from "./components/socket";
 

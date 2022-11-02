@@ -1,0 +1,42 @@
+@import "../../../styles/styles.scss";
+
+.roq-notification-preference {
+  padding: 1rem;
+}
+
+.roq-notification-preference-title {
+  margin: 0;
+  margin-bottom: 12px;
+  font-size: 1.25rem
+}
+
+.roq-notification-preference-category-item {
+  padding-bottom: 12px;
+  > div:nth-child(1) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+  }
+  .roq-notification-preference-category-item-type {
+      padding: 6px 0
+  }
+  .roq-notification-preference-category-item-type > div {
+      display: flex;
+      padding: 4px 0
+  }
+  .roq-notification-preference-category-item-type input {
+      margin-right: 10px
+  }
+  .roq-notification-preference-category-item-type label {
+      cursor: pointer
+  }
+}
+
+.roq-notification-preference-category-item-type-item-channel {
+  display: flex;
+  width: 33.3%;
+  align-items: center
+  input {
+    cursor: pointer;
+  }
+}

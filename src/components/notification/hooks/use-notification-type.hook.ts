@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { UpsertNotificationTypeUserPreferenceMutation } from 'src/lib/graphql/types/graphql';
 import { UseNotificationTypeCategoryInterfaceArg } from './use-notification-category.hook';
-import { useMutation } from '@apollo/client';
-import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/query';
+import { useApolloClient, useMutation } from '@apollo/client';
+import { useUpsertNotificationPreference } from './use-upsert-notification-preference';
 
 export interface UseNotificationItemCheckedInterfaceArg  {
   type: UseNotificationTypeCategoryInterfaceArg['category']['notificationTypes']['data'][0];
@@ -21,10 +21,11 @@ export const useNotificationTypeItem = ({
   type,
   onToggle,
 }: UseNotificationItemCheckedInterfaceArg): UseNotificationItemCheckedInterface => {
-  const [mutate, ] = useMutation(UpsertNotificationTypeUserPreference, {
-    context: { service: 'platform' },
+  const client = useApolloClient()
+  const [mutate, ] = useUpsertNotificationPreference({
     onCompleted(data) {
       onToggle?.(data)
+      client.refetchQueries({ include: ['NotificationTypeCategories'] })
     }
   })
 

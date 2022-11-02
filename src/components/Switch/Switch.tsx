@@ -1,35 +1,66 @@
-import React from 'react';
-import { blackA } from '@radix-ui/colors';
-import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { styled } from 'src/styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import clsx from 'clsx'
+import type { ClassValue } from 'clsx'
+import PropTypes from 'prop-types';
+import './switch.scss'
 
-const StyledSwitch = styled(SwitchPrimitive.Root, {
-  all: 'unset',
-  width: 42,
-  height: 25,
-  backgroundColor: blackA.blackA9,
-  borderRadius: '9999px',
-  position: 'relative',
-  boxShadow: `0 2px 10px ${blackA.blackA7}`,
-  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-  '&:focus': { boxShadow: `0 0 0 2px black` },
-  '&[data-state="checked"]': { backgroundColor: 'black' },
-  cursor: 'pointer'
-});
+export interface SwitchProps {
+  disabled?: boolean;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  className?: ClassValue;
+  onCheckedChange?: (checked: boolean) => void;
+}
+export const Switch: React.FC<SwitchProps & React.HTMLProps<HTMLInputElement>> = (props) => {
+  const { checked, disabled, className, defaultChecked, onCheckedChange, ...rest } = props
+  const [toggle, setToggle] = useState(checked ?? defaultChecked ?? false);
 
-const StyledThumb = styled(SwitchPrimitive.Thumb, {
-  display: 'block',
-  width: 21,
-  height: 21,
-  backgroundColor: 'white',
-  borderRadius: '9999px',
-  boxShadow: `0 2px 2px ${blackA.blackA7}`,
-  transition: 'transform 100ms',
-  transform: 'translateX(2px)',
-  willChange: 'transform',
-  '&[data-state="checked"]': { transform: 'translateX(19px)' },
-});
+  useEffect(() => {
+    if (typeof checked === 'boolean') {
+      setToggle(checked);
+    }
+  }, [checked]);
 
-// Exports
-export const Switch = StyledSwitch;
-export const SwitchThumb = StyledThumb;
+  const triggerToggle = useCallback(() => {
+    if (disabled) { return }
+    setToggle((v) => {
+      if ( typeof onCheckedChange === 'function' ) {
+        onCheckedChange(!v);
+      }
+      return !v
+    })
+  }, [disabled])
+  
+  return (
+    <div
+      onClick={triggerToggle}
+      className={clsx(
+        'roq-switch-toggle',
+        { 'roq-switch-toggle--checked': toggle, 'roq-switch-toggle--disabled': disabled },
+        className,
+      )}
+    >
+      <div className={clsx('roq-switch-toggle-container', {'checked': toggle})}>
+        <div className='roq-switch-toggle-check'>
+          <span></span>
+        </div>
+        <div className='roq-switch-toggle-uncheck'>
+          <span></span>
+        </div>
+      </div>
+      <div className='roq-switch-toggle-circle'></div>
+      <input
+        className='roq-switch-toggle-input'
+        type='checkbox'
+        aria-label='Toggle Button'
+        {...rest}
+      />
+    </div>
+  )
+}
+
+Switch.propTypes = {
+  disabled: PropTypes.bool,
+  defaultChecked: PropTypes.bool,
+  onCheckedChange: PropTypes.func,
+};

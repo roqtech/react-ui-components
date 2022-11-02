@@ -49,26 +49,3 @@ export const Primary = Template.bind({});
 Primary.args = {
   host: undefined
 }
-
-export const CustomCss = (args) => (
-  <Notification
-    {...args}
-    titleProps={{
-      css: {
-        span: {
-          backgroundColor: "var(--colors-green9)"
-        }
-      }
-    }}
-    typeToggleProps={{
-      css: {
-        'button[data-state="on"]': {
-          backgroundColor: "var(--colors-green9)"
-        }
-      }
-    }}
-  />
-)
-CustomCss.args = {
-  host: undefined
-}
