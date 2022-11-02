@@ -1,16 +1,17 @@
 import React, { ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { IRoqProvider, useResolveProvider } from '../Provider'
+import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,
   NotificationType,
-} from './notification'
+} from 'src/components/notification/notification'
 import type { ClassValue } from 'clsx'
-import { Avatar } from '../common'
+import { Avatar } from 'src/components/common'
 import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
-import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
+import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
+import './notification-bell.scss'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
 interface NotificationBellProps extends Partial<IRoqProvider> {

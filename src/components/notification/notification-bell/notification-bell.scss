@@ -1,0 +1,11 @@
+@import "../../../styles/styles.scss";
+
+.roq-notification-bell {
+  display: flex;
+  > svg {
+    margin-top: 8px;
+  }
+  &-badge {
+    background-color: var(--rc-error);
+  }
+}

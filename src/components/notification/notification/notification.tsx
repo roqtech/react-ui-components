@@ -2,8 +2,9 @@ import React, { ReactElement, ComponentType, ReactNode, useMemo, useState } from
 import clsx from 'clsx'
 import _get from 'lodash/get'
 import dayjs from 'dayjs'
+import type { ClassValue } from 'clsx'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { ToggleGroup, ToggleGroupItem, TypeToggleGroup } from 'src/components/ToggleGroup'
+import { ToggleGroup, ToggleGroupItem } from 'src/components/ToggleGroup'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
@@ -11,12 +12,11 @@ import {
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import { Card } from 'src/components/Card'
-import type { ClassValue } from 'clsx'
-import { NotificationReadButton } from './notification-read-button'
-import { Avatar } from '../common'
-import './notification.scss'
-import { useFetchNotificationsInApp } from './hooks/use-fetch-notifications-in-app'
+import { NotificationReadButton } from 'src/components/notification/notification-read-button'
+import { Avatar } from 'src/components/common'
+import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import { QueryResult } from '@apollo/client'
+import './notification.scss'
 
 dayjs.extend(relativeTime)
 
@@ -54,7 +54,6 @@ export interface NotificationProps extends Partial<IRoqProvider> {
   }
   typeToggleProps?: {
     children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
-    css?: React.ComponentProps<TypeToggleGroup>['css']
     className?: ClassValue
   },
   fetchProps?: {
@@ -80,7 +79,9 @@ export const Notification: React.FC<NotificationProps> = (props) => {
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
   const fetchResult = useFetchNotificationsInApp({
     type,
-    fetchProps
+    fetchProps,
+  }, {
+    fetchPolicy: 'cache-and-network'
   })
   if (children) {
     return children({ ...fetchResult, type, setType })
@@ -149,10 +150,8 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     }
     return (
       <ToggleGroup
-        type='single'
-        value={type}
-        onValueChange={(value: NotificationType) => setType(value)}
-        css={typeToggleProps?.css}
+        value={type} 
+        onValueChange={(value) => setType(value as NotificationType)}
         className={clsx(_CLASS_IS + '-type-toggle', typeToggleProps?.className)}
       >
         <ToggleGroupItem value='all'>All</ToggleGroupItem>
@@ -173,7 +172,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
   return (
     <Container className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
-        {...titleProps || {}}
+        {...(titleProps || {})}
         count={data?.loadUnreadNotificationCount?.totalCount ?? 0}
         loading={loading}
       />
