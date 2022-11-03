@@ -1,33 +1,38 @@
-import React, { createContext, useContext } from "react";
-import { config } from "src/utils/config";
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "src/hooks/use-apollo";
+import React, { createContext, useContext } from 'react';
+import { config } from 'src/utils/config';
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from 'src/hooks/use-apollo';
 
 type Optional<T> = T | null;
+
 export interface IRoqProvider {
   host: string;
-  token: string;
+  token?: string;
   userToken?: string;
+  user?: {
+    id: string,
+    roqIdentifier: string,
+  }
 }
 
-const defaultCtx = {
+const defaultCtx: IRoqProvider = {
   host: config.platform.graphqlUri,
 };
 
 export const ROQContext = createContext(defaultCtx);
-export const useRoq = () => useContext(ROQContext) as IRoqProvider;
+export const useRoq = () => useContext<IRoqProvider>(ROQContext);
 
 export const RoqProvider = ({
-  children,
-  config = defaultCtx as IRoqProvider,
-}: {
+                              children,
+                              config = defaultCtx,
+                            }: {
   children: JSX.Element;
   config: IRoqProvider;
 }) => {
   return (
-    <ROQContext.Provider value={{ ...defaultCtx, ...config }}>
-      <ApolloWrapper>{children}</ApolloWrapper>
-    </ROQContext.Provider>
+      <ROQContext.Provider value={{ ...defaultCtx, ...config }}>
+        <ApolloWrapper>{children}</ApolloWrapper>
+      </ROQContext.Provider>
   );
 };
 

@@ -1,4 +1,4 @@
-import { ComplexError } from "src/interfaces";
+import { ComplexError } from 'src/interfaces';
 
 export interface InfiniteListInterface<T> {
   error: ComplexError | null;

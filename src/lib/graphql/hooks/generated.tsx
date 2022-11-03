@@ -1,10 +1,11 @@
-/* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { DocumentNode } from 'graphql';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -12,9 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Date custom scalar type */
   Date: any;
-  /** JSONObject custom scalar type */
   JsonObject: any;
 };
 
@@ -66,11 +65,11 @@ export type ConversationOrderArgType = {
 };
 
 export enum ConversationOrderSortEnum {
-  Archived = 'archived',
-  CreatedAt = 'createdAt',
-  IsGroup = 'isGroup',
-  Title = 'title',
-  UpdatedAt = 'updatedAt'
+  archived = 'archived',
+  createdAt = 'createdAt',
+  isGroup = 'isGroup',
+  title = 'title',
+  updatedAt = 'updatedAt'
 }
 
 export type ConversationPageModel = {
@@ -276,14 +275,14 @@ export type EventSubscriberOrderArgType = {
 };
 
 export enum EventSubscriberOrderSortEnum {
-  Api = 'api',
-  Condition = 'condition',
-  Consumer = 'consumer',
-  CreatedAt = 'createdAt',
-  EventType = 'eventType',
-  Id = 'id',
-  Parameters = 'parameters',
-  UpdatedAt = 'updatedAt'
+  api = 'api',
+  condition = 'condition',
+  consumer = 'consumer',
+  createdAt = 'createdAt',
+  eventType = 'eventType',
+  id = 'id',
+  parameters = 'parameters',
+  updatedAt = 'updatedAt'
 }
 
 export type EventSubscriberPageModel = {
@@ -298,8 +297,8 @@ export type EventSubscriberSearchArgType = {
 };
 
 export enum EventSubscriberSearchKeyEnum {
-  Consumer = 'consumer',
-  EventType = 'eventType'
+  consumer = 'consumer',
+  eventType = 'eventType'
 }
 
 export type EventSubscriberUpdateDto = {
@@ -388,10 +387,10 @@ export type FileAssociationOrderArgType = {
 };
 
 export enum FileAssociationOrderSortEnum {
-  CreatedAt = 'createdAt',
-  EntityIdentifier = 'entityIdentifier',
-  EntityName = 'entityName',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  entityIdentifier = 'entityIdentifier',
+  entityName = 'entityName',
+  updatedAt = 'updatedAt'
 }
 
 export type FileAssociationPageModel = {
@@ -406,8 +405,8 @@ export type FileAssociationSearchArgType = {
 };
 
 export enum FileAssociationSearchKeyEnum {
-  EntityIdentifier = 'entityIdentifier',
-  EntityName = 'entityName'
+  entityIdentifier = 'entityIdentifier',
+  entityName = 'entityName'
 }
 
 export type FileCategoryContentTypeFilterArgType = {
@@ -419,16 +418,16 @@ export type FileCategoryContentTypeFilterArgType = {
 };
 
 export enum FileCategoryContentTypeGroupEnum {
-  Application = 'application',
-  Audio = 'audio',
-  Font = 'font',
-  Image = 'image',
-  Message = 'message',
-  Model = 'model',
-  Multipart = 'multipart',
-  Other = 'other',
-  Text = 'text',
-  Video = 'video'
+  application = 'application',
+  audio = 'audio',
+  font = 'font',
+  image = 'image',
+  message = 'message',
+  model = 'model',
+  multipart = 'multipart',
+  other = 'other',
+  text = 'text',
+  video = 'video'
 }
 
 export type FileCategoryContentTypeModel = {
@@ -443,7 +442,7 @@ export type FileCategoryContentTypeModel = {
 };
 
 
-export type FileCategoryContentTypeModelFileCategoriesArgs = {
+export type FileCategoryContentTypeModelfileCategoriesArgs = {
   filter?: InputMaybe<FileCategoryFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -457,11 +456,11 @@ export type FileCategoryContentTypeOrderArgType = {
 };
 
 export enum FileCategoryContentTypeOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Group = 'group',
-  Key = 'key',
-  Name = 'name',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  group = 'group',
+  key = 'key',
+  name = 'name',
+  updatedAt = 'updatedAt'
 }
 
 export type FileCategoryContentTypePageModel = {
@@ -476,9 +475,9 @@ export type FileCategoryContentTypeSearchArgType = {
 };
 
 export enum FileCategoryContentTypeSearchKeyEnum {
-  Group = 'group',
-  Key = 'key',
-  Name = 'name'
+  group = 'group',
+  key = 'key',
+  name = 'name'
 }
 
 export type FileCategoryCreateDto = {
@@ -508,7 +507,7 @@ export type FileCategoryModel = {
 };
 
 
-export type FileCategoryModelFileCategoryContentTypesArgs = {
+export type FileCategoryModelfileCategoryContentTypesArgs = {
   filter?: InputMaybe<FileCategoryContentTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -522,11 +521,11 @@ export type FileCategoryOrderArgType = {
 };
 
 export enum FileCategoryOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Key = 'key',
-  MaxSize = 'maxSize',
-  Name = 'name',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  key = 'key',
+  maxSize = 'maxSize',
+  name = 'name',
+  updatedAt = 'updatedAt'
 }
 
 export type FileCategoryPageModel = {
@@ -541,8 +540,8 @@ export type FileCategorySearchArgType = {
 };
 
 export enum FileCategorySearchKeyEnum {
-  Key = 'key',
-  Name = 'name'
+  key = 'key',
+  name = 'name'
 }
 
 export type FileCategoryUpdateDto = {
@@ -593,7 +592,7 @@ export type FileModel = {
 };
 
 
-export type FileModelFileAssociationsArgs = {
+export type FileModelfileAssociationsArgs = {
   filter?: InputMaybe<FileAssociationFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -607,12 +606,12 @@ export type FileOrderArgType = {
 };
 
 export enum FileOrderSortEnum {
-  ContentType = 'contentType',
-  CreatedAt = 'createdAt',
-  IsPublic = 'isPublic',
-  Name = 'name',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
+  contentType = 'contentType',
+  createdAt = 'createdAt',
+  isPublic = 'isPublic',
+  name = 'name',
+  status = 'status',
+  updatedAt = 'updatedAt'
 }
 
 export type FilePageModel = {
@@ -627,16 +626,16 @@ export type FileSearchArgType = {
 };
 
 export enum FileSearchKeyEnum {
-  ContentType = 'contentType',
-  Name = 'name'
+  contentType = 'contentType',
+  name = 'name'
 }
 
 export enum FileStatusEnum {
-  Cancelled = 'cancelled',
-  Error = 'error',
-  Processing = 'processing',
-  Ready = 'ready',
-  UploadPending = 'upload_pending'
+  cancelled = 'cancelled',
+  error = 'error',
+  processing = 'processing',
+  ready = 'ready',
+  upload_pending = 'upload_pending'
 }
 
 export type FileUpdateDto = {
@@ -730,11 +729,11 @@ export type MailTypeLocalizedOrderArgType = {
 };
 
 export enum MailTypeLocalizedOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Locale = 'locale',
-  Subject = 'subject',
-  Template = 'template',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  locale = 'locale',
+  subject = 'subject',
+  template = 'template',
+  updatedAt = 'updatedAt'
 }
 
 export type MailTypeLocalizedPageModel = {
@@ -749,9 +748,9 @@ export type MailTypeLocalizedSearchArgType = {
 };
 
 export enum MailTypeLocalizedSearchKeyEnum {
-  Locale = 'locale',
-  Subject = 'subject',
-  Template = 'template'
+  locale = 'locale',
+  subject = 'subject',
+  template = 'template'
 }
 
 export type MailTypeLocalizedUpdateDto = {
@@ -776,10 +775,10 @@ export type MailTypeOrderArgType = {
 };
 
 export enum MailTypeOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Key = 'key',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  description = 'description',
+  key = 'key',
+  updatedAt = 'updatedAt'
 }
 
 export type MailTypePageModel = {
@@ -794,8 +793,8 @@ export type MailTypeSearchArgType = {
 };
 
 export enum MailTypeSearchKeyEnum {
-  Description = 'description',
-  Key = 'key'
+  description = 'description',
+  key = 'key'
 }
 
 export type MailTypeUpdateDto = {
@@ -808,8 +807,8 @@ export type MailUserGroupDto = {
 };
 
 export enum MailUserGroupOperatorEnum {
-  And = 'AND',
-  Or = 'OR'
+  AND = 'AND',
+  OR = 'OR'
 }
 
 export type MessageModel = {
@@ -916,359 +915,359 @@ export type Mutation = {
 };
 
 
-export type MutationAcceptUserInviteArgs = {
+export type MutationacceptUserInviteArgs = {
   acceptUserInvite: AcceptUserInviteDto;
 };
 
 
-export type MutationCancelUserInviteArgs = {
+export type MutationcancelUserInviteArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationChatSyncEventSubscribersArgs = {
+export type MutationchatSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationContentSyncEventSubscribersArgs = {
+export type MutationcontentSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationCreateFileAssociationArgs = {
+export type MutationcreateFileAssociationArgs = {
   createFileAssociationDto: FileAssociationCreateDto;
 };
 
 
-export type MutationCreateFileUploadUrlArgs = {
+export type MutationcreateFileUploadUrlArgs = {
   createFileDto: FileCreateDto;
 };
 
 
-export type MutationCreateNotificationArgs = {
+export type MutationcreateNotificationArgs = {
   notification: NotificationCreateDto;
 };
 
 
-export type MutationCreatePermissionArgs = {
+export type MutationcreatePermissionArgs = {
   permission: PermissionCreateDto;
 };
 
 
-export type MutationCreateRoleArgs = {
+export type MutationcreateRoleArgs = {
   role: RoleCreateDto;
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationcreateUserArgs = {
   user: UserCreateDto;
 };
 
 
-export type MutationCreateUserGroupArgs = {
+export type MutationcreateUserGroupArgs = {
   userGroup: UserGroupCreateDto;
 };
 
 
-export type MutationCreateUserInviteArgs = {
+export type MutationcreateUserInviteArgs = {
   userInvite: UserInviteCreateDto;
 };
 
 
-export type MutationCreateUserInvitesArgs = {
+export type MutationcreateUserInvitesArgs = {
   userInvites: UserInvitesCreateDto;
 };
 
 
-export type MutationCreateUserProviderArgs = {
+export type MutationcreateUserProviderArgs = {
   userProvider: UserProviderCreateDto;
 };
 
 
-export type MutationCreateUserRefreshTokenArgs = {
+export type MutationcreateUserRefreshTokenArgs = {
   userToken: UserRefreshTokenCreateDto;
 };
 
 
-export type MutationCreateUserResetPasswordTokenArgs = {
+export type MutationcreateUserResetPasswordTokenArgs = {
   userToken: UserResetPasswordTokenCreateDto;
 };
 
 
-export type MutationCreateUserTokenArgs = {
+export type MutationcreateUserTokenArgs = {
   userToken: UserTokenCreateDto;
 };
 
 
-export type MutationCreateUserValidateEmailTokenArgs = {
+export type MutationcreateUserValidateEmailTokenArgs = {
   userToken: UserValidateEmailTokenCreateDto;
 };
 
 
-export type MutationDataImportDataArgs = {
+export type MutationdataImportDataArgs = {
   data: DataImportDto;
 };
 
 
-export type MutationDeleteConversationArgs = {
+export type MutationdeleteConversationArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteConversationUserArgs = {
+export type MutationdeleteConversationUserArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteFileAssociationArgs = {
+export type MutationdeleteFileAssociationArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationDeleteFileAssociationsArgs = {
+export type MutationdeleteFileAssociationsArgs = {
   filter: FileAssociationBulkFilterArgType;
 };
 
 
-export type MutationDeleteFilesArgs = {
+export type MutationdeleteFilesArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteMessageArgs = {
+export type MutationdeleteMessageArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteMessageStatusArgs = {
+export type MutationdeleteMessageStatusArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeletePermissionsArgs = {
+export type MutationdeletePermissionsArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteRolesArgs = {
+export type MutationdeleteRolesArgs = {
   filter?: InputMaybe<DeleteFilterArgType>;
 };
 
 
-export type MutationDeleteUserTokensArgs = {
+export type MutationdeleteUserTokensArgs = {
   filter?: InputMaybe<DeleteUserTokenFilterArgType>;
 };
 
 
-export type MutationEventSyncEventSubscribersArgs = {
+export type MutationeventSyncEventSubscribersArgs = {
   data: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationMailSyncEventSubscribersArgs = {
+export type MutationmailSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationMakeFilePrivateArgs = {
+export type MutationmakeFilePrivateArgs = {
   fileId: Scalars['ID'];
 };
 
 
-export type MutationMakeFilePublicArgs = {
+export type MutationmakeFilePublicArgs = {
   fileId: Scalars['ID'];
 };
 
 
-export type MutationMarkAsReadNotificationArgs = {
+export type MutationmarkAsReadNotificationArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationMarkAsUnreadNotificationArgs = {
+export type MutationmarkAsUnreadNotificationArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationNotificationSyncEventSubscribersArgs = {
+export type MutationnotificationSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationRelateRolesToUserArgs = {
+export type MutationrelateRolesToUserArgs = {
   id: Scalars['ID'];
   relation: UserRoleRelationDto;
 };
 
 
-export type MutationRelateRolesToUserGroupArgs = {
+export type MutationrelateRolesToUserGroupArgs = {
   id: Scalars['ID'];
   relation: UserGroupRoleRelationDto;
 };
 
 
-export type MutationRelateUserGroupsToRoleArgs = {
+export type MutationrelateUserGroupsToRoleArgs = {
   id: Scalars['ID'];
   relation: RoleUserGroupRelationDto;
 };
 
 
-export type MutationRelateUserGroupsToUserArgs = {
+export type MutationrelateUserGroupsToUserArgs = {
   id: Scalars['ID'];
   relation: UserUserGroupRelationDto;
 };
 
 
-export type MutationRelateUsersToRoleArgs = {
+export type MutationrelateUsersToRoleArgs = {
   id: Scalars['ID'];
   relation: RoleUserRelationDto;
 };
 
 
-export type MutationRelateUsersToUserGroupArgs = {
+export type MutationrelateUsersToUserGroupArgs = {
   id: Scalars['ID'];
   relation: UserGroupUserRelationDto;
 };
 
 
-export type MutationResendUserInviteArgs = {
+export type MutationresendUserInviteArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationRotateRefreshTokenArgs = {
+export type MutationrotateRefreshTokenArgs = {
   userToken: UserRefreshTokenVerifyDto;
 };
 
 
-export type MutationSendMailArgs = {
+export type MutationsendMailArgs = {
   params: MailSendDto;
 };
 
 
-export type MutationSendUserInvitesArgs = {
+export type MutationsendUserInvitesArgs = {
   userInvites: UserInvitesCreateDto;
 };
 
 
-export type MutationSpaceSyncEventSubscribersArgs = {
+export type MutationspaceSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationTriggerEventArgs = {
+export type MutationtriggerEventArgs = {
   event: EventCreateDto;
 };
 
 
-export type MutationUnrelateRolesFromUserArgs = {
+export type MutationunrelateRolesFromUserArgs = {
   id: Scalars['ID'];
   relation: UserRoleRelationDto;
 };
 
 
-export type MutationUnrelateRolesFromUserGroupArgs = {
+export type MutationunrelateRolesFromUserGroupArgs = {
   id: Scalars['ID'];
   relation: UserGroupRoleRelationDto;
 };
 
 
-export type MutationUnrelateUserGroupsFromRoleArgs = {
+export type MutationunrelateUserGroupsFromRoleArgs = {
   id: Scalars['ID'];
   relation: RoleUserGroupRelationDto;
 };
 
 
-export type MutationUnrelateUserGroupsFromUserArgs = {
+export type MutationunrelateUserGroupsFromUserArgs = {
   id: Scalars['ID'];
   relation: UserUserGroupRelationDto;
 };
 
 
-export type MutationUnrelateUsersFromRoleArgs = {
+export type MutationunrelateUsersFromRoleArgs = {
   id: Scalars['ID'];
   relation: RoleUserRelationDto;
 };
 
 
-export type MutationUnrelateUsersFromUserGroupArgs = {
+export type MutationunrelateUsersFromUserGroupArgs = {
   id: Scalars['ID'];
   relation: UserGroupUserRelationDto;
 };
 
 
-export type MutationUpdateFileArgs = {
+export type MutationupdateFileArgs = {
   fileId: Scalars['ID'];
   updateFileDto: FileUpdateDto;
 };
 
 
-export type MutationUpdateFileStatusArgs = {
+export type MutationupdateFileStatusArgs = {
   fileId: Scalars['ID'];
   status: FileStatusEnum;
 };
 
 
-export type MutationUpdateNotificationTypeUserPreferenceArgs = {
+export type MutationupdateNotificationTypeUserPreferenceArgs = {
   id: Scalars['ID'];
   notificationTypeUserPreference: NotificationTypeUserPreferenceUpdateDto;
 };
 
 
-export type MutationUpdatePermissionArgs = {
+export type MutationupdatePermissionArgs = {
   id: Scalars['ID'];
   permission: PermissionUpdateDto;
 };
 
 
-export type MutationUpdateRoleArgs = {
+export type MutationupdateRoleArgs = {
   id: Scalars['ID'];
   role: RoleUpdateDto;
 };
 
 
-export type MutationUpdateUserArgs = {
+export type MutationupdateUserArgs = {
   id: Scalars['ID'];
   user: UserUpdateDto;
 };
 
 
-export type MutationUpdateUserGroupArgs = {
+export type MutationupdateUserGroupArgs = {
   id: Scalars['ID'];
   userGroup: UserGroupUpdateDto;
 };
 
 
-export type MutationUpdateUserGroupRolesArgs = {
+export type MutationupdateUserGroupRolesArgs = {
   id: Scalars['ID'];
   relation: UserGroupRoleRelationDto;
 };
 
 
-export type MutationUpdateUserInviteArgs = {
+export type MutationupdateUserInviteArgs = {
   id: Scalars['ID'];
   userInvite: UserInviteUpdateDto;
 };
 
 
-export type MutationUpdateUserRolesArgs = {
+export type MutationupdateUserRolesArgs = {
   id: Scalars['ID'];
   relation: UserRoleRelationDto;
 };
 
 
-export type MutationUpsertNotificationTypeUserPreferenceArgs = {
+export type MutationupsertNotificationTypeUserPreferenceArgs = {
   notificationTypeUserPreference: NotificationTypeUserPreferenceUpsertDto;
 };
 
 
-export type MutationUserSyncEventSubscribersArgs = {
+export type MutationuserSyncEventSubscribersArgs = {
   eventSubscribers: Array<EventSubscriberCreateDto>;
 };
 
 
-export type MutationVerifyUserRefreshTokenArgs = {
+export type MutationverifyUserRefreshTokenArgs = {
   userToken: UserRefreshTokenVerifyDto;
 };
 
@@ -1340,14 +1339,14 @@ export type NotificationInAppOrderArgType = {
 };
 
 export enum NotificationInAppOrderSortEnum {
-  Content = 'content',
-  CreatedAt = 'createdAt',
-  Locale = 'locale',
-  NotificationTypeChannelWebId = 'notificationTypeChannelWebId',
-  Read = 'read',
-  Title = 'title',
-  UpdatedAt = 'updatedAt',
-  UserId = 'userId'
+  content = 'content',
+  createdAt = 'createdAt',
+  locale = 'locale',
+  notificationTypeChannelWebId = 'notificationTypeChannelWebId',
+  read = 'read',
+  title = 'title',
+  updatedAt = 'updatedAt',
+  userId = 'userId'
 }
 
 export type NotificationInAppPageModel = {
@@ -1362,10 +1361,10 @@ export type NotificationInAppSearchArgType = {
 };
 
 export enum NotificationInAppSearchKeyEnum {
-  Locale = 'locale',
-  NotificationTypeChannelWebId = 'notificationTypeChannelWebId',
-  Title = 'title',
-  UserId = 'userId'
+  locale = 'locale',
+  notificationTypeChannelWebId = 'notificationTypeChannelWebId',
+  title = 'title',
+  userId = 'userId'
 }
 
 export type NotificationInAppUpdateDto = {
@@ -1395,7 +1394,7 @@ export type NotificationModel = {
 };
 
 
-export type NotificationModelUserArgs = {
+export type NotificationModeluserArgs = {
   filter?: InputMaybe<NotifiedUserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1409,13 +1408,13 @@ export type NotificationOrderArgType = {
 };
 
 export enum NotificationOrderSortEnum {
-  Content = 'content',
-  CreatedAt = 'createdAt',
-  Locale = 'locale',
-  Read = 'read',
-  Title = 'title',
-  UpdatedAt = 'updatedAt',
-  UserId = 'userId'
+  content = 'content',
+  createdAt = 'createdAt',
+  locale = 'locale',
+  read = 'read',
+  title = 'title',
+  updatedAt = 'updatedAt',
+  userId = 'userId'
 }
 
 export type NotificationPageModel = {
@@ -1437,9 +1436,9 @@ export type NotificationSearchArgType = {
 };
 
 export enum NotificationSearchKeyEnum {
-  Locale = 'locale',
-  Title = 'title',
-  UserId = 'userId'
+  locale = 'locale',
+  title = 'title',
+  userId = 'userId'
 }
 
 export type NotificationTypeCategoryCreateDto = {
@@ -1465,7 +1464,7 @@ export type NotificationTypeCategoryModel = {
 };
 
 
-export type NotificationTypeCategoryModelNotificationTypesArgs = {
+export type NotificationTypeCategoryModelnotificationTypesArgs = {
   filter?: InputMaybe<NotificationTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1479,10 +1478,10 @@ export type NotificationTypeCategoryOrderArgType = {
 };
 
 export enum NotificationTypeCategoryOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Key = 'key',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  description = 'description',
+  key = 'key',
+  updatedAt = 'updatedAt'
 }
 
 export type NotificationTypeCategoryPageModel = {
@@ -1497,7 +1496,7 @@ export type NotificationTypeCategorySearchArgType = {
 };
 
 export enum NotificationTypeCategorySearchKeyEnum {
-  Key = 'key'
+  key = 'key'
 }
 
 export type NotificationTypeCategoryUpdateDto = {
@@ -1531,7 +1530,7 @@ export type NotificationTypeChannelMailModel = {
 };
 
 
-export type NotificationTypeChannelMailModelNotificationTypeArgs = {
+export type NotificationTypeChannelMailModelnotificationTypeArgs = {
   filter?: InputMaybe<NotificationTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1545,11 +1544,11 @@ export type NotificationTypeChannelMailOrderArgType = {
 };
 
 export enum NotificationTypeChannelMailOrderSortEnum {
-  CreatedAt = 'createdAt',
-  IsActive = 'isActive',
-  Key = 'key',
-  MailTypeId = 'mailTypeId',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  isActive = 'isActive',
+  key = 'key',
+  mailTypeId = 'mailTypeId',
+  updatedAt = 'updatedAt'
 }
 
 export type NotificationTypeChannelMailPageModel = {
@@ -1564,8 +1563,8 @@ export type NotificationTypeChannelMailSearchArgType = {
 };
 
 export enum NotificationTypeChannelMailSearchKeyEnum {
-  Key = 'key',
-  MailTypeId = 'mailTypeId'
+  key = 'key',
+  mailTypeId = 'mailTypeId'
 }
 
 export type NotificationTypeChannelMailUpdateDto = {
@@ -1626,13 +1625,13 @@ export type NotificationTypeChannelWebLocalizedOrderArgType = {
 };
 
 export enum NotificationTypeChannelWebLocalizedOrderSortEnum {
-  Content = 'content',
-  CreatedAt = 'createdAt',
-  Icon = 'icon',
-  Key = 'key',
-  Locale = 'locale',
-  Title = 'title',
-  UpdatedAt = 'updatedAt'
+  content = 'content',
+  createdAt = 'createdAt',
+  icon = 'icon',
+  key = 'key',
+  locale = 'locale',
+  title = 'title',
+  updatedAt = 'updatedAt'
 }
 
 export type NotificationTypeChannelWebLocalizedPageModel = {
@@ -1647,10 +1646,10 @@ export type NotificationTypeChannelWebLocalizedSearchArgType = {
 };
 
 export enum NotificationTypeChannelWebLocalizedSearchKeyEnum {
-  Icon = 'icon',
-  Key = 'key',
-  Locale = 'locale',
-  Title = 'title'
+  icon = 'icon',
+  key = 'key',
+  locale = 'locale',
+  title = 'title'
 }
 
 export type NotificationTypeChannelWebLocalizedUpdateDto = {
@@ -1673,7 +1672,7 @@ export type NotificationTypeChannelWebModel = {
 };
 
 
-export type NotificationTypeChannelWebModelNotificationTypeArgs = {
+export type NotificationTypeChannelWebModelnotificationTypeArgs = {
   filter?: InputMaybe<NotificationTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1687,10 +1686,10 @@ export type NotificationTypeChannelWebOrderArgType = {
 };
 
 export enum NotificationTypeChannelWebOrderSortEnum {
-  CreatedAt = 'createdAt',
-  IsActive = 'isActive',
-  Key = 'key',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  isActive = 'isActive',
+  key = 'key',
+  updatedAt = 'updatedAt'
 }
 
 export type NotificationTypeChannelWebPageModel = {
@@ -1705,7 +1704,7 @@ export type NotificationTypeChannelWebSearchArgType = {
 };
 
 export enum NotificationTypeChannelWebSearchKeyEnum {
-  Key = 'key'
+  key = 'key'
 }
 
 export type NotificationTypeChannelWebUpdateDto = {
@@ -1753,7 +1752,7 @@ export type NotificationTypeModel = {
 };
 
 
-export type NotificationTypeModelNotificationTypeChannelWebArgs = {
+export type NotificationTypeModelnotificationTypeChannelWebArgs = {
   filter?: InputMaybe<NotificationTypeChannelWebFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1762,7 +1761,7 @@ export type NotificationTypeModelNotificationTypeChannelWebArgs = {
 };
 
 
-export type NotificationTypeModelNotificationTypeUserPreferencesArgs = {
+export type NotificationTypeModelnotificationTypeUserPreferencesArgs = {
   filter?: InputMaybe<NotificationTypeUserPreferenceFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -1776,13 +1775,13 @@ export type NotificationTypeOrderArgType = {
 };
 
 export enum NotificationTypeOrderSortEnum {
-  CreatedAt = 'createdAt',
-  DefaultUserActiveMail = 'defaultUserActiveMail',
-  DefaultUserActiveWeb = 'defaultUserActiveWeb',
-  Description = 'description',
-  IsActive = 'isActive',
-  Key = 'key',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  defaultUserActiveMail = 'defaultUserActiveMail',
+  defaultUserActiveWeb = 'defaultUserActiveWeb',
+  description = 'description',
+  isActive = 'isActive',
+  key = 'key',
+  updatedAt = 'updatedAt'
 }
 
 export type NotificationTypePageModel = {
@@ -1797,7 +1796,7 @@ export type NotificationTypeSearchArgType = {
 };
 
 export enum NotificationTypeSearchKeyEnum {
-  Key = 'key'
+  key = 'key'
 }
 
 export type NotificationTypeUpdateDto = {
@@ -1842,12 +1841,12 @@ export type NotificationTypeUserPreferenceOrderArgType = {
 };
 
 export enum NotificationTypeUserPreferenceOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Key = 'key',
-  Mail = 'mail',
-  UpdatedAt = 'updatedAt',
-  UserId = 'userId',
-  Web = 'web'
+  createdAt = 'createdAt',
+  key = 'key',
+  mail = 'mail',
+  updatedAt = 'updatedAt',
+  userId = 'userId',
+  web = 'web'
 }
 
 export type NotificationTypeUserPreferencePageModel = {
@@ -1862,8 +1861,8 @@ export type NotificationTypeUserPreferenceSearchArgType = {
 };
 
 export enum NotificationTypeUserPreferenceSearchKeyEnum {
-  Key = 'key',
-  UserId = 'userId'
+  key = 'key',
+  userId = 'userId'
 }
 
 export type NotificationTypeUserPreferenceUpdateDto = {
@@ -1886,8 +1885,8 @@ export type NotificationUserGroupDto = {
 };
 
 export enum NotificationUserGroupOperatorEnum {
-  And = 'AND',
-  Or = 'OR'
+  AND = 'AND',
+  OR = 'OR'
 }
 
 export type NotifiedUserFilterArgType = {
@@ -1930,8 +1929,8 @@ export type NumberFilterArgType = {
 };
 
 export enum OrderEnum {
-  Asc = 'ASC',
-  Desc = 'DESC'
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
 export type ParticipantModel = {
@@ -1991,12 +1990,12 @@ export type PermissionOrderArgType = {
 };
 
 export enum PermissionOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Key = 'key',
-  ResolverMapping = 'resolverMapping',
-  Scope = 'scope',
-  UpdatedAt = 'updatedAt',
-  UserGroupType = 'userGroupType'
+  createdAt = 'createdAt',
+  key = 'key',
+  resolverMapping = 'resolverMapping',
+  scope = 'scope',
+  updatedAt = 'updatedAt',
+  userGroupType = 'userGroupType'
 }
 
 export type PermissionPageModel = {
@@ -2006,9 +2005,9 @@ export type PermissionPageModel = {
 };
 
 export enum PermissionScopeEnum {
-  All = 'all',
-  Own = 'own',
-  UserGroup = 'userGroup'
+  all = 'all',
+  own = 'own',
+  userGroup = 'userGroup'
 }
 
 export type PermissionSearchArgType = {
@@ -2017,9 +2016,9 @@ export type PermissionSearchArgType = {
 };
 
 export enum PermissionSearchKeyEnum {
-  Key = 'key',
-  ResolverMapping = 'resolverMapping',
-  UserGroupType = 'userGroupType'
+  key = 'key',
+  resolverMapping = 'resolverMapping',
+  userGroupType = 'userGroupType'
 }
 
 export type PermissionUpdateDto = {
@@ -2070,18 +2069,18 @@ export type Query = {
 };
 
 
-export type QueryCheckUserInviteTokenArgs = {
+export type QuerycheckUserInviteTokenArgs = {
   token: Scalars['String'];
 };
 
 
-export type QueryCheckUserTokenArgs = {
+export type QuerycheckUserTokenArgs = {
   token: Scalars['String'];
   type: Scalars['String'];
 };
 
 
-export type QueryConversationsArgs = {
+export type QueryconversationsArgs = {
   filter?: InputMaybe<ConversationFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2090,12 +2089,12 @@ export type QueryConversationsArgs = {
 };
 
 
-export type QueryFileArgs = {
+export type QueryfileArgs = {
   fileId: Scalars['ID'];
 };
 
 
-export type QueryFileCategoriesArgs = {
+export type QueryfileCategoriesArgs = {
   filter?: InputMaybe<FileCategoryFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2104,17 +2103,17 @@ export type QueryFileCategoriesArgs = {
 };
 
 
-export type QueryFileCategoryArgs = {
+export type QueryfileCategoryArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryFileCategoryContentTypeArgs = {
+export type QueryfileCategoryContentTypeArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryFileCategoryContentTypesArgs = {
+export type QueryfileCategoryContentTypesArgs = {
   filter?: InputMaybe<FileCategoryContentTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2123,7 +2122,7 @@ export type QueryFileCategoryContentTypesArgs = {
 };
 
 
-export type QueryFilesArgs = {
+export type QueryfilesArgs = {
   filter?: InputMaybe<FileFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2132,17 +2131,17 @@ export type QueryFilesArgs = {
 };
 
 
-export type QueryMailTypeArgs = {
+export type QuerymailTypeArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryNotificationTypeArgs = {
+export type QuerynotificationTypeArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryNotificationTypeCategoriesArgs = {
+export type QuerynotificationTypeCategoriesArgs = {
   filter?: InputMaybe<NotificationTypeCategoryFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2151,17 +2150,17 @@ export type QueryNotificationTypeCategoriesArgs = {
 };
 
 
-export type QueryNotificationTypeChannelWebArgs = {
+export type QuerynotificationTypeChannelWebArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryNotificationTypeUserPreferenceArgs = {
+export type QuerynotificationTypeUserPreferenceArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryNotificationTypeUserPreferencesArgs = {
+export type QuerynotificationTypeUserPreferencesArgs = {
   filter?: InputMaybe<NotificationTypeUserPreferenceFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2170,7 +2169,7 @@ export type QueryNotificationTypeUserPreferencesArgs = {
 };
 
 
-export type QueryNotificationTypesArgs = {
+export type QuerynotificationTypesArgs = {
   filter?: InputMaybe<NotificationTypeFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2179,7 +2178,7 @@ export type QueryNotificationTypesArgs = {
 };
 
 
-export type QueryNotificationsInAppForCurrentUserArgs = {
+export type QuerynotificationsInAppForCurrentUserArgs = {
   filter?: InputMaybe<NotificationInAppFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2188,12 +2187,12 @@ export type QueryNotificationsInAppForCurrentUserArgs = {
 };
 
 
-export type QueryPermissionArgs = {
+export type QuerypermissionArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryPermissionsArgs = {
+export type QuerypermissionsArgs = {
   filter?: InputMaybe<PermissionFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2202,12 +2201,12 @@ export type QueryPermissionsArgs = {
 };
 
 
-export type QueryRoleArgs = {
+export type QueryroleArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryRolesArgs = {
+export type QueryrolesArgs = {
   filter?: InputMaybe<RoleFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2216,17 +2215,17 @@ export type QueryRolesArgs = {
 };
 
 
-export type QueryTranslationArgs = {
+export type QuerytranslationArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryTranslationKeyArgs = {
+export type QuerytranslationKeyArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryTranslationKeysArgs = {
+export type QuerytranslationKeysArgs = {
   filter?: InputMaybe<TranslationKeyFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2236,7 +2235,7 @@ export type QueryTranslationKeysArgs = {
 };
 
 
-export type QueryTranslationsArgs = {
+export type QuerytranslationsArgs = {
   filter?: InputMaybe<TranslationFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2245,17 +2244,17 @@ export type QueryTranslationsArgs = {
 };
 
 
-export type QueryUserArgs = {
+export type QueryuserArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryUserGroupArgs = {
+export type QueryuserGroupArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryUserGroupsArgs = {
+export type QueryuserGroupsArgs = {
   filter?: InputMaybe<UserGroupFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2264,12 +2263,12 @@ export type QueryUserGroupsArgs = {
 };
 
 
-export type QueryUserInviteArgs = {
+export type QueryuserInviteArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryUserInvitesArgs = {
+export type QueryuserInvitesArgs = {
   filter?: InputMaybe<UserInviteFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2278,12 +2277,12 @@ export type QueryUserInvitesArgs = {
 };
 
 
-export type QueryUserProviderArgs = {
+export type QueryuserProviderArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryUserProvidersArgs = {
+export type QueryuserProvidersArgs = {
   filter?: InputMaybe<UserProviderFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2292,12 +2291,12 @@ export type QueryUserProvidersArgs = {
 };
 
 
-export type QueryUserTokenArgs = {
+export type QueryuserTokenArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryUserTokensArgs = {
+export type QueryuserTokensArgs = {
   filter?: InputMaybe<UserTokenFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2306,7 +2305,7 @@ export type QueryUserTokensArgs = {
 };
 
 
-export type QueryUsersArgs = {
+export type QueryusersArgs = {
   filter?: InputMaybe<UserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2361,7 +2360,7 @@ export type RoleModel = {
 };
 
 
-export type RoleModelPermissionAssignmentsArgs = {
+export type RoleModelpermissionAssignmentsArgs = {
   filter?: InputMaybe<PermissionFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2370,7 +2369,7 @@ export type RoleModelPermissionAssignmentsArgs = {
 };
 
 
-export type RoleModelUserGroupsArgs = {
+export type RoleModeluserGroupsArgs = {
   filter?: InputMaybe<UserGroupFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2379,7 +2378,7 @@ export type RoleModelUserGroupsArgs = {
 };
 
 
-export type RoleModelUsersArgs = {
+export type RoleModelusersArgs = {
   filter?: InputMaybe<UserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2393,13 +2392,13 @@ export type RoleOrderArgType = {
 };
 
 export enum RoleOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Description = 'description',
-  Id = 'id',
-  IsSystemManaged = 'isSystemManaged',
-  Key = 'key',
-  Name = 'name',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  description = 'description',
+  id = 'id',
+  isSystemManaged = 'isSystemManaged',
+  key = 'key',
+  name = 'name',
+  updatedAt = 'updatedAt'
 }
 
 export type RolePageModel = {
@@ -2422,9 +2421,9 @@ export type RoleSearchArgType = {
 };
 
 export enum RoleSearchKeyEnum {
-  Description = 'description',
-  Key = 'key',
-  Name = 'name'
+  description = 'description',
+  key = 'key',
+  name = 'name'
 }
 
 export type RoleUpdateDto = {
@@ -2526,7 +2525,7 @@ export type TranslationKeyModel = {
 };
 
 
-export type TranslationKeyModelTranslationsArgs = {
+export type TranslationKeyModeltranslationsArgs = {
   filter?: InputMaybe<TranslationFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2540,9 +2539,9 @@ export type TranslationKeyOrderArgType = {
 };
 
 export enum TranslationKeyOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Key = 'key',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  key = 'key',
+  updatedAt = 'updatedAt'
 }
 
 export type TranslationKeyPageModel = {
@@ -2557,7 +2556,7 @@ export type TranslationKeySearchArgType = {
 };
 
 export enum TranslationKeySearchKeyEnum {
-  Key = 'key'
+  key = 'key'
 }
 
 export type TranslationKeyUpdateDto = {
@@ -2581,9 +2580,9 @@ export type TranslationOrderArgType = {
 };
 
 export enum TranslationOrderSortEnum {
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  Value = 'value'
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
+  value = 'value'
 }
 
 export type TranslationPageModel = {
@@ -2598,7 +2597,7 @@ export type TranslationSearchArgType = {
 };
 
 export enum TranslationSearchKeyEnum {
-  Value = 'VALUE'
+  VALUE = 'VALUE'
 }
 
 export type TranslationTemplateDto = {
@@ -2693,7 +2692,7 @@ export type UserGroupConfigModel = {
 };
 
 
-export type UserGroupConfigModelDefaultRolesArgs = {
+export type UserGroupConfigModeldefaultRolesArgs = {
   filter?: InputMaybe<RoleFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2707,17 +2706,17 @@ export type UserGroupConfigOrderArgType = {
 };
 
 export enum UserGroupConfigOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Entity = 'entity',
-  GroupRelationField = 'groupRelationField',
-  IsUserInMultipleGroups = 'isUserInMultipleGroups',
-  Name = 'name',
-  NameField = 'nameField',
-  Type = 'type',
-  UpdatedAt = 'updatedAt',
-  UserGroupType = 'userGroupType',
-  UserRelationEntity = 'userRelationEntity',
-  UserRelationField = 'userRelationField'
+  createdAt = 'createdAt',
+  entity = 'entity',
+  groupRelationField = 'groupRelationField',
+  isUserInMultipleGroups = 'isUserInMultipleGroups',
+  name = 'name',
+  nameField = 'nameField',
+  type = 'type',
+  updatedAt = 'updatedAt',
+  userGroupType = 'userGroupType',
+  userRelationEntity = 'userRelationEntity',
+  userRelationField = 'userRelationField'
 }
 
 export type UserGroupConfigPageModel = {
@@ -2732,18 +2731,18 @@ export type UserGroupConfigSearchArgType = {
 };
 
 export enum UserGroupConfigSearchKeyEnum {
-  Entity = 'entity',
-  GroupRelationField = 'groupRelationField',
-  Name = 'name',
-  NameField = 'nameField',
-  UserGroupType = 'userGroupType',
-  UserRelationEntity = 'userRelationEntity',
-  UserRelationField = 'userRelationField'
+  entity = 'entity',
+  groupRelationField = 'groupRelationField',
+  name = 'name',
+  nameField = 'nameField',
+  userGroupType = 'userGroupType',
+  userRelationEntity = 'userRelationEntity',
+  userRelationField = 'userRelationField'
 }
 
 export enum UserGroupConfigTypeEnum {
-  BelongsTo = 'belongs_to',
-  IsA = 'is_a'
+  belongs_to = 'belongs_to',
+  is_a = 'is_a'
 }
 
 export type UserGroupConfigUpdateDto = {
@@ -2796,7 +2795,7 @@ export type UserGroupModel = {
 };
 
 
-export type UserGroupModelMemberUsersArgs = {
+export type UserGroupModelmemberUsersArgs = {
   filter?: InputMaybe<UserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2805,7 +2804,7 @@ export type UserGroupModelMemberUsersArgs = {
 };
 
 
-export type UserGroupModelRolesArgs = {
+export type UserGroupModelrolesArgs = {
   filter?: InputMaybe<RoleFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2829,11 +2828,11 @@ export type UserGroupOrderArgType = {
 };
 
 export enum UserGroupOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Name = 'name',
-  RemoteId = 'remoteId',
-  Type = 'type',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  name = 'name',
+  remoteId = 'remoteId',
+  type = 'type',
+  updatedAt = 'updatedAt'
 }
 
 export type UserGroupPageModel = {
@@ -2852,9 +2851,9 @@ export type UserGroupSearchArgType = {
 };
 
 export enum UserGroupSearchKeyEnum {
-  Name = 'name',
-  RemoteId = 'remoteId',
-  Type = 'type'
+  name = 'name',
+  remoteId = 'remoteId',
+  type = 'type'
 }
 
 export type UserGroupUpdateDto = {
@@ -2910,7 +2909,7 @@ export type UserInviteModel = {
 };
 
 
-export type UserInviteModelAcceptedByArgs = {
+export type UserInviteModelacceptedByArgs = {
   filter?: InputMaybe<UserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2919,7 +2918,7 @@ export type UserInviteModelAcceptedByArgs = {
 };
 
 
-export type UserInviteModelCreatedByArgs = {
+export type UserInviteModelcreatedByArgs = {
   filter?: InputMaybe<UserFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2928,7 +2927,7 @@ export type UserInviteModelCreatedByArgs = {
 };
 
 
-export type UserInviteModelUserTokenArgs = {
+export type UserInviteModeluserTokenArgs = {
   filter?: InputMaybe<UserTokenFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2942,14 +2941,14 @@ export type UserInviteOrderArgType = {
 };
 
 export enum UserInviteOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Data = 'data',
-  Email = 'email',
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  Locale = 'locale',
-  Status = 'status',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  data = 'data',
+  email = 'email',
+  firstName = 'firstName',
+  lastName = 'lastName',
+  locale = 'locale',
+  status = 'status',
+  updatedAt = 'updatedAt'
 }
 
 export type UserInvitePageModel = {
@@ -2964,16 +2963,16 @@ export type UserInviteSearchArgType = {
 };
 
 export enum UserInviteSearchKeyEnum {
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  Locale = 'locale'
+  firstName = 'firstName',
+  lastName = 'lastName',
+  locale = 'locale'
 }
 
 export enum UserInviteStatusEnum {
-  Accepted = 'accepted',
-  Canceled = 'canceled',
-  Expired = 'expired',
-  Pending = 'pending'
+  accepted = 'accepted',
+  canceled = 'canceled',
+  expired = 'expired',
+  pending = 'pending'
 }
 
 export type UserInviteUpdateDto = {
@@ -3012,7 +3011,7 @@ export type UserModel = {
 };
 
 
-export type UserModelAcceptedUserInviteArgs = {
+export type UserModelacceptedUserInviteArgs = {
   filter?: InputMaybe<UserInviteFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3021,7 +3020,7 @@ export type UserModelAcceptedUserInviteArgs = {
 };
 
 
-export type UserModelCreatedUserInvitesArgs = {
+export type UserModelcreatedUserInvitesArgs = {
   filter?: InputMaybe<UserInviteFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3030,7 +3029,7 @@ export type UserModelCreatedUserInvitesArgs = {
 };
 
 
-export type UserModelRolesArgs = {
+export type UserModelrolesArgs = {
   filter?: InputMaybe<RoleFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3039,7 +3038,7 @@ export type UserModelRolesArgs = {
 };
 
 
-export type UserModelUserGroupsArgs = {
+export type UserModeluserGroupsArgs = {
   filter?: InputMaybe<UserGroupFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3048,7 +3047,7 @@ export type UserModelUserGroupsArgs = {
 };
 
 
-export type UserModelUserProvidersArgs = {
+export type UserModeluserProvidersArgs = {
   filter?: InputMaybe<UserProviderFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3057,7 +3056,7 @@ export type UserModelUserProvidersArgs = {
 };
 
 
-export type UserModelUserTokensArgs = {
+export type UserModeluserTokensArgs = {
   filter?: InputMaybe<UserTokenFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3071,16 +3070,16 @@ export type UserOrderArgType = {
 };
 
 export enum UserOrderSortEnum {
-  Active = 'active',
-  CreatedAt = 'createdAt',
-  Email = 'email',
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  Locale = 'locale',
-  OptedInAt = 'optedInAt',
-  Phone = 'phone',
-  Timezone = 'timezone',
-  UpdatedAt = 'updatedAt'
+  active = 'active',
+  createdAt = 'createdAt',
+  email = 'email',
+  firstName = 'firstName',
+  lastName = 'lastName',
+  locale = 'locale',
+  optedInAt = 'optedInAt',
+  phone = 'phone',
+  timezone = 'timezone',
+  updatedAt = 'updatedAt'
 }
 
 export type UserPageModel = {
@@ -3140,11 +3139,11 @@ export type UserProviderOrderArgType = {
 };
 
 export enum UserProviderOrderSortEnum {
-  CreatedAt = 'createdAt',
-  OptedIn = 'optedIn',
-  ProviderIdentifier = 'providerIdentifier',
-  ProviderUserIdentifier = 'providerUserIdentifier',
-  UpdatedAt = 'updatedAt'
+  createdAt = 'createdAt',
+  optedIn = 'optedIn',
+  providerIdentifier = 'providerIdentifier',
+  providerUserIdentifier = 'providerUserIdentifier',
+  updatedAt = 'updatedAt'
 }
 
 export type UserProviderPageModel = {
@@ -3159,8 +3158,8 @@ export type UserProviderSearchArgType = {
 };
 
 export enum UserProviderSearchKeyEnum {
-  ProviderIdentifier = 'providerIdentifier',
-  ProviderUserIdentifier = 'providerUserIdentifier'
+  providerIdentifier = 'providerIdentifier',
+  providerUserIdentifier = 'providerUserIdentifier'
 }
 
 export type UserProviderUpdateDto = {
@@ -3193,12 +3192,12 @@ export type UserSearchArgType = {
 };
 
 export enum UserSearchKeyEnum {
-  Email = 'email',
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  Locale = 'locale',
-  Phone = 'phone',
-  Timezone = 'timezone'
+  email = 'email',
+  firstName = 'firstName',
+  lastName = 'lastName',
+  locale = 'locale',
+  phone = 'phone',
+  timezone = 'timezone'
 }
 
 export type UserTokenCreateDto = {
@@ -3231,7 +3230,7 @@ export type UserTokenModel = {
 };
 
 
-export type UserTokenModelUserInviteArgs = {
+export type UserTokenModeluserInviteArgs = {
   filter?: InputMaybe<UserInviteFilterArgType>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -3245,11 +3244,11 @@ export type UserTokenOrderArgType = {
 };
 
 export enum UserTokenOrderSortEnum {
-  CreatedAt = 'createdAt',
-  Token = 'token',
-  Type = 'type',
-  UpdatedAt = 'updatedAt',
-  ValidTill = 'validTill'
+  createdAt = 'createdAt',
+  token = 'token',
+  type = 'type',
+  updatedAt = 'updatedAt',
+  validTill = 'validTill'
 }
 
 export type UserTokenPageModel = {
@@ -3264,8 +3263,8 @@ export type UserTokenSearchArgType = {
 };
 
 export enum UserTokenSearchKeyEnum {
-  Token = 'token',
-  Type = 'type'
+  token = 'token',
+  type = 'type'
 }
 
 export type UserTokenUpdateDto = {
@@ -3353,7 +3352,7 @@ export type FilesQueryVariables = Exact<{
 
 export type FilesQuery = { __typename?: 'Query', files: { __typename?: 'FilePageModel', totalCount: number, data: Array<{ __typename?: 'FileModel', id: string, name: string, url?: string | null, isPublic: boolean, createdAt: any, status: FileStatusEnum }> } };
 
-export type NotificationsInAppForCurrentUserQueryVariables = Exact<{
+export type notificationsInAppForCurrentUserQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
   order: NotificationInAppOrderArgType;
   notificationfilter?: InputMaybe<NotificationInAppFilterArgType>;
@@ -3361,7 +3360,7 @@ export type NotificationsInAppForCurrentUserQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsInAppForCurrentUserQuery = { __typename?: 'Query', loadNotifications: { __typename?: 'NotificationInAppPageModel', totalCount: number, data: Array<{ __typename?: 'NotificationInAppModel', id: string, title: string, content: string, locale: string, createdAt: any, read: boolean, icon: string }> }, loadUnreadNotificationCount: { __typename?: 'NotificationInAppPageModel', totalCount: number } };
+export type notificationsInAppForCurrentUserQuery = { __typename?: 'Query', loadNotifications: { __typename?: 'NotificationInAppPageModel', totalCount: number, data: Array<{ __typename?: 'NotificationInAppModel', id: string, title: string, content: string, locale: string, createdAt: any, read: boolean, icon: string }> }, loadUnreadNotificationCount: { __typename?: 'NotificationInAppPageModel', totalCount: number } };
 
 export type MarkAsReadNotificationMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3393,15 +3392,337 @@ export type UpsertNotificationTypeUserPreferenceMutationVariables = Exact<{
 export type UpsertNotificationTypeUserPreferenceMutation = { __typename?: 'Mutation', upsertNotificationTypeUserPreference: { __typename?: 'NotificationTypeUserPreferenceModel', id: string, web: boolean, mail: boolean, key?: string | null, userId: string, notificationTypeId: string } };
 
 
-export const DeleteFilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteFiles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteFiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"valueIn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}}]}}]}]}}]} as unknown as DocumentNode<DeleteFilesMutation, DeleteFilesMutationVariables>;
-export const UpdateFileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateFileDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileUpdateDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"updateFileDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateFileDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<UpdateFileMutation, UpdateFileMutationVariables>;
-export const MakeFilePublicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MakeFilePublic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"makeFilePublic"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode<MakeFilePublicMutation, MakeFilePublicMutationVariables>;
-export const MakeFilePrivateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MakeFilePrivate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"makeFilePrivate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode<MakeFilePrivateMutation, MakeFilePrivateMutationVariables>;
-export const UpdateFileStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFileStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileStatusEnum"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFileStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<UpdateFileStatusMutation, UpdateFileStatusMutationVariables>;
-export const FileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"File"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"file"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode<FileQuery, FileQueryVariables>;
-export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Files"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"FileOrderArgType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileFilterArgType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
-export const NotificationsInAppForCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppOrderArgType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"loadNotifications"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"locale"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"read"}},{"kind":"Field","name":{"kind":"Name","value":"icon"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"loadUnreadNotificationCount"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>;
-export const MarkAsReadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsReadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsReadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>;
-export const MarkAsUnreadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsUnreadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsUnreadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>;
-export const NotificationTypeCategoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NotificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveWeb"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveMail"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeUserPreferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>;
-export const UpsertNotificationTypeUserPreferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpsertNotificationTypeUserPreference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"web"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mail"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertNotificationTypeUserPreference"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"notificationTypeUserPreference"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"web"},"value":{"kind":"Variable","name":{"kind":"Name","value":"web"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"mail"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mail"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"notificationTypeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]} as unknown as DocumentNode<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>;
+export const DeleteFilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteFiles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteFiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"valueIn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}}]}}]}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useDeleteFilesMutation__
+ *
+ * To run a mutation, you first call `useDeleteFilesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFilesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteFilesMutation, { data, loading, error }] = useDeleteFilesMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeleteFilesMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFilesMutation, DeleteFilesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteFilesMutation, DeleteFilesMutationVariables>(DeleteFilesDocument, options);
+      }
+export type DeleteFilesMutationHookResult = ReturnType<typeof useDeleteFilesMutation>;
+export type DeleteFilesMutationResult = Apollo.MutationResult<DeleteFilesMutation>;
+export type DeleteFilesMutationOptions = Apollo.BaseMutationOptions<DeleteFilesMutation, DeleteFilesMutationVariables>;
+export const UpdateFileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateFileDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileUpdateDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"updateFileDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateFileDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useUpdateFileMutation__
+ *
+ * To run a mutation, you first call `useUpdateFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFileMutation, { data, loading, error }] = useUpdateFileMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      updateFileDto: // value for 'updateFileDto'
+ *   },
+ * });
+ */
+export function useUpdateFileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFileMutation, UpdateFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFileMutation, UpdateFileMutationVariables>(UpdateFileDocument, options);
+      }
+export type UpdateFileMutationHookResult = ReturnType<typeof useUpdateFileMutation>;
+export type UpdateFileMutationResult = Apollo.MutationResult<UpdateFileMutation>;
+export type UpdateFileMutationOptions = Apollo.BaseMutationOptions<UpdateFileMutation, UpdateFileMutationVariables>;
+export const MakeFilePublicDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MakeFilePublic"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"makeFilePublic"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useMakeFilePublicMutation__
+ *
+ * To run a mutation, you first call `useMakeFilePublicMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMakeFilePublicMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [makeFilePublicMutation, { data, loading, error }] = useMakeFilePublicMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMakeFilePublicMutation(baseOptions?: Apollo.MutationHookOptions<MakeFilePublicMutation, MakeFilePublicMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MakeFilePublicMutation, MakeFilePublicMutationVariables>(MakeFilePublicDocument, options);
+      }
+export type MakeFilePublicMutationHookResult = ReturnType<typeof useMakeFilePublicMutation>;
+export type MakeFilePublicMutationResult = Apollo.MutationResult<MakeFilePublicMutation>;
+export type MakeFilePublicMutationOptions = Apollo.BaseMutationOptions<MakeFilePublicMutation, MakeFilePublicMutationVariables>;
+export const MakeFilePrivateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MakeFilePrivate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"makeFilePrivate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useMakeFilePrivateMutation__
+ *
+ * To run a mutation, you first call `useMakeFilePrivateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMakeFilePrivateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [makeFilePrivateMutation, { data, loading, error }] = useMakeFilePrivateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMakeFilePrivateMutation(baseOptions?: Apollo.MutationHookOptions<MakeFilePrivateMutation, MakeFilePrivateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MakeFilePrivateMutation, MakeFilePrivateMutationVariables>(MakeFilePrivateDocument, options);
+      }
+export type MakeFilePrivateMutationHookResult = ReturnType<typeof useMakeFilePrivateMutation>;
+export type MakeFilePrivateMutationResult = Apollo.MutationResult<MakeFilePrivateMutation>;
+export type MakeFilePrivateMutationOptions = Apollo.BaseMutationOptions<MakeFilePrivateMutation, MakeFilePrivateMutationVariables>;
+export const UpdateFileStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFileStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileStatusEnum"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFileStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useUpdateFileStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateFileStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFileStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFileStatusMutation, { data, loading, error }] = useUpdateFileStatusMutation({
+ *   variables: {
+ *      fileId: // value for 'fileId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function useUpdateFileStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFileStatusMutation, UpdateFileStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFileStatusMutation, UpdateFileStatusMutationVariables>(UpdateFileStatusDocument, options);
+      }
+export type UpdateFileStatusMutationHookResult = ReturnType<typeof useUpdateFileStatusMutation>;
+export type UpdateFileStatusMutationResult = Apollo.MutationResult<UpdateFileStatusMutation>;
+export type UpdateFileStatusMutationOptions = Apollo.BaseMutationOptions<UpdateFileStatusMutation, UpdateFileStatusMutationVariables>;
+export const FileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"File"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"file"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useFileQuery__
+ *
+ * To run a query within a React component, call `useFileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFileQuery({
+ *   variables: {
+ *      fileId: // value for 'fileId'
+ *   },
+ * });
+ */
+export function useFileQuery(baseOptions: Apollo.QueryHookOptions<FileQuery, FileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FileQuery, FileQueryVariables>(FileDocument, options);
+      }
+export function useFileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FileQuery, FileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FileQuery, FileQueryVariables>(FileDocument, options);
+        }
+export type FileQueryHookResult = ReturnType<typeof useFileQuery>;
+export type FileLazyQueryHookResult = ReturnType<typeof useFileLazyQuery>;
+export type FileQueryResult = Apollo.QueryResult<FileQuery, FileQueryVariables>;
+export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Files"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offset"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"FileOrderArgType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileFilterArgType"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"offset"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offset"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useFilesQuery__
+ *
+ * To run a query within a React component, call `useFilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFilesQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *      order: // value for 'order'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useFilesQuery(baseOptions: Apollo.QueryHookOptions<FilesQuery, FilesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FilesQuery, FilesQueryVariables>(FilesDocument, options);
+      }
+export function useFilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FilesQuery, FilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FilesQuery, FilesQueryVariables>(FilesDocument, options);
+        }
+export type FilesQueryHookResult = ReturnType<typeof useFilesQuery>;
+export type FilesLazyQueryHookResult = ReturnType<typeof useFilesLazyQuery>;
+export type FilesQueryResult = Apollo.QueryResult<FilesQuery, FilesQueryVariables>;
+export const notificationsInAppForCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"order"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppOrderArgType"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInAppFilterArgType"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"loadNotifications"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"order"},"value":{"kind":"Variable","name":{"kind":"Name","value":"order"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationfilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"locale"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"read"}},{"kind":"Field","name":{"kind":"Name","value":"icon"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"loadUnreadNotificationCount"},"name":{"kind":"Name","value":"notificationsInAppForCurrentUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"unreadCountFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __usenotificationsInAppForCurrentUserQuery__
+ *
+ * To run a query within a React component, call `usenotificationsInAppForCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `usenotificationsInAppForCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usenotificationsInAppForCurrentUserQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      order: // value for 'order'
+ *      notificationfilter: // value for 'notificationfilter'
+ *      unreadCountFilter: // value for 'unreadCountFilter'
+ *   },
+ * });
+ */
+export function usenotificationsInAppForCurrentUserQuery(baseOptions: Apollo.QueryHookOptions<notificationsInAppForCurrentUserQuery, notificationsInAppForCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<notificationsInAppForCurrentUserQuery, notificationsInAppForCurrentUserQueryVariables>(notificationsInAppForCurrentUserDocument, options);
+      }
+export function usenotificationsInAppForCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<notificationsInAppForCurrentUserQuery, notificationsInAppForCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<notificationsInAppForCurrentUserQuery, notificationsInAppForCurrentUserQueryVariables>(notificationsInAppForCurrentUserDocument, options);
+        }
+export type notificationsInAppForCurrentUserQueryHookResult = ReturnType<typeof usenotificationsInAppForCurrentUserQuery>;
+export type notificationsInAppForCurrentUserLazyQueryHookResult = ReturnType<typeof usenotificationsInAppForCurrentUserLazyQuery>;
+export type notificationsInAppForCurrentUserQueryResult = Apollo.QueryResult<notificationsInAppForCurrentUserQuery, notificationsInAppForCurrentUserQueryVariables>;
+export const MarkAsReadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsReadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsReadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useMarkAsReadNotificationMutation__
+ *
+ * To run a mutation, you first call `useMarkAsReadNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkAsReadNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markAsReadNotificationMutation, { data, loading, error }] = useMarkAsReadNotificationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMarkAsReadNotificationMutation(baseOptions?: Apollo.MutationHookOptions<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>(MarkAsReadNotificationDocument, options);
+      }
+export type MarkAsReadNotificationMutationHookResult = ReturnType<typeof useMarkAsReadNotificationMutation>;
+export type MarkAsReadNotificationMutationResult = Apollo.MutationResult<MarkAsReadNotificationMutation>;
+export type MarkAsReadNotificationMutationOptions = Apollo.BaseMutationOptions<MarkAsReadNotificationMutation, MarkAsReadNotificationMutationVariables>;
+export const MarkAsUnreadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsUnreadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsUnreadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useMarkAsUnreadNotificationMutation__
+ *
+ * To run a mutation, you first call `useMarkAsUnreadNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkAsUnreadNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markAsUnreadNotificationMutation, { data, loading, error }] = useMarkAsUnreadNotificationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMarkAsUnreadNotificationMutation(baseOptions?: Apollo.MutationHookOptions<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>(MarkAsUnreadNotificationDocument, options);
+      }
+export type MarkAsUnreadNotificationMutationHookResult = ReturnType<typeof useMarkAsUnreadNotificationMutation>;
+export type MarkAsUnreadNotificationMutationResult = Apollo.MutationResult<MarkAsUnreadNotificationMutation>;
+export type MarkAsUnreadNotificationMutationOptions = Apollo.BaseMutationOptions<MarkAsUnreadNotificationMutation, MarkAsUnreadNotificationMutationVariables>;
+export const NotificationTypeCategoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NotificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationTypeCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveWeb"}},{"kind":"Field","name":{"kind":"Name","value":"defaultUserActiveMail"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeUserPreferences"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useNotificationTypeCategoriesQuery__
+ *
+ * To run a query within a React component, call `useNotificationTypeCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNotificationTypeCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNotificationTypeCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useNotificationTypeCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>(NotificationTypeCategoriesDocument, options);
+      }
+export function useNotificationTypeCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>(NotificationTypeCategoriesDocument, options);
+        }
+export type NotificationTypeCategoriesQueryHookResult = ReturnType<typeof useNotificationTypeCategoriesQuery>;
+export type NotificationTypeCategoriesLazyQueryHookResult = ReturnType<typeof useNotificationTypeCategoriesLazyQuery>;
+export type NotificationTypeCategoriesQueryResult = Apollo.QueryResult<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>;
+export const UpsertNotificationTypeUserPreferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpsertNotificationTypeUserPreference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"web"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mail"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertNotificationTypeUserPreference"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"notificationTypeUserPreference"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"web"},"value":{"kind":"Variable","name":{"kind":"Name","value":"web"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"mail"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mail"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"notificationTypeId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"notificationTypeId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"web"}},{"kind":"Field","name":{"kind":"Name","value":"mail"}},{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"notificationTypeId"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useUpsertNotificationTypeUserPreferenceMutation__
+ *
+ * To run a mutation, you first call `useUpsertNotificationTypeUserPreferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpsertNotificationTypeUserPreferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upsertNotificationTypeUserPreferenceMutation, { data, loading, error }] = useUpsertNotificationTypeUserPreferenceMutation({
+ *   variables: {
+ *      web: // value for 'web'
+ *      mail: // value for 'mail'
+ *      notificationTypeId: // value for 'notificationTypeId'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpsertNotificationTypeUserPreferenceMutation(baseOptions?: Apollo.MutationHookOptions<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>(UpsertNotificationTypeUserPreferenceDocument, options);
+      }
+export type UpsertNotificationTypeUserPreferenceMutationHookResult = ReturnType<typeof useUpsertNotificationTypeUserPreferenceMutation>;
+export type UpsertNotificationTypeUserPreferenceMutationResult = Apollo.MutationResult<UpsertNotificationTypeUserPreferenceMutation>;
+export type UpsertNotificationTypeUserPreferenceMutationOptions = Apollo.BaseMutationOptions<UpsertNotificationTypeUserPreferenceMutation, UpsertNotificationTypeUserPreferenceMutationVariables>;

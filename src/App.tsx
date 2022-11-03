@@ -8,7 +8,6 @@ const hostConfig = {
 };
 
 function App() {
-
   return (
     <RoqProvider config={hostConfig}>
       <Notification />
