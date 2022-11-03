@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
 } from "react";
@@ -24,8 +25,8 @@ export interface MenuProps {
     list?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    List: ComponentType<any>;
+    Container: ComponentType<HTMLAttributes<HTMLElement>>;
+    List: ComponentType<HTMLAttributes<HTMLElement>>;
   };
 }
 

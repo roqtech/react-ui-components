@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RoqProvider } from "../src/components/Provider/Provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
+import { config } from "process";
+import { SocketProvider, ChatProvider, MessageCenter } from "../src";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -22,24 +24,38 @@ export const parameters = {
           "Usage",
           "Styling",
           "Common",
-          ["Avatar", "Avatar Group", "Badge", "Action Button"],
+          ["Avatar", "AvatarGroup", "Badge", "ActionButton"],
           "Chat",
           [
-            "Message Center",
+            "Widget",
+            [
+              "MessageCenter",
+              "Chat",
+              "ConversationList",
+              "MessageList",
+              "MemberList",
+              "NotificationBell",
+              "MembersPanel",
+              "ConversationNotSelectedPanel"
+            ],
+            "MessageCenter",
             "Chat",
             "Panel",
-            "Message Bubble",
+            "MessageBubble",
             "Message",
             "Formatted Message",
-            "Message History",
-            "Message List",
-            "Conversation Card",
+            "MessageHistory",
+            "MessageHistoryLine",
+            "MessageList",
+            "ConversationCard",
+            "ConversationCardSkeleton",
             "Conversations",
-            "Conversation List",
-            "Conversation Header",
-            "Message Editor",
-            "Message Input",
-            "Notification Bell",
+            "ConversationList",
+            "ConversationMenu",
+            "ConversationHeader",
+            "MessageEditor",
+            "MessageInput",
+            "MessageMenu",
           ],
           "Typography",
         ],
@@ -53,11 +69,20 @@ const hostConfig = {
   token: process.env.STORYBOOK_PLATFORM_TOKEN ?? "",
 };
 
-const PREVIEW_COMPONENT = ["roq-components-chat-message-center"];
+const CHAT_PREVIEW_COMPONENT = [
+  "roq-components-chat-widget-messagecenter",
+  "roq-components-chat-widget-chat",
+  "roq-components-chat-widget-conversationlist",
+  "roq-components-chat-widget-messagelist",
+  "roq-components-chat-widget-memberlist",
+  "roq-components-chat-widget-notificationbell",
+];
 
 export const decorators = [
   (Story, context) => {
-    if (PREVIEW_COMPONENT.includes(context.componentId)) {
+    console.dir(context);
+
+    if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
       return <Story />;
     }
 

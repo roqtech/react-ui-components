@@ -1,7 +1,14 @@
 import "./time-ago.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode, useMemo } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { formatTimeAgo } from "src/utils/format-time-ago.util";
 
@@ -34,9 +41,19 @@ export const TimeAgo = (props: TimeAgoProps) => {
 
   const Container = components?.container ?? "span";
 
+  const [updatedAt, setUpdatedAt] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setUpdatedAt(new Date());
+    }, 1000);
+
+    return () => clearTimeout(t);
+  }, []);
+
   const value = useMemo(
     () => (children ? (children as string) : timestamp),
-    [timestamp, children]
+    [timestamp, children, updatedAt]
   );
 
   return (

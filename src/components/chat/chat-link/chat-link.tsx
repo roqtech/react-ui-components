@@ -59,7 +59,7 @@ export const ChatLink = (props: ChatLinkProps) => {
       onClick={handleClick}
       {...rest}
     >
-      link
+      {href}
     </Link>
   );
 };

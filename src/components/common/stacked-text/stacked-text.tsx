@@ -1,17 +1,17 @@
 import "./stacked-text.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties } from "react";
+import React, { ComponentType, CSSProperties, ReactNode } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "stacked-text";
 
 export interface StackedTextProps {
   children?: ReactNode;
-  text?: string;
-  primaryText?: string;
-  secondaryText?: string;
-  tertiaryText?: string;
+  text?: ReactNode | string;
+  primaryText?: ReactNode | string;
+  secondaryText?: ReactNode | string;
+  tertiaryText?: ReactNode | string;
   disabled?: boolean;
   style?: CSSProperties;
   className?: string;

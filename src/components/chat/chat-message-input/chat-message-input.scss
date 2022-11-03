@@ -33,6 +33,8 @@ $send-button-height: 32px;
     --rc-chat-message-input-send-button-color
   );
 
+  --rc-chat-message-input-send-button-disabled-background: var(--rc-blueGray-400);
+
   --rc-chat-message-input-send-button-label-font-weight: var(
     --rc-font-weight-bolder
   );
@@ -96,6 +98,10 @@ $send-button-height: 32px;
 
       color: transparent;
       fill: transparent;
+    }
+
+    &--disabled {
+      background: var(--rc-chat-message-input-send-button-disabled-background);
     }
   }
 }

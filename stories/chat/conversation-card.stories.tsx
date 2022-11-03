@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatConversationCard, ChatConversationCardForm } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Conversation Card",
+  title: "Roq Components/Chat/ConversationCard",
   component: ChatConversationCard,
   argTypes: {
     lastMessage: { control: "text" },

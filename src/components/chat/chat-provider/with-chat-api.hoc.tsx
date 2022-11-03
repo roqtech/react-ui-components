@@ -3,11 +3,17 @@ import { ChatApiContext, ChatApiContextInterface } from "./chat-provider";
 import { useChatApi } from "./use-chat-api.hook";
 
 type WithChatStateApiProps<T> = {
-  mapContextToProps?: (context: ChatApiContextInterface, ownProps: unknown) => T;
+  mapContextToProps?: (
+    context: ChatApiContextInterface,
+    ownProps: unknown
+  ) => T;
 };
 
 export function withChatApi<TProps, TContext = TProps>(
-  mapContextToProps: (context: ChatApiContextInterface, ownProps: unknown) => TContext
+  mapContextToProps: (
+    context: ChatApiContextInterface,
+    ownProps: unknown
+  ) => TContext
 ): (
   Component: React.ComponentType<any>
 ) => React.ComponentType<

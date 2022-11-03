@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   useCallback,
   useMemo,
 } from "react";
@@ -22,6 +23,7 @@ import { ChatConversationInterface, ChatMessageInterface } from "src/types";
 import isEmpty from "lodash/isEmpty";
 import { Menu, MenuItem } from "src";
 import { MenuProps } from "src/components/common/menu";
+import { MenuItemProps } from "src/components/common/menu-item";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-menu";
 
@@ -39,13 +41,13 @@ export interface ChatMessageMenuProps
     item?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Item: ComponentType<any>;
+    Container?: ComponentType<Omit<MenuProps, "classNames" | "components">>;
+    Item: ComponentType<Pick<MenuItemProps, "onClick" | "children">>;
   };
 }
 
 export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
-  const { className, classNames, components } = props;
+  const { className, classNames, components, ...args } = props;
   const {
     isAuthor,
     showEdit = true,
@@ -55,7 +57,7 @@ export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
     onEdit,
     onDelete,
     ...rest
-  } = props;
+  } = args;
 
   const Container = components?.Container ?? Menu;
   const Item = components?.Item ?? MenuItem;

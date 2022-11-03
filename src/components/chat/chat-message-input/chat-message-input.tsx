@@ -23,6 +23,7 @@ import { isEmpty } from "lodash";
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
 export interface ChatMessageInputProps {
+  textareaRef?: any;
   value?: string;
   defaultValue?: string;
   placeholder?: string;
@@ -53,6 +54,7 @@ export interface ChatMessageInputProps {
 
 const ChatMessageInput = (props: ChatMessageInputProps) => {
   const {
+    textareaRef,
     value,
     defaultValue = "<p></p>",
     placeholder = "Type your message...",
@@ -72,7 +74,6 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
-  const textareaRef = useRef<Editor>(null);
   const [textareaValue, setValue] = useState<string>(value ?? defaultValue);
 
   const focusTextarea = useCallback(() => {
@@ -85,10 +86,6 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
   const isValueEmpty = useMemo(() => {
     return isEmpty(textareaValue) || textareaValue === defaultValue;
   }, [textareaValue, defaultValue]);
-
-  useLayoutEffect(function windowIsReady() {
-    focusTextarea();
-  }, []);
 
   useEffect(
     function handleValueChanged() {
@@ -142,7 +139,7 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       onSubmit={handleSubmit}
     >
       <Textarea
-        forwardedRef={textareaRef}
+        ref={textareaRef}
         name="message"
         value={textareaValue}
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
@@ -152,7 +149,10 @@ const ChatMessageInput = (props: ChatMessageInputProps) => {
       />
       {(!hideSendButton ?? true) && (
         <SendButton
-          className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton)}
+          className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton, {
+            [_CLASS_IS + "__send-button" + "--disabled"]: isValueEmpty,
+          })}
+          disabled={isValueEmpty}
         >
           {sendLabel && (
             <SendLabel className={clsx(_CLASS_IS + "__send-button__label")}>

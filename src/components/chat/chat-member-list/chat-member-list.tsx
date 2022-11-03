@@ -14,7 +14,6 @@ import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
 import { ChatMembers } from "src/index";
 import { ChatUserInterface, InfiniteListInterface } from "src/types";
-import { ChatConversationListRequestPayloadInterface } from "src/utils/chat-socket.util";
 import { ChatMembersProps } from "../chat-members";
 import { ChatFetchRecipientsVariablesInterface } from "src/types/chat.type";
 

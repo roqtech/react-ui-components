@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ActionButton, Menu, MenuItem } from "../../src";
 
 export default {
-  title: "Roq Components/Common/Action Button",
+  title: "Roq Components/Common/ActionButton",
   component: ActionButton,
   argTypes: {},
 } as ComponentMeta<typeof ActionButton>;

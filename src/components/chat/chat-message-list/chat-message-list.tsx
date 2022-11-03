@@ -83,7 +83,6 @@ const ChatMessageList = (props: ChatMessageListProps) => {
   const Loader = components?.Loader ?? "div";
 
   const handleReadMessages = useCallback(() => {
-    console.log("handleReadMessages");
     if (loadedTotal === 0) {
       return;
     }
@@ -93,24 +92,23 @@ const ChatMessageList = (props: ChatMessageListProps) => {
 
   useEffect(() => {
     onReset?.();
-    loadMore(true);
-  }, [conversationId]);
 
-  const loadMore = useCallback(
-    (reset?: boolean) => {
-      if (isLoading && !hasMore) {
-        return;
-      }
+    if (initialLoad) {
+      loadMore();
+    }
+  }, [conversationId, initialLoad]);
 
-      void onLoadMore?.({
-        offset: loadedTotal,
-        limit,
-        conversationId,
-        reset,
-      });
-    },
-    [onLoadMore, isLoading, hasMore, limit, conversationId]
-  );
+  const loadMore = useCallback(() => {
+    if (isLoading && !hasMore) {
+      return;
+    }
+
+    void onLoadMore?.({
+      offset: loadedTotal,
+      limit,
+      conversationId,
+    });
+  }, [onLoadMore, isLoading, hasMore, limit, conversationId]);
 
   const showLoader = useMemo(() => hasMore && !isLoading, [isLoading, hasMore]);
 

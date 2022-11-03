@@ -4,15 +4,15 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
-  useEffect,
-  useMemo,
   useState,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatMessageMenu, useRightClick } from "src/index";
+import { ChatMessageMenuProps } from "../chat-message-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history-line";
 
@@ -28,8 +28,13 @@ export interface ChatMessageHistoryLineProps {
     menu?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Menu: ComponentType<any>;
+    Container: ComponentType<HTMLAttributes<HTMLElement>>;
+    Menu: ComponentType<
+      Pick<
+        ChatMessageMenuProps,
+        "className" | "open" | "onClose" | "messageId" | "isAuthor"
+      >
+    >;
   };
 }
 

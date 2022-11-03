@@ -1,7 +1,7 @@
 import "./chat-conversation-header.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, useMemo } from "react";
+import React, { ComponentType, CSSProperties, ReactNode, useMemo } from "react";
 
 import {
   AvatarGroup,
@@ -27,6 +27,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 export interface ChatConversationHeaderProps
   extends Pick<ChatConversationInterface, "title" | "members"> {
   showActions?: boolean;
+  formatMembers: (members: ChatConversationInterface["members"]) => ReactNode;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -44,9 +45,27 @@ export interface ChatConversationHeaderProps
   };
 }
 
+const defaultFormatMembers = (
+  members: ChatConversationInterface["members"]
+): ReactNode => {
+  if (isEmpty(members)) {
+    return "";
+  }
+
+  return (
+    `${members.length} members: ` +
+    members.map(({ fullName }) => fullName).join(", ")
+  );
+};
+
 const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const { style, className, classNames, components } = props;
-  const { title, members, showActions = true } = props;
+  const {
+    title,
+    members,
+    showActions = true,
+    formatMembers = defaultFormatMembers,
+  } = props;
 
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
@@ -54,16 +73,10 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const ConversationForm =
     components?.ConversationForm ?? ChatConversationCardForm;
 
-  const membersLine = useMemo(() => {
-    if (isEmpty(members)) {
-      return "";
-    }
-
-    return (
-      `${members.length} members: ` +
-      members.map(({ fullName }) => fullName).join(", ")
-    );
-  }, [members]);
+  const membersLine = useMemo(
+    () => formatMembers(members),
+    [members, formatMembers]
+  );
 
   return (
     <Container

@@ -5,7 +5,7 @@ import React from "react";
 import { ChatMessageHistory } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Message History",
+  title: "Roq Components/Chat/MessageHistory",
   component: ChatMessageHistory,
   argTypes: {
     isEmpty: { control: "boolean" },

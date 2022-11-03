@@ -8,23 +8,18 @@ import React, {
   useMemo,
   useEffect,
   useState,
-  useLayoutEffect,
+  HTMLAttributes,
+  Ref,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import {
-  ChatConversationCard,
-  ChatConversationCardProps,
-} from "../chat-conversation-card";
 import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
-import { ChatConversations } from "src/index";
+import { ChatConversationCardSkeleton, ChatConversations } from "src/index";
 import { ChatConversationsProps } from "../chat-conversations";
 import { ChatConversationInterface, InfiniteListInterface } from "src/types";
-import {
-  ChatConversationListRequestPayloadInterface,
-  ChatFetchMessagesRequestPayloadInterface,
-} from "src/utils/chat-socket.util";
+import { ChatConversationListRequestPayloadInterface } from "src/utils/chat-socket.util";
 import { ChatConversationMenuProps } from "../chat-conversation-menu";
+import { ChatConversationCardSkeletonProps } from "../chat-conversation-card-skeleton";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-list";
 
@@ -47,9 +42,25 @@ export interface ChatConversationListProps
     loader?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    List?: ComponentType<ChatConversationsProps>;
-    Loader?: ComponentType<any>;
+    Container?: ComponentType<
+      Pick<HTMLAttributes<HTMLDivElement>, "style" | "className">
+    >;
+    List?: ComponentType<
+      Pick<
+        ChatConversationsProps,
+        | "className"
+        | "conversations"
+        | "selectedConversationId"
+        | "onConversationSelect"
+        | "components"
+        | "children"
+      >
+    >;
+    Loader?: ComponentType<
+      Pick<ChatConversationCardSkeletonProps, "className" | "children"> & {
+        ref: Ref<HTMLElement>;
+      }
+    >;
     ConversationMenu?: ComponentType<ChatConversationMenuProps>;
   };
 }
@@ -76,7 +87,7 @@ const ChatConversationList = (props: ChatConversationListProps) => {
 
   const Container = components?.Container ?? "div";
   const List = components?.List ?? ChatConversations;
-  const Loader = components?.Loader ?? "div";
+  const Loader = components?.Loader ?? ChatConversationCardSkeleton;
 
   useEffect(
     function fetchInitialData() {
@@ -159,12 +170,11 @@ const ChatConversationList = (props: ChatConversationListProps) => {
     </Container>
   );
 };
-export default withChatApi<ChatConversationListProps>(
-  ({ fetchConversationList, selectConversation }) => ({
-    onLoadMore: fetchConversationList,
-    onConversationSelect: selectConversation,
-  })
-)(
+
+export default withChatApi(({ fetchConversationList, selectConversation }) => ({
+  onLoadMore: fetchConversationList,
+  onConversationSelect: selectConversation,
+}))(
   withChatState(
     ({
       online,

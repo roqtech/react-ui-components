@@ -31,6 +31,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  forwardRef,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import createLinkDetectionPlugin from "draft-js-link-detection-plugin";
@@ -42,7 +43,6 @@ export interface ChatMessageEditorProps {
   // children?: ReactNode;
   // rounded?: boolean;
   // rows?: number;
-  forwardedRef?: unknown;
   id?: string;
   name?: string;
   max?: number;
@@ -147,7 +147,7 @@ const defaultConvertFromHTMLConfig: IConvertFromHTMLConfig = {
   },
 };
 
-export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
+const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   const { style, className, classNames, components } = props;
   const {
     id = "textarea",
@@ -209,7 +209,9 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   const getRawValue = (stateToConvert?: EditorState): string =>
     convertToHTML(convertToHTMLConfig)(stateToConvert?.getCurrentContent());
 
-  const handleEditorClick = () => forwardedRef?.current?.focus();
+  const handleEditorClick = () => {
+    forwardedRef?.current?.focus();
+  };
 
   const handleChange = (nextState: EditorState) => {
     setEditorState(nextState);
@@ -460,3 +462,7 @@ export const ChatMessageEditor = (props: ChatMessageEditorProps) => {
     </Container>
   );
 };
+
+export default forwardRef((props, ref) => {
+  return <ChatMessageEditor {...props} forwardedRef={ref} />;
+});

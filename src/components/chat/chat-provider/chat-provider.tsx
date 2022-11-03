@@ -286,9 +286,14 @@ export const ChatProvider = (
   const [error, setError] = useState<ComplexError | null>(null);
   const [clientId, setClientId] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [currentConversationId, setCurrentConversationId] = useState<
+  const [currentConversationId, _setCurrentConversationId] = useState<
     ChatConversationInterface["id"] | null
   >(conversationId ?? null);
+
+  const setCurrentConversationId = (cid) => {
+    console.log("set current conv", cid);
+    _setCurrentConversationId(cid);
+  };
 
   const [conversations, setConversations] =
     useState<ChatConversationListInterface>(INITIAL_CONVERSATIONS_STATE);

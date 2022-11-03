@@ -58,7 +58,6 @@ export const useScrollControl = (
     if (rootNode) {
       const scrollDistanceToBottom = rootNode.scrollHeight - rootNode.scrollTop;
       lastScrollDistanceToBottomRef.current = scrollDistanceToBottom;
-      console.log("onScroll", scrollDistanceToBottom);
     }
   }, []);
 
