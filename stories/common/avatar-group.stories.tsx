@@ -4,7 +4,7 @@ import React from "react";
 import { AvatarGroup } from "../../src";
 
 export default {
-  title: "Roq Components/Common/Avatar Group",
+  title: "Roq Components/Common/AvatarGroup",
   component: AvatarGroup,
   argTypes: {
     max: { control: "number" },

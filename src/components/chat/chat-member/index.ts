@@ -1,2 +1,2 @@
 export { ChatMember } from "./chat-member";
-export type { ChatMemberProps } from "./chat-member";
+export type { ChatMemberPropsInterface } from "./chat-member";

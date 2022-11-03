@@ -13,14 +13,13 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
 import { ChatMembers } from "src/index";
-import { ChatUserInterface, InfiniteListInterface } from "src/types";
-import { ChatConversationListRequestPayloadInterface } from "src/utils/chat-socket.util";
+import { ChatUserInterface, InfiniteListInterface } from "src/interfaces";
 import { ChatMembersProps } from "../chat-members";
-import { ChatFetchRecipientsVariablesInterface } from "src/types/chat.type";
+import { ChatFetchRecipientsVariablesInterface } from "src/interfaces/chat.interface";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-member-list";
 
-export interface ChatMemberListProps
+export interface ChatMemberListPropsInterface
   extends Pick<ChatMembersProps, "members" | "selectedIds" | "onMemberSelect">,
     Omit<InfiniteListInterface<ChatUserInterface>, "data"> {
   filter: Pick<
@@ -40,12 +39,12 @@ export interface ChatMemberListProps
   };
   components?: {
     Container?: ComponentType<any>;
-    List?: ComponentType<ChatMemberListProps>;
+    List?: ComponentType<ChatMemberListPropsInterface>;
     Loader?: ComponentType<any>;
   };
 }
 
-const ChatMemberList = (props: ChatMemberListProps) => {
+const ChatMemberList = (props: ChatMemberListPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     filter,

@@ -4,21 +4,24 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
   useEffect,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatMemberList, ChatMembers, ChatPanel } from "src/index";
-import { ChatMembersProps } from "../chat-members/chat-members";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 import { withChatApi, withChatState } from "../chat-provider";
-import { ChatFetchRecipientsVariablesInterface } from "src/types/chat.type";
+import { ChatFetchRecipientsVariablesInterface } from "src/interfaces/chat.interface";
+import { ChatMemberListPropsInterface } from "../chat-member-list";
+import { ChatPanelPropsInterface } from "../chat-panel";
+import { ChatMembersPropsInterface } from "../chat-members/chat-members";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
-export interface ChatMembersPanelProps
-  extends Pick<ChatMembersProps, "selectedIds"> {
+export interface ChatMembersPanelPropsInterface
+  extends Pick<ChatMembersPropsInterface, "selectedIds"> {
   titleLabel?: string;
   cancelLabel?: string;
   submitLabel?: string;
@@ -54,19 +57,23 @@ export interface ChatMembersPanelProps
     submitButton?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Header: ComponentType<any>;
-    Title: ComponentType<any>;
-    List: ComponentType<any>;
-    Actions: ComponentType<any>;
-    CancelButton: ComponentType<any>;
-    CancelButtonLabel: ComponentType<any>;
-    SubmitButton: ComponentType<any>;
-    SubmitButtonLabel: ComponentType<any>;
+    Container?: ComponentType<
+      Pick<ChatPanelPropsInterface, "className" | "style" | "children">
+    >;
+    Header?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Title?: ComponentType<HTMLAttributes<HTMLElement>>;
+    List?: ComponentType<
+      Pick<ChatMemberListPropsInterface, "className" | "selectedIds">
+    >;
+    Actions?: ComponentType<HTMLAttributes<HTMLElement>>;
+    CancelButton?: ComponentType<HTMLAttributes<HTMLButtonElement>>;
+    CancelButtonLabel?: ComponentType<HTMLAttributes<HTMLElement>>;
+    SubmitButton?: ComponentType<HTMLAttributes<HTMLButtonElement>>;
+    SubmitButtonLabel?: ComponentType<HTMLAttributes<HTMLElement>>;
   };
 }
 
-const ChatMembersPanel = (props: ChatMembersPanelProps) => {
+const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     titleLabel = "With whom would you like to start a conversation?",
@@ -108,8 +115,6 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
       initialFilter?.includeIds,
     ]
   );
-
-  const handleMemberSelect = useCallback(() => {}, []);
 
   const handleCancelClick = useCallback(() => {
     onCancel?.();
@@ -167,10 +172,12 @@ const ChatMembersPanel = (props: ChatMembersPanelProps) => {
   );
 };
 
-export default withChatState(({ recipients: { selectedIds } = {} }) => ({
-  selectedIds,
-}))(
-  withChatApi(
+export default withChatState<ChatMembersPanelPropsInterface>(
+  ({ recipients: { selectedIds } = {} }) => ({
+    selectedIds,
+  })
+)(
+  withChatApi<ChatMembersPanelPropsInterface>(
     ({
       resetRecipientList,
       setSelectedRecipients,

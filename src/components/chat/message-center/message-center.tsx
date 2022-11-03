@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
   useEffect,
@@ -37,7 +38,7 @@ import _ from "lodash";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
-export interface MessageCenterProps {
+export interface MessageCenterPropsInterface {
   title?: string;
   buttonLabel?: string;
   chatTitle?: string;
@@ -63,7 +64,7 @@ export interface MessageCenterProps {
     removeMembers?: string;
   };
   components?: {
-    Container: ComponentType<any>;
+    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
     Header: ComponentType<any>;
     Title: ComponentType<any>;
     Button: ComponentType<any>;
@@ -84,7 +85,7 @@ export interface MessageCenterProps {
 
 type EditingTriggerType = "sidebar" | "chat";
 
-export const MessageCenter = (props: MessageCenterProps) => {
+export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     title = "Message Center",

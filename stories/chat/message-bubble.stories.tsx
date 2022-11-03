@@ -4,7 +4,7 @@ import React from "react";
 import { ChatMessageBubble } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Message Bubble",
+  title: "Roq Components/Chat/MessageBubble",
   component: ChatMessageBubble,
   argTypes: {
     message: { control: "text" },

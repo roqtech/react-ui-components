@@ -1,2 +1,2 @@
 export { StackedText } from "./stacked-text";
-export type { StackedTextProps } from "./stacked-text";
+export type { StackedTextPropsInterface } from "./stacked-text";

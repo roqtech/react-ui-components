@@ -14,12 +14,12 @@ import React, {
 import { AvatarGroup } from "../../common/avatar-group/avatar-group";
 import { StackedText } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 import { Badge, TimeAgo } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-mention";
 
-export interface ChatMentionProps extends HTMLAttributes<HTMLSpanElement> {
+export interface ChatMentionPropsInterface extends HTMLAttributes<HTMLSpanElement> {
   userId: string;
   name: string;
   style?: CSSProperties;
@@ -27,7 +27,7 @@ export interface ChatMentionProps extends HTMLAttributes<HTMLSpanElement> {
   Component?: ComponentType<any>;
 }
 
-export const ChatMention = (props: ChatMentionProps) => {
+export const ChatMention = (props: ChatMentionPropsInterface) => {
   const { className, Component } = props;
   const { userId, name, ...rest } = props;
 

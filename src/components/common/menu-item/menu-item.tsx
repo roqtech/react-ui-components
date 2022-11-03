@@ -4,16 +4,16 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
-  useMemo,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "menu-item";
 
-export interface MenuItemProps {
+export interface MenuItemPropsInterface {
   onClick?: () => void;
   children: ReactNode;
   style?: CSSProperties;
@@ -23,12 +23,12 @@ export interface MenuItemProps {
     Inner?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Inner: ComponentType<any>;
+    Container: ComponentType<HTMLAttributes<HTMLElement>>;
+    Inner: ComponentType<HTMLAttributes<HTMLElement>>;
   };
 }
 
-export const MenuItem = (props: MenuItemProps) => {
+export const MenuItem = (props: MenuItemPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { children, onClick } = props;
 

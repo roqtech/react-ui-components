@@ -11,7 +11,7 @@ const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar";
 
 type AvatarSizeType = "small" | "medium" | "large";
 
-export interface AvatarProps {
+export interface AvatarPropsInterface {
   name?: string;
   src?: string;
   alt?: string;
@@ -44,7 +44,7 @@ const getInitials = (initials: string): string =>
     .split(" ")
     .reduce((acc, val) => acc + val.charAt(0), "");
 
-export const Avatar = (props: AvatarProps) => {
+export const Avatar = (props: AvatarPropsInterface) => {
   const {
     name,
     src,

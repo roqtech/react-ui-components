@@ -8,34 +8,32 @@ import React, {
   useMemo,
   useEffect,
   useState,
-  useLayoutEffect,
+  HTMLAttributes,
+  Ref,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import {
-  ChatConversationCard,
-  ChatConversationCardProps,
-} from "../chat-conversation-card";
 import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
-import { ChatConversations } from "src/index";
-import { ChatConversationsProps } from "../chat-conversations";
-import { ChatConversationInterface, InfiniteListInterface } from "src/types";
+import { ChatConversationCardSkeleton, ChatConversations } from "src/index";
+import { ChatConversationsPropsInterface } from "../chat-conversations";
 import {
-  ChatConversationListRequestPayloadInterface,
-  ChatFetchMessagesRequestPayloadInterface,
-} from "src/utils/chat-socket.util";
-import { ChatConversationMenuProps } from "../chat-conversation-menu";
+  ChatConversationInterface,
+  InfiniteListInterface,
+} from "src/interfaces";
+import { ChatConversationListRequestPayloadInterface } from "src/interfaces/chat.interface";
+import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu";
+import { ChatConversationCardSkeletonPropsInterface } from "../chat-conversation-card-skeleton";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-list";
 
-export interface ChatConversationListProps
+export interface ChatConversationListPropsInterface
   extends Pick<
-      ChatConversationsProps,
+      ChatConversationsPropsInterface,
       "conversations" | "selectedConversationId" | "onConversationSelect"
     >,
     Omit<InfiniteListInterface<ChatConversationInterface>, "data"> {
   conversations: InfiniteListInterface<ChatConversationInterface>["data"];
-  currentConversationId: string;
+  currentConversationId?: string;
   initialLoad?: boolean;
   disabled?: boolean;
   onLoadMore: (query: ChatConversationListRequestPayloadInterface) => void;
@@ -47,14 +45,30 @@ export interface ChatConversationListProps
     loader?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    List?: ComponentType<ChatConversationsProps>;
-    Loader?: ComponentType<any>;
-    ConversationMenu?: ComponentType<ChatConversationMenuProps>;
+    Container?: ComponentType<
+      Pick<HTMLAttributes<HTMLDivElement>, "style" | "className">
+    >;
+    List?: ComponentType<
+      Pick<
+        ChatConversationsPropsInterface,
+        | "className"
+        | "conversations"
+        | "selectedConversationId"
+        | "onConversationSelect"
+        | "components"
+        | "children"
+      >
+    >;
+    Loader?: ComponentType<
+      Pick<ChatConversationCardSkeletonPropsInterface, "className" | "children"> & {
+        ref: Ref<HTMLElement>;
+      }
+    >;
+    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
 }
 
-const ChatConversationList = (props: ChatConversationListProps) => {
+const ChatConversationList = (props: ChatConversationListPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     initialLoad = true,
@@ -76,7 +90,7 @@ const ChatConversationList = (props: ChatConversationListProps) => {
 
   const Container = components?.Container ?? "div";
   const List = components?.List ?? ChatConversations;
-  const Loader = components?.Loader ?? "div";
+  const Loader = components?.Loader ?? ChatConversationCardSkeleton;
 
   useEffect(
     function fetchInitialData() {
@@ -159,13 +173,14 @@ const ChatConversationList = (props: ChatConversationListProps) => {
     </Container>
   );
 };
-export default withChatApi<ChatConversationListProps>(
+
+export default withChatApi<ChatConversationListPropsInterface>(
   ({ fetchConversationList, selectConversation }) => ({
     onLoadMore: fetchConversationList,
     onConversationSelect: selectConversation,
   })
 )(
-  withChatState(
+  withChatState<ChatConversationListPropsInterface>(
     ({
       online,
       conversations: {

@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactElement,
   ReactNode,
   useMemo,
@@ -19,7 +20,7 @@ import {
 } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
-import { ChatConversationInterface } from "src/types";
+import { ChatConversationInterface } from "src/interfaces";
 import { ChatMessageProps } from "../chat-message";
 import { ChatMessageBubbleProps } from "../chat-message-bubble";
 
@@ -169,15 +170,17 @@ export const formatPreviewContent = (content: string): ReactNode =>
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-formatted-message";
 
-export interface ChatFormattedMessageProps {
+export interface ChatFormattedMessagePropsInterface {
   content: string;
   preview?: boolean;
   style?: CSSProperties;
   className?: string;
-  Component?: ComponentType<any>;
+  Component?: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
 }
 
-export const ChatFormattedMessage = (props: ChatFormattedMessageProps) => {
+export const ChatFormattedMessage = (
+  props: ChatFormattedMessagePropsInterface
+) => {
   const { style, className, Component } = props;
   const { content, preview } = props;
 

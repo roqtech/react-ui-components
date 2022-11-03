@@ -6,15 +6,17 @@ import React, {
   ComponentType,
   ReactNode,
   useCallback,
+  HTMLAttributes,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 import { ChatMember } from "src";
+import { ChatMemberPropsInterface } from "../chat-member/chat-member";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members";
 
-export interface ChatMembersProps {
+export interface ChatMembersPropsInterface {
   children?: ReactNode;
   members: ChatUserInterface[];
   selectedIds?: string[];
@@ -29,16 +31,16 @@ export interface ChatMembersProps {
     item?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    Inner?: ComponentType<any>;
-    Item?: ComponentType<any>;
+    Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Inner?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Item?: ComponentType<ChatMemberPropsInterface>;
   };
 }
 
 const getMemberRoqIdentifier = (member: ChatUserInterface): string =>
   member.roqIdentifier;
 
-export const ChatMembers = (props: ChatMembersProps) => {
+export const ChatMembers = (props: ChatMembersPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     children,

@@ -1,17 +1,22 @@
 import "./stacked-text.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "stacked-text";
 
-export interface StackedTextProps {
+export interface StackedTextPropsInterface {
   children?: ReactNode;
-  text?: string;
-  primaryText?: string;
-  secondaryText?: string;
-  tertiaryText?: string;
+  text?: ReactNode | string;
+  primaryText?: ReactNode | string | number | Date;
+  secondaryText?: ReactNode | string | number | Date;
+  tertiaryText?: ReactNode | string | number | Date;
   disabled?: boolean;
   style?: CSSProperties;
   className?: string;
@@ -23,15 +28,15 @@ export interface StackedTextProps {
     tertiaryText?: string;
   };
   components?: {
-    container: ComponentType<any>;
-    text: ComponentType<any>;
-    primaryText: ComponentType<any>;
-    secondaryText: ComponentType<any>;
-    tertiaryText: ComponentType<any>;
+    Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Text?: ComponentType<HTMLAttributes<HTMLElement>>;
+    PrimaryText?: ComponentType<HTMLAttributes<HTMLElement>>;
+    SecondaryText?: ComponentType<HTMLAttributes<HTMLElement>>;
+    TertiaryText?: ComponentType<HTMLAttributes<HTMLElement>>;
   };
 }
 
-export const StackedText = (props: StackedTextProps) => {
+export const StackedText = (props: StackedTextPropsInterface) => {
   const {
     children,
     text,
@@ -45,11 +50,11 @@ export const StackedText = (props: StackedTextProps) => {
     components,
   } = props;
 
-  const Container = components?.container ?? "div";
-  const Text = components?.text ?? "span";
-  const PrimaryText = components?.primaryText ?? Text;
-  const SecondaryText = components?.secondaryText ?? Text;
-  const TertiaryText = components?.tertiaryText ?? Text;
+  const Container = components?.Container ?? "div";
+  const Text = components?.Text ?? "span";
+  const PrimaryText = components?.PrimaryText ?? Text;
+  const SecondaryText = components?.SecondaryText ?? Text;
+  const TertiaryText = components?.TertiaryText ?? Text;
 
   return (
     <Container

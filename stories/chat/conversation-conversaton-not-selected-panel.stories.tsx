@@ -4,7 +4,7 @@ import React from "react";
 import { ChatConversationNotSelectedPanel } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/ConversationNotSelectedPanel",
+  title: "Roq Components/Chat/Widget/ConversationNotSelectedPanel",
   component: ChatConversationNotSelectedPanel,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationNotSelectedPanel>;

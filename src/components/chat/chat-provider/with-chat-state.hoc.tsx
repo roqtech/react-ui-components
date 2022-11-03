@@ -28,29 +28,18 @@ const MOCKED_STATE = {
   },
 };
 
-type WithChatStatePropsInterface<T> = {
-  mapContextToProps?: (
-    context: ChatStateContextInterface,
-    ownProps: unknown
-  ) => T;
-};
-
-export function withChatState<TProps, TContext = TProps>(
+export function withChatState<TProps, TContext = Partial<TProps>>(
   mapContextToProps: (
     context: ChatStateContextInterface,
     ownProps: unknown
   ) => TContext
-): (
-  Component: React.ComponentType<any>
-) => React.ComponentType<
-  Omit<TProps, keyof TContext> & WithChatStatePropsInterface<TContext>
-> {
+): (Component: React.ComponentType<any>) => React.ComponentType<TProps> {
   if (!mapContextToProps) {
     throw "withChatState requires mapContextToProps function";
   }
 
   return function (Component: React.ComponentType<any>) {
-    class WithChatState extends React.Component<Omit<TProps, keyof TContext>> {
+    class WithChatState extends React.Component<TProps> {
       render() {
         return (
           <ChatStateContext.Consumer>
@@ -66,6 +55,9 @@ export function withChatState<TProps, TContext = TProps>(
         );
       }
     }
+
+    WithChatState.displayName =
+      Component.displayName || Component.name || "WithChatState";
 
     return forwardRef((props, ref) => {
       return <WithChatState {...props} forwardedRef={ref} />;

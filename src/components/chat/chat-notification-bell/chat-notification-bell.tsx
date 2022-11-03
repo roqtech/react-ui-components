@@ -1,16 +1,24 @@
 import "./chat-notification-bell.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, useMemo, CSSProperties } from "react";
+import React, {
+  ComponentType,
+  useMemo,
+  CSSProperties,
+  HTMLAttributes,
+} from "react";
 
-import { Badge as DefaultBadge, BadgeProps } from "../../common/badge/badge";
+import {
+  Badge as DefaultBadge,
+  BadgePropsInterface,
+} from "src/components/common/badge/badge";
 import { MessagesIcon as DefaultIcon } from "./messages-icon";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-notification-bell";
 
-export interface ChatNotificationBellProps {
+export interface ChatNotificationBellPropsInterface {
   unreadCount: number;
   maxUnreadCount: number;
   showZero?: boolean;
@@ -23,14 +31,18 @@ export interface ChatNotificationBellProps {
     badge?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Button: ComponentType<any>;
-    Icon: ComponentType<{ className?: string }>;
-    Badge: ComponentType<BadgeProps>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Button: ComponentType<Pick<HTMLAttributes<HTMLButtonElement>, "className">>;
+    Icon: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Badge: ComponentType<
+      Pick<BadgePropsInterface, "className" | "count" | "maxCount" | "children">
+    >;
   };
 }
 
-const ChatNotificationBell = (props: ChatNotificationBellProps) => {
+const ChatNotificationBell = (props: ChatNotificationBellPropsInterface) => {
   const { style, className, classNames, components } = props;
 
   const { unreadCount, maxUnreadCount = 10, showZero = true } = props;
@@ -71,6 +83,8 @@ const ChatNotificationBell = (props: ChatNotificationBellProps) => {
   );
 };
 
-export default withChatState(({ unreadCount }) => ({
-  unreadCount,
-}))(ChatNotificationBell);
+export default withChatState<ChatNotificationBellPropsInterface>(
+  ({ unreadCount }) => ({
+    unreadCount,
+  })
+)(ChatNotificationBell);

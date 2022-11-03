@@ -6,7 +6,7 @@ import {
 } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Formatted Message",
+  title: "Roq Components/Chat/FormattedMessage",
   component: ChatFormattedMessage,
   argTypes: {
     content: { control: "text" },

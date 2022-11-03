@@ -14,7 +14,7 @@ import React, {
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatConversationInterface, ChatUserInterface } from "src/types";
+import { ChatConversationInterface, ChatUserInterface } from "src/interfaces";
 import { Avatar, AvatarProps } from "src/components/common/avatar";
 import { StackedText } from "src/components/common";
 

@@ -1,12 +1,12 @@
 import "./chat-message-bubble.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode } from "react";
+import React, { ComponentType, CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-bubble";
 
-export interface ChatMessageBubbleProps {
+export interface ChatMessageBubblePropsInterface {
   message: ReactNode | string;
   isSent?: boolean;
   showCorner?: boolean;
@@ -17,12 +17,16 @@ export interface ChatMessageBubbleProps {
     content?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Content: ComponentType<any>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Content: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "className" | "children">
+    >;
   };
 }
 
-export const ChatMessageBubble = (props: ChatMessageBubbleProps) => {
+export const ChatMessageBubble = (props: ChatMessageBubblePropsInterface) => {
   const {
     isSent,
     showCorner,

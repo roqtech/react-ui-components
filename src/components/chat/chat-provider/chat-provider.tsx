@@ -12,11 +12,12 @@ import _find from "lodash/find";
 import _uniq from "lodash/uniq";
 import _omit from "lodash/omit";
 import _without from "lodash/without";
+import { formatTimeAgo } from "src/utils/format-time-ago.util";
 import {
   ChatConversationInterface,
   ChatMessageInterface,
   ComplexError,
-} from "src/types";
+} from "src/interfaces";
 import {
   ChatConversationCreatedResponsePayloadInterface,
   ChatConversationExistsResponsePayloadInterface,
@@ -54,7 +55,7 @@ import {
   ChatRecipientListInterface,
   ChatUserInterface,
   ChatUserPresenceListInterface,
-} from "src/types/chat.type";
+} from "src/interfaces/chat.interface";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -123,6 +124,12 @@ export interface ChatProviderPropsInterface {
   platformToken: string;
   conversationId?: string;
 
+  groupMessages?: (
+    currentMessage: ChatMessageInterface,
+    index: number,
+    messages: ChatMessageInterface[]
+  ) => ChatMessageInterface;
+
   onConnect?: () => void;
   onDisconnect?: () => void;
   onError?: () => void;
@@ -151,47 +158,6 @@ const conversatonSortComparer = (
   a: ChatConversationInterface,
   b: ChatConversationInterface
 ): number => +b.lastMessageTimestamp - +a.lastMessageTimestamp;
-
-const markMessageAsStartOfTheGroup = (message: ChatMessageInterface) => {
-  // showUser
-  // showTime
-
-  message.showUser = true;
-  message.showTime = true;
-
-  return message;
-};
-
-const groupMessages = (
-  currentMessage: ChatMessageInterface,
-  index: number,
-  messages: ChatMessageInterface[]
-) => {
-  const prevMessage = messages[index - 1];
-
-  currentMessage.showUser = false;
-  currentMessage.showTime = false;
-
-  if (!prevMessage) {
-    return markMessageAsStartOfTheGroup(currentMessage);
-  }
-
-  if (currentMessage.authorId !== prevMessage.authorId) {
-    return markMessageAsStartOfTheGroup(currentMessage);
-  }
-
-  if (
-    !!currentMessage.bodyUpdatedAt &&
-    currentMessage.bodyUpdatedAt !== currentMessage.updatedAt
-  ) {
-    currentMessage.showTime = true;
-  }
-
-  return currentMessage;
-};
-
-const normalizeMessageHistory = (history: ChatMessageInterface[]) =>
-  history.sort(messageSortComparer).map(groupMessages);
 
 const INITIAL_CONVERSATIONS_STATE = {
   editableId: null,
@@ -245,21 +211,89 @@ const normalizeRecipient = (
   return recipient;
 };
 
+const markMessageAsStartOfTheUserGroup = (message: ChatMessageInterface) => {
+  message.isFirstInUserGroup = true;
+
+  return message;
+};
+
+const markMessageAsStartOfTheTimeGroup = (message: ChatMessageInterface) => {
+  message.isFirstInTimeGroup = true;
+
+  return message;
+};
+
+const defaultGroupMessages = (
+  currentMessage: ChatMessageInterface,
+  index: number,
+  messages: ChatMessageInterface[]
+): ChatMessageInterface => {
+  const prevMessage = messages[index - 1];
+  const nextMessage = messages[index + 1];
+
+  if (!prevMessage) {
+    currentMessage = markMessageAsStartOfTheUserGroup(currentMessage);
+  }
+
+  if (prevMessage && currentMessage.authorId !== prevMessage.authorId) {
+    currentMessage = markMessageAsStartOfTheUserGroup(currentMessage);
+  }
+
+  if (nextMessage && currentMessage.authorId !== nextMessage.authorId) {
+    currentMessage = markMessageAsStartOfTheTimeGroup(currentMessage);
+  }
+
+  if (
+    nextMessage &&
+    formatTimeAgo(nextMessage.createdAt) !==
+      formatTimeAgo(currentMessage.createdAt)
+  ) {
+    currentMessage = markMessageAsStartOfTheTimeGroup(currentMessage);
+  }
+
+  if (
+    !!currentMessage.bodyUpdatedAt &&
+    currentMessage.bodyUpdatedAt !== currentMessage.updatedAt
+  ) {
+    currentMessage = markMessageAsStartOfTheTimeGroup(currentMessage);
+  }
+
+  return currentMessage;
+};
+
 export const ChatProvider = (
   props: ChatProviderPropsInterface
 ): ReactElement => {
-  const { children, userId, platformToken, conversationId } = props;
+  const {
+    children,
+    userId,
+    platformToken,
+    conversationId,
+    groupMessages = defaultGroupMessages,
+  } = props;
 
   const { host, token, userToken } = useRoq();
+
+  const normalizeMessageHistory = useCallback(
+    (history: ChatMessageInterface[]) => {
+      return history.sort(messageSortComparer).map(groupMessages);
+    },
+    [groupMessages]
+  );
 
   const [socket, setSocket] = useState<ChatSocketInterface | null>(null);
   const [online, setOnline] = useState<boolean>(false);
   const [error, setError] = useState<ComplexError | null>(null);
   const [clientId, setClientId] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [currentConversationId, setCurrentConversationId] = useState<
+  const [currentConversationId, _setCurrentConversationId] = useState<
     ChatConversationInterface["id"] | null
   >(conversationId ?? null);
+
+  const setCurrentConversationId = (cid) => {
+    console.log("set current conv", cid);
+    _setCurrentConversationId(cid);
+  };
 
   const [conversations, setConversations] =
     useState<ChatConversationListInterface>(INITIAL_CONVERSATIONS_STATE);
@@ -1275,7 +1309,13 @@ export const ChatProvider = (
 
       onFetchRecipientListSuccess(result.users);
     },
-    [host, userToken, token, onFetchRecipientListRequest, onFetchRecipientListSuccess]
+    [
+      host,
+      userToken,
+      token,
+      onFetchRecipientListRequest,
+      onFetchRecipientListSuccess,
+    ]
   );
 
   const state = useMemo<ChatStateContextInterface>(
