@@ -14,7 +14,7 @@ import { useClickOutside } from "src/index";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "menu";
 
-export interface MenuProps {
+export interface MenuPropsInterface {
   open?: boolean;
   onClose?: () => void;
   children: ReactNode;
@@ -30,7 +30,7 @@ export interface MenuProps {
   };
 }
 
-export const Menu = (props: MenuProps) => {
+export const Menu = (props: MenuPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { children, onClose, open } = props;
 

@@ -1,10 +1,16 @@
 import "./chat-conversation-card.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ComponentType, useMemo, ReactNode } from "react";
+import React, {
+  CSSProperties,
+  ComponentType,
+  useMemo,
+  ReactNode,
+  HTMLAttributes,
+} from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatConversationInterface, ChatUserInterface } from "src/types";
+import { ChatConversationInterface, ChatUserInterface } from "src/interfaces";
 import {
   ChatFormattedMessage,
   Badge,
@@ -12,11 +18,15 @@ import {
   AvatarGroup,
   StackedText,
 } from "src";
-import { ChatFormattedMessageProps } from "../chat-formatted-message";
+import { ChatFormattedMessagePropsInterface } from "../chat-formatted-message";
+import { BadgePropsInterface } from "src/components/common/badge";
+import { StackedTextPropsInterface } from "src/components/common/stacked-text";
+import { AvatarGroupPropsInterface } from "src/components/common/avatar-group";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
-export interface ChatConversationCardProps extends ChatConversationInterface {
+export interface ChatConversationCardPropsInterface extends ChatConversationInterface {
+  timestamp?: Date;
   children?: ReactNode;
   selected?: boolean;
   onClick?: () => void;
@@ -27,21 +37,43 @@ export interface ChatConversationCardProps extends ChatConversationInterface {
     container?: string;
     inner?: string;
     top?: string;
+    avatars?: string;
     title?: string;
+    actions?: string;
+    unread?: string;
+    unreadCount?: string;
     message?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    Inner?: ComponentType<any>;
-    Top?: ComponentType<any>;
-    Actions?: ComponentType<any>;
-    UnreadBadge?: ComponentType<any>;
-    Title?: ComponentType<any>;
-    Message?: ComponentType<ChatFormattedMessageProps>;
+    Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Inner?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Top?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Actions?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Avatars?: ComponentType<
+      Pick<
+        AvatarGroupPropsInterface,
+        "users" | "maxCount" | "size" | "className"
+      >
+    >;
+    UnreadBadge?: ComponentType<
+      Pick<BadgePropsInterface, "classNames" | "count">
+    >;
+    Title?: ComponentType<
+      Pick<
+        StackedTextPropsInterface,
+        "primaryText" | "secondaryText" | "components" | "classNames"
+      >
+    >;
+    Message?: ComponentType<
+      Pick<
+        ChatFormattedMessagePropsInterface,
+        "className" | "content" | "preview"
+      >
+    >;
   };
 }
 
-export const ChatConversationCard = (props: ChatConversationCardProps) => {
+export const ChatConversationCard = (props: ChatConversationCardPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     children,
@@ -59,6 +91,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
   const Inner = components?.Inner ?? "div";
   const Top = components?.Top ?? "div";
   const Actions = components?.Actions ?? "div";
+  const Avatars = components?.Avatars ?? AvatarGroup;
   const UnreadBadge = components?.UnreadBadge ?? Badge;
   const Title = components?.Title ?? StackedText;
   const Message = components?.Message ?? ChatFormattedMessage;
@@ -79,17 +112,20 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
         {!children && (
           <>
             <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
-              <AvatarGroup
+              <Avatars
                 users={members}
                 maxCount={2}
                 size="large"
-                className={clsx(_CLASS_IS + "__top__avatars", classNames?.top)}
+                className={clsx(
+                  _CLASS_IS + "__top__avatars",
+                  classNames?.avatars
+                )}
               />
               <Title
                 primaryText={title}
                 secondaryText={timestamp}
                 components={{
-                  secondaryText: TimeAgo,
+                  SecondaryText: TimeAgo,
                 }}
                 classNames={{
                   container: clsx(
@@ -127,7 +163,7 @@ export const ChatConversationCard = (props: ChatConversationCardProps) => {
             <Message
               className={clsx(_CLASS_IS + "__message", classNames?.message)}
               content={message}
-              prevew
+              preview
             />
           </>
         )}

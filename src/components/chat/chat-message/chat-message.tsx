@@ -1,20 +1,21 @@
 import "./chat-message.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ReactNode, ComponentType, useMemo } from "react";
+import React, { CSSProperties, ReactNode, ComponentType, useMemo, HTMLAttributes } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatMessageBubble,
   ChatMessageBubbleProps,
 } from "../chat-message-bubble";
 import { Avatar, TimeAgo } from "src/components/common";
-import { ChatMessageInterface, ChatUserInterface } from "src/types";
+import { ChatMessageInterface, ChatUserInterface } from "src/interfaces";
 import { ChatFormattedMessage } from "src/index";
 import { ChatFormattedMessageProps } from "../chat-formatted-message";
+import { TimeAgoPropsInterface } from "src/components/common/time-ago/time-ago";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 
-export interface ChatMessageProps
+export interface ChatMessagePropsInterface
   extends ChatMessageInterface,
     Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
   message: string;
@@ -28,6 +29,7 @@ export interface ChatMessageProps
   className?: string;
   classNames?: {
     container?: string;
+    inner?: string;
     content?: string;
     user?: string;
     userTime?: string;
@@ -35,19 +37,21 @@ export interface ChatMessageProps
     userAvatar?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Inner: ComponentType<any>;
-    Content: ComponentType<any>;
-    MessageBubble: ComponentType<ChatMessageBubbleProps>;
-    Message: ComponentType<ChatFormattedMessageProps>;
-    User: ComponentType<any>;
-    Time: ComponentType<any>;
-    Name: ComponentType<any>;
-    Avatar: ComponentType<any>;
+    Container?: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Inner?: ComponentType<any>;
+    Content?: ComponentType<any>;
+    MessageBubble?: ComponentType<ChatMessageBubbleProps>;
+    Message?: ComponentType<ChatFormattedMessageProps>;
+    User?: ComponentType<any>;
+    Time?: ComponentType<Pick<TimeAgoPropsInterface, "className" | "children">>;
+    Name?: ComponentType<any>;
+    Avatar?: ComponentType<any>;
   };
 }
 
-export const ChatMessage = (props: ChatMessageProps) => {
+export const ChatMessage = (props: ChatMessagePropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     isSent,
@@ -71,14 +75,12 @@ export const ChatMessage = (props: ChatMessageProps) => {
 
   const User = components?.User ?? "div";
   const Time = components?.Time ?? TimeAgo;
-  const UserName = components?.Name ?? "span";
   const UserAvatar = components?.Avatar ?? Avatar;
 
   const messageContent = useMemo(
     () => (isDeleted ? "Message deleted..." : message),
     [message, isDeleted]
   );
-
 
   return (
     <Container

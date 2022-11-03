@@ -12,7 +12,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card-skeleton";
 
-export interface ChatConversationCardSkeletonProps {
+export interface ChatConversationCardSkeletonPropsInterface {
   children: ReactNode;
   style?: CSSProperties;
   className?: string;
@@ -27,7 +27,7 @@ export interface ChatConversationCardSkeletonProps {
 }
 
 export const ChatConversationCardSkeleton = (
-  props: ChatConversationCardSkeletonProps
+  props: ChatConversationCardSkeletonPropsInterface
 ) => {
   const { style, className, classNames, components } = props;
 

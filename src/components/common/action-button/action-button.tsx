@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
   useState,
@@ -12,10 +13,11 @@ import React, {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { DotsIcon as DefaultDotsIcon } from "./dots-icon";
 import { Menu } from "src/index";
+import { MenuPropsInterface } from "../menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "action-button";
 
-export interface ActionButtonProps {
+export interface ActionButtonPropsInterface {
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -25,14 +27,18 @@ export interface ActionButtonProps {
     dropdown?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Button: ComponentType<any>;
-    Icon: ComponentType<any>;
-    Dropdown: ComponentType<any>;
+    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
+    Button: ComponentType<
+      Pick<HTMLAttributes<HTMLButtonElement>, "onClick" | "className">
+    >;
+    Icon: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Dropdown: ComponentType<
+      Pick<MenuPropsInterface, "open" | "onClose" | "className">
+    >;
   };
 }
 
-export const ActionButton = (props: ActionButtonProps) => {
+export const ActionButton = (props: ActionButtonPropsInterface) => {
   const { style, className, classNames, components } = props;
 
   const Container = components?.Container ?? "div";

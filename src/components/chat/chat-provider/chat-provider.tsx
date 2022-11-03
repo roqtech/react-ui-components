@@ -17,7 +17,7 @@ import {
   ChatConversationInterface,
   ChatMessageInterface,
   ComplexError,
-} from "src/types";
+} from "src/interfaces";
 import {
   ChatConversationCreatedResponsePayloadInterface,
   ChatConversationExistsResponsePayloadInterface,
@@ -55,7 +55,7 @@ import {
   ChatRecipientListInterface,
   ChatUserInterface,
   ChatUserPresenceListInterface,
-} from "src/types/chat.type";
+} from "src/interfaces/chat.interface";
 
 export interface ChatStateContextInterface {
   online: boolean;

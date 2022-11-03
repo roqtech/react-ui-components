@@ -4,18 +4,20 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatMembers, ChatPanel } from "src/index";
 import { ChatMembersProps } from "../chat-members/chat-members";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
+import { ChatPanelPropsInterface } from "../chat-panel";
 
 const _CLASS_IS =
   COMPONENT_CLASS_PREFIX + "chat-conversation-not-selected-panel";
 
-export interface ChatConversationNotSelectedPanelProps {
+export interface ChatConversationNotSelectedPanelPropsInterface {
   message?: string;
   style?: CSSProperties;
   className?: string;
@@ -24,13 +26,15 @@ export interface ChatConversationNotSelectedPanelProps {
     message?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Message: ComponentType<any>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Message: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
   };
 }
 
 export const ChatConversationNotSelectedPanel = (
-  props: ChatConversationNotSelectedPanelProps
+  props: ChatConversationNotSelectedPanelPropsInterface
 ) => {
   const { style, className, classNames, components } = props;
   const { message = "Break the ice and start a conversation" } = props;

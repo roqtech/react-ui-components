@@ -6,17 +6,21 @@ import React, {
   ComponentType,
   useCallback,
   useMemo,
+  ReactElement,
+  HTMLAttributes,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 import { CheckedIcon as DefaultCheckedIcon } from "./checked-icon";
-import { Avatar, AvatarProps } from "src/components/common/avatar";
+import { Avatar, AvatarPropsInterface } from "src/components/common/avatar";
 import { StackedText } from "src/components/common";
+import { StackedTextPropsInterface } from "src/components/common/stacked-text";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-member";
 
-export interface ChatMemberProps extends Omit<ChatUserInterface, "id"> {
+export interface ChatMemberPropsInterface
+  extends Omit<ChatUserInterface, "id"> {
   memberId: ChatUserInterface["id"];
   selected?: boolean;
   onClick?: () => void;
@@ -32,17 +36,17 @@ export interface ChatMemberProps extends Omit<ChatUserInterface, "id"> {
     checkedIcon?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    Inner?: ComponentType<any>;
-    Avatar?: ComponentType<AvatarProps>;
-    Content?: ComponentType<any>;
-    Name?: ComponentType<AvatarProps>;
-    Actions?: ComponentType<any>;
-    CheckedIcon?: ComponentType<any>;
+    Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Inner?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Avatar?: ComponentType<AvatarPropsInterface>;
+    Content?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Name?: ComponentType<StackedTextPropsInterface>;
+    Actions?: ComponentType<HTMLAttributes<HTMLElement>>;
+    CheckedIcon?: ComponentType<HTMLAttributes<HTMLElement>>;
   };
 }
 
-export const ChatMember = (props: ChatMemberProps) => {
+export const ChatMember = (props: ChatMemberPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { selected, onClick, memberId, avatar, fullName, initials } = props;
 

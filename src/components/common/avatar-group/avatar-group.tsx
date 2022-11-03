@@ -1,15 +1,15 @@
 import "./avatar-group.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, useCallback, useMemo } from "react";
+import React, { ComponentType, HTMLAttributes, useCallback, useMemo } from "react";
 
 import { Avatar, AvatarProps } from "../avatar/avatar";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar-group";
 
-export interface AvatarGroupProps<T extends Partial<AvatarProps> = AvatarProps>
+export interface AvatarGroupPropsInterface
   extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
   users: ChatUserInterface[];
   stack?: boolean;
@@ -22,7 +22,7 @@ export interface AvatarGroupProps<T extends Partial<AvatarProps> = AvatarProps>
     avatar?: string;
   };
   components?: {
-    Container: ComponentType<any>;
+    Container: ComponentType<HTMLAttributes<HTMLElement>>;
     Wrapper: ComponentType<any>;
     Avatar: ComponentType<AvatarProps>;
   };
@@ -30,9 +30,7 @@ export interface AvatarGroupProps<T extends Partial<AvatarProps> = AvatarProps>
 
 const calculateItemWrapperZIndex = (index, total) => total - index;
 
-export const AvatarGroup = <T extends Partial<AvatarProps>>(
-  props: AvatarGroupProps<T>
-) => {
+export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
   const {
     users,
     size,

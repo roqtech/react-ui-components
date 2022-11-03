@@ -32,29 +32,26 @@ import React, {
   useRef,
   useState,
   forwardRef,
+  ForwardedRef,
+  HTMLAttributes,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import createLinkDetectionPlugin from "draft-js-link-detection-plugin";
-import { ChatUserInterface } from "src/types";
+import { ChatUserInterface } from "src/interfaces";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-editor";
 
-export interface ChatMessageEditorProps {
-  // children?: ReactNode;
-  // rounded?: boolean;
-  // rows?: number;
+export interface ChatMessageEditorPropsInterface {
+  forwardedRef?: ForwardedRef<Editor>;
   id?: string;
   name?: string;
   max?: number;
   value?: string;
   placeholder?: string;
-  // placeholder?: string;
-  // className?: string;
   onChange?: (value: string) => void;
   onEnter?: () => void;
   convertToHTMLConfig?: IConvertToHTMLConfig;
   convertFromHTMLConfig?: IConvertFromHTMLConfig;
-  //
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -62,7 +59,7 @@ export interface ChatMessageEditorProps {
     textarea?: string;
   };
   components?: {
-    Container: ComponentType<any>;
+    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
   };
 }
 
@@ -463,6 +460,6 @@ const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   );
 };
 
-export default forwardRef((props, ref) => {
+export default forwardRef<Editor, ChatMessageEditorPropsInterface>((props, ref) => {
   return <ChatMessageEditor {...props} forwardedRef={ref} />;
 });

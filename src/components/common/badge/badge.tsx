@@ -6,7 +6,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "badge";
 
-export interface BadgeProps {
+export interface BadgePropsInterface {
   count: number;
   maxCount?: number;
   children?: ReactNode;
@@ -26,7 +26,7 @@ const formatmaxCount = (val, maxVal) => {
   return val >= maxVal ? maxVal + "+" : val;
 };
 
-export const Badge = (props: BadgeProps) => {
+export const Badge = (props: BadgePropsInterface) => {
   const { style, className, classNames, components } = props;
   const { count, maxCount, children } = props;
 

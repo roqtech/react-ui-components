@@ -5,26 +5,22 @@ import React, { ComponentType, CSSProperties, ReactNode, useMemo } from "react";
 
 import {
   AvatarGroup,
-  AvatarGroupProps,
+  AvatarGroupPropsInterface,
 } from "../../common/avatar-group/avatar-group";
 import {
   StackedText,
-  StackedTextProps,
+  StackedTextPropsInterface,
 } from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
-import { ChatConversationInterface } from "src/types";
+import { ChatConversationInterface } from "src/interfaces";
 import isEmpty from "lodash/isEmpty";
-import {
-  ChatConversationMenu,
-  ChatConversationMenuProps,
-} from "../chat-conversation-menu";
 import { ActionButton } from "src/components/common";
-import { ChatConversationCardForm } from "src/index";
+import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu/chat-conversation-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-header";
 
-export interface ChatConversationHeaderProps
+export interface ChatConversationHeaderPropsInterface
   extends Pick<ChatConversationInterface, "title" | "members"> {
   showActions?: boolean;
   formatMembers: (members: ChatConversationInterface["members"]) => ReactNode;
@@ -37,11 +33,15 @@ export interface ChatConversationHeaderProps
     actions?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Avatars: ComponentType<AvatarGroupProps>;
-    Info: ComponentType<StackedTextProps>;
-    ConversationMenu?: ComponentType<ChatConversationMenuProps>;
-    ConversationForm?: ComponentType<ChatConversationCardFormProps>;
+    Container?: ComponentType<any>;
+    Avatars?: ComponentType<AvatarGroupPropsInterface>;
+    Info?: ComponentType<
+      Pick<
+        StackedTextPropsInterface,
+        "primaryText" | "secondaryText" | "classNames"
+      >
+    >;
+    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
 }
 
@@ -58,7 +58,9 @@ const defaultFormatMembers = (
   );
 };
 
-const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
+const ChatConversationHeader = (
+  props: ChatConversationHeaderPropsInterface
+) => {
   const { style, className, classNames, components } = props;
   const {
     title,
@@ -70,8 +72,6 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   const Container = components?.Container ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
   const Info = components?.Info ?? StackedText;
-  const ConversationForm =
-    components?.ConversationForm ?? ChatConversationCardForm;
 
   const membersLine = useMemo(
     () => formatMembers(members),
@@ -110,9 +110,8 @@ const ChatConversationHeader = (props: ChatConversationHeaderProps) => {
   );
 };
 
-export default withChatState<ChatConversationHeaderProps>(
+export default withChatState<ChatConversationHeaderPropsInterface>(
   ({ currentConversation }) => ({
-    currentConversation,
     title: currentConversation?.title ?? "",
     members: currentConversation?.members || [],
   })

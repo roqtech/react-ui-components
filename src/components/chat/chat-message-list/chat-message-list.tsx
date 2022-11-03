@@ -23,7 +23,7 @@ import {
   ChatConversationInterface,
   ChatMessageInterface,
   InfiniteListInterface,
-} from "src/types";
+} from "src/interfaces";
 import {
   ChatConversationListRequestPayloadInterface,
   ChatFetchMessagesRequestPayloadInterface,
@@ -35,7 +35,7 @@ import {
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-list";
 
-export interface ChatMessageListProps
+export interface ChatMessageListPropsInterface
   extends Pick<ChatMessageHistoryProps, "conversationId" | "messages">,
     Omit<InfiniteListInterface<ChatMessageInterface>, "data"> {
   initialLoad?: boolean;
@@ -58,7 +58,7 @@ export interface ChatMessageListProps
   };
 }
 
-const ChatMessageList = (props: ChatMessageListProps) => {
+const ChatMessageList = (props: ChatMessageListPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     initialLoad = true,

@@ -11,6 +11,7 @@ import React, {
   useRef,
   useMemo,
   useLayoutEffect,
+  HTMLAttributes,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
@@ -22,7 +23,7 @@ import { isEmpty } from "lodash";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
-export interface ChatMessageInputProps {
+export interface ChatMessageInputPropsInterface {
   textareaRef?: any;
   value?: string;
   defaultValue?: string;
@@ -44,7 +45,7 @@ export interface ChatMessageInputProps {
     sendButton?: string;
   };
   components?: {
-    Container: ComponentType<any>;
+    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
     Textarea: ComponentType<any>;
     SendButton: ComponentType<any>;
     SendLabel: ComponentType<any>;
@@ -52,7 +53,7 @@ export interface ChatMessageInputProps {
   };
 }
 
-const ChatMessageInput = (props: ChatMessageInputProps) => {
+const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
   const {
     textareaRef,
     value,

@@ -1,32 +1,18 @@
 import "./chat-conversation-menu.scss";
 
 import clsx from "classnames";
-import React, {
-  ComponentType,
-  CSSProperties,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { ComponentType, useCallback } from "react";
 
-import {
-  AvatarGroup,
-  AvatarGroupProps,
-} from "../../common/avatar-group/avatar-group";
-import {
-  StackedText,
-  StackedTextProps,
-} from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { withChatState } from "../chat-provider";
-import { ChatConversationInterface, ChatMessageInterface } from "src/types";
-import isEmpty from "lodash/isEmpty";
+import { ChatConversationInterface } from "src/interfaces";
 import { Menu, MenuItem } from "src/components/common";
-import { MenuProps } from "src/components/common/menu";
+import { MenuPropsInterface } from "src/components/common/menu";
+import { MenuItemPropsInterface } from "src/components/common/menu-item/menu-item";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-menu";
 
-export interface ChatConversationMenuProps
-  extends Omit<MenuProps, "classNames" | "components"> {
+export interface ChatConversationMenuPropsInterface
+  extends Omit<MenuPropsInterface, "classNames" | "components"> {
   conversationId?: ChatConversationInterface["id"];
   isOwner?: boolean;
   showRename?: boolean;
@@ -45,12 +31,16 @@ export interface ChatConversationMenuProps
     info?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Item: ComponentType<any>;
+    Container?: ComponentType<
+      Omit<MenuPropsInterface, "classNames" | "components">
+    >;
+    Item?: ComponentType<Pick<MenuItemPropsInterface, "onClick" | "children">>;
   };
 }
 
-export const ChatConversationMenu = (props: ChatConversationMenuProps) => {
+export const ChatConversationMenu = (
+  props: ChatConversationMenuPropsInterface
+) => {
   const { className, classNames, components } = props;
   const {
     conversationId = null,

@@ -16,7 +16,7 @@ import { ChatMessageMenuProps } from "../chat-message-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history-line";
 
-export interface ChatMessageHistoryLineProps {
+export interface ChatMessageHistoryLinePropsInterface {
   messageId: string;
   isSent?: boolean;
   onRightClick?: () => void;
@@ -38,7 +38,9 @@ export interface ChatMessageHistoryLineProps {
   };
 }
 
-export const ChatMessageHistoryLine = (props: ChatMessageHistoryLineProps) => {
+export const ChatMessageHistoryLine = (
+  props: ChatMessageHistoryLinePropsInterface
+) => {
   const { style, className, classNames, components, ...rest } = props;
   const { isSent, messageId, children, onRightClick } = props;
 
@@ -56,8 +58,7 @@ export const ChatMessageHistoryLine = (props: ChatMessageHistoryLineProps) => {
     onRightClick?.();
   }, [onRightClick]);
 
-  const { containerRef: ref } =
-    useRightClick<HTMLSpanElement>(handleRightClick);
+  const { containerRef: ref } = useRightClick<HTMLElement>(handleRightClick);
 
   return (
     <Container

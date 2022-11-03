@@ -1,34 +1,18 @@
 import "./chat-message-menu.scss";
 
 import clsx from "classnames";
-import React, {
-  ComponentType,
-  CSSProperties,
-  HTMLAttributes,
-  useCallback,
-  useMemo,
-} from "react";
-
-import {
-  AvatarGroup,
-  AvatarGroupProps,
-} from "../../common/avatar-group/avatar-group";
-import {
-  StackedText,
-  StackedTextProps,
-} from "../../common/stacked-text/stacked-text";
+import React, { ComponentType, useCallback } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { withChatApi, withChatState } from "../chat-provider";
-import { ChatConversationInterface, ChatMessageInterface } from "src/types";
-import isEmpty from "lodash/isEmpty";
+import { withChatApi } from "../chat-provider";
+import { ChatMessageInterface } from "src/interfaces";
 import { Menu, MenuItem } from "src";
-import { MenuProps } from "src/components/common/menu";
-import { MenuItemProps } from "src/components/common/menu-item";
+import { MenuItemPropsInterface } from "src/components/common/menu-item/menu-item";
+import { MenuPropsInterface } from "src/components/common/menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-menu";
 
-export interface ChatMessageMenuProps
-  extends Omit<MenuProps, "classNames" | "components"> {
+export interface ChatMessageMenuPropsInterface
+  extends Omit<MenuPropsInterface, "classNames" | "components"> {
   isAuthor?: boolean;
   showEdit?: boolean;
   showDelete?: boolean;
@@ -41,12 +25,14 @@ export interface ChatMessageMenuProps
     item?: string;
   };
   components?: {
-    Container?: ComponentType<Omit<MenuProps, "classNames" | "components">>;
-    Item: ComponentType<Pick<MenuItemProps, "onClick" | "children">>;
+    Container?: ComponentType<
+      Omit<MenuPropsInterface, "classNames" | "components">
+    >;
+    Item: ComponentType<Pick<MenuItemPropsInterface, "onClick" | "children">>;
   };
 }
 
-export const ChatMessageMenu = (props: ChatMessageMenuProps) => {
+export const ChatMessageMenu = (props: ChatMessageMenuPropsInterface) => {
   const { className, classNames, components, ...args } = props;
   const {
     isAuthor,

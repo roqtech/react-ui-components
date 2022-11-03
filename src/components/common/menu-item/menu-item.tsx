@@ -13,7 +13,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "menu-item";
 
-export interface MenuItemProps {
+export interface MenuItemPropsInterface {
   onClick?: () => void;
   children: ReactNode;
   style?: CSSProperties;
@@ -28,7 +28,7 @@ export interface MenuItemProps {
   };
 }
 
-export const MenuItem = (props: MenuItemProps) => {
+export const MenuItem = (props: MenuItemPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { children, onClick } = props;
 

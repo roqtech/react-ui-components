@@ -5,20 +5,10 @@ import React, {
   ComponentType,
   createRef,
   CSSProperties,
-  ReactNode,
   useCallback,
   useEffect,
-  useRef,
 } from "react";
 
-import {
-  AvatarGroup,
-  AvatarGroupProps,
-} from "../../common/avatar-group/avatar-group";
-import {
-  StackedText,
-  StackedTextProps,
-} from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatPanel,
@@ -26,14 +16,19 @@ import {
   ChatMessageList,
   ChatMessageInput,
 } from "src/index";
-import { withChatState } from "../chat-provider";
 import Editor from "@draft-js-plugins/editor/lib/Editor";
+import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu";
+import { ChatConversationHeaderPropsInterface } from "../chat-conversation-header";
+import { ChatPanelPropsInterface } from "../chat-panel";
+import { withChatState } from "../chat-provider";
+import { ChatMessageInputProps } from "../chat-message-input";
+import { ChatMessageListProps } from "../chat-message-list";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat";
 
-export interface ChatProps {
-  conversationId: string;
-  showEditingForm?: boolean;
+export interface ChatPropsInterface {
+  test?: string;
+  conversationId?: string | null;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -43,17 +38,21 @@ export interface ChatProps {
     input?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Header: ComponentType<any>;
-    Messages: ComponentType<any>;
-    Input: ComponentType<any>;
-    ConversationMenu: ComponentType<any>;
+    Container?: ComponentType<Pick<ChatPanelPropsInterface, "className" | "style">>;
+    Header?: ComponentType<
+      Pick<ChatConversationHeaderPropsInterface, "className" | "components">
+    >;
+    Messages?: ComponentType<Pick<ChatMessageListProps, "className">>;
+    Input?: ComponentType<
+      Pick<ChatMessageInputProps, "className" | "textareaRef">
+    >;
+    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
 }
 
-const Chat = (props: ChatProps) => {
+const Chat = (props: ChatPropsInterface) => {
   const { style, className, classNames, components } = props;
-  const { conversationId, showEditingForm } = props;
+  const { conversationId } = props;
 
   const Container = components?.Container ?? ChatPanel;
   const Header = components?.Header ?? ChatConversationHeader;
@@ -72,6 +71,10 @@ const Chat = (props: ChatProps) => {
 
   useEffect(
     function handleConversationIdChanged() {
+      if (!conversationId) {
+        return;
+      }
+
       focusInput();
     },
     [conversationId]
@@ -87,7 +90,6 @@ const Chat = (props: ChatProps) => {
         components={{
           ConversationMenu: components?.ConversationMenu,
         }}
-        showEditingForm={showEditingForm}
       />
       <Messages
         className={clsx(_CLASS_IS + "__messages", classNames?.container)}
@@ -100,6 +102,8 @@ const Chat = (props: ChatProps) => {
   );
 };
 
-export default withChatState(({ currentConversationId }) => ({
-  conversationId: currentConversationId,
-}))(Chat);
+export default withChatState<ChatPropsInterface>(
+  ({ currentConversationId }) => ({
+    conversationId: currentConversationId,
+  })
+)(Chat);

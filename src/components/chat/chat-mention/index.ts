@@ -1,2 +1,2 @@
 export { ChatMention } from "./chat-mention";
-export type { ChatMentionProps } from "./chat-mention";
+export type { ChatMentionPropsInterface } from "./chat-mention";

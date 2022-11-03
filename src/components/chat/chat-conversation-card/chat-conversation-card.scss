@@ -153,13 +153,6 @@ $chat-conversation-font-card-line-height: $default-font-line-height;
     &__actions {
       flex-shrink: 0;
       min-width: var(--rc-chat-conversation-card-actions-min-width);
-      // color: theme.palette.common.white,
-      // backgroundColor: '#FDA4AF',
-      // borderRadius: theme.spacing(2),
-      // minWidth: theme.spacing(4),
-      // minHeight: theme.spacing(4),
-      // position: 'unset',
-      // transform: 'unset',
 
       &__unread {
         position: absolute;

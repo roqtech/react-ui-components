@@ -15,22 +15,25 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
 import { ChatConversationCardSkeleton, ChatConversations } from "src/index";
-import { ChatConversationsProps } from "../chat-conversations";
-import { ChatConversationInterface, InfiniteListInterface } from "src/types";
-import { ChatConversationListRequestPayloadInterface } from "src/utils/chat-socket.util";
-import { ChatConversationMenuProps } from "../chat-conversation-menu";
-import { ChatConversationCardSkeletonProps } from "../chat-conversation-card-skeleton";
+import { ChatConversationsPropsInterface } from "../chat-conversations";
+import {
+  ChatConversationInterface,
+  InfiniteListInterface,
+} from "src/interfaces";
+import { ChatConversationListRequestPayloadInterface } from "src/interfaces/chat.interface";
+import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu";
+import { ChatConversationCardSkeletonPropsInterface } from "../chat-conversation-card-skeleton";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-list";
 
-export interface ChatConversationListProps
+export interface ChatConversationListPropsInterface
   extends Pick<
-      ChatConversationsProps,
+      ChatConversationsPropsInterface,
       "conversations" | "selectedConversationId" | "onConversationSelect"
     >,
     Omit<InfiniteListInterface<ChatConversationInterface>, "data"> {
   conversations: InfiniteListInterface<ChatConversationInterface>["data"];
-  currentConversationId: string;
+  currentConversationId?: string;
   initialLoad?: boolean;
   disabled?: boolean;
   onLoadMore: (query: ChatConversationListRequestPayloadInterface) => void;
@@ -47,7 +50,7 @@ export interface ChatConversationListProps
     >;
     List?: ComponentType<
       Pick<
-        ChatConversationsProps,
+        ChatConversationsPropsInterface,
         | "className"
         | "conversations"
         | "selectedConversationId"
@@ -57,15 +60,15 @@ export interface ChatConversationListProps
       >
     >;
     Loader?: ComponentType<
-      Pick<ChatConversationCardSkeletonProps, "className" | "children"> & {
+      Pick<ChatConversationCardSkeletonPropsInterface, "className" | "children"> & {
         ref: Ref<HTMLElement>;
       }
     >;
-    ConversationMenu?: ComponentType<ChatConversationMenuProps>;
+    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
 }
 
-const ChatConversationList = (props: ChatConversationListProps) => {
+const ChatConversationList = (props: ChatConversationListPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     initialLoad = true,
@@ -171,11 +174,13 @@ const ChatConversationList = (props: ChatConversationListProps) => {
   );
 };
 
-export default withChatApi(({ fetchConversationList, selectConversation }) => ({
-  onLoadMore: fetchConversationList,
-  onConversationSelect: selectConversation,
-}))(
-  withChatState(
+export default withChatApi<ChatConversationListPropsInterface>(
+  ({ fetchConversationList, selectConversation }) => ({
+    onLoadMore: fetchConversationList,
+    onConversationSelect: selectConversation,
+  })
+)(
+  withChatState<ChatConversationListPropsInterface>(
     ({
       online,
       conversations: {

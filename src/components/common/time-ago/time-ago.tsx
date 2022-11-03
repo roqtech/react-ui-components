@@ -4,6 +4,7 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useEffect,
   useMemo,
@@ -14,7 +15,7 @@ import { formatTimeAgo } from "src/utils/format-time-ago.util";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "time-ago";
 
-export interface TimeAgoProps {
+export interface TimeAgoPropsInterface {
   children?: ReactNode | string;
   timestamp?: Date | number | string;
   format?: (timestamp?: Date | number | string) => string;
@@ -24,11 +25,13 @@ export interface TimeAgoProps {
     container?: string;
   };
   components?: {
-    container: ComponentType<any>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "className" | "style">
+    >;
   };
 }
 
-export const TimeAgo = (props: TimeAgoProps) => {
+export const TimeAgo = (props: TimeAgoPropsInterface) => {
   const {
     children,
     timestamp,
@@ -39,7 +42,7 @@ export const TimeAgo = (props: TimeAgoProps) => {
     components,
   } = props;
 
-  const Container = components?.container ?? "span";
+  const Container = components?.Container ?? "span";
 
   const [updatedAt, setUpdatedAt] = useState<Date>(new Date());
 

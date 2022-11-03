@@ -4,24 +4,32 @@ import clsx from "classnames";
 import React, {
   ComponentType,
   CSSProperties,
+  HTMLAttributes,
   ReactNode,
   useCallback,
   useEffect,
   useMemo,
 } from "react";
 
-import { ChatMessage, ChatMessageProps } from "../chat-message/chat-message";
+import {
+  ChatMessage,
+  ChatMessageProps,
+  ChatMessagePropsInterface,
+} from "../chat-message/chat-message";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatState } from "../chat-provider";
-import { ChatMessageInterface } from "src/types";
-import { ChatMessageHistoryLine } from "../chat-message-history-line";
+import { ChatMessageInterface } from "src/interfaces";
+import {
+  ChatMessageHistoryLine,
+  ChatMessageHistoryLinePropsInterface,
+} from "../chat-message-history-line";
 import { ChatMessageMenu } from "src/index";
 import { ActionButton } from "src/components/common";
 import _isEmpty from "lodash/isEmpty";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
-export interface ChatMessageHistoryProps {
+export interface ChatMessageHistoryPropsInterface {
   children: ReactNode;
   conversationId: string;
   messages: ChatMessageInterface[];
@@ -39,15 +47,26 @@ export interface ChatMessageHistoryProps {
     message?: string;
   };
   components?: {
-    Container: ComponentType<any>;
-    Spacer: ComponentType<any>;
-    Empty: ComponentType<any>;
-    Line: ComponentType<any>;
-    Message: ComponentType<ChatMessageProps>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Spacer: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Empty: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Line: ComponentType<
+      Pick<
+        ChatMessageHistoryLinePropsInterface,
+        "messageId" | "isSent" | "className" | "children"
+      >
+    >;
+    Message: ComponentType<ChatMessagePropsInterface>;
   };
 }
 
-export const ChatMessageHistory = (props: ChatMessageHistoryProps) => {
+export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
   const { style, className, classNames, components, ...rest } = props;
   const {
     forwardedRef,

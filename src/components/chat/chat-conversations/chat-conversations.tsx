@@ -11,20 +11,24 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatConversationCard,
   ChatConversationCardProps,
+  ChatConversationCardPropsInterface,
 } from "../chat-conversation-card";
 import { withChatApi, withChatState } from "../chat-provider";
-import { ChatConversationInterface } from "src/types";
+import { ChatConversationInterface } from "src/interfaces";
 import { ActionButton } from "src/components/common";
-import { ChatConversationMenu } from "../chat-conversation-menu";
+import {
+  ChatConversationMenu,
+  ChatConversationMenuPropsInterface,
+} from "../chat-conversation-menu";
 import { ChatConversationCardForm } from "../chat-conversation-card-form";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversations";
 
-export interface ChatConversationsProps {
+export interface ChatConversationsPropsInterface {
   children?: ReactNode;
   conversations: ChatConversationInterface[];
-  selectedConversationId?: string;
-  editableConversationId?: string;
+  selectedConversationId?: string | null;
+  editableConversationId?: string | null;
   onConversationSelect?: (conversationId: string) => void;
   onEditFormCancel: () => void;
   onEditFormSubmit: (values: Partial<ChatConversationInterface>) => void;
@@ -38,13 +42,13 @@ export interface ChatConversationsProps {
   components?: {
     Container?: ComponentType<any>;
     Inner?: ComponentType<any>;
-    ConversationCard?: ComponentType<ChatConversationCardProps>;
-    ConversationForm?: ComponentType<any>;
-    ConversationMenu?: ComponentType<any>;
+    ConversationCard?: ComponentType<ChatConversationCardPropsInterface>;
+    ConversationForm?: ComponentType<ChatConversationCardFormPropsInterface>;
+    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
 }
 
-const ChatConversations = (props: ChatConversationsProps) => {
+const ChatConversations = (props: ChatConversationsPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     children,
@@ -148,7 +152,7 @@ const ChatConversations = (props: ChatConversationsProps) => {
   );
 };
 
-export default withChatApi(
+export default withChatApi<ChatConversationsProps>(
   ({ selectConversation, resetEditableConversation, renameConversation }) => ({
     onConversationSelect: selectConversation,
     onEditFormCancel: resetEditableConversation,
@@ -158,9 +162,11 @@ export default withChatApi(
     },
   })
 )(
-  withChatState(({ conversations, currentConversation }) => ({
-    conversations: conversations?.data,
-    selectedConversationId: currentConversation?.id,
-    editableConversationId: conversations.editableId,
-  }))(ChatConversations)
+  withChatState<ChatConversationsProps>(
+    ({ conversations, currentConversation }) => ({
+      conversations: conversations?.data,
+      selectedConversationId: currentConversation?.id,
+      editableConversationId: conversations?.editableId,
+    })
+  )(ChatConversations)
 );
