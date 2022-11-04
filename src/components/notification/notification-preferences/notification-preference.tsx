@@ -19,7 +19,7 @@ export type NotificationPreferenceLoadingViewCallbackProps =
 export type NotificationPreferenceCategoriesViewCallbackProps =
   NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
 const _CLASS_IS = 'roq-' + 'notification-preference'
-interface NotificationPreferenceProps {
+interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   className?: ClassValue
   children?: (
     callback: NotificationPreferenceLoadingViewCallbackProps,
@@ -86,7 +86,10 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
   }, [categories])
 
   return (
-    <div className={clsx(_CLASS_IS, rest?.className)}>
+    <div
+      {...rest}
+      className={clsx(_CLASS_IS, rest?.className)}
+    >
       {renderTitle}
       {renderCategories}
     </div>

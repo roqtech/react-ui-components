@@ -1,7 +1,6 @@
 import React, { ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,
@@ -14,7 +13,7 @@ import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import './notification-bell.scss'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
-interface NotificationBellProps extends Partial<IRoqProvider> {
+interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   className?: ClassValue
   type?: NotificationType
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
@@ -30,19 +29,14 @@ interface NotificationBellProps extends Partial<IRoqProvider> {
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   const {
     type: typeProp,
-    host: _host,
-    token: _token,
     children,
     bellIcon,
     dotView,
     fetchProps,
     ...rest
   } = props
-  const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
   const fetchResult = useFetchNotificationsInApp({
-    host,
-    token,
     type,
     fetchProps,
   })
@@ -66,7 +60,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   }, [dotView, count])
 
   return (
-    <div className={clsx(_CLASS_IS, rest?.className)}>
+    <div {...rest} className={clsx(_CLASS_IS, rest?.className)}>
       {bellIcon ?? (
         <svg
           width='24'
