@@ -28,7 +28,3 @@ const Template: ComponentStory<typeof NotificationPreference> = (args) => (
 )
 
 export const Primary = Template.bind({});
-Primary.args = {
-  host: undefined,
-  token: undefined,
-}

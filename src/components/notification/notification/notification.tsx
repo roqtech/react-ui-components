@@ -4,14 +4,12 @@ import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import type { ClassValue } from 'clsx'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { ToggleGroup, ToggleGroupItem } from 'src/components/toggle-group'
+import { Card, ToggleGroup, ToggleGroupItem } from 'src/components/common'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
 } from 'src/lib/graphql/query'
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
-import { IRoqProvider, useResolveProvider } from 'src/components/core'
-import { Card } from 'src/components/card'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
@@ -34,7 +32,7 @@ export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
   setType: React.Dispatch<React.SetStateAction<NotificationType>>,
 }
-export interface NotificationProps extends Partial<IRoqProvider> {
+export interface NotificationProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   type?: NotificationType
   className?: ClassValue
   components?: {
@@ -66,8 +64,6 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     components,
     type: typeProp,
     contentView,
-    host: _host,
-    token: _token,
     typeToggleProps,
     titleProps,
     children,
@@ -75,7 +71,6 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     fetchProps,
     ...rest
   } = props
-  const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
   const fetchResult = useFetchNotificationsInApp({
     type,
@@ -150,7 +145,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     }
     return (
       <ToggleGroup
-        value={type} 
+        value={type}
         onValueChange={(value) => setType(value as NotificationType)}
         className={clsx(_CLASS_IS + '-type-toggle', typeToggleProps?.className)}
       >
@@ -164,13 +159,13 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     if (loadingView) {
       return loadingView(fetchResult)
     }
-    return <div>{loading && token && host && !data && 'Loading...'}</div>
-  }, [loadingView, token, host, data, loading])
-  
+    return <div>{loading && !data && 'Loading...'}</div>
+  }, [loadingView, data, loading])
+
   const Container = components?.Container ?? 'div'
 
   return (
-    <Container className={clsx(_CLASS_IS, rest?.className)}>
+    <Container {...rest} className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
         {...(titleProps || {})}
         count={data?.loadUnreadNotificationCount?.totalCount ?? 0}

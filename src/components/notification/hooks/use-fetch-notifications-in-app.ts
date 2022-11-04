@@ -6,7 +6,7 @@ import { useDefaultNotificationsVariables } from './use-fetch-notification-varia
 
 type UseFetchNotificationsInAppArgs = Pick<
   NotificationProps,
-  'token' | 'host' | 'type' | 'fetchProps'
+  'type' | 'fetchProps'
 >
 export function useFetchNotificationsInApp(
   args: UseFetchNotificationsInAppArgs,
