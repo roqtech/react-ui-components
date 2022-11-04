@@ -8,6 +8,7 @@ import { ChatConversationInterface } from "src/interfaces";
 import { Menu, MenuItem } from "src/components/common";
 import { MenuPropsInterface } from "src/components/common/menu";
 import { MenuItemPropsInterface } from "src/components/common/menu-item/menu-item";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-menu";
 
@@ -20,6 +21,11 @@ export interface ChatConversationMenuPropsInterface
   showInvite: boolean;
   showRemove: boolean;
   showLeave: boolean;
+  renameLabel?: string;
+  archiveLabel?: string;
+  inviteLabel?: string;
+  removeLabel?: string;
+  leaveLabel?: string;
   onRename?: (conversationId: string) => void;
   onArchive?: (conversationId: string) => void;
   onInvite?: (conversationId: string) => void;
@@ -32,7 +38,7 @@ export interface ChatConversationMenuPropsInterface
   };
   components?: {
     Container?: ComponentType<
-      Omit<MenuPropsInterface, "classNames" | "components">
+      Omit<MenuPropsInterface, "className" | "components">
     >;
     Item?: ComponentType<Pick<MenuItemPropsInterface, "onClick" | "children">>;
   };
@@ -41,6 +47,7 @@ export interface ChatConversationMenuPropsInterface
 export const ChatConversationMenu = (
   props: ChatConversationMenuPropsInterface
 ) => {
+  const { t } = useRoqTranslation();
   const { className, classNames, components } = props;
   const {
     conversationId = null,
@@ -50,6 +57,11 @@ export const ChatConversationMenu = (
     showInvite = true,
     showRemove = true,
     showLeave = true,
+    renameLabel,
+    archiveLabel,
+    inviteLabel,
+    removeLabel,
+    leaveLabel,
     onClose,
     onRename,
     onArchive,
@@ -118,21 +130,33 @@ export const ChatConversationMenu = (
       {...rest}
     >
       {isOwner && showRename && (
-        <Item onClick={handleRenameClick}>Rename group</Item>
+        <Item onClick={handleRenameClick}>
+          {renameLabel ?? t("chat.conversation-menu.rename")}
+        </Item>
       )}
 
       {isOwner && showArchive && (
-        <Item onClick={handleArchiveClick}>Archive group</Item>
+        <Item onClick={handleArchiveClick}>
+          {archiveLabel ?? t("chat.conversation-menu.archive")}
+        </Item>
       )}
 
-      {isOwner && showInvite && <Item onClick={handleEditClick}>Add user</Item>}
+      {isOwner && showInvite && (
+        <Item onClick={handleEditClick}>
+          {inviteLabel ?? t("chat.conversation-menu.invite")}
+        </Item>
+      )}
 
       {isOwner && showRemove && (
-        <Item onClick={handleRemoveClick}>Remove user</Item>
+        <Item onClick={handleRemoveClick}>
+          {removeLabel ?? t("chat.conversation-menu.remove")}
+        </Item>
       )}
 
       {!isOwner && showLeave && (
-        <Item onClick={handleLeave}>Leave conversation</Item>
+        <Item onClick={handleLeave}>
+          {leaveLabel ?? t("chat.conversation-menu.leave")}
+        </Item>
       )}
     </Container>
   );

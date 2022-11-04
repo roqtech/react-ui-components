@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useRoq } from 'src/components/Provider';
+import { useRoq } from 'src/components/core';
 import {
   FileOrderSortEnum,
   FilesQuery,
@@ -35,7 +35,7 @@ interface UserFileStateInterface {
 export const useUserFilesUpload = (): UseUserFilesUploadInterface => {
   const { uploadFile: upload } = useUserFileUploader();
   const [fetchUserFiles, { data }] = useFilesLazyQuery();
-  const { user } = useRoq();
+
   const [tableState, setTableState] = useState<UserFileStateInterface>({
     data: [],
     pageNumber: 0,

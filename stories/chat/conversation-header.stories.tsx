@@ -4,7 +4,7 @@ import React from "react";
 import { ChatConversationHeader } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/ConversationHeader",
+  title: "Roq Components/Chat/ChatConversationHeader",
   component: ChatConversationHeader,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationHeader>;

@@ -145,7 +145,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     }
     return (
       <ToggleGroup
-        value={type} 
+        value={type}
         onValueChange={(value) => setType(value as NotificationType)}
         className={clsx(_CLASS_IS + '-type-toggle', typeToggleProps?.className)}
       >
@@ -161,7 +161,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     }
     return <div>{loading && !data && 'Loading...'}</div>
   }, [loadingView, data, loading])
-  
+
   const Container = components?.Container ?? 'div'
 
   return (

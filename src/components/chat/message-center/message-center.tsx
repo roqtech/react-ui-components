@@ -31,20 +31,30 @@ import {
   useUpdateConversation,
   useUpdateConversationMembers,
 } from "src/hooks";
-import { ChatConversationListProps } from "../chat-conversation-list";
+import { ChatConversationListPropsInterface } from "../chat-conversation-list";
 import { ChatConversationMenu } from "../chat-conversation-menu";
 import { ChatCreateConversationRequestPayloadInterface } from "src/utils/chat-socket.util";
 import _ from "lodash";
+import {
+  useRoqComponents,
+  useRoqTranslation,
+} from "src/components/core/roq-provider";
+import { ChatConversationNotSelectedPanelPropsInterface } from "../chat-conversation-not-selected-panel";
+import { ChatMembersPanelPropsInterface } from "../chat-members-panel";
+import { ChatPropsInterface } from "../chat";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
 export interface MessageCenterPropsInterface {
   title?: string;
-  buttonLabel?: string;
-  chatTitle?: string;
-  groupChatTitle?: string;
+  actionButtonLabel?: string;
+  conversationTitle?: string;
+  groupConverstionTitle?: string;
   addMemberTitle?: string;
   removeMemberTitle?: string;
+  conversationNotSelectedMessage?: string;
+
+  showActionButton?: boolean;
 
   style?: CSSProperties;
   className?: string;
@@ -64,36 +74,71 @@ export interface MessageCenterPropsInterface {
     removeMembers?: string;
   };
   components?: {
-    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
-    Header: ComponentType<any>;
-    Title: ComponentType<any>;
-    Button: ComponentType<any>;
-    ButtonLabel: ComponentType<any>;
-    ButtonIcon: ComponentType<any>;
-    Content: ComponentType<any>;
-    Sidebar: ComponentType<ChatConversationListProps>;
-    Panel: ComponentType<any>;
-
-    ConversationSelected: ComponentType<any>;
-    ConversationNotSelected: ComponentType<any>;
-    ConversationChat: ComponentType<any>;
-    CreateConversation: ComponentType<any>;
-    AddMembers: ComponentType<any>;
-    RemoveMembers: ComponentType<any>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Header: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Title: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Button: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    ButtonLabel: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    ButtonIcon: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Content: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Sidebar: ComponentType<
+      Pick<
+        ChatConversationListPropsInterface,
+        "className" | "onConversationSelect" | "components"
+      >
+    >;
+    ConversationSelected: ComponentType<Pick<ChatPropsInterface, "components">>;
+    ConversationNotSelected: ComponentType<
+      Pick<ChatConversationNotSelectedPanelPropsInterface, "message">
+    >;
+    CreateConversation: ComponentType<
+      Pick<
+        ChatMembersPanelPropsInterface,
+        "className" | "onSubmit" | "onCancel"
+      >
+    >;
+    AddMembers: ComponentType<
+      Pick<
+        ChatMembersPanelPropsInterface,
+        | "titleLabel"
+        | "className"
+        | "onCancel"
+        | "onSubmit"
+        | "initialSelectedIds"
+        | "initialFilter"
+      >
+    >;
+    RemoveMembers: ComponentType<
+      Pick<
+        ChatMembersPanelPropsInterface,
+        | "titleLabel"
+        | "className"
+        | "onCancel"
+        | "onSubmit"
+        | "initialSelectedIds"
+        | "initialFilter"
+      >
+    >;
   };
 }
 
 type EditingTriggerType = "sidebar" | "chat";
 
 export const MessageCenter = (props: MessageCenterPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
   const {
-    title = "Message Center",
-    buttonLabel = "CREATE NEW CHAT",
-    chatTitle = "Chat",
-    groupChatTitle = "Group Chat",
-    addMemberTitle = "Add users to the group",
-    removeMemberTitle = "Remove users from the group",
+    title,
+    actionButtonLabel,
+    conversationTitle,
+    groupConverstionTitle,
+    addMemberTitle,
+    removeMemberTitle,
+    conversationNotSelectedMessage,
+
+    showActionButton = true,
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -213,14 +258,19 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const handleCreateNewConversation = useCallback(
     (memberIds: string[]) => {
       const conversation: ChatCreateConversationRequestPayloadInterface = {
-        title: memberIds.length > 1 ? groupChatTitle : chatTitle,
+        title:
+          memberIds.length > 1
+            ? groupConverstionTitle ??
+              t("chat.message-center.group-conversation-title")
+            : conversationTitle ??
+              t("chat.message-center.one-to-one-conversation-title"),
         memberIds,
       };
 
       createConversation(conversation);
       setScreen(ChatScreenEnum.CONVERSATION_NOT_SELECTED);
     },
-    [createConversation, chatTitle, groupChatTitle]
+    [createConversation, conversationTitle, groupConverstionTitle, t]
   );
 
   const handleCreateNewConversationCancel = useCallback(() => {
@@ -322,18 +372,18 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
         <Title
           className={clsx(_CLASS_IS + "__header__title", classNames?.title)}
         >
-          {title}
+          {title ?? t("chat.message-center.title", "Title")}
         </Title>
         <Button
           className={clsx(_CLASS_IS + "__header__button", classNames?.button)}
           onClick={handleActionButtonClick}
         >
           <ButtonIcon className={clsx(_CLASS_IS + "__header__button__icon")} />
-          {buttonLabel && (
+          {showActionButton && (
             <ButtonLabel
               className={clsx(_CLASS_IS + "__header__button__label")}
             >
-              {buttonLabel}
+              {actionButtonLabel ?? t("chat.message-center.new-chat")}
             </ButtonLabel>
           )}
         </Button>
@@ -347,18 +397,20 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar
               )}
-              showEditForm={editingTrigger === "sidebar"}
               onConversationSelect={handleConversationClick}
               components={{
                 ConversationMenu: renderConversationMenu("sidebar"),
               }}
             />
 
-            {isConversationNotSelectedScreen && <ConversationNotSelected />}
+            {isConversationNotSelectedScreen && (
+              <ConversationNotSelected
+                message={conversationNotSelectedMessage}
+              />
+            )}
 
             {isConversationSelectedScreen && (
               <ConversationSelected
-                showEditForm={editingTrigger === "sidebar"}
                 components={{
                   ConversationMenu: renderConversationMenu("chat"),
                 }}
@@ -367,7 +419,9 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
 
             {isConversationAddMembersSceen && (
               <AddMembers
-                titleLabel={addMemberTitle}
+                titleLabel={
+                  addMemberTitle ?? t("chat.message-center.add-member")
+                }
                 className={clsx(_CLASS_IS + "__add-members", classNames?.panel)}
                 onCancel={handleAddMembersCancel}
                 onSubmit={handleAddMembers}
@@ -380,7 +434,9 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
 
             {isConversationRemoveMembersSceen && (
               <RemoveMembers
-                titleLabel={removeMemberTitle}
+                titleLabel={
+                  removeMemberTitle ?? t("chat.message-center.remove-member")
+                }
                 className={clsx(
                   _CLASS_IS + "__remove-members",
                   classNames?.panel

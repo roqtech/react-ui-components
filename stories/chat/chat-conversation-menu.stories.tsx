@@ -4,9 +4,31 @@ import React, { useState, useEffect } from "react";
 import { ChatConversationMenu } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/ConversationMenu",
+  title: "Roq Components/Chat/ChatConversationMenu",
   component: ChatConversationMenu,
-  argTypes: {},
+  argTypes: {
+    conversationId: { control: "text" },
+    isOwner: { control: "boolean" },
+    showRename: { control: "boolean" },
+    showArchive: { control: "boolean" },
+    showInvite: { control: "boolean" },
+    showRemove: { control: "boolean" },
+    showLeave: { control: "boolean" },
+    renameLabel: { control: "text" },
+    archiveLabel: { control: "text" },
+    inviteLabel: { control: "text" },
+    removeLabel: { control: "text" },
+    leaveLabel: { control: "text" },
+  },
+  parameters: {
+    actions: {
+      // onRename
+      // onArchive
+      // onInvite
+      // onRemove
+      // onLeave
+    },
+  },
   decorators: [
     (Story) => (
       <div

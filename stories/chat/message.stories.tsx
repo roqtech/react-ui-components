@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatMessage } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Message",
+  title: "Roq Components/Chat/ChatMessage",
   component: ChatMessage,
   argTypes: {
     isSent: { control: "boolean" },

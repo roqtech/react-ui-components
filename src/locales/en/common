@@ -1,0 +1,1016 @@
+{
+  "submit": "submit",
+  "cancel": "Cancel",
+  "action-overlay": {
+    "close-confirmation-modal": {
+      "title": "action-overlay.close-confirmation-modal.title",
+      "message": "action-overlay.close-confirmation-modal.message",
+      "cancel": "action-overlay.close-confirmation-modal.cancel",
+      "confirm": "action-overlay.close-confirmation-modal.confirm"
+    }
+  },
+  "confirmation-modal": {
+    "message": {
+      "default": "confirmation-modal.message.default"
+    },
+    "buttons": {
+      "cancel": {
+        "text": "confirmation-modal.buttons.cancel.text"
+      },
+      "confirm": {
+        "text": "confirmation-modal.buttons.confirm.text"
+      }
+    }
+  },
+  "tooltip": {
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "file-uploader": {
+    "errors": {
+      "file-invalid-type": "File type not supported!",
+      "too-many-files": "Files limit exceeded!",
+      "file-too-large": "File size is too large!"
+    }
+  },
+  "upload-file-cta": "Upload File",
+  "drop-uploads-cta": "Drop your files here",
+  "link-text": {
+    "imprint": "Imprint",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Notice",
+    "data-preference": "Data Preferences",
+    "change-avatar": "Change Avatar",
+    "save-avatar": "Save Avatar"
+  },
+  "password_unmask": "Show Password",
+  "password_mask": "Hide Password",
+  "title": "title",
+  "no-records-to-display": "No records to display",
+  "action": "Action",
+  "pagination": {
+    "first": "First Page",
+    "previous": "Previous Page",
+    "next": "Next Page",
+    "last": "Last Page",
+    "displayed-rows-range": "{from}-{to} of {count}",
+    "rows-per-page": "Rows per page:"
+  },
+  "rows": "Rows",
+  "array-contain": "{{each}} {{property}} must contain {{constraints.0}} values",
+  "array-max-size": "{{each}} {{property}} must contain not more than {{constraints.0}}",
+  "array-min-size": "{{each}} {{property}} must contain at least {{constraints.0}}",
+  "array-not-contains": "{{each}} {{property}} should not contain {{constraints.0}} values",
+  "array-not-empty": "{{each}} {{property}} should not be empty",
+  "array-unique": "{{each}} All {{property}}'s elements must be unique",
+  "should-allow": "{{property}} allowed {{value}}",
+  "equals": "{{each}} {{property}} should not be equal to {{constraints.0}}",
+  "is-defined": "{{each}} {{property}} should not be null or undefined",
+  "is-empty": "{{each}} {{property}} must be empty",
+  "is-in": "{{each}} {{property}} must be one of the following values: {{constraints.0}}",
+  "is-not-empty": "{{each}} {{property}} should not be empty",
+  "is-not-in": "{{each}} {{property}} should not be one of the following values: {{constraints.0}}",
+  "is-optional": "{{property}} is optional",
+  "not-equals": "{{each}} {{property}} should not be equal to {{constraints.0}}",
+  "validate": "{{property}} Resolve promise before validation",
+  "validate-by": "{{property}} is not validated  {{options}}",
+  "validate-if": "{{property}} is ignored",
+  "validate-nested": "{{each}} {{property}} must be either object or array",
+  "validate-promise": "{{property}} Resolve promise before validation",
+  "max-date": "maximal allowed date for {{each}} {{property}} is {{constraints.0}}",
+  "min-date": "minimal allowed date for {{each}} {{property}} is {{constraints.0}}",
+  "is-divisible-by": "{{each}} {{property}} must be divisible by {{constraints.0}}",
+  "is-negative": "{{each}} {{property}} must be a negative number",
+  "is-positive": "{{each}} {{property}} must be a positive number",
+  "max": "{{each}} {{property}} must not be greater than {{constraints.0}}",
+  "min": "{{each}} {{property}} must not be less than {{constraints.0}}",
+  "is-instance": "{{property}} is not instance of the specified object",
+  "is-not-empty-object": "{{property}} should not be an empty object",
+  "contains": "{{each}} {{property}} must contain a {{constraints.0}} string",
+  "is-alpha": "{{each}} {{property}} must contain only letters (a-zA-Z)",
+  "is-alpha-numeric": "{{each}} {{property}} must contain only letters and numbers",
+  "is-ascii": "{{each}} {{property}} must contain only ASCII characters",
+  "is-base-32": "{{each}} {{property}} must be base32 encoded",
+  "is-base-64": "{{each}} {{property}} must be base64 encoded",
+  "is-bic": "{{each}} {{property}} must be a BIC or SWIFT code",
+  "is-boolean-string": "{{each}} {{property}} must be a boolean string",
+  "is-btc-address": "{{each}} {{property}} must be a BTC address",
+  "is-byte-length": "{{each}} {{property}} byte length must fall into ({{constraints.0}} - {{constraints.1}}) range",
+  "is-credit-card": "{{each}} {{property}} must be a credit card",
+  "is-data-uri": "{{each}} {{property}} must be a data uri format",
+  "is-currency": "{{each}} {{property}} must be a currency",
+  "is-date-string": "{{each}} {{property}} must be a valid ISO 8601 date string",
+  "is-decimal": "{{each}} {{property}} is not a valid decimal number.",
+  "is-ean": "{{each}} {{property}} must be an EAN (European Article Number)",
+  "is-email": "{{each}} {{property}} must be an email",
+  "is-firebase-push-id": "{{each}} {{property}} must be a Firebase Push Id",
+  "is-fqdn": "{{each}} {{property}} must be a valid domain name",
+  "is-full-width": "{{each}} {{property}} must contain a full-width characters",
+  "is-half-width": "{{each}} {{property}} must contain a half-width characters",
+  "is-hash": "{{each}} {{property}} must be a hash of type {{constraints.0}}",
+  "is-hexa-decimal": "{{each}} {{property}} must be a hexadecimal number",
+  "is-hex-color": "{{each}} {{property}} must be a hexadecimal color",
+  "is-hsl": "{{each}} {{property}} must be a HSL color",
+  "is-iban": "{{each}} {{property}} must be an IBAN",
+  "is-ip": "{{each}} {{property}} must be an ip address",
+  "is-isbn": "{{each}} {{property}} must be an ISBN",
+  "is-isin": "{{each}} {{property}} must be an ISIN",
+  "is-json": "{{each}} {{property}} must be a json string",
+  "is-jwt": "{{each}} {{property}} must be a JWT string",
+  "is-locale": "{{each}} {{property}} must be a locale",
+  "is-lower-case": "{{each}} {{property}} must be a lower case string",
+  "is-magnet-uri": "{{each}} {{property}} must be magnet uri format",
+  "is-military-time": "{{each}} {{property}} must be a valid representation of military time in the format HH:MM",
+  "is-mime-type": "{{each}} {{property}} must be  MIME type format",
+  "is-mongo-id": "{{each}} {{property}} must be a mongodb id",
+  "is-mobile-phone": "{{each}} {{property}} must be a phone number",
+  "is-multi-byte": "{{each}} {{property}} must contain one or more multibyte chars",
+  "is-number-string": "{{each}} {{property}} must be a number string",
+  "is-octal": "{{each}} {{property}} must be valid octal number",
+  "is-passport-number": "{{each}} {{property}} must be valid passport number",
+  "is-phone-number": "{{each}} {{property}} must be a valid phone number",
+  "is-port": "{{each}} {{property}} must be a port",
+  "is-postal-code": "{{each}} {{property}} must be a postal code",
+  "is-rfc-3339": "{{each}} {{property}} must be RFC 3339 date",
+  "is-rgb-color": "{{each}} {{property}} must be a rgb color",
+  "is-sem-ver": "{{each}} {{property}} must be a Semantic Versioning Specification",
+  "is-surrogate-pair": "{{each}} {{property}} must contain any surrogate pairs chars",
+  "is-upper-case": "{{each}} {{property}} must contain an uppercase string",
+  "is-url": "{{each}} {{property}} must be an URL",
+  "is-uuid": "{{each}} {{property}} must be a UUID",
+  "is-variable-width": "{{each}} {{property}} must contain a full-width and half-width characters",
+  "length": "{{each}} {{property}} doesn't length falls in a range ({{min}} - {{max}})",
+  "matches": "{{each}} {{property}} must match {{constraints.0}} regular expression",
+  "max-length": "{{each}} {{property}} must be shorter than or equal to {{constraints.0}} characters",
+  "min-length": "{{each}} {{property}} must be higher than or equal to {{constraints.0}} characters",
+  "not-contains": "{{each}} {{property}} must contain a {{constraints.0}} string",
+  "is-ethereum-address": "{{each}} {{property}} must be an Ethereum address",
+  "is-array": "{{each}} {{property}} must be an array",
+  "is-boolean": "{{each}} {{property}} must be a boolean value",
+  "is-date": "{{each}} {{property}} must be a Date instance",
+  "is-enum": "{{each}} {{property}} must be a valid enum value",
+  "is-int": "{{each}} {{property}} must be an integer number",
+  "is-number": "{{each}} {{property}} must be a number conforming to the specified constraints",
+  "is-object": "{{each}} {{property}} must be an object",
+  "is-string": "{{each}} {{property}} must be a string",
+  "event-type-not-found": "EventType with id {{id}} not found",
+  "event-subscriber-not-found": "EventSubscriber with id {{id}} not found",
+  "deployment-info-not-found": "There is no deployment info",
+  "conversation-user-not-found": "ConversationUser with id {{id}} not found",
+  "ws-auth-failure": "Auth Failed",
+  "conversation-not-found": "Conversation with id {{id}} not found",
+  "message-status-not-found": "MessageStatus with id {{id}} not found",
+  "message-not-found": "Message with id {{id}} not found",
+  "ws-validation-failed": "Validation Failed",
+  "translation-key-not-found": "translation-key-not-found",
+  "translation-not-found": "translation-not-found",
+  "translation-key-with-key-already-exists": "translation-key-with-key-already-exists",
+  "translation-already-exists": "translation-already-exists",
+  "event-example-data-not-found": "EventExampleData with id {{id}} not found",
+  "event-record-not-found": "EventRecord with id {{id}} not found",
+  "invalid-credentials": "Credentials are wrong",
+  "invalid-token": "Token provided is wrong",
+  "missing-auth": "Authorization header is not passed",
+  "invalid-auth-header": "Authorization header type is not supported",
+  "disallowed-domain": "{{domain}} is not allowed",
+  "invalid-mail-type": "Invalid mailType provided",
+  "invalid-recipient": "Recipient does not exist",
+  "mail-type-not-found": "MailType with id {{id}} not found",
+  "notification-type-channel-user-not-found": "NotificationTypeChannelUser with id {{id}} not found",
+  "notification-type-channel-not-found": "NotificationTypeChannel with id {{id}} not found",
+  "notification-type-not-found": "NotificationType with id {{id}} not found",
+  "notification-user-not-found": "NotificationUser with id {{id}} not found",
+  "notification-not-found": "Notification with id {{id}} not found",
+  "user-not-authenticated": "Action could not be complete without authenticated userId",
+  "notification-and-user-not-found": "Notification with id {{id}} and notificationUserId {{notificationUserId}} not found",
+  "user-invitation-not-found": "UserInvite with id {{id}} not found",
+  "user-provider-not-found": "UserProvider with id {{id}} not found",
+  "user-token-not-found": "UserToken with id {{id}} not found",
+  "user-token-not-found-in-db": "There is no such token in db",
+  "user-not-found": "User with id {{id}} not found",
+  "invalid-user-token": "User with id {{id}} not found",
+  "expired-user-token": "Token has been expired",
+  "user-invite-acceptance-failed": "Unable to accept because invite is already {{userInviteStatus}}",
+  "bulk-user-invite-limit-exceeded": "Only {{maxAllowed}} can be invited at once",
+  "user-invite-resending-failed": "Unable to resend because invite is already {{userInviteStatus}}",
+  "user-invite-cancellation-failed": "Unable to cancel user invite because invite is already {{userInviteStatus}}",
+  "user-already-exists": "The user with the email address {{email}} already exists",
+  "user-already-invited": "{{email}} has already been invited",
+  "user-invite-already-accepted": "Invitation has already been accepted",
+  "user-invite-already-sent": "Invite has already been sent",
+  "file-status-update-failed": "Can't set the status '{{status}}' for already uploaded file",
+  "file-not-found": "File with id {{id}} not found",
+  "file-not-completely-uploaded-status-update-failed": "Can't set the status {{status}} for file that is not completely uploaded",
+  "token": "token",
+  "password": "password",
+  "new-password": "newPassword",
+  "email": "Email address",
+  "provider-id": "providerId",
+  "provider-user-id": "providerUserId",
+  "first-name": "First Name",
+  "last-name": "Last Name",
+  "avatar": "avatar",
+  "timezone": "Timezone",
+  "locale": "Locale",
+  "event-type": "eventType",
+  "consumer": "consumer",
+  "parameters": "parameters",
+  "order": "order",
+  "sort": "sort",
+  "key": "key",
+  "value": "value",
+  "search": "search",
+  "filter": "filter",
+  "api": "api",
+  "id": "id",
+  "file-name": "File Name",
+  "file-size": "fileSize",
+  "file-type": "fileType",
+  "custom-meta-data": "customMetaData",
+  "path": "path",
+  "user-login-history-id": "userLoginHistoryId",
+  "avatar-image-identifier": "avatarImageIdentifier",
+  "phone": "phone",
+  "roq-identifier": "roqIdentifier",
+  "opted-in": "optedIn",
+  "sync": "sync",
+  "user-id": "User ID",
+  "ip": "ip",
+  "host": "host",
+  "timestamp": "timestamp",
+  "subscribe-to-mail": "subscribeToMail",
+  "data": "data",
+  "ids": "ids",
+  "message-id": "messageId",
+  "conversation-user-id": "conversationUserId",
+  "is-group": "isGroup",
+  "archived": "archived",
+  "owner-id": "ownerId",
+  "owner-ids": "ownerIds",
+  "member-ids": "memberIds",
+  "conversation-id": "conversationId",
+  "message-status-id": "messageStatusId",
+  "body": "body",
+  "author-id": "authorId",
+  "read": "read",
+  "notified": "notified",
+  "user-ids": "userIds",
+  "time-range": "timeRange",
+  "first-message": "firstMessage",
+  "find-or-create": "findOrCreate",
+  "conversation": "conversation",
+  "include-archived": "includeArchived",
+  "limit": "limit",
+  "offset": "offset",
+  "full-name": "fullName",
+  "initials": "initials",
+  "members": "members",
+  "total-count": "totalCount",
+  "owner": "Owner",
+  "users": "Users",
+  "created-at": "Created At",
+  "updated-at": "updatedAt",
+  "unread-count": "unreadCount",
+  "last-message": "lastMessage",
+  "last-message-timestamp": "lastMessageTimestamp",
+  "mentioned-ids": "mentionedIds",
+  "read-by": "readBy",
+  "last-timestamp": "lastTimestamp",
+  "message-ids": "messageIds",
+  "member-id": "memberId",
+  "is-online": "isOnline",
+  "translation-key-id": "translation-key-id",
+  "locales": "locales",
+  "translation-id": "translation-id",
+  "content": "content",
+  "entity-uuid": "entityUUID",
+  "entity-type": "entityType",
+  "meta-obj": "metaObj",
+  "name": "Name",
+  "object": "object",
+  "start-date": "startDate",
+  "end-date": "endDate",
+  "count": "count",
+  "api-key": "apiKey",
+  "api-secret": "apiSecret",
+  "access-token": "accessToken",
+  "to": "to",
+  "subject": "subject",
+  "mail-type": "mailType",
+  "entity-id": "entityId",
+  "directly-injected-variables": "directlyInjectedVariables",
+  "description": "description",
+  "template-id": "templateId",
+  "payload": "payload",
+  "notification-type-id": "notificationTypeId",
+  "notification-user-id": "notificationUserId",
+  "notifying-users": "notifyingUsers",
+  "meta": "meta",
+  "link": "link",
+  "notification-type-channel-id": "notificationTypeChannelId",
+  "type": "Type",
+  "sub-type": "subType",
+  "default-enabled": "defaultEnabled",
+  "enabled": "enabled",
+  "icon": "icon",
+  "default-active": "defaultActive",
+  "active": "active",
+  "document-owner-id": "documentOwnerId",
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "default": "Status"
+  },
+  "size": "Size",
+  "content-type": "contentType",
+  "expires-at": "expiresAt",
+  "file-max-size": "fileMaxSize",
+  "session-id": "sessionId",
+  "config": "config",
+  "user-provider-id": "userProviderId",
+  "user-invite-id": "userInviteId",
+  "user-token-id": "userTokenId",
+  "provider-identifier": "providerIdentifier",
+  "provider-user-identifier": "providerUserIdentifier",
+  "keepLoggedIn": "keepLoggedIn",
+  "valid-till": "validTill",
+  "user-email-already-exists": "The user with current email exists",
+  "user-incorrect-email-password": "The email/password you entered are not correct",
+  "user-invalid-token": "Token is not valid",
+  "invalid-user-password": "Invalid password",
+  "user-not-confirmed": "User is not confirmed",
+  "user-email-not-provided": "No email provided",
+  "user-invalid-current-password": "Invalid current password",
+  "invalid-api-key": "Invalid api key",
+  "default-locale-undefined": "Default locale {{defaultLocale}} undefined",
+  "user-login-history-not-found": "UserLoginHistory with id {{id}} not found",
+  "user-max-allowed": "Only {{maxAllowed}} can be invited at once",
+  "unauthorized-exception": "{{message}}",
+  "json-type-exception": "json-type-exception",
+  "internal-server-error": "Internal server error",
+  "generic-user-creation-failed": "ROQ Platform Gateway is currently unavailable. Action: Create User",
+  "generic-user-invite-acceptance-failed": "ROQ Platform  is currently unavailable. Action: Accept User Invite",
+  "generic-user-invite-creation-failed": "ROQ Platform Gateway is currently unavailable. Action: Create User Invite",
+  "generic-user-providers-deletion-failed": "ROQ Platform Gateway is currently unavailable. Action: Delete User Providers",
+  "generic-user-providers-fetching-failed": "ROQ Platform Gateway is currently unavailable. Action: Get User Providers",
+  "generic-user-refresh-token-creation-failed": "Response from ROQ Platform Gateway is currently unavailable. Action: Create User Refresh Token",
+  "generic-user-refresh-token-rotation-failed": "ROQ Platform Gateway is currently unavailable. Action: Rotate Refresh Token",
+  "generic-user-refresh-token-verification-failed": "ROQ Platform Gateway is currently unavailable. Action: Verify User Refresh Token",
+  "generic-user-reset-password-token-fetching-failed": "ROQ Platform Gateway is currently unavailable. Action: Reset Password Token",
+  "generic-user-token-deletion-failed": "ROQ Platform Gateway is currently unavailable. Action: Delete User Token",
+  "generic-user-validate-email-token-creation-failed": "ROQ Platform Gateway is currently unavailable. Action: Create User Validate Email Token",
+  "generic-user-invite-cancellation-failed": "ROQ Platform Gateway is currently unavailable. Action: Cancel User Invite",
+  "generic-valid-user-token-fetching-failed": "ROQ Platform Gateway is currently unavailable. Action: Get Valid User Token",
+  "generic-user-invite-fetching-failed": "ROQ Platform Gateway is currently unavailable. Action: Get User Invite",
+  "generic-user-invite-refresh-failed": "ROQ Platform Gateway is currently unavailable. Action: Refresh User Invite",
+  "graphql-validation-failed": "Invalid Input",
+  "invalid-uuid": "Provided argument should have been a valid uuid",
+  "generic-file-creation-failed": "ROQ Platform Gateway is currently unavailable. Action: Create File",
+  "generic-file-fetching-failed": "ROQ Platform Gateway is currently unavailable. Action: Get File",
+  "generic-file-updation-failed": "ROQ Platform Gateway is currently unavailable. Action: Update File Status",
+  "generic-health-check-failed": "ROQ Platform Gateway is currently unavailable. Action: {{service}} Health Check",
+  "generic-platform-creation-failed": "ROQ Platform Gateway is currently unavailable. Action: Create Platform Token",
+  "unauthorized": "Unauthorized",
+  "unique-constraint-violated": "This request is invalid as it violates an unique constraint",
+  "notification-mail-history-not-found": "NotificationMailHistory with id {{id}} not found",
+  "notification-sms-history-not-found": "NotificationSmsHistory with id {{id}} not found",
+  "notification-type-category-not-found": "NotificationTypeCategory with id {{id}} not found",
+  "notification-type-channel-mail-not-found": "NotificationTypeChannelMail with id {{id}} not found",
+  "notification-type-channel-sms-localized-not-found": "NotificationTypeChannelSmsLocalized with id {{id}} not found",
+  "notification-type-channel-sms-not-found": "NotificationTypeChannelSms with id {{id}} not found",
+  "notification-type-channel-web-localized-not-found": "NotificationTypeChannelWebLocalized with id {{id}} not found",
+  "notification-type-channel-web-not-found": "NotificationTypeChannelWeb with id {{id}} not found",
+  "notification-type-user-preference-not-found": "NotificationTypeUserPreference with id {{id}} not found",
+  "notification-type-with-given-key-not-found": "Notification Type with key {{key}} not found.",
+  "notification-in-app-not-found": "notification-in-app-not-found",
+  "file-association-not-found": "FileAssociation with id {{id}} not found",
+  "file-category-with-given-key-not-found": "FileCategory with key {{fileCategory}} not found",
+  "file-category-not-found": "FileCategory with id {{id}} not found",
+  "file-category-content-type-not-found": "FileCategoryContentType with id {{id}} not found",
+  "invalid-content-type-for-file-category": "File type {{extension}} is not a valid file type for {{fileCategoryName}}",
+  "file": {
+    "public": "Public",
+    "private": "Private",
+    "edit": {
+      "validations": {
+        "name": {
+          "required": "File name is required",
+          "max-length-exceeded": "File name cannot be more than {{characters}} characters long",
+          "invalid-name": "File name is not valid"
+        }
+      },
+      "success": "File updated successfully",
+      "title": "Editing file",
+      "name-field-label": "File name",
+      "saveButton": "SAVE FILE NAME",
+      "failure": "File name update failed"
+    },
+    "make-file-public-title": "Make file public",
+    "make-file-private-title": "Make file private",
+    "make-file-public-message": "Are you sure you want to make public the following file: {{fileName}}",
+    "make-file-private-message": "Are you sure you want to make private the following file: {{fileName}}",
+    "make-file-public": "Make public",
+    "make-file-private": "Make private",
+    "made-private-successfully": "{{fileName}} is made private",
+    "made-public-successfully": "{{fileName}} is public now. URL is copied to your clipboard",
+    "copy-url-link": "File url has been copied to clipboard",
+    "edit-subtitle": "Provide below requested information",
+    "extension": "Extension",
+    "copy-file-public-link": "Copy URL",
+    "file-type": "File Type",
+    "copy-link": "Copy link",
+    "file-is-public": "This file is public",
+    "publicly-share-file-title": "Share your file URL publicly",
+    "publicly-share-file-done": "Done"
+  },
+  "message-center": {
+    "new-conversation": {
+      "groupChat": "Group chat",
+      "chat": "Chat",
+      "cancelBtnTitle": "Cancel"
+    }
+  },
+  "generic-network-offline": "Please check your internet connection first",
+  "forbidden": "You don't have permissions to do this. Please make sure that you have these permission(s): {{resourceId}}",
+  "social-login": {
+    "google": "sign in with Google",
+    "linkedin": "sign in with LinkedIn",
+    "apple": "sign in with Apple"
+  },
+  "input": {
+    "password": {
+      "placeholder": "Password",
+      "validation": {
+        "required": "Password is a required field",
+        "char-limit": "Have between 8 and 64 characters",
+        "upper-char-required": "Contain at least 1 upper-case letter",
+        "number-required": "Contain at least 1 number",
+        "special-char-required": "Contain at least 1 special character",
+        "strength": "at least one letter, one number and one special character"
+      }
+    },
+    "email": {
+      "validation": {
+        "type": "Must be a valid E-mail",
+        "required": "E-Mail is a required field",
+        "unique": "Email should be unique"
+      },
+      "name": "Email",
+      "placeholder": "Email"
+    },
+    "first-name": {
+      "validation": {
+        "required": "first name is a required field"
+      },
+      "placeholder": "Enter first name",
+      "name": "First Name"
+    },
+    "last-name": {
+      "validation": {
+        "required": "last name is a required field"
+      },
+      "placeholder": "Enter last name",
+      "name": "Last Name"
+    },
+    "confirm-new-password": {
+      "validation": {
+        "required": "Confirm password is a required field",
+        "mismatch": "passwords do not match"
+      },
+      "placeholder": "Repeat new password"
+    },
+    "keepMeLoggedIn": "Keep me logged in",
+    "new-password": {
+      "placeholder": "New password"
+    },
+    "conversation-name": {
+      "validation": {
+        "required": "title is a required field"
+      }
+    },
+    "message": {
+      "placeholder": "Insert your message here"
+    },
+    "group-title": {
+      "placeholder": "Group name"
+    },
+    "phone": {
+      "name": "Phone"
+    },
+    "company": {
+      "name": "Company"
+    },
+    "position": {
+      "name": "Position"
+    },
+    "street_address": {
+      "name": "Street Address"
+    },
+    "zip_code": {
+      "name": "Zip Code"
+    },
+    "house_number": {
+      "name": "House Number"
+    },
+    "city": {
+      "name": "City"
+    },
+    "country": {
+      "name": "Country"
+    },
+    "current-password": {
+      "placeholder": "Enter current password"
+    },
+    "set-password": {
+      "placeholder": "New password"
+    },
+    "confirm-password": {
+      "placeholder": "Repeat new password"
+    },
+    "locale": {
+      "validation": {
+        "required": "Locale is required"
+      }
+    }
+  },
+  "password-validation-base-text": "Your password must:",
+  "already-registered": "Already have an account?",
+  "not-registered-yet": "Don't have an account yet?",
+  "go-to-registration-subheading": "Start using ROQ One today. Sign up below.",
+  "go-to-login": "back to sign in",
+  "go-to-registration": "create account",
+  "reset-requested": "Reset requested",
+  "reset-password-mail-sent-text": "If <strong>{{email}}</strong> is registered, we've sent you an email to reset your password. Please follow the instructions in your email inbox.",
+  "resend-email-cta": "Resend Email",
+  "reset-password-mail-sent-failed": "Email wasn’t resent",
+  "reset-password-mail-sent-success": "Email was resent",
+  "send-instructions": "Send Instructions",
+  "forgot-password-cta": "Forgot password?",
+  "login": "Sign in",
+  "confirm-mail-text": "Confirm your email",
+  "registration-mail-sent-text": "We've sent you an email to <strong>{{email}}</strong><br />Click on the link there to continue your registration.",
+  "mail-not-received-text": "Didn’t receive an email?",
+  "resend-email-verification": "Verification Email Resent",
+  "create-account-cta": "Create Account",
+  "reset-password-cta": "Reset password",
+  "roq-account-activate-provider-link": "ROQ - Account Activate Provider Link",
+  "confirm-account-provider-link": "Confirm provider link to account",
+  "invalid-link-text": "Invitation is no longer valid",
+  "provider-linked-account-verified": "Provider link to account verified",
+  "sign-in": "Login",
+  "activate-roq-account": "ROQ - Account activate",
+  "confirm-account": "Confirm Account",
+  "email-confirmation-error": "Your email confirmation link is invalid or already expired",
+  "account-verified": "Account verified",
+  "reset-password": "Reset Password",
+  "reset-password-subheading": "In order to reset your password, please provide registered email address and follow instructions.",
+  "login-subheading": "Sign in to your account with your email and password or use other authentication methods.",
+  "register": "Register",
+  "register-motivator-text": "This is your first step with us. Let's ROQ !",
+  "roq-reset-password": "ROQ - New Password",
+  "expired-invitation-text": "Your invitation has expired. Please contact your point of contact",
+  "author-create": {
+    "errors": {
+      "name": "Name is required",
+      "maxChar": "Maximum 50 characters allowed",
+      "age": "Age can not be less than 0",
+      "birthDate": {
+        "required": "BirthDate is required",
+        "invalid-format": "Invalid Date"
+      },
+      "email": {
+        "required": "Email is required",
+        "invalid-format": "Invalid Email Address"
+      },
+      "zipCode": "ZipCode must be of 5 digits",
+      "gender": "author-create.errors.gender"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Others",
+      "label": "Gender"
+    },
+    "name": "Name",
+    "surname": "Surname",
+    "age": "Age",
+    "birthDate": "Birth Date",
+    "email": "Email",
+    "address": {
+      "label": "Address",
+      "street": "Street Address",
+      "houseNumber": "House Number",
+      "zipCode": "Zip Code",
+      "city": "City",
+      "country": "Country"
+    },
+    "saveButton": "Save",
+    "cancelButton": "Cancel",
+    "title": "Create Author",
+    "created-successfully-alert": "Author has been created successfully",
+    "update-title": "Update Author",
+    "updated-successfully-alert": "Author has been updated successfully"
+  },
+  "author": {
+    "id": "Author ID",
+    "name": "Name",
+    "surname": "Surname",
+    "age": "Age",
+    "birthDate": "Birth Date",
+    "email": "Email",
+    "address": "Address",
+    "gender": "Gender",
+    "actions": "Actions",
+    "title-plural": "Authors",
+    "add": "Add Author"
+  },
+  "no-authors-label": "There are no authors to display",
+  "add-author-label": "Add authors using button ADD AUTHOR",
+  "title_example": "Example",
+  "book-create": {
+    "errors": {
+      "title": "Title is required",
+      "maxChar": "Maximum 50 characters allowed",
+      "price": "Price must be greater than 0",
+      "publishingDate": "Invalid Date",
+      "authorId": "Author is required",
+      "files": {
+        "min": "Atleast one file is required",
+        "max": "No more than 3 files are allowed"
+      }
+    },
+    "title": "Title",
+    "authorId": "Author Id",
+    "description": "Description",
+    "price": "Price",
+    "publishingDate": "Publishing Date",
+    "published": {
+      "label": "Published",
+      "yes": "Yes"
+    },
+    "outOfStock": {
+      "label": "Out of Stock",
+      "yes": "Yes"
+    },
+    "fileUpload": "File Upload (pdf, png, and jpeg, Max 3)",
+    "saveButton": "Save",
+    "cancelButton": "Cancel",
+    "header": "Create Book",
+    "created-successfully-alert": "Book has been created successfully",
+    "update-header": "Update Book",
+    "updated-successfully-alert": "Book has been updated successfully"
+  },
+  "book": {
+    "id": "Book Id",
+    "title": "Title",
+    "description": "Description",
+    "price": "Price ($)",
+    "author": "Author",
+    "publishingDate": "Publishing Date",
+    "published": "Published?",
+    "outOfStock": "Out of Stock?",
+    "actions": "Actions",
+    "title-plural": "Books",
+    "add": "Add Book"
+  },
+  "yes": "yes",
+  "no": "no",
+  "no-books-label": "There are no books to display",
+  "add-book-label": "Add books using button ADD BOOK",
+  "upload": {
+    "in-progress": "Uploading",
+    "success": {
+      "files": "Uploaded",
+      "avatar": "Avatar uploaded successfully"
+    },
+    "failure": {
+      "avatar": "Avatar upload failed. Please select the file to upload first."
+    },
+    "abort": "Stop upload"
+  },
+  "upload-failure": "Upload Failed",
+  "files": {
+    "retry-upload": "Retry Upload",
+    "cancel": "Cancel",
+    "delete-file-title": "Delete a file?",
+    "confirm_bulk_deletion": "Are you sure you want to delete {{length}} files?",
+    "confirm_deletion": "Are you sure you want to delete the following file: {{fileName}}",
+    "delete": "Delete",
+    "delete-file": "Delete",
+    "download-file": "Download",
+    "deleted_successfully_bulk": "Files deleted successfully",
+    "deleted_successfully": "{{fileName}} is deleted successfully",
+    "uploaded-successfully": "{{count}} file uploaded successfully",
+    "uploaded-successfully_plural": "{{count}} files uploaded successfully"
+  },
+  "save": "Save",
+  "title_edit-user-file": "Edit File {{id}}",
+  "no-files-to-display": "Drag files here or use the 'Upload File' button",
+  "title_files": "Files",
+  "upload-failure_upload-url-missing": "Missing required upload URL for cloud upload",
+  "upload-failure_upload-url-expired": "Signed URL expired already",
+  "upload-failure_missing-max-file-size": "Missing required maxFileSize for cloud upload",
+  "upload-failure_file-size-exceeds-max-file-size": "File upload failed. Maximum files size is {{maxFileSize}}MB. Please try a smaller file.",
+  "upload-failure_content-type-mismatch": "The content type does not match",
+  "dashboard": {
+    "exploreBtn": "Explore",
+    "welcome-user-text": "Hi {{fullName}}, welcome to ROQ one!"
+  },
+  "user-authorization": {
+    "title": "User Authorization",
+    "summary": "Fast and secure user authorization and authentication for your application.",
+    "sub-feature_one": {
+      "description": "Registration, including double-opt-in and password reset."
+    },
+    "sub-feature_two": {
+      "description": "Registration with Single-sign-on (SSO) via Google, LinkedIn or Apple."
+    },
+    "sub-feature_three": {
+      "description": "User login and logout with or without Single-sign-on (SSO)."
+    }
+  },
+  "user-management": {
+    "title": "User Management",
+    "summary": "Manage your users and let them manage their profiles and settings complying with GDPR rules.",
+    "sub-feature_one": {
+      "description": "Invite and deactivate users."
+    },
+    "sub-feature_two": {
+      "description": "Explore user profile management, including Avatar upload and & Set New Password feature."
+    },
+    "sub-feature_three": {
+      "description": "Upload Avatar"
+    },
+    "sub-feature_four": {
+      "description": "Set new password"
+    }
+  },
+  "localization": {
+    "title": "Localization",
+    "summary": "Offer your users 1 or more languages in your application.",
+    "sub-feature_one": {
+      "description": "We support that your users switch their application between language with the click of a button. Go to the Page Settings and switch between 🇩🇪 German and 🏴󠁧󠁢󠁥󠁮 English."
+    },
+    "sub-feature_two": {
+      "description": "Date and time formats are also changing according to the selected locale."
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "summary": "Your users receive important notifications in-app or via email.",
+    "sub-feature_one": {
+      "description": "Explore in-app notifications about new files or registered users by clicking on bell 🔔 in the header."
+    },
+    "sub-feature_two": {
+      "description": "Explore email notifications about files or user activity by getting an email sent from the ROQ application."
+    },
+    "sub-feature_three": {
+      "description": "Fine-tune your notification preferences. Users can control which notifications they want to receive and via which channel (in-app or email) in the User Settings."
+    }
+  },
+  "file-management": {
+    "title": "File Management",
+    "summary": "Upload, download, delete any kind of file in your application including pdf, jpeg, txt.",
+    "sub-feature_one": {
+      "description": "Upload, download or delete single or multiple files via ROQ One. You might want to define allowed file types and upload size limits."
+    },
+    "sub-feature_two": {
+      "description": "Edit your file names, keep your files private or make them public."
+    },
+    "sub-feature_three": {
+      "description": "You files are safe and secure. We are using Google Cloud Storage to make it work!"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "summary": "Start a conversation with a ROQ One user or a group.",
+    "sub-feature_one": {
+      "description": "Start a 1:1 conversation with any user of your ROQ One application."
+    },
+    "sub-feature_two": {
+      "description": "Start group conversation."
+    },
+    "sub-feature_three": {
+      "description": "Manage group conversations by renaming, archiving, adding, or removing users"
+    },
+    "sub-feature_four": {
+      "description": "Message Center"
+    }
+  },
+  "mail": {
+    "title": "Mail",
+    "summary": "Customers need to use their own SendGrid account.",
+    "sub-feature_one": {
+      "description": "User-related emails (registration, password reset, notification, uploaded files) are sent via 3rd party provider SendGrid."
+    },
+    "sub-feature_two": {
+      "description": "Customers need to use their own SendGrid account."
+    }
+  },
+  "user-interface": {
+    "title": "User Interface",
+    "summary": "Modern and fast UI based on world’s most used UI Library - Material UI.",
+    "sub-feature_one": {
+      "description": "Fully customize look and feel of your application according to your brand identity. You can start with fonts, colors and different MUI components."
+    },
+    "sub-feature_two": {
+      "description": "Explore MUI Documentation"
+    }
+  },
+  "title_home": "ROQ One Dashboard",
+  "remove-members-screen-title": "Remove users from the group",
+  "add-members-screen-title": "Add users to the group",
+  "remove": "Remove",
+  "add": "Add",
+  "select-one-warning": "You can’t remove all users from the conversation. Please select at least 1 user.",
+  "conversation-menu": {
+    "rename-group": "Rename group",
+    "archive-group": "Archive group",
+    "leave-group": "Leave group",
+    "add-user": "Add user",
+    "remove-user": "Remove user"
+  },
+  "no-conversation-selected-message": "Break the ice and start a conversation",
+  "choose-recipient-title": "With whom would you like to start a conversation?",
+  "message-menu": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "chat-title": "Messages",
+  "create-new": "New message",
+  "new": "New",
+  "message": {
+    "deleted": "This message was removed by sender",
+    "edited": "This message was edited"
+  },
+  "conversation-beginning-message": "Break the ice and start a conversation",
+  "title_message-center": "Message center",
+  "notification-type-category": "notification-type-category",
+  "notification-type_user-info": "Newly joined users",
+  "notification-type_files-new": "Newly uploaded files",
+  "notification-type_chat-new": "New chat messages",
+  "notification-type-category_onboarding": "Onboarding",
+  "notification-type-category_files": "Files",
+  "notification-type-category_chat": "Chat",
+  "notification-preferences-title": "Notifications",
+  "notification-type": "notification-type",
+  "roq-notification-text": "ROQ One",
+  "email-notification-text": "E-mail",
+  "settings-update-success": "Settings successfully updated",
+  "notification_mark-as-unread": "Mark as unread",
+  "notification_mark-as-read": "Mark as read",
+  "notification": "Notifications",
+  "notification-headline_recent": "Recent",
+  "notification-headline_older": "Older",
+  "notification-toggle-all": "All",
+  "notification-toggle-unread": "Unread",
+  "notification_mark-all-as-read": "Mark all as read",
+  "notification-headline_groupName": "notification-headline_groupName",
+  "no-new-notifications": "There are no notifications at the moment.",
+  "notification-show-more": "Show more",
+  "edit": "Edit",
+  "profile-page": {
+    "update-form-general-label": "General",
+    "update-form-contact-details-label": "Contact Details",
+    "update-form-employment-label": "Employment",
+    "update-form-address-label": "Address",
+    "subtitle": "Make changes and click update in order to save new updates to your profile"
+  },
+  "profile-page-details": {
+    "about-label": "About",
+    "company-label": "Company",
+    "position-label": "Position",
+    "address-label": "Address"
+  },
+  "profile-update-success": "Profile updated successfully",
+  "title_profile": "User profile",
+  "settings-section-title": "Language & Timezone",
+  "timezone-label-text": "Select your timezone",
+  "language-label-text": "Select your language",
+  "password-section-title": "Password",
+  "sso-connected-text": "You are connected with an {{name}} account",
+  "sso-connected-multiple-text": "You are connected with multiple accounts",
+  "change-password-success": "Password Changed Successfully",
+  "sso-disconnect": "Disconnect",
+  "title_settings": "Settings",
+  "invite-accepted-text": "Invite accepted successfully",
+  "accept-invite-cta": "Join",
+  "roq-accept-invite": "ROQ Accept Invite",
+  "accept-invite-heading": "You’re invited to join a team!",
+  "accept-invite-subheading": "You are invited to join ROQ One Portal. Please set a password.",
+  "invitation-status_pending": "Pending",
+  "invitation-status_accepted": "Accepted",
+  "invitation-status_expired": "Expired",
+  "invitation-status_canceled": "Cancelled",
+  "invited": "invited",
+  "add-another-user": "Add another user",
+  "user": {
+    "change-status-message_currentOperation": "user.change-status-message_currentOperation",
+    "status-change-modal": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "change-status_deactivate": "Deactivate User",
+    "change-status_activate": "Activate User",
+    "change-status-message_deactivate": "Are you sure you want to deactivate user?",
+    "change-status-message_activate": "Are you sure you want to activate user?",
+    "deactivated-name-message": "Deactivated users can’t log in, in the project they will appear as",
+    "deactivated": "deactivated",
+    "deactivated-time-message": "User was deactivated"
+  },
+  "user-active-status-updated-successfully": "User status successfully changed",
+  "title_edit-user": "Edit User",
+  "subtitle_edit-user": "Provide below requested information for the new user details",
+  "invitation-updated_canceled": "Invitation successfully cancelled",
+  "invitation-updated_pending": "Invitation successfully sent",
+  "invitation-cancel": "Cancel invitation",
+  "invitation-resend": "Resend invitation",
+  "invitation-status-description_pending": "Invitation expires in 24hrs, user can accept invitiation until",
+  "invitation-status-description_accepted": "Invitation was accepted",
+  "invitation-status-description_expired": "Invitation expired",
+  "invitation-status-description_canceled": "Invitation was cancelled",
+  "invitation-status-description_statusKey": "invitation-status-description_statusKey",
+  "title_edit-user-invite": "Edit User Invite {{firstName}} {{lastName}}",
+  "invitation-status": "Invitation status",
+  "last-login": "Last login",
+  "user-status": "Status",
+  "opted-in-at": "Opted In At",
+  "user-updated-successfully": "User updated successfully",
+  "invite-new-user": "Invite new user",
+  "invite-new-user-subtitle": "Provide below requested information and invite user.",
+  "invite-was-sent-successfully_plural": "{{count}} users successfully invited. <1>Check invitation status here</1>",
+  "invite-was-sent-successfully": "{{count}} user successfully invited. <1>Check invitation status here</1>",
+  "invite-user": "Invite user",
+  "invite": "Invite",
+  "inviteWasSentTranslationKey": "inviteWasSentTranslationKey",
+  "invite-failed": "{{count}} user could not be invited. Please check below",
+  "invite-failed_plural": "{{count}} users could not be invited. Please check below",
+  "title_users": "Users",
+  "powered-by": "Powered By",
+  "toggle-theme": "Light/Dark mode",
+  "messages": "Messages",
+  "account": "Account",
+  "profile": "Profile",
+  "settings": "Settings",
+  "log-out": "Log out",
+  "copyright-footer": "ROQ TECHNOLOGY 2022",
+  "title_invites": "Invites",
+  "each": "each",
+  "languages": {
+    "full_en-US": "English (USA)",
+    "full_de-DE": "German",
+    "full": "languages.full",
+    "short_en-US": "EN (US)",
+    "short_de-DE": "DE",
+    "short": "languages.short"
+  },
+  "i18nKey": "i18nKey",
+  "title_typography": "Typography",
+  "invitation-status_statusKey": "invitation-status_statusKey",
+  "upload-failure_failedUploadError": "upload-failure_failedUploadError",
+  "title_invite-new-user": "Invite new user",
+  "notification-view-detail-cta": "Click <1>here</1> to see details.",
+  "loader-text": "Loading",
+  "sign-up": "Sign Up",
+  "roq-home-page": "ROQ-Home Page",
+  "roq-future": "The future is in our hands to shape.",
+  "greeting": "Hi",
+  "confirm-email-text": "please confirm your email address [here] (https://snapshot.roq-one.com/)",
+  "confirm-email-button": "Confirm email",
+  "welcome-user-text": "welcome ROQ One Demo",
+  "reset-password-text": "please reset your password by clicking [here] (https://snapshot.roq-one.com/restore-password)",
+  "reset-password-button": "Reset password",
+  "random-text": "today no work because it is too hot",
+  "invite-text": "[Accept invitation] (https://snapshot.roq-one.com/set-password)",
+  "invite-accept-button": "Accept Invite",
+  "welcome": "Welcome",
+  "hello": "Hello",
+  "info": "Information",
+  "just-joined-ROQ-One": "just joined ROQ One",
+  "say-hi-to": "say hi to",
+  "good-morning": "Good Morning",
+  "have-a-good-day": "have a good day",
+  "drag-uploads-cta": "Drag your files here, or click to select files",
+  "general-information-text": "General Information",
+  "you-are-invited-to-join-roq-one-platform": "You are invited to join ROQ One platform.",
+  "please-set-a-password": "Please set a password",
+  "expired-link-text": "Link is expired",
+  "agree-to-receive-communications-by-email-from-roq": "I agree to receive communications by email from ROQ",
+  "user-active": "Active",
+  "add-new-user": "Add new user",
+  "deactivate-user": "Deactivate user",
+  "change-language": "Change language",
+  "conversation-owner": "admin",
+  "keep-logged-in": "keepLoggedIn",
+  "mail-type-localized-not-found": "MailTypeLocalized with id {{id}} not found",
+  "localized-mail-type-not-found": "No localized mail type found",
+  "user-service-unreachable": "ROQ Platform User is currently unavailable. Action: Get User",
+  "data-service-unreachable": "ROQ Platform Data is currently unavailable. Action: {{action}}",
+  "user-invites": "User invites",
+  "all-user-invites": "See all user invites",
+  "user-group-not-found": "UserGroup with id {{id}} not found",
+  "invitation-updated": "Invitation updated successfully",
+  "invitation-status-description": "Invitation Date",
+  "user-invite-updated-successfully": "User invite updated successfully",
+  "update": "update"
+}

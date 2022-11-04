@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatPanel } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Panel",
+  title: "Roq Components/Chat/ChatPanel",
   component: ChatPanel,
   argTypes: {},
 } as ComponentMeta<typeof ChatPanel>;

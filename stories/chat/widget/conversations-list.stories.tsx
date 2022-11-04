@@ -8,7 +8,7 @@ import {
 } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/Widget/ConversationList",
+  title: "Roq Components/Chat/Widget/ChatConversationList",
   component: ChatConversationList,
   argTypes: {
     ...chatArgTypes,

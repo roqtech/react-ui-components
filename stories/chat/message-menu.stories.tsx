@@ -3,10 +3,15 @@ import React from "react";
 import { ChatMessageMenu } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/MessageMenu",
+  title: "Roq Components/Chat/ChatMessageMenu",
   component: ChatMessageMenu,
   argTypes: {
-    
+    isAuthor: { control: "boolean" },
+    showEdit: { control: "boolean" },
+    showDelete: { control: "boolean" },
+    editLabel: { control: "text" },
+    deleteLabel: { control: "text" },
+    messageId: { control: "text" },
   },
   decorators: [
     (Story) => (
@@ -33,5 +38,5 @@ export const Default = Template.bind({});
 Default.args = {
   open: true,
   isAuthor: true,
-  messageId: "b767aa7a-9dd4-483c-b6b6-eb16824327d2"
+  messageId: "b767aa7a-9dd4-483c-b6b6-eb16824327d2",
 };

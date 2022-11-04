@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RoqProvider } from "../src/components/Provider/Provider";
+import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
@@ -31,32 +31,32 @@ export const parameters = {
             [
               "MessageCenter",
               "Chat",
-              "ConversationList",
-              "MessageList",
-              "MemberList",
-              "NotificationBell",
-              "MembersPanel",
-              "ConversationNotSelectedPanel"
+              "ChatConversationList",
+              "ChatMessageList",
+              "ChatMemberList",
+              "ChatNotificationBell",
+              "ChatMembersPanel",
+              "ChatConversationNotSelectedPanel",
             ],
-            "MessageCenter",
-            "Chat",
-            "Panel",
-            "MessageBubble",
-            "Message",
-            "Formatted Message",
-            "MessageHistory",
-            "MessageHistoryLine",
-            "MessageList",
-            "ConversationCard",
-            "ConversationCardSkeleton",
-            "Conversations",
-            "ConversationList",
-            "ConversationMenu",
-            "ConversationHeader",
-            "MessageEditor",
-            "MessageInput",
-            "MessageMenu",
+            "ChatPanel",
+            "ChatMessageBubble",
+            "ChatMessage",
+            "ChatFormatted Message",
+            "ChatMessageHistory",
+            "ChatMessageHistoryLine",
+            "ChatMessageList",
+            "ChatConversationCard",
+            "ChatConversationCardSkeleton",
+            "ChatConversations",
+            "ChatConversationList",
+            "ChatConversationMenu",
+            "ChatConversationHeader",
+            "ChatMessageEditor",
+            "ChatMessageInput",
+            "ChatMessageMenu",
           ],
+          "Locale",
+          ["LocaleTimezoneSelect", "LocaleLanguageSelect"],
           "Typography",
         ],
       ],
@@ -70,12 +70,12 @@ const hostConfig = {
 };
 
 const CHAT_PREVIEW_COMPONENT = [
-  "roq-components-chat-widget-messagecenter",
+  "roq-components-chat-widget-chat-messagecenter",
   "roq-components-chat-widget-chat",
-  "roq-components-chat-widget-conversationlist",
-  "roq-components-chat-widget-messagelist",
-  "roq-components-chat-widget-memberlist",
-  "roq-components-chat-widget-notificationbell",
+  "roq-components-chat-widget-chat-conversationlist",
+  "roq-components-chat-widget-chat-messagelist",
+  "roq-components-chat-widget-chat-memberlist",
+  "roq-components-chat-widget-chat-notificationbell",
 ];
 
 export const decorators = [

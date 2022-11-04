@@ -8,6 +8,7 @@ import { ChatMessageInterface } from "src/interfaces";
 import { Menu, MenuItem } from "src";
 import { MenuItemPropsInterface } from "src/components/common/menu-item/menu-item";
 import { MenuPropsInterface } from "src/components/common/menu";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-menu";
 
@@ -16,6 +17,8 @@ export interface ChatMessageMenuPropsInterface
   isAuthor?: boolean;
   showEdit?: boolean;
   showDelete?: boolean;
+  editLabel?: string;
+  deleteLabel?: string;
   messageId: ChatMessageInterface["id"];
   onClose?: () => void;
   onEdit?: (messageId: string) => void;
@@ -33,11 +36,14 @@ export interface ChatMessageMenuPropsInterface
 }
 
 export const ChatMessageMenu = (props: ChatMessageMenuPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { className, classNames, components, ...args } = props;
   const {
     isAuthor,
     showEdit = true,
     showDelete = true,
+    editLabel,
+    deleteLabel,
     messageId,
     onClose,
     onEdit,
@@ -68,9 +74,15 @@ export const ChatMessageMenu = (props: ChatMessageMenuPropsInterface) => {
       onClose={handleClose}
       {...rest}
     >
-      {isAuthor && showEdit && <Item onClick={handleEditClick}>Edit</Item>}
+      {isAuthor && showEdit && (
+        <Item onClick={handleEditClick}>
+          {editLabel ?? t("chat.message-menu.edit")}
+        </Item>
+      )}
       {isAuthor && showDelete && (
-        <Item onClick={handleDeleteClick}>Delete</Item>
+        <Item onClick={handleDeleteClick}>
+          {deleteLabel ?? t("chat.message-menu.delete")}
+        </Item>
       )}
     </Container>
   );

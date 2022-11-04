@@ -1,33 +1,43 @@
-import { ApolloClient, ApolloLink, createHttpLink, from, InMemoryCache, split } from '@apollo/client';
-import isomorphicFetch from 'isomorphic-fetch'
-import { config } from 'src/utils/config';
-import { useRoq } from 'src/components/Provider';
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  from,
+  InMemoryCache,
+  split,
+} from "@apollo/client";
+import isomorphicFetch from "isomorphic-fetch";
+import { config } from "src/utils/config";
+import { useRoqComponents } from "src/components/core/roq-provider";
 
 let clientSingleton;
-const isServer = typeof window === 'undefined'
+const isServer = typeof window === "undefined";
 
-const authLink = (token?: string) => new ApolloLink((operation, forward) => {
-  operation.setContext(({ headers }) => ({ headers: {
-    ...headers,
-    ...(token ? { 'roq-platform-authorization': token } : {}),
-  }}));
+const authLink = (token?: string) =>
+  new ApolloLink((operation, forward) => {
+    operation.setContext(({ headers }) => ({
+      headers: {
+        ...headers,
+        ...(token ? { "roq-platform-authorization": token } : {}),
+      },
+    }));
 
-  return forward(operation)
-})
+    return forward(operation);
+  });
 
 export function useApollo(): ApolloClient<InMemoryCache> {
-  const { token } = useRoq()
+  const { token } = useRoqComponents();
   if (!clientSingleton) {
     const httpLink = split(
-      (operation) => operation.getContext().service === 'platform',
+      (operation) => operation.getContext().service === "platform",
       createHttpLink({
         uri: `${config.platform.graphqlUri}`,
-        fetch: isomorphicFetch
+        fetch: isomorphicFetch,
       }),
       createHttpLink({
         uri: `${config.backend.graphqlUri}`,
-        fetch: isomorphicFetch
-      }),
+        fetch: isomorphicFetch,
+      })
     );
 
     clientSingleton = new ApolloClient({
