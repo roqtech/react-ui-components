@@ -16,6 +16,7 @@ import { ChatMembers } from "src/index";
 import { ChatUserInterface, InfiniteListInterface } from "src/interfaces";
 import { ChatMembersProps } from "../chat-members";
 import { ChatFetchRecipientsVariablesInterface } from "src/interfaces/chat.interface";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-member-list";
 
@@ -30,6 +31,7 @@ export interface ChatMemberListPropsInterface
   disabled?: boolean;
   onLoadMore: (query: ChatFetchRecipientsVariablesInterface) => void;
   onReset: () => void;
+  loadingLabel?: string;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -45,6 +47,7 @@ export interface ChatMemberListPropsInterface
 }
 
 const ChatMemberList = (props: ChatMemberListPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
   const {
     filter,
@@ -62,6 +65,7 @@ const ChatMemberList = (props: ChatMemberListPropsInterface) => {
     loadedTotal,
     onLoadMore,
     onReset,
+    loadingLabel,
   } = props;
 
   const [initialized, setInitialized] = useState(false);
@@ -148,11 +152,11 @@ const ChatMemberList = (props: ChatMemberListPropsInterface) => {
             classNames?.loader
           )}
         >
-          Loading...
+          {loadingLabel ?? t("chat.member-list.loading")}
         </span>
       </Loader>
     );
-  }, [Loader, infiniteRef]);
+  }, [Loader, infiniteRef, t, loadingLabel]);
 
   return (
     <Container

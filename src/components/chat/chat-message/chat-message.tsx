@@ -1,23 +1,29 @@
 import "./chat-message.scss";
 
 import clsx from "classnames";
-import React, { CSSProperties, ReactNode, ComponentType, useMemo, HTMLAttributes } from "react";
+import React, {
+  CSSProperties,
+  ComponentType,
+  useMemo,
+  HTMLAttributes,
+} from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
   ChatMessageBubble,
-  ChatMessageBubbleProps,
+  ChatMessageBubblePropsInterface,
 } from "../chat-message-bubble";
 import { Avatar, TimeAgo } from "src/components/common";
 import { ChatMessageInterface, ChatUserInterface } from "src/interfaces";
 import { ChatFormattedMessage } from "src/index";
-import { ChatFormattedMessageProps } from "../chat-formatted-message";
+import { ChatFormattedMessagePropsInterface } from "../chat-formatted-message";
 import { TimeAgoPropsInterface } from "src/components/common/time-ago/time-ago";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message";
 
 export interface ChatMessagePropsInterface
   extends ChatMessageInterface,
-    Pick<ChatMessageBubbleProps, "isSent" | "showCorner"> {
+    Pick<ChatMessageBubblePropsInterface, "isSent" | "showCorner"> {
   message: string;
   timestamp: Date;
   isDeleted?: boolean;
@@ -42,8 +48,8 @@ export interface ChatMessagePropsInterface
     >;
     Inner?: ComponentType<any>;
     Content?: ComponentType<any>;
-    MessageBubble?: ComponentType<ChatMessageBubbleProps>;
-    Message?: ComponentType<ChatFormattedMessageProps>;
+    MessageBubble?: ComponentType<ChatMessageBubblePropsInterface>;
+    Message?: ComponentType<ChatFormattedMessagePropsInterface>;
     User?: ComponentType<any>;
     Time?: ComponentType<Pick<TimeAgoPropsInterface, "className" | "children">>;
     Name?: ComponentType<any>;
@@ -52,6 +58,7 @@ export interface ChatMessagePropsInterface
 }
 
 export const ChatMessage = (props: ChatMessagePropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
   const {
     isSent,
@@ -78,8 +85,8 @@ export const ChatMessage = (props: ChatMessagePropsInterface) => {
   const UserAvatar = components?.Avatar ?? Avatar;
 
   const messageContent = useMemo(
-    () => (isDeleted ? "Message deleted..." : message),
-    [message, isDeleted]
+    () => (isDeleted ? t("chat.message.deleted") : message),
+    [message, isDeleted, t]
   );
 
   return (

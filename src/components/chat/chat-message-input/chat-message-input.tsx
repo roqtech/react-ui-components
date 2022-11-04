@@ -20,6 +20,7 @@ import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.ut
 import { ChatMessageEditor } from "../chat-message-editor";
 import { Editor } from "draft-js";
 import { isEmpty } from "lodash";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-input";
 
@@ -45,7 +46,9 @@ export interface ChatMessageInputPropsInterface {
     sendButton?: string;
   };
   components?: {
-    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
     Textarea: ComponentType<any>;
     SendButton: ComponentType<any>;
     SendLabel: ComponentType<any>;
@@ -54,11 +57,12 @@ export interface ChatMessageInputPropsInterface {
 }
 
 const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
+  const { t } = useRoqTranslation();
   const {
     textareaRef,
     value,
     defaultValue = "<p></p>",
-    placeholder = "Type your message...",
+    placeholder,
     hideSendButton,
     sendLabel,
     edit,
@@ -75,11 +79,17 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
   const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
 
-  const [textareaValue, setValue] = useState<string>(value ?? defaultValue);
+  const [textareaValue, setValue] = useState<string | null>(
+    value ?? defaultValue
+  );
 
   const focusTextarea = useCallback(() => {
+    if (!textareaRef?.current) {
+      return;
+    }
+
     window.requestAnimationFrame(() => {
-      textareaRef.current?.focus();
+      textareaRef.current.focus();
       onFocus?.();
     });
   }, [textareaRef, onFocus]);
@@ -96,7 +106,9 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
     [value, focusTextarea]
   );
 
-  const reset = useCallback(() => setValue(defaultValue), [setValue]);
+  const reset = useCallback(() => {
+    setValue(defaultValue);
+  }, [setValue]);
 
   const handleTextareaChange = useCallback(
     (value) => {
@@ -142,9 +154,9 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
       <Textarea
         ref={textareaRef}
         name="message"
-        value={textareaValue}
+        value={textareaValue ?? ""}
         className={clsx(_CLASS_IS + "__textarea", classNames?.textarea)}
-        placeholder={placeholder}
+        placeholder={placeholder ?? t("chat.message-input.placeholder")}
         onChange={handleTextareaChange}
         onEnter={handleTextareaEnter}
       />

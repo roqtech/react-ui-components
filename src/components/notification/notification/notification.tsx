@@ -10,7 +10,7 @@ import {
   MarkNotificationAsUnRead,
 } from 'src/lib/graphql/query'
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
-import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
+import { IRoqProvider, useResolveProvider } from 'src/components/core'
 import { Card } from 'src/components/card'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'

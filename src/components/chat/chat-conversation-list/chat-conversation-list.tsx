@@ -23,6 +23,7 @@ import {
 import { ChatConversationListRequestPayloadInterface } from "src/interfaces/chat.interface";
 import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu";
 import { ChatConversationCardSkeletonPropsInterface } from "../chat-conversation-card-skeleton";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-list";
 
@@ -37,6 +38,7 @@ export interface ChatConversationListPropsInterface
   initialLoad?: boolean;
   disabled?: boolean;
   onLoadMore: (query: ChatConversationListRequestPayloadInterface) => void;
+  loadingLabel?: string;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -60,7 +62,10 @@ export interface ChatConversationListPropsInterface
       >
     >;
     Loader?: ComponentType<
-      Pick<ChatConversationCardSkeletonPropsInterface, "className" | "children"> & {
+      Pick<
+        ChatConversationCardSkeletonPropsInterface,
+        "className" | "children"
+      > & {
         ref: Ref<HTMLElement>;
       }
     >;
@@ -69,6 +74,7 @@ export interface ChatConversationListPropsInterface
 }
 
 const ChatConversationList = (props: ChatConversationListPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
   const {
     initialLoad = true,
@@ -84,6 +90,7 @@ const ChatConversationList = (props: ChatConversationListPropsInterface) => {
     loadedTotal,
     onLoadMore,
     onConversationSelect,
+    loadingLabel,
   } = props;
 
   const [initialized, setInitialized] = useState(false);
@@ -147,11 +154,11 @@ const ChatConversationList = (props: ChatConversationListPropsInterface) => {
             classNames?.loader
           )}
         >
-          Loading...
+          {loadingLabel ?? t("chat.conversation-list.loading")}
         </span>
       </Loader>
     );
-  }, [Loader, infiniteRef]);
+  }, [Loader, infiniteRef, loadingLabel, t]);
 
   return (
     <Container

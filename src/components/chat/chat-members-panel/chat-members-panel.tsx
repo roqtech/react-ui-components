@@ -17,6 +17,7 @@ import { ChatFetchRecipientsVariablesInterface } from "src/interfaces/chat.inter
 import { ChatMemberListPropsInterface } from "../chat-member-list";
 import { ChatPanelPropsInterface } from "../chat-panel";
 import { ChatMembersPropsInterface } from "../chat-members/chat-members";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
@@ -74,11 +75,12 @@ export interface ChatMembersPanelPropsInterface
 }
 
 const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
   const {
-    titleLabel = "With whom would you like to start a conversation?",
-    cancelLabel = "Cancel",
-    submitLabel = "Submit",
+    titleLabel,
+    cancelLabel,
+    submitLabel,
     selectedIds,
     initialSelectedIds,
     initialFilter,
@@ -133,7 +135,7 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
         <Title
           className={clsx(_CLASS_IS + "__header__title", classNames?.header)}
         >
-          {titleLabel}
+          {titleLabel ?? t('chat.panel.members.title')}
         </Title>
       </Header>
       <List
@@ -151,21 +153,21 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
               classNames?.list
             )}
           >
-            {cancelLabel}
+            {cancelLabel ?? t('chat.panel.members.cancel')}
           </CancelButtonLabel>
         </CancelButton>
         <SubmitButton
           className={clsx(_CLASS_IS + "__actions__submit", classNames?.list)}
           onClick={handleSubmitClick}
         >
-          <CancelButtonLabel
+          <SubmitButtonLabel
             className={clsx(
               _CLASS_IS + "__actions__submit__label",
               classNames?.list
             )}
           >
-            {submitLabel}
-          </CancelButtonLabel>
+            {submitLabel ?? t('chat.panel.members.submit')}
+          </SubmitButtonLabel>
         </SubmitButton>
       </Actions>
     </Container>

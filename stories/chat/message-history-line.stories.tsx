@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatMessageHistoryLine } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/MessageHistoryLine",
+  title: "Roq Components/Chat/ChatMessageHistoryLine",
   component: ChatMessageHistoryLine,
   argTypes: {},
   decorators: [

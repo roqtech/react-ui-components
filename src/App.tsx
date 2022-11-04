@@ -1,6 +1,6 @@
 import React from 'react'
 import { Notification } from "./components/notification"
-import { RoqProvider } from './components/Provider/Provider';
+import { RoqProvider } from './components/core/roq-provider/roq-provider';
 
 const hostConfig = {
   host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "",

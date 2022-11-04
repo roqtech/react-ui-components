@@ -9,7 +9,7 @@ import {
 } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/Widget/NotificationBell",
+  title: "Roq Components/Chat/Widget/ChatNotificationBell",
   component: ChatNotificationBell,
   argTypes: {
     unreadCount: { control: "number" },

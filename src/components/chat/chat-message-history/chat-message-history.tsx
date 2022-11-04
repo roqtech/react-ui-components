@@ -13,7 +13,6 @@ import React, {
 
 import {
   ChatMessage,
-  ChatMessageProps,
   ChatMessagePropsInterface,
 } from "../chat-message/chat-message";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
@@ -26,6 +25,7 @@ import {
 import { ChatMessageMenu } from "src/index";
 import { ActionButton } from "src/components/common";
 import _isEmpty from "lodash/isEmpty";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -67,6 +67,7 @@ export interface ChatMessageHistoryPropsInterface {
 }
 
 export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components, ...rest } = props;
   const {
     forwardedRef,
@@ -75,7 +76,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
     showAvatarInGroup = false,
     showTimeInGroup = false,
     isEmpty = false,
-    emptyMessage = "This is the very beginning of your messaging",
+    emptyMessage
   } = props;
 
   const Container = components?.Container ?? "div";
@@ -136,7 +137,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
       )}
       {showEmpty && (
         <Empty className={clsx(_CLASS_IS + "__empty", classNames?.empty)}>
-          {emptyMessage}
+          {emptyMessage ?? t('chat.message-history.empty')}
         </Empty>
       )}
       {children}

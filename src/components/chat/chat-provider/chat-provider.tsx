@@ -56,6 +56,7 @@ import {
   ChatUserInterface,
   ChatUserPresenceListInterface,
 } from "src/interfaces/chat.interface";
+import { useRoqComponents } from "src/components/core/roq-provider";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -272,7 +273,7 @@ export const ChatProvider = (
     groupMessages = defaultGroupMessages,
   } = props;
 
-  const { host, token, userToken } = useRoq();
+  const { host, token, userToken } = useRoqComponents();
 
   const normalizeMessageHistory = useCallback(
     (history: ChatMessageInterface[]) => {
@@ -286,14 +287,9 @@ export const ChatProvider = (
   const [error, setError] = useState<ComplexError | null>(null);
   const [clientId, setClientId] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [currentConversationId, _setCurrentConversationId] = useState<
+  const [currentConversationId, setCurrentConversationId] = useState<
     ChatConversationInterface["id"] | null
   >(conversationId ?? null);
-
-  const setCurrentConversationId = (cid) => {
-    console.log("set current conv", cid);
-    _setCurrentConversationId(cid);
-  };
 
   const [conversations, setConversations] =
     useState<ChatConversationListInterface>(INITIAL_CONVERSATIONS_STATE);

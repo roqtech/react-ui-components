@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatMember } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/Member",
+  title: "Roq Components/Chat/ChatMember",
   component: ChatMember,
   argTypes: {},
   decorators: [

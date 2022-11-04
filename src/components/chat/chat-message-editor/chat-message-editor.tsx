@@ -59,7 +59,9 @@ export interface ChatMessageEditorPropsInterface {
     textarea?: string;
   };
   components?: {
-    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
+    Container: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
   };
 }
 
@@ -144,7 +146,7 @@ const defaultConvertFromHTMLConfig: IConvertFromHTMLConfig = {
   },
 };
 
-const ChatMessageEditor = (props: ChatMessageEditorProps) => {
+const ChatMessageEditor = (props: ChatMessageEditorPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     id = "textarea",
@@ -460,6 +462,8 @@ const ChatMessageEditor = (props: ChatMessageEditorProps) => {
   );
 };
 
-export default forwardRef<Editor, ChatMessageEditorPropsInterface>((props, ref) => {
-  return <ChatMessageEditor {...props} forwardedRef={ref} />;
-});
+export default forwardRef<Editor, ChatMessageEditorPropsInterface>(
+  (props, ref) => {
+    return <ChatMessageEditor {...props} forwardedRef={ref} />;
+  }
+);

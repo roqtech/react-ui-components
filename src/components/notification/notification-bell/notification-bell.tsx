@@ -1,7 +1,7 @@
 import React, { ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
+import { IRoqProvider, useResolveProvider } from 'src/components/core'
 import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ChatMessageEditor } from "../../src";
 
 export default {
-  title: "Roq Components/Chat/MessageEditor",
+  title: "Roq Components/Chat/ChatMessageEditor",
   component: ChatMessageEditor,
   argTypes: {},
 } as ComponentMeta<typeof ChatMessageEditor>;

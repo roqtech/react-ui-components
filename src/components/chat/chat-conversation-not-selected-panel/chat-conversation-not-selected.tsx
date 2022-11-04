@@ -1,18 +1,10 @@
 import "./chat-conversation-not-selected-panel.scss";
 
 import clsx from "classnames";
-import React, {
-  ComponentType,
-  CSSProperties,
-  HTMLAttributes,
-  ReactNode,
-  useCallback,
-} from "react";
+import React, { ComponentType, CSSProperties, HTMLAttributes } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatMembers, ChatPanel } from "src/index";
-import { ChatMembersProps } from "../chat-members/chat-members";
-import { ChatUserInterface } from "src/interfaces";
-import { ChatPanelPropsInterface } from "../chat-panel";
+import { ChatPanel } from "src/index";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS =
   COMPONENT_CLASS_PREFIX + "chat-conversation-not-selected-panel";
@@ -36,8 +28,9 @@ export interface ChatConversationNotSelectedPanelPropsInterface {
 export const ChatConversationNotSelectedPanel = (
   props: ChatConversationNotSelectedPanelPropsInterface
 ) => {
+  const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
-  const { message = "Break the ice and start a conversation" } = props;
+  const { message } = props;
 
   const Container = components?.Container ?? ChatPanel;
   const Message = components?.Message ?? "h4";
@@ -48,7 +41,7 @@ export const ChatConversationNotSelectedPanel = (
       style={style}
     >
       <Message className={clsx(_CLASS_IS + "__message", classNames?.message)}>
-        {message}
+        {message ?? t("chat.panel.conversation-not-selected")}
       </Message>
     </Container>
   );
