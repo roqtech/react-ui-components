@@ -2,7 +2,7 @@
 
 @mixin item {
   all: unset;
-  background-color: var(--rc-blueGray-50);
+  background-color: var(--rc-blueGray-200);
   color: var(--rc-blueGray-900);
   height: 35px;
   display: flex;
@@ -25,7 +25,7 @@
 .roq-toggle-group-button > .roq-toggle-group-button-item {
   @include item;
   &:hover {
-    background-color: var(--rc-blueGray-100);
+    background-color: var(--rc-blueGray-300);
   }
 }
 .roq-toggle-group-button > .roq-toggle-group-button-item__selected {

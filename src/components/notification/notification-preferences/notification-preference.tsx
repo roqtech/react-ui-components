@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useMemo } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { Switch } from 'src/components/Switch'
+import { Switch } from 'src/components/switch'
 import {
   UseNotificationItemCheckedInterfaceArg,
   useNotificationTypeItem,

@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import AppDecorators from '../../../.storybook/decorators'
-import { Card } from './Card';
+import { Card } from './card';
 
 export default {
   title: 'Roq Components/Card',

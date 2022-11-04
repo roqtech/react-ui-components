@@ -5,7 +5,7 @@ import AppDecorators from '../../.storybook/decorators'
 import { NotificationBell } from '../../src';
 
 export default {
-  title: 'Roq Components/NotificationBell',
+  title: 'Roq Components/Notification/Bell',
   component: NotificationBell,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
