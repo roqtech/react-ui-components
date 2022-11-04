@@ -1,11 +1,10 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AppDecorators from '../../../.storybook/decorators'
-import { Card } from './card';
+import { Card } from '../../src/components/common';
 
 export default {
-  title: 'Roq Components/Card',
+  title: 'Roq Components/Common/Card',
   component: Card,
   argTypes: {
     title: {

@@ -34,10 +34,6 @@ const Template: ComponentStory<typeof NotificationBell> = (args) => (
 )
 
 export const Primary = Template.bind({});
-Primary.args = {
-  host: undefined,
-  token: undefined,
-}
 
 export const Secondary = (args) => (
   <NotificationBell
@@ -60,7 +56,13 @@ export const Secondary = (args) => (
     }
   />
 )
-Secondary.args = {
-  host: undefined,
-  token: undefined,
-}
+
+export const Color = (args) => (
+  <NotificationBell
+    styles={{
+      Bell: {
+        backgroundColor: 'teal'
+      }
+    }}
+  />
+)

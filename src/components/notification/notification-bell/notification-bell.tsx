@@ -13,7 +13,7 @@ import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import './notification-bell.scss'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
-interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
+interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children' | 'style'> {
   className?: ClassValue
   type?: NotificationType
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
@@ -24,6 +24,10 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
   },
   fetchProps?: {
     variables?: NotificationsInAppForCurrentUserQueryVariables
+  },
+  styles?: {
+    Container?: React.HTMLAttributes<HTMLDivElement>['style'],
+    Bell?: React.HTMLAttributes<HTMLDivElement>['style'],
   }
 }
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
@@ -33,6 +37,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     bellIcon,
     dotView,
     fetchProps,
+    styles,
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
@@ -55,13 +60,18 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
       return dotView.children(fetchResult)
     }
     return (
-      <Avatar size='small' className={clsx(_CLASS_IS + '-badge')} initials={count.toString()} classNames={{}} />
+      <Avatar
+        style={styles?.Bell}
+        size='small'
+        className={clsx(_CLASS_IS + '-badge')}
+        initials={count.toString()}
+      />
     )
-  }, [dotView, count])
+  }, [dotView, count, bellIcon])
 
   return (
-    <div {...rest} className={clsx(_CLASS_IS, rest?.className)}>
-      {bellIcon ?? (
+    <div {...rest} className={clsx(_CLASS_IS, rest?.className)} style={styles?.Container}>
+      {bellIcon?? (
         <svg
           width='24'
           height='24'
