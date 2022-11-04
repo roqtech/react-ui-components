@@ -1,7 +1,6 @@
 import React, { ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
-import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
 import {
   NotificationChildrenCallbackProps,
   NotificationLoadingViewCallbackProps,
@@ -14,7 +13,7 @@ import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import './notification-bell.scss'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
-interface NotificationBellProps extends Partial<IRoqProvider> {
+interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children' | 'style'> {
   className?: ClassValue
   type?: NotificationType
   children?: (callback: NotificationChildrenCallbackProps) => JSX.Element
@@ -25,24 +24,24 @@ interface NotificationBellProps extends Partial<IRoqProvider> {
   },
   fetchProps?: {
     variables?: NotificationsInAppForCurrentUserQueryVariables
+  },
+  styles?: {
+    Container?: React.HTMLAttributes<HTMLDivElement>['style'],
+    Bell?: React.HTMLAttributes<HTMLDivElement>['style'],
   }
 }
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   const {
     type: typeProp,
-    host: _host,
-    token: _token,
     children,
     bellIcon,
     dotView,
     fetchProps,
+    styles,
     ...rest
   } = props
-  const { host, token } = useResolveProvider({ host: _host, token: _token })
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
   const fetchResult = useFetchNotificationsInApp({
-    host,
-    token,
     type,
     fetchProps,
   })
@@ -61,13 +60,18 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
       return dotView.children(fetchResult)
     }
     return (
-      <Avatar size='small' className={clsx(_CLASS_IS + '-badge')} initials={count.toString()} classNames={{}} />
+      <Avatar
+        style={styles?.Bell}
+        size='small'
+        className={clsx(_CLASS_IS + '-badge')}
+        initials={count.toString()}
+      />
     )
-  }, [dotView, count])
+  }, [dotView, count, bellIcon])
 
   return (
-    <div className={clsx(_CLASS_IS, rest?.className)}>
-      {bellIcon ?? (
+    <div {...rest} className={clsx(_CLASS_IS, rest?.className)} style={styles?.Container}>
+      {bellIcon?? (
         <svg
           width='24'
           height='24'
