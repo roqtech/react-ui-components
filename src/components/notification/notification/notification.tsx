@@ -4,14 +4,14 @@ import _get from 'lodash/get'
 import dayjs from 'dayjs'
 import type { ClassValue } from 'clsx'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { ToggleGroup, ToggleGroupItem } from 'src/components/ToggleGroup'
+import { ToggleGroup, ToggleGroupItem } from 'src/components/toggle-group'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
 } from 'src/lib/graphql/query'
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { IRoqProvider, useResolveProvider } from 'src/components/Provider'
-import { Card } from 'src/components/Card'
+import { Card } from 'src/components/card'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'

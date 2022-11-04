@@ -15,7 +15,6 @@ export const ToggleGroup: React.FC<ToggleGroupProps> = (props) => {
   const { children, defaultValue, value, onValueChange, className } = props
   const arrayChildren = Children.toArray(children);
   const [toggle, setToggle] = useState(value ?? defaultValue);
-  console.log('toggle', toggle)
 
   useEffect(() => {
     if (typeof value !== 'undefined') {
