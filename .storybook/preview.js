@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
-import { config } from "process";
-import { SocketProvider, ChatProvider, MessageCenter } from "../src";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -80,8 +78,6 @@ const CHAT_PREVIEW_COMPONENT = [
 
 export const decorators = [
   (Story, context) => {
-    console.dir(context);
-
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
       return <Story />;
     }

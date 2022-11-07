@@ -1,1 +1,8 @@
-export { RoqProvider, RoqProviderContextInterface, useRoqContext, useResolveProvider, ROQContext } from './roq-provider/roq-provider'
+export {
+  RoqProvider,
+  RoqProviderContextInterface,
+  RoqProviderLocaleContextInterface,
+  useRoqContext,
+  useResolveProvider,
+  ROQContext,
+} from "./roq-provider/roq-provider";

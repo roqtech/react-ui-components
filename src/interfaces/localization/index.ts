@@ -1,1 +1,5 @@
-export { TranslationFunction } from "./localization.interface";
+export {
+  TranslationFunctionInterface,
+  LocaleInterface,
+  TimzeoneInterface,
+} from "./localization.interface";

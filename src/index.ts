@@ -3,7 +3,13 @@ export {
   NotificationBell,
   NotificationPreference,
 } from "./components/notification";
-export { RoqProvider, useRoqContext, useResolveProvider } from "./components/core";
+
+export {
+  RoqProvider,
+  useRoqContext,
+  useResolveProvider,
+  RoqProviderLocaleContextInterface,
+} from "./components/core";
 
 export { SocketProvider, useSocket } from "./components/socket";
 
@@ -61,8 +67,8 @@ export type {
 
 export {
   LocaleLanguageSelect,
-  LocaleTimezoneSelect
-} from './components/locale'
+  LocaleTimezoneSelect,
+} from "./components/locale";
 
 export {
   useInfiniteScroll,
@@ -73,4 +79,5 @@ export {
   ChatScreenEnum,
   useCurrentConversation,
   useArchiveConversation,
+  useTimezone,
 } from "./hooks";
