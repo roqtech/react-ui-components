@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import React from "react";
 import { LocaleTimezoneSelect } from "../../src";
 
@@ -9,9 +10,7 @@ export default {
   decorators: [
     (Story) => {
       return (
-        <div
-          style={{ width: 280, display: "flex", justifyContent: "flex-end" }}
-        >
+        <div style={{ width: 280 }}>
           <Story />
         </div>
       );

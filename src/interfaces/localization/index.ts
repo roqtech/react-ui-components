@@ -1,5 +1,5 @@
 export {
-  TranslationFunctionInterface,
-  LocaleInterface,
-  TimzeoneInterface,
+  LocaleTranslationFunctionInterface,
+  LocaleLanguageInterface,
+  LocaleTimzeoneInterface,
 } from "./localization.interface";

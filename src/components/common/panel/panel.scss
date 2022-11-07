@@ -14,7 +14,7 @@
   --rc-chat-panel-box-shadow: 0px 4px 16px rgba(13, 28, 70, 0.05);
 }
 
-@include roq-component("chat-panel") {
+@include roq-component("panel") {
   width: var(--rc-chat-panel-width);
   height: var(--rc-chat-panel-height);
   display: var(--rc-chat-panel-display);

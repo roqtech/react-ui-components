@@ -11,18 +11,18 @@ import React, {
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import {
-  ChatPanel,
   ChatConversationHeader,
   ChatMessageList,
   ChatMessageInput,
+  Panel,
 } from "src/index";
 import Editor from "@draft-js-plugins/editor/lib/Editor";
 import { ChatConversationMenuPropsInterface } from "../chat-conversation-menu";
 import { ChatConversationHeaderPropsInterface } from "../chat-conversation-header";
-import { ChatPanelPropsInterface } from "../chat-panel";
 import { withChatState } from "../chat-provider";
-import { ChatMessageInputProps } from "../chat-message-input";
-import { ChatMessageListProps } from "../chat-message-list";
+import { ChatMessageInputPropsInterface } from "../chat-message-input";
+import { ChatMessageListPropsInterface } from "../chat-message-list";
+import { PanelPropsInterface } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat";
 
@@ -38,13 +38,13 @@ export interface ChatPropsInterface {
     input?: string;
   };
   components?: {
-    Container?: ComponentType<Pick<ChatPanelPropsInterface, "className" | "style">>;
+    Container?: ComponentType<Pick<PanelPropsInterface, "className" | "style">>;
     Header?: ComponentType<
       Pick<ChatConversationHeaderPropsInterface, "className" | "components">
     >;
-    Messages?: ComponentType<Pick<ChatMessageListProps, "className">>;
+    Messages?: ComponentType<Pick<ChatMessageListPropsInterface, "className">>;
     Input?: ComponentType<
-      Pick<ChatMessageInputProps, "className" | "textareaRef">
+      Pick<ChatMessageInputPropsInterface, "className" | "textareaRef">
     >;
     ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
   };
@@ -54,7 +54,7 @@ const Chat = (props: ChatPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { conversationId } = props;
 
-  const Container = components?.Container ?? ChatPanel;
+  const Container = components?.Container ?? Panel;
   const Header = components?.Header ?? ChatConversationHeader;
   const Messages = components?.Messages ?? ChatMessageList;
   const Input = components?.Input ?? ChatMessageInput;

@@ -7,6 +7,7 @@ export default {
   title: "Roq Components/Typography/TimeAgo",
   component: TimeAgo,
   argTypes: {
+    timestamp: { control: "date" },
     disabled: { control: "boolean" },
     primaryText: { control: "text" },
     secondaryText: { control: "text" },
@@ -20,6 +21,5 @@ const Template: ComponentStory<typeof TimeAgo> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  text: "Hello World!",
-  date: new Date(),
+  timestamp: new Date(),
 };

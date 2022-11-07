@@ -4,37 +4,40 @@ import clsx from "classnames";
 import React, {
   CSSProperties,
   ComponentType,
-  ReactHTMLElement,
   HTMLAttributes,
   useCallback,
+  SelectHTMLAttributes,
+  OptionHTMLAttributes,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { LocaleInterface } from "src/interfaces";
+import { LocaleTimzeoneInterface } from "src/interfaces";
 import { withLocale } from "src/hocs";
-import { locale } from "dayjs";
-import { T } from "lodash/fp";
 import { useRoqTranslation } from "src/components/core/roq-provider";
 
-const _CLASS_IS = COMPONENT_CLASS_PREFIX + "locale-language-select";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "locale-timezone-select";
 
 export interface LocaleTimezoneSelectPropsInterface<
-  LocaleOptionInterface = LocaleInterface
+  OptionInterface = LocaleTimzeoneInterface
 > {
   label?: string;
   placeholder?: string;
-  value?: LocaleOptionInterface;
-  onChange?: (value: LocaleOptionInterface) => void;
-  options?: LocaleOptionInterface[];
+  value?: OptionInterface;
+  onChange?: (value: OptionInterface) => void;
+  options?: OptionInterface[];
 
   showLabel?: boolean;
+  getOptionId?: (option: OptionInterface) => string;
+  getOptionValue?: (option: OptionInterface) => string;
+  getOptionLabel?: (option: OptionInterface) => string;
 
   style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;
-    select?: string;
     label?: string;
+    select?: string;
+    option?: string;
   };
   components?: {
     Container?: ComponentType<
@@ -42,28 +45,38 @@ export interface LocaleTimezoneSelectPropsInterface<
     >;
     Label?: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
     Select?: ComponentType<
-      Pick<HTMLAttributes<HTMLSelectElement>, "className">
+      Pick<SelectHTMLAttributes<HTMLSelectElement>, "className" | "placeholder" | "onChange">
     >;
     Option?: ComponentType<
-      Pick<HTMLAttributes<HTMLOptionElement>, "className">
+      Pick<OptionHTMLAttributes<HTMLOptionElement>, "className">
     >;
   };
 }
 
-const LocaleTimezoneSelect = <LocaleOptionInterface,>(
-  props: LocaleTimezoneSelectPropsInterface<LocaleOptionInterface>
+const LocaleTimezoneSelect = <OptionInterface=LocaleTimzeoneInterface,>(
+  props: LocaleTimezoneSelectPropsInterface<OptionInterface>
 ) => {
   const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
-  const { label, placeholder, value, options, onChange } = props;
+  const {
+    showLabel = true,
+    label,
+    placeholder,
+    value,
+    options,
+    onChange,
+    getOptionValue = (option: OptionInterface) => option as string,
+    getOptionId = (option: OptionInterface) => option as string,
+    getOptionLabel = (option: OptionInterface) => option as string,
+  } = props;
 
-  const Container = components?.Container ?? "select";
+  const Container = components?.Container ?? "div";
   const Label = components?.Label ?? "span";
   const Select = components?.Select ?? "select";
   const Option = components?.Option ?? "option";
 
-  const handleValueChange = useCallback(() => {
-    const val = "";
+  const handleValueChange = useCallback((e) => {
+    const val = e.target.value;
     onChange?.(val);
   }, [onChange]);
 
@@ -78,33 +91,34 @@ const LocaleTimezoneSelect = <LocaleOptionInterface,>(
     return (
       <>
         {options?.map((option) => (
-          <Option>{option}</Option>
+          <Option key={getOptionId(option)} className={clsx(_CLASS_IS + "__select" + "__option", classNames?.option)}>{getOptionLabel(option)}</Option>
         ))}
       </>
     );
-  }, [options, Option, isOptionSelected]);
+  }, [options, Option, isOptionSelected, getOptionId, getOptionLabel]);
 
   return (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
     >
-      <Label>{label ?? t("locale.timezone.select.label")}</Label>
-      <select
+      {showLabel && <Label className={clsx(_CLASS_IS + "__label", classNames?.label)}>{label ?? t("locale.timezone.select.label")}</Label>}
+      <Select
         className={clsx(_CLASS_IS + "__select", classNames?.select)}
         placeholder={placeholder ?? t("locale.timezone.select.label")}
+        value={getOptionValue(value as OptionInterface)}
         onChange={handleValueChange}
       >
         {renderOptions()}
-      </select>
+      </Select>
     </Container>
   );
 };
 
 export default withLocale<LocaleTimezoneSelectPropsInterface>(
-  ({ locale, locales, onLocaleChange }) => ({
-    value: locale,
-    options: locales,
-    onChange: onLocaleChange,
+  ({ timezone, timezones, onTimezoneChange }) => ({
+    value: timezone,
+    options: timezones,
+    onChange: onTimezoneChange,
   })
 )(LocaleTimezoneSelect);

@@ -1,5 +1,10 @@
-import React, { ComponentType, FunctionComponent, useMemo } from "react";
-import { RoqProviderLocaleContextInterface } from "src/components";
+import React, {
+  ComponentType,
+  forwardRef,
+  FunctionComponent,
+  useMemo,
+} from "react";
+import { ROQContext, RoqProviderLocaleContextInterface } from "src/components";
 import { useRoqComponentLocale } from "src/hooks";
 
 export interface WithLocaleComponentProps {}
@@ -10,17 +15,36 @@ export function withLocale<TProps, TLocaleProps = TProps>(
     ownProps: TProps
   ) => TLocaleProps
 ): (
-  WrappedComponent: ComponentType<any>
-) => ComponentType<Omit<TProps, keyof TLocaleProps> & TLocaleProps> {
-  
-  const withLocaleComponent: FunctionComponent<
-    Omit<TProps, keyof TLocaleProps> & TLocaleProps
-  > = (props: TProps) => {
-    const localeContext = useRoqComponentLocale();
-    const localeProps = mapContextToProps(localeContext, props);
+  Component: ComponentType<any>
+) => ComponentType<
+  Omit<TProps, keyof TLocaleProps> & WithLocaleComponentProps
+> {
+  if (!mapContextToProps) {
+    throw "withLocale requires mapContextToProps function";
+  }
 
-    return <WrappedComponent {...localeProps} {...props} />;
+  return function (Component: ComponentType<any>) {
+    class WithLocaleComponent extends React.Component<
+      Omit<TProps, keyof TLocaleProps> & WithLocaleComponentProps
+    > {
+      render() {
+        return (
+          <ROQContext.Consumer>
+            {(context) => (
+              <Component
+                {...mapContextToProps(context ?? {}, this.props)}
+                {...this.props}
+                ref={this.props.forwardedRef}
+                forwardedRef={this.props.forwardedRef}
+              />
+            )}
+          </ROQContext.Consumer>
+        );
+      }
+    }
+
+    return forwardRef((props, ref) => {
+      return <WithLocaleComponent {...props} forwardedRef={ref} />;
+    });
   };
-
-  return withLocaleComponent;
 }

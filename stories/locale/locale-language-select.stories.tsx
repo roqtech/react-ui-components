@@ -9,9 +9,7 @@ export default {
   decorators: [
     (Story) => {
       return (
-        <div
-          style={{ width: 280, display: "flex", justifyContent: "flex-end" }}
-        >
+        <div style={{ width: 280 }}>
           <Story />
         </div>
       );

@@ -44,5 +44,28 @@
       "remove": "Remove user",
       "leave": "Leave conversation"
     }
+  },
+  "locale": {
+    "settings": {
+      "title": "Language & Timezone"
+    },
+    "timezone": {
+      "select": {
+        "label": "Select your timezone"
+      }
+    },
+    "language": {
+      "select": {
+        "label": "Select your language"
+      }
+    }
+  },
+  "languages": {
+    "full_en-US": "English (USA)",
+    "full_de-DE": "German",
+    "full": "languages.full",
+    "short_en-US": "EN (US)",
+    "short_de-DE": "DE",
+    "short": "languages.short"
   }
 }

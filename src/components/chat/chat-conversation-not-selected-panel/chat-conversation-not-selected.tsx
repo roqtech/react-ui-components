@@ -3,7 +3,7 @@ import "./chat-conversation-not-selected-panel.scss";
 import clsx from "classnames";
 import React, { ComponentType, CSSProperties, HTMLAttributes } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatPanel } from "src/index";
+import { Panel } from "src/index";
 import { useRoqTranslation } from "src/components/core/roq-provider";
 
 const _CLASS_IS =
@@ -32,7 +32,7 @@ export const ChatConversationNotSelectedPanel = (
   const { style, className, classNames, components } = props;
   const { message } = props;
 
-  const Container = components?.Container ?? ChatPanel;
+  const Container = components?.Container ?? Panel;
   const Message = components?.Message ?? "h4";
 
   return (

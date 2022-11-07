@@ -18,7 +18,6 @@ import {
   ChatConversationList,
   ChatConversationNotSelectedPanel,
   ChatMembersPanel,
-  ChatPanel,
 } from "src/index";
 import { CreateConversationIcon as DefaultCreateConversationIcon } from "./create-conversation-icon";
 import {

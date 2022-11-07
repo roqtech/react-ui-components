@@ -41,7 +41,9 @@ export interface ChatConversationHeaderPropsInterface
         "primaryText" | "secondaryText" | "classNames"
       >
     >;
-    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
+    ConversationMenu?: ComponentType<
+      Pick<ChatConversationMenuPropsInterface, "className" | "open" | "onClose">
+    >;
   };
 }
 

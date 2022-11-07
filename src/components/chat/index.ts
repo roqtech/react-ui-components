@@ -22,9 +22,15 @@ export {
   ChatMessageHistoryLine,
   ChatMessageHistoryLinePropsInterface,
 } from "./chat-message-history-line";
-export { ChatMessageMenu, ChatMessageMenuPropsInterface } from "./chat-message-menu";
+export {
+  ChatMessageMenu,
+  ChatMessageMenuPropsInterface,
+} from "./chat-message-menu";
 export { ChatMessage, ChatMessagePropsInterface } from "./chat-message";
-export { ChatMessageInput, ChatMessageInputPropsInterface } from "./chat-message-input";
+export {
+  ChatMessageInput,
+  ChatMessageInputPropsInterface,
+} from "./chat-message-input";
 export {
   ChatConversations,
   ChatConversationsPropsInterface,
@@ -37,8 +43,10 @@ export {
   ChatNotificationBell,
   ChatNotificationBellPropsInterface,
 } from "./chat-notification-bell";
-export { ChatMessageList, ChatMessageListPropsInterface } from "./chat-message-list";
-export { ChatPanel, ChatPanelPropsInterface } from "./chat-panel";
+export {
+  ChatMessageList,
+  ChatMessageListPropsInterface,
+} from "./chat-message-list";
 export {
   ChatFormattedMessage,
   ChatFormattedMessagePropsInterface,
@@ -53,8 +61,14 @@ export { MessageCenter, MessageCenterPropsInterface } from "./message-center";
 export { Chat, ChatPropsInterface } from "./chat";
 export { ChatMember, ChatMemberPropsInterface } from "./chat-member";
 export { ChatMembers, ChatMembersPropsInterface } from "./chat-members";
-export { ChatMemberList, ChatMemberListPropsInterface } from "./chat-member-list";
-export { ChatMembersPanel, ChatMembersPanelPropsInterface } from "./chat-members-panel";
+export {
+  ChatMemberList,
+  ChatMemberListPropsInterface,
+} from "./chat-member-list";
+export {
+  ChatMembersPanel,
+  ChatMembersPanelPropsInterface,
+} from "./chat-members-panel";
 export {
   ChatConversationNotSelectedPanel,
   ChatConversationNotSelectedPanelPropsInterface,

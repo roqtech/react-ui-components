@@ -1,7 +1,43 @@
 @import "../../../styles/styles.scss";
 
 :root {
+  --rc-locale-timezone-select-label-display: block;
+  --rc-locale-timezone-select-label-padding: 0px;
+  --rc-locale-timezone-select-label-color: var(--rc-blueGray-500);
+  --rc-locale-timezone-select-label-font-weight: 400;
+  --rc-locale-timezone-select-label-font-size: 0.75rem;
 }
 
 @include roq-component("locale-timezone-select") {
+  position: relative;
+
+  &__label {
+    color: var(--rc-locale-timezone-select-label-color);
+    font-weight: var(--rc-locale-timezone-select-label-font-weight);
+    font-size: var(--rc-locale-timezone-select-label-font-size);
+    padding: var(--rc-locale-timezone-select-label-padding);
+    display: var(--rc-locale-timezone-select-label-display);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: auto;
+    user-select: none;
+  }
+
+  &__select {
+    width: 100%;
+    text-align: left;
+    inset: -5px 0px 0px;
+    margin: 0px;
+    padding: 0px 8px;
+    border-radius: inherit;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    min-width: 0%;
+    border-color: rgba(0, 0, 0, 0.23);
+
+    padding: 7.5px 4px 7.5px 6px;
+    border-radius: 4px;
+  }
 }

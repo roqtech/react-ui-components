@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
+import { config } from "process";
+import { SocketProvider, ChatProvider, MessageCenter } from "../src";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -22,7 +24,7 @@ export const parameters = {
           "Usage",
           "Styling",
           "Common",
-          ["Avatar", "AvatarGroup", "Badge", "ActionButton"],
+          ["Avatar", "AvatarGroup", "Badge", "ActionButton", "Panel"],
           "Chat",
           [
             "Widget",
@@ -36,7 +38,6 @@ export const parameters = {
               "ChatMembersPanel",
               "ChatConversationNotSelectedPanel",
             ],
-            "ChatPanel",
             "ChatMessageBubble",
             "ChatMessage",
             "ChatFormatted Message",
@@ -54,7 +55,12 @@ export const parameters = {
             "ChatMessageMenu",
           ],
           "Locale",
-          ["LocaleTimezoneSelect", "LocaleLanguageSelect"],
+          [
+            "Widget",
+            ["LocaleSettings"],
+            "LocaleTimezoneSelect",
+            "LocaleLanguageSelect",
+          ],
           "Typography",
         ],
       ],

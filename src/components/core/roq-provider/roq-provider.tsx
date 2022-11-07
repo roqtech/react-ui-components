@@ -1,9 +1,17 @@
-import React, { createContext, useContext, ReactNode, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useMemo,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import get from "lodash/get";
 import { config } from "src/utils/config";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "src/hooks/use-apollo";
-import { TranslationFunctionInterface } from "src/interfaces";
+import { LocaleTranslationFunctionInterface } from "src/interfaces";
 import {
   PLATFORM_INTERNAL_POSTFIX,
   PLATFORM_CONSOLE_POSTFIX,
@@ -13,7 +21,8 @@ import {
 } from "src/constants";
 import { hostname } from "os";
 
-const messages = require("src/locales/en/common.json");
+const enMessages = require("src/locales/en/common.json");
+const deMessages = require("src/locales/de/common.json");
 
 const PLATFORM_GRAPHS = [
   PLATFORM_INTERNAL_POSTFIX,
@@ -38,11 +47,12 @@ export interface RoqProviderContextInterface
     id: string;
     roqIdentifier: string;
   };
-  t: TranslationFunctionInterface;
+  t: LocaleTranslationFunctionInterface;
   mutate: () => unknown;
   query: () => unknown;
   locale?: string;
   locales?: string[];
+  languages: unknown[];
   onLocaleChange: (locale: string) => void;
   timezone?: string;
   timezones?: string[];
@@ -52,13 +62,14 @@ export interface RoqProviderContextInterface
 export interface RoqProviderPropsInterface {
   children: ReactNode;
   config: RoqProviderConfigInterface;
-  t?: TranslationFunctionInterface;
+  t?: LocaleTranslationFunctionInterface;
   locale?: string;
   locales?: string[];
   onLocaleChange: (locale: string) => void;
   timezone?: string;
   timezones?: string[];
   onTimezoneChange: (timezone: string) => void;
+  languages: unknown[];
 }
 
 const defaultCtx: RoqProviderContextInterface = {
@@ -92,30 +103,91 @@ export interface RoqProviderLocaleContextInterface
     | "timezone"
     | "timezones"
     | "onTimezoneChange"
+    | "languages"
   > {}
 
 export const ROQContext =
   createContext<RoqProviderContextInterface>(defaultCtx);
 
-export const defaultTranslationFunction: TranslationFunctionInterface = (
+export const defaultTranslationFunction = (
+  messages,
   key: string,
   defaultValue?: string
 ) => {
-  return get(messages, key, defaultValue);
+  return get(messages, key, defaultValue ?? key);
 };
 
 export const RoqProvider = (props: RoqProviderPropsInterface) => {
+  const [_locale, _setLocale] = useState(props.locale);
+  const [_timezone, _setTimezone] = useState(props.timezone);
+
   const {
     children,
     config,
-    t = defaultTranslationFunction,
-    locale = "en",
-    locales = ["en"],
+    t,
+    locale = "en-US",
+    locales = ["en-US", "de-DE"],
+    languages,
     onLocaleChange,
     timezone,
     timezones = TIMEZONES,
     onTimezoneChange,
   } = props;
+
+  const messages = useMemo(
+    () => (_locale === "en-US" ? enMessages : deMessages),
+    [_locale]
+  );
+
+  const translate = useCallback(
+    (key: string, defaultValue?: string) =>
+      defaultTranslationFunction(messages, key, defaultValue),
+    [messages]
+  );
+
+  const defaultLanguages = useMemo(
+    () => [
+      {
+        value: "en-US",
+        label: translate(`languages.full_en-US`),
+      },
+      {
+        value: "de-DE",
+        label: translate(`languages.full_de-DE`),
+      },
+    ],
+    [translate]
+  );
+
+  const setLocale = useCallback(
+    (locale) => {
+      _setLocale(locale);
+      onLocaleChange?.(locale);
+    },
+    [_setLocale, onLocaleChange]
+  );
+
+  const setTimezone = useCallback(
+    (timezone) => {
+      _setTimezone(timezone);
+      onLocaleChange?.(timezone);
+    },
+    [_setTimezone, onTimezoneChange]
+  );
+
+  useEffect(
+    function handleLocaleChanged() {
+      _setLocale(locale);
+    },
+    [locale]
+  );
+
+  useEffect(
+    function handleTimezoneChanged() {
+      _setTimezone(timezone);
+    },
+    [timezone]
+  );
 
   const mutate = () => {};
 
@@ -144,13 +216,14 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
       ...defaultCtx,
       ...config,
       ...platformUrls,
-      t,
-      locale,
+      t: t ?? translate,
+      locale: _locale,
       locales,
-      onLocaleChange,
-      timezone,
+      onLocaleChange: setLocale,
+      timezone: _timezone,
       timezones,
-      onTimezoneChange,
+      languages: languages ?? defaultLanguages,
+      onTimezoneChange: setTimezone,
       mutate,
       query,
     }),
@@ -158,14 +231,17 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
       config,
       platformUrls,
       t,
-      locale,
+      _locale,
       locales,
-      onLocaleChange,
-      timezone,
+      setLocale,
+      _timezone,
       timezones,
-      onTimezoneChange,
+      setTimezone,
       mutate,
       query,
+      translate,
+      languages,
+      defaultLanguages,
     ]
   );
 

@@ -1,0 +1,25 @@
+{
+  "locale": {
+    "settings": {
+      "title": "Sprache und Zeitzone"
+    },
+    "timezone": {
+      "select": {
+        "label": "Wähle deine Zeitzone aus"
+      }
+    },
+    "language": {
+      "select": {
+        "label": "Wähle deine Sprache aus"
+      }
+    }
+  },
+  "languages": {
+    "full_en-US": "English (USA)",
+    "full_de-DE": "Deutsch",
+    "full": "languages.full",
+    "short_en-US": "EN (US)",
+    "short_de-DE": "DE",
+    "short": "languages.short"
+  }
+}

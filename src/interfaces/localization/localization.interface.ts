@@ -1,9 +1,8 @@
-export type TranslationFunctionInterface = (
+export type LocaleTranslationFunctionInterface = (
   key: string,
   defaultValue?: string
 ) => string;
 
+export type LocaleLanguageInterface = string;
 
-export type LocaleInterface = string;
-
-export type TimzeoneInterface = string;
+export type LocaleTimzeoneInterface = string;

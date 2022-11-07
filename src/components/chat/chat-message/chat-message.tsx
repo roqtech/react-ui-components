@@ -30,8 +30,8 @@ export interface ChatMessagePropsInterface
   isUpdated?: boolean;
   showUser?: boolean;
   showTime?: boolean;
-  style?: CSSProperties;
   selected?: boolean;
+  style?: CSSProperties;
   className?: string;
   classNames?: {
     container?: string;

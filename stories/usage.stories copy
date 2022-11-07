@@ -1,0 +1,49 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Roq Components/Usage" />
+
+# Usage
+
+Configurations will be changed soon. Currently you have to:
+In the app/root component, wrap childrens with RoqProvider
+
+```
+const MyApp = (props) => {
+    ....
+    return (
+        ...
+        <RoqProvider config={{host: PLATFORM_GATEWAY_URL, token: PLATFORM_TOKEN_URL}}>
+            <Component />
+        </RoqProvider>
+        ...
+    );
+}; 
+
+```
+
+Where host is the `URI of platform` and token is `platformToken`
+
+To enable chat you also need to wrap app with ChatProvider, so it would look like
+
+```
+const MyApp = (props) => {
+  ....
+  return (
+      ...
+      <RoqProvider config={{host: PLATFORM_GATEWAY_URL, token: PLATFORM_TOKEN_URL}}>
+        <SocketProvider
+          secure={secure}
+          platformUrl={socketUrl}
+          platformToken={PLATFORM_GATEWAY_URL}
+        >
+          <ChatProvider userId={userId}>
+            <Component />
+          </ChatProvider>
+        </SocketProvider>
+      </RoqProvider>
+      ...
+  );
+}; 
+```
+
+SocketProvider props are secure (enables SWS), platformUrl/platformToken are platform URI and Token. userId is user identifier, we use roqIdentifier 
