@@ -16,7 +16,7 @@ import React, {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
 import { withChatApi, withChatState } from "../chat-provider";
-import { ChatSendMessageRequestPayloadInterface } from "src/utils/chat-socket.util";
+import { ChatSendMessageRequestPayloadInterface } from "src/interfaces";
 import { ChatMessageEditor } from "../chat-message-editor";
 import { Editor } from "draft-js";
 import { isEmpty } from "lodash";

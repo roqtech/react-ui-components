@@ -1,9 +1,10 @@
+import React from "react";
+
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState, useEffect } from "react";
-import { ChatMessageInput } from "../../src";
+import { ChatMessageInput } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessageInput",
+  title: "Roq Components/Chat/ChatConversation/ChatMessageInput",
   component: ChatMessageInput,
   argTypes: {
     value: { control: "text" },

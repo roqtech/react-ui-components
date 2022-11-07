@@ -1,10 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
-import { ChatConversationNotSelectedPanel } from "../../src";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
+import { ChatConversationNotSelectedPanel } from "../../../src";
 
 export default {
-  title: "Roq Components/Chat/Widget/ChatConversationNotSelectedPanel",
+  title:
+    "Roq Components/Chat/MessageCenter/ChatConversationNotSelectedPanel",
   component: ChatConversationNotSelectedPanel,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationNotSelectedPanel>;
