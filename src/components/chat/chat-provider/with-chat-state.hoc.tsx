@@ -56,11 +56,15 @@ export function withChatState<TProps, TContext = Partial<TProps>>(
       }
     }
 
-    WithChatState.displayName =
-      Component.displayName || Component.name || "WithChatState";
+    const ExportComponent = forwardRef<React.ComponentType<any>, TProps>(
+      (props, ref) => {
+        return <WithChatState {...props} forwardedRef={ref} />;
+      }
+    );
 
-    return forwardRef((props, ref) => {
-      return <WithChatState {...props} forwardedRef={ref} />;
-    });
+    ExportComponent.displayName =
+      Component.displayName ?? Component.name ?? "WithChatState";
+
+    return ExportComponent;
   };
 }

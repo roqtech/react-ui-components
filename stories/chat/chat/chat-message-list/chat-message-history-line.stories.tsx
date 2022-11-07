@@ -1,9 +1,10 @@
+import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState, useEffect } from "react";
-import { ChatMessageHistoryLine } from "../../src";
+import { ChatMessageHistoryLine } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessageHistoryLine",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessageHistoryLine",
   component: ChatMessageHistoryLine,
   argTypes: {},
   decorators: [

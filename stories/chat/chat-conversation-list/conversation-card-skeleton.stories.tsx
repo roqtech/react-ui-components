@@ -1,9 +1,11 @@
+import React from "react";
+
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState, useEffect } from "react";
-import { ChatConversationCardSkeleton } from "../../src";
+import { ChatConversationCardSkeleton } from "../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversationCardSkeleton",
+  title:
+    "Roq Components/Chat/ChatConversationList/ChatConversations/ChatConversationCard/ChatConversationCardSkeleton",
   component: ChatConversationCardSkeleton,
   argTypes: {
     lastMessage: { control: "text" },

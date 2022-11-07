@@ -1,10 +1,11 @@
+import React from "react";
+
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { relative } from "path";
-import React, { useState, useEffect } from "react";
-import { ChatConversationMenu } from "../../src";
+import { ChatConversationMenu } from "../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversationMenu",
+  title:
+    "Roq Components/Chat/ChatConversationList/ChatConversations/ChatConversationCard/ChatConversationMenu",
   component: ChatConversationMenu,
   argTypes: {
     conversationId: { control: "text" },

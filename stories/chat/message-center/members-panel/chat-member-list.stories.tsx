@@ -1,14 +1,15 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { ChatMemberList } from "../../../src";
+
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ChatMemberList } from "../../../../src";
 import {
   ChatDecorator,
   chatDefaultArgs,
   chatArgTypes,
-} from "../../utils/chat.decorator";
+} from "../../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/Widget/ChatMemberList",
+  title: "Roq Components/Chat/MessageCenter/ChatMembersPanel/ChatMemberList",
   component: ChatMemberList,
   argTypes: {
     ...chatArgTypes,

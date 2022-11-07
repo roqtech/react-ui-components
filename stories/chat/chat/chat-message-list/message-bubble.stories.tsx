@@ -1,10 +1,11 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChatMessageBubble } from "../../src";
+import { ChatMessageBubble } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessageBubble",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageBubble",
   component: ChatMessageBubble,
   argTypes: {
     message: { control: "text" },
