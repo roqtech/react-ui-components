@@ -1,11 +1,12 @@
+import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import uniqueId from "lodash/uniqueId";
-import React from "react";
 
-import { ChatMessageHistory } from "../../src";
+import { ChatMessageHistory } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessageHistory",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory",
   component: ChatMessageHistory,
   argTypes: {
     isEmpty: { control: "boolean" },

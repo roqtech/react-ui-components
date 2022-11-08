@@ -1,10 +1,10 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChatConversationHeader } from "../../src";
+import { ChatConversationHeader } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversationHeader",
+  title: "Roq Components/Chat/ChatConversation/ChatConversationHeader",
   component: ChatConversationHeader,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationHeader>;

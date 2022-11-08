@@ -1,9 +1,11 @@
+import React from "react";
+
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState, useEffect } from "react";
-import { ChatConversations } from "../../src";
+import { ChatConversations } from "../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversations",
+  title:
+    "Roq Components/Chat/ChatConversationList/ChatConversations",
   component: ChatConversations,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversations>;

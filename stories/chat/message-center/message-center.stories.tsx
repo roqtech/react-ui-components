@@ -1,6 +1,6 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatConversations, MessageCenter } from "../../../src";
 import {
   ChatDecorator,
@@ -9,7 +9,7 @@ import {
 } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/Widget/MessageCenter",
+  title: "Roq Components/Chat/MessageCenter",
   component: ChatConversations,
   argTypes: {
     title: { control: "text" },

@@ -1,9 +1,11 @@
+import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState, useEffect } from "react";
-import { ChatMessage } from "../../src";
+
+import { ChatMessage } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessage",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage",
   component: ChatMessage,
   argTypes: {
     isSent: { control: "boolean" },

@@ -1,15 +1,15 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
-import { ChatNotificationBell } from "../../../src";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ChatNotificationBell } from "../../src";
 import {
   chatArgTypes,
   ChatDecorator,
   chatDefaultArgs,
-} from "../../utils/chat.decorator";
+} from "../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/Widget/ChatNotificationBell",
+  title: "Roq Components/Chat/ChatNotificationBell",
   component: ChatNotificationBell,
   argTypes: {
     unreadCount: { control: "number" },

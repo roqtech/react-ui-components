@@ -1,9 +1,11 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { ChatMessageMenu } from "../../src";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
+import { ChatMessageMenu } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatMessageMenu",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageMenu",
   component: ChatMessageMenu,
   argTypes: {
     isAuthor: { control: "boolean" },

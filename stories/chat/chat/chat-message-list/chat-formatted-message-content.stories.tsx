@@ -1,12 +1,11 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
-import {
-  ChatFormattedMessage
-} from "../../src";
+import { ChatFormattedMessage } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatFormattedMessage",
+  title:
+    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatFormattedMessage",
   component: ChatFormattedMessage,
   argTypes: {
     content: { control: "text" },
