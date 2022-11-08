@@ -268,7 +268,7 @@ export const ChatProvider = (
   const {
     children,
     userId,
-    platformToken,
+
     conversationId,
     groupMessages = defaultGroupMessages,
 
@@ -295,7 +295,7 @@ export const ChatProvider = (
     onUserOffline,
   } = callbacks;
 
-  const { host, token, userToken, query } = useRoqComponents();
+  const { host, token, userToken } = useRoqComponents();
 
   const normalizeMessageHistory = useCallback(
     (history: ChatMessageInterface[]) => {
@@ -898,12 +898,12 @@ export const ChatProvider = (
   );
 
   useEffect(
-    function reinitializeSocketWithUserOrPlatformToken() {
+    function reinitializeSocketWithUserOrtoken() {
       resetState();
       socket?.disconnect();
       initializeSocket();
     },
-    [userId, platformToken]
+    [userId, token]
   );
 
   const getId = () => {
