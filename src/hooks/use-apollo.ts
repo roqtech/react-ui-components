@@ -48,7 +48,12 @@ export function useApollo(): ApolloClient<InMemoryCache> {
         headers: {
           ...headers,
           ...(token?.current
-            ? { "roq-platform-authorization": `Bearer` + ' ' +token?.current }
+            ? {
+                "roq-platform-authorization":
+                  `Bearer` +
+                  " " +
+                  token?.current.replace("Bearer ", " ").trim(),
+              }
             : {}),
         },
       };
