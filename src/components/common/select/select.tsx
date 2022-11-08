@@ -11,13 +11,14 @@ import React, {
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SelectOptionInterface } from "src/interfaces";
+import { find } from "lodash";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "select";
 
 export interface SelectPropsInterface<T = SelectOptionInterface>
   extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "value" | "onChange"> {
   value: T | undefined | null;
-  onChange?: (value: T) => void;
+  onChange?: (value: T | undefined | null) => void;
   options?: T[];
 
   getOptionId?: (option: T) => string;
@@ -62,11 +63,11 @@ export const Select = <T = SelectOptionInterface,>(props: SelectPropsInterface<T
 
   const handleValueChange = useCallback(
     (e) => {
-      const val = e.target.value;
-      debugger;
-      onChange?.(val);
+      const id = e.target.value;
+      const option = find(options, opt => getOptionValue(opt) === id);
+      onChange?.(option);
     },
-    [onChange]
+    [onChange, options, getOptionValue]
   );
 
   const isOptionSelected = useCallback(
@@ -108,28 +109,13 @@ export const Select = <T = SelectOptionInterface,>(props: SelectPropsInterface<T
     getOptionValue,
   ]);
 
-  // return (
-  //   <Select
-  //       className={clsx(_CLASS_IS, className, classNames?.container)}
-  //       placeholder={placeholder}
-  //       value={value && getOptionValue(value)}
-  //       onChange={handleValueChange}
-  //       style={style}
-  //     >
-  //       {renderOptions()}
-  //     </Select>
-  // );
   return (
-    <>
-      <code>
-        {JSON.stringify({ v: value, value: value && getOptionValue(value) })}
-      </code>
-      <Select
-        className={clsx(_CLASS_IS, className, classNames?.container)}
-        {...selectProps}
-      >
-        {renderOptions()}
-      </Select>
-    </>
+    <Select
+      className={clsx(_CLASS_IS, className, classNames?.container)}
+      onChange={handleValueChange}
+      {...selectProps}
+    >
+      {renderOptions()}
+    </Select>
   );
 };

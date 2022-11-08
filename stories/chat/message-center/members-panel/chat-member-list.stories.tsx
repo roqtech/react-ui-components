@@ -18,7 +18,7 @@ export default {
     ChatDecorator,
     (Story) => (
       <div style={{ width: 400, height: 500 }}>
-        <Story />
+        {Story()}
       </div>
     ),
   ],

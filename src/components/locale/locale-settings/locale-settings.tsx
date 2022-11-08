@@ -41,11 +41,10 @@ export interface LocaleSettingsPropsInterface {
   };
 }
 
-/** LocaleSettings component description */
-const LocaleSettings = (props: LocaleSettingsPropsInterface) => {
+export const LocaleSettings = (props: LocaleSettingsPropsInterface) => {
   const { t } = useRoqTranslation();
-  const { style, className, classNames, components } = props;
-  const { showTitle = true, title } = props;
+  const { style, className, classNames, components, ...rest } = props;
+  const { showTitle = true, title } = rest;
 
   const Container = components?.Container ?? Panel;
   const Title = components?.Title ?? "div";
@@ -95,5 +94,3 @@ const LocaleSettings = (props: LocaleSettingsPropsInterface) => {
     </Container>
   );
 };
-
-export default LocaleSettings;

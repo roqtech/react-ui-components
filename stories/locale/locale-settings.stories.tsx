@@ -1,16 +1,16 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { LocaleSettings } from "../../../src";
+import { LocaleSettings } from "../../src";
 
 export default {
-  title: "Roq Components/Locale/Widget/LocaleSettings",
+  title: "Roq Components/Locale/LocaleSettings",
   component: LocaleSettings,
   argTypes: {},
   decorators: [
     (Story) => {
       return (
         <div style={{ width: 500 }}>
-          <Story />
+          {Story()}
         </div>
       );
     },
@@ -21,5 +21,5 @@ const Template: ComponentStory<typeof LocaleSettings> = (args) => (
   <LocaleSettings {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {};
+export const Widget = Template.bind({});
+Widget.args = {};

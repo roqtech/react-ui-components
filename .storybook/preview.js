@@ -57,12 +57,7 @@ export const parameters = {
             "ChatConversationList",
           ],
           "Locale",
-          [
-            "Widget",
-            ["LocaleSettings"],
-            "LocaleTimezoneSelect",
-            "LocaleLanguageSelect",
-          ],
+          ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
           "Typography",
         ],
       ],
@@ -88,13 +83,9 @@ const CHAT_PREVIEW_COMPONENT = [
 export const decorators = [
   (Story, context) => {
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
-      return <Story />;
+      return <>{Story()}</>;
     }
 
-    return (
-      <RoqProvider config={hostConfig}>
-        <Story />
-      </RoqProvider>
-    );
+    return <RoqProvider config={hostConfig}>{Story()}</RoqProvider>;
   },
 ];

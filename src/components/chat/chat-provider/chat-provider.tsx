@@ -271,7 +271,29 @@ export const ChatProvider = (
     platformToken,
     conversationId,
     groupMessages = defaultGroupMessages,
+
+    ...callbacks
   } = props;
+
+  const {
+    onConnect,
+    onDisconnect,
+    onError,
+    onServerException,
+    onConversationCreated,
+    onConversationMembersChanged,
+    onConversationTitleChanged,
+    onConversationExists,
+    onConversationArchived,
+    onMessageRecieived,
+    onMessageUpdated,
+    onMessageDeleted,
+    onMessagesRead,
+    onMemberQuitConversation,
+    onUserConnected,
+    onUserOnline,
+    onUserOffline,
+  } = callbacks;
 
   const { host, token, userToken } = useRoqComponents();
 
@@ -425,9 +447,13 @@ export const ChatProvider = (
     setOnline(false);
   }, [setOnline]);
 
-  const handleError = useCallback((error) => {
-    console.error(error);
-  }, []);
+  const handleError = useCallback(
+    (error) => {
+      console.error(error);
+      onError?.(error);
+    },
+    [onError]
+  );
 
   const handleMessageReceived = useCallback(
     (response: ChatMessageRecieivedResponsePayloadInterface) => {

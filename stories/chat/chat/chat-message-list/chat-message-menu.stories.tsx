@@ -26,7 +26,7 @@ export default {
           position: "relative",
         }}
       >
-        <Story />
+        {Story()}
       </div>
     ),
   ],

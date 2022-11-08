@@ -11,7 +11,7 @@ export default {
   decorators: [
     (Story) => (
       <div style={{ width: 400 }}>
-        <Story />
+        {Story()}
       </div>
     ),
   ],

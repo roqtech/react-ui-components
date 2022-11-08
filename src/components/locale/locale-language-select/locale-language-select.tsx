@@ -6,8 +6,6 @@ import React, {
   CSSProperties,
   ComponentType,
   HTMLAttributes,
-  useCallback,
-  SelectHTMLAttributes,
   OptionHTMLAttributes,
 } from "react";
 
@@ -17,13 +15,13 @@ import { withLocale } from "src/hocs";
 import { useRoqTranslation } from "src/components/core/roq-provider";
 import { find } from "lodash";
 import { Select as RoqSelect, SelectPropsInterface } from "src/components";
-import { T } from "lodash/fp";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "locale-language-select";
 
-export interface LocaleLanguageSelectPropsInterface<
-  T = LocaleLanguageInterface
-> extends SelectPropsInterface<T> {
+export interface LocaleLanguageSelectPropsInterface<T = LocaleLanguageInterface> extends Omit<
+  SelectPropsInterface<T>, 
+  "style" | "className" | "classNames" | "components"
+> {
   label?: string;
   showLabel?: boolean;
 
@@ -57,11 +55,11 @@ const LocaleLanguageSelect = <T=LocaleLanguageInterface,>( props: LocaleLanguage
     label,
     placeholder,
     ...selectProps
-  } = props;
+  } = rest;
 
   const Container = components?.Container ?? "div";
   const Label = components?.Label ?? "span";
-  const Select = components?.Select ?? RoqSelect;
+  const Select = components?.Select ?? RoqSelect<T>;
   
   return (
     <Container
@@ -78,10 +76,16 @@ const LocaleLanguageSelect = <T=LocaleLanguageInterface,>( props: LocaleLanguage
   );
 };
 
-export default withLocale<LocaleLanguageSelectPropsInterface>(
+export default withLocale<LocaleLanguageSelectPropsInterface<LocaleLanguageInterface>, "value" | "options" | "onChange">(
   ({ locale, languages, onLocaleChange }) => ({
-    value: find(languages, { id: locale }),
+    value: find(languages, { value: locale }),
     options: languages,
-    onChange: onLocaleChange,
+    onChange: (language) => {
+      if (!language) {
+        return;
+      }
+      
+      onLocaleChange(language.value)
+    },
   })
 )(LocaleLanguageSelect);

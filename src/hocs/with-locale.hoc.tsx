@@ -1,50 +1,72 @@
 import React, {
   ComponentType,
   forwardRef,
-  FunctionComponent,
-  useMemo,
+  ForwardedRef,
+  PropsWithoutRef,
+  RefAttributes,
 } from "react";
 import { ROQContext, RoqProviderLocaleContextInterface } from "src/components";
-import { useRoqComponentLocale } from "src/hooks";
 
-export interface WithLocaleComponentProps {}
-
-export function withLocale<TProps, TLocaleProps = TProps>(
+export function withLocale<
+  Props,
+  Fields extends keyof Props,
+  WithLocaleProps = Omit<Props, Fields>
+>(
   mapContextToProps: (
     context: RoqProviderLocaleContextInterface,
-    ownProps: TProps
-  ) => TLocaleProps
+    ownProps: Props
+  ) => Props
 ): (
-  Component: ComponentType<any>
+  WrappedComponent: ComponentType<Props>
 ) => ComponentType<
-  Omit<TProps, keyof TLocaleProps> & WithLocaleComponentProps
+  PropsWithoutRef<WithLocaleProps> &
+    RefAttributes<ComponentType<WithLocaleProps>>
 > {
   if (!mapContextToProps) {
     throw "withLocale requires mapContextToProps function";
   }
 
-  return function (Component: ComponentType<any>) {
+  return function (WrappedComponent: any) {
     class WithLocaleComponent extends React.Component<
-      Omit<TProps, keyof TLocaleProps> & WithLocaleComponentProps
+      WithLocaleProps & {
+        forwardedRef: ForwardedRef<ComponentType<WithLocaleProps>>;
+      }
     > {
       render() {
         return (
           <ROQContext.Consumer>
-            {(context) => (
-              <Component
-                {...mapContextToProps(context ?? {}, this.props)}
-                {...this.props}
-                ref={this.props.forwardedRef}
-                forwardedRef={this.props.forwardedRef}
-              />
-            )}
+            {(context) => {
+              const { forwardedRef, ...ownProps } = this.props;
+
+              const localeProps = mapContextToProps(
+                context ?? {},
+                ownProps as Props
+              );
+
+              const componentProps = ownProps;
+
+              return (
+                <WrappedComponent
+                  {...componentProps}
+                  {...localeProps}
+                  ref={forwardedRef}
+                  forwardedRef={forwardedRef}
+                />
+              );
+            }}
           </ROQContext.Consumer>
         );
       }
     }
 
-    return forwardRef((props, ref) => {
-      return <WithLocaleComponent {...props} forwardedRef={ref} />;
-    });
+    const comp = forwardRef<ComponentType<WithLocaleProps>, WithLocaleProps>(
+      (props, ref) => <WithLocaleComponent {...props} forwardedRef={ref} />
+    );
+
+    comp.displayName = WrappedComponent.displayName;
+    comp.propTypes = WrappedComponent.propTypes;
+    comp.defaultProps = WrappedComponent.defaultProps;
+
+    return comp;
   };
 }

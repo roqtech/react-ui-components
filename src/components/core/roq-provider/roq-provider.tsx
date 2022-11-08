@@ -11,7 +11,10 @@ import get from "lodash/get";
 import { config } from "src/utils/config";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "src/hooks/use-apollo";
-import { LocaleTranslationFunctionInterface } from "src/interfaces";
+import {
+  LocaleLanguageInterface,
+  LocaleTranslationFunctionInterface,
+} from "src/interfaces";
 import {
   PLATFORM_INTERNAL_POSTFIX,
   PLATFORM_CONSOLE_POSTFIX,
@@ -19,17 +22,9 @@ import {
   PLATFORM_SERVER_SIDE_POSTFIX,
   TIMEZONES,
 } from "src/constants";
-import { hostname } from "os";
 
 const enMessages = require("src/locales/en/common.json");
 const deMessages = require("src/locales/de/common.json");
-
-const PLATFORM_GRAPHS = [
-  PLATFORM_INTERNAL_POSTFIX,
-  PLATFORM_CONSOLE_POSTFIX,
-  PLATFORM_CLIENT_SIDE_POSTFIX,
-  PLATFORM_SERVER_SIDE_POSTFIX,
-];
 
 export interface RoqProviderConfigInterface {
   host: string;
@@ -52,7 +47,7 @@ export interface RoqProviderContextInterface
   query: () => unknown;
   locale?: string;
   locales?: string[];
-  languages: unknown[];
+  languages: LocaleLanguageInterface[];
   onLocaleChange: (locale: string) => void;
   timezone?: string;
   timezones?: string[];
@@ -69,7 +64,7 @@ export interface RoqProviderPropsInterface {
   timezone?: string;
   timezones?: string[];
   onTimezoneChange: (timezone: string) => void;
-  languages: unknown[];
+  languages: LocaleLanguageInterface[];
 }
 
 const defaultCtx: RoqProviderContextInterface = {
@@ -134,10 +129,15 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
     onTimezoneChange,
   } = props;
 
-  const messages = useMemo(
-    () => (_locale === "en-US" ? enMessages : deMessages),
-    [_locale]
-  );
+  const messages = useMemo(() => {
+    switch (_locale) {
+      case "de-DE":
+        return deMessages;
+      case "en-US":
+      default:
+        return enMessages;
+    }
+  }, [_locale]);
 
   const translate = useCallback(
     (key: string, defaultValue?: string) =>
