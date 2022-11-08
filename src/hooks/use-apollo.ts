@@ -16,7 +16,7 @@ let clientSingleton;
 const isServer = typeof window === "undefined";
 
 export function useApollo(): ApolloClient<InMemoryCache> {
-  const { token: platformToken, platformClientSide: platfromUrl } =
+  const { token: platformToken, platformServerSide: platfromUrl } =
     useRoqComponents();
 
   const uri = useRef(platfromUrl);
@@ -50,8 +50,7 @@ export function useApollo(): ApolloClient<InMemoryCache> {
           ...(token?.current
             ? {
                 "roq-platform-authorization":
-                  `Bearer ` +
-                  token?.current.replace("Bearer ", " ").trim(),
+                  `Bearer ` + token?.current.replace("Bearer ", " ").trim(),
               }
             : {}),
         },
