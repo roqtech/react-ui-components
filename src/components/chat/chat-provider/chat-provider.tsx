@@ -57,6 +57,7 @@ import {
   ChatUserPresenceListInterface,
 } from "src/interfaces/chat.interface";
 import { useRoqComponents } from "src/components/core/roq-provider";
+import { useLazyPlatformQuery } from "src/hooks";
 
 export interface ChatStateContextInterface {
   online: boolean;
@@ -122,7 +123,6 @@ export interface ChatProviderPropsInterface {
   children?: ReactNode;
 
   userId: string;
-  platformToken: string;
   conversationId?: string;
 
   groupMessages?: (
@@ -133,7 +133,7 @@ export interface ChatProviderPropsInterface {
 
   onConnect?: () => void;
   onDisconnect?: () => void;
-  onError?: () => void;
+  onError?: (error: Error) => void;
   onServerException?: () => void;
   onConversationCreated?: () => void;
   onConversationMembersChanged?: () => void;
@@ -206,10 +206,11 @@ const INITIAL_RECIPIENTS_STATE = {
 const normalizeRecipient = (
   recipient: ChatUserInterface
 ): ChatUserInterface => {
-  recipient.fullName = `${recipient.firstName ?? ""} ${
-    recipient.lastName ?? ""
-  }`.trim();
-  return recipient;
+  debugger;
+  return {
+    ...recipient,
+    fullName: `${recipient.firstName ?? ""} ${recipient.lastName ?? ""}`.trim(),
+  };
 };
 
 const markMessageAsStartOfTheUserGroup = (message: ChatMessageInterface) => {
@@ -295,7 +296,7 @@ export const ChatProvider = (
     onUserOffline,
   } = callbacks;
 
-  const { host, token, userToken } = useRoqComponents();
+  const { host, token, userToken, query } = useRoqComponents();
 
   const normalizeMessageHistory = useCallback(
     (history: ChatMessageInterface[]) => {
@@ -439,8 +440,12 @@ export const ChatProvider = (
   );
 
   const handleConnect = useCallback(() => {
-    setClientId(socket?.getId());
-    socket?.authorize({ userId }, handleUserConnected);
+    if (!socket) {
+      return;
+    }
+
+    setClientId(socket.getId());
+    socket.authorize({ userId }, handleUserConnected);
   }, [socket, userId, setClientId, handleUserConnected]);
 
   const handleDisconnect = useCallback(() => {
@@ -1263,7 +1268,7 @@ export const ChatProvider = (
     (response: ChatFetchRecipientsResponseInterface) => {
       setRecipients((ps) => {
         const nextRecipients = ps.data.concat(
-          (response.data ?? []).map(normalizeRecipient)
+          [...response?.data].map(normalizeRecipient)
         );
 
         return {
@@ -1280,6 +1285,56 @@ export const ChatProvider = (
     [setRecipients]
   );
 
+  const GET_RECIPIENTS = gql`
+    query getRecipients(
+      $limit: Int!
+      $offset: Int!
+      $ids: [ID!]
+      $excludeIds: [ID!]
+    ) {
+      users(
+        limit: $limit
+        offset: $offset
+        filter: { id: { valueIn: $ids, valueNotIn: $excludeIds } }
+      ) {
+        data {
+          id
+          firstName
+          lastName
+        }
+        totalCount
+      }
+    }
+  `;
+
+  const [
+    getRecipients,
+    {
+      loading: recipientsLoading,
+      error: recipientsError,
+      data: recipientsData,
+    },
+  ] = useLazyPlatformQuery(GET_RECIPIENTS);
+
+  useEffect(
+    function handleFetchRecipientListSuccess() {
+      if (recipientsLoading) {
+        return;
+      }
+
+      if (recipientsError) {
+        return;
+      }
+
+      if (!recipientsData) {
+        return;
+      }
+
+      onFetchRecipientListSuccess(recipientsData.users);
+    },
+    [recipientsLoading, recipientsError, recipientsData]
+  );
+
   const fetchRecipientList = useCallback(
     async (params: ChatFetchRecipientsVariablesInterface) => {
       onFetchRecipientListRequest(params);
@@ -1287,56 +1342,16 @@ export const ChatProvider = (
         ...params,
       };
 
-      const query = gql`
-        query getRecipients(
-          $limit: Int!
-          $offset: Int!
-          $ids: [String!]
-          $excludeIds: [String!]
-        ) {
-          users(
-            limit: $limit
-            offset: $offset
-            filter: {
-              roqIdentifier: { valueIn: $ids, valueNotIn: $excludeIds }
-            }
-          ) {
-            data {
-              id
-              firstName
-              lastName
-              fullName
-              initials
-              roqIdentifier
-              initials
-              avatar
-            }
-            totalCount
-          }
-        }
-      `;
-
-      const result = await request(
-        {
-          url: host,
-          query,
-          variables,
-          headers: {
-            authorization: userToken as string,
-            "roq-platform-authorization": token as string,
-          },
-        },
-        "data"
-      ).catch(() => []);
-
-      onFetchRecipientListSuccess(result.users);
+      getRecipients({ variables });
     },
     [
       host,
       userToken,
       token,
+      query,
       onFetchRecipientListRequest,
       onFetchRecipientListSuccess,
+      getRecipients,
     ]
   );
 

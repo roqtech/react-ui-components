@@ -12,7 +12,7 @@ import React, {
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatMessageMenu, useRightClick } from "src/index";
-import { ChatMessageMenuProps } from "../chat-message-menu";
+import { ChatMessageMenuPropsInterface } from "../chat-message-menu";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history-line";
 
@@ -31,7 +31,7 @@ export interface ChatMessageHistoryLinePropsInterface {
     Container: ComponentType<HTMLAttributes<HTMLElement>>;
     Menu: ComponentType<
       Pick<
-        ChatMessageMenuProps,
+        ChatMessageMenuPropsInterface,
         "className" | "open" | "onClose" | "messageId" | "isAuthor"
       >
     >;
@@ -42,7 +42,7 @@ export const ChatMessageHistoryLine = (
   props: ChatMessageHistoryLinePropsInterface
 ) => {
   const { style, className, classNames, components, ...rest } = props;
-  const { isSent, messageId, children, onRightClick } = props;
+  const { isSent, messageId, children, onRightClick, ...containerProps } = rest;
 
   const Container = components?.Container ?? "div";
   const Menu = components?.Menu ?? ChatMessageMenu;
@@ -58,7 +58,7 @@ export const ChatMessageHistoryLine = (
     onRightClick?.();
   }, [onRightClick]);
 
-  const { containerRef: ref } = useRightClick<HTMLElement>(handleRightClick);
+  const { containerRef: ref } = useRightClick<HTMLDivElement>(handleRightClick);
 
   return (
     <Container
@@ -68,7 +68,7 @@ export const ChatMessageHistoryLine = (
       })}
       style={style}
       ref={ref}
-      {...rest}
+      {...containerProps}
     >
       {children}
       <Menu

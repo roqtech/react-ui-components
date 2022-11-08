@@ -37,8 +37,7 @@ export interface ChatMembersPropsInterface {
   };
 }
 
-const getMemberRoqIdentifier = (member: ChatUserInterface): string =>
-  member.roqIdentifier;
+const defaultGetMemberId = (member: ChatUserInterface): string => member.id;
 
 export const ChatMembers = (props: ChatMembersPropsInterface) => {
   const { style, className, classNames, components } = props;
@@ -46,7 +45,7 @@ export const ChatMembers = (props: ChatMembersPropsInterface) => {
     children,
     members,
     selectedIds = [],
-    getMemberId = getMemberRoqIdentifier,
+    getMemberId = defaultGetMemberId,
     onMemberSelect,
   } = props;
 

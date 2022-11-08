@@ -1,7 +1,12 @@
 import "./chat-message-bubble.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, HTMLAttributes, ReactNode } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-bubble";
@@ -38,7 +43,7 @@ export const ChatMessageBubble = (props: ChatMessageBubblePropsInterface) => {
   } = props;
 
   const Container = components?.Container ?? "div";
-  const Content = components?.Content ?? "p";
+  const Content = components?.Content ?? "div";
 
   return (
     <Container

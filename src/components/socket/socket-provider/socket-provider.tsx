@@ -7,12 +7,12 @@ import React, {
   useState,
 } from "react";
 
+import { useRoqComponents } from "src/components/core/roq-provider";
 import {
-  socketClient,
   SocketClientInterface,
   SocketClientProps,
+  socketClient,
 } from "src/utils/socket-client.util";
-import { ChatSocket } from "src/utils/chat-socket.util";
 
 export interface SocketContextInterface {
   socket: SocketClientInterface | null;
@@ -20,7 +20,8 @@ export interface SocketContextInterface {
 
 export const SocketContext = createContext<SocketContextInterface | null>(null);
 
-export interface ChatProviderPropsInterface extends SocketClientProps {
+export interface ChatProviderPropsInterface
+  extends Pick<SocketClientProps, "secure"> {
   children?: ReactNode;
 }
 
@@ -29,21 +30,32 @@ export const SocketProvider = (
 ): ReactElement => {
   const { children, ...rest } = props;
 
+  const { platformChat, token } = useRoqComponents();
+
   const [socket, setSocket] = useState<SocketClientInterface | null>(null);
 
-  useLayoutEffect(function windowIsReady() {
-    if (socket) {
-      return;
-    }
+  useLayoutEffect(
+    function windowIsReady() {
+      if (!token) {
+        return;
+      }
 
-    const clientProps: SocketClientProps = {
-      ...rest,
-    };
+      if (socket) {
+        return;
+      }
 
-    const client = socketClient(clientProps);
+      const clientProps: SocketClientProps = {
+        ...rest,
+        platformToken: token,
+        platformUrl: platformChat,
+      };
 
-    setSocket(client);
-  }, []);
+      const client = socketClient(clientProps);
+
+      setSocket(client);
+    },
+    [token, platformChat]
+  );
 
   const value = useMemo<SocketContextInterface>(
     () => ({

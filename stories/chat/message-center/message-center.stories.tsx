@@ -2,11 +2,7 @@ import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatConversations, MessageCenter } from "../../../src";
-import {
-  ChatDecorator,
-  chatArgTypes,
-  chatDefaultArgs,
-} from "../../utils/chat.decorator";
+import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat/MessageCenter",
@@ -54,7 +50,6 @@ Default.args = {
   addMemberTitle: "Add users to the group",
   removeMemberTitle: "Remove users from the group",
   conversationNotSelectedMessage: "Break the ice and start a conversation",
-  ...chatDefaultArgs,
 };
 
 export const CustomLabels = Template.bind({});
@@ -67,5 +62,4 @@ CustomLabels.args = {
   addMemberTitle: "Add user",
   removeMemberTitle: "Remove user",
   conversationNotSelectedMessage: "Channel is not selected",
-  ...chatDefaultArgs,
 };

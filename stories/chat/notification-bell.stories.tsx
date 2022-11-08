@@ -2,11 +2,7 @@ import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatNotificationBell } from "../../src";
-import {
-  chatArgTypes,
-  ChatDecorator,
-  chatDefaultArgs,
-} from "../utils/chat.decorator";
+import { chatArgTypes, ChatDecorator } from "../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat/ChatNotificationBell",
@@ -19,11 +15,7 @@ export default {
   },
   decorators: [
     ChatDecorator,
-    (Story) => (
-      <div style={{ width: 200 }}>
-        {Story()}
-      </div>
-    ),
+    (Story) => <div style={{ width: 200 }}>{Story()}</div>,
   ],
 } as ComponentMeta<typeof ChatNotificationBell>;
 
@@ -33,13 +25,11 @@ const Template: ComponentStory<typeof ChatNotificationBell> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  ...chatDefaultArgs,
   showZero: true,
 };
 
 export const WithMaxCount = Template.bind({});
 WithMaxCount.args = {
-  ...chatDefaultArgs,
   maxUnreadCount: 5,
   showZero: true,
 };
@@ -59,7 +49,6 @@ const CustomNotificationIcon = (props) => (
 
 export const CustomIcon = Template.bind({});
 CustomIcon.args = {
-  ...chatDefaultArgs,
   unreadCount: 100,
   showZero: true,
   components: {
