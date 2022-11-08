@@ -50,8 +50,7 @@ export function useApollo(): ApolloClient<InMemoryCache> {
           ...(token?.current
             ? {
                 "roq-platform-authorization":
-                  `Bearer` +
-                  " " +
+                  `Bearer ` +
                   token?.current.replace("Bearer ", " ").trim(),
               }
             : {}),
