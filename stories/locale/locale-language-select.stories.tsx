@@ -3,18 +3,12 @@ import React from "react";
 import { LocaleLanguageSelect } from "../../src";
 
 export default {
-  title: "Roq Components/Locale/LocaleLanguageSelect",
+  title: "Roq Components/Locale/LocaleSettings/LocaleLanguageSelect",
   component: LocaleLanguageSelect,
   argTypes: {},
   decorators: [
     (Story) => {
-      return (
-        <div
-          style={{ width: 280, display: "flex", justifyContent: "flex-end" }}
-        >
-          <Story />
-        </div>
-      );
+      return <div style={{ width: 280 }}>{Story()}</div>;
     },
   ],
 } as ComponentMeta<typeof LocaleLanguageSelect>;

@@ -1,7 +1,35 @@
 @import "../../../styles/styles.scss";
 
 :root {
+  --rc-locale-language-select-label-display: block;
+  --rc-locale-language-select-label-padding: 0px;
+  --rc-locale-language-select-label-color: var(--rc-blueGray-500);
+  --rc-locale-language-select-label-font-weight: 400;
+  --rc-locale-language-select-label-font-size: 0.75rem;
+
+  --rc-locale-language-select-select-width: 100%;
+  --rc-locale-language-select-select-margin: calc(var(--rc-layout-step) * 2) 0 0
+    0;
 }
 
 @include roq-component("locale-language-select") {
+  position: relative;
+
+  &__label {
+    color: var(--rc-locale-language-select-label-color);
+    font-weight: var(--rc-locale-language-select-label-font-weight);
+    font-size: var(--rc-locale-language-select-label-font-size);
+    padding: var(--rc-locale-language-select-label-padding);
+    display: var(--rc-locale-language-select-label-display);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: auto;
+    user-select: none;
+  }
+
+  &__select {
+    width: var(--rc-locale-language-select-select-width);
+    margin: var(--rc-locale-language-select-select-margin);
+  }
 }

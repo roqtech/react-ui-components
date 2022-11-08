@@ -1,0 +1,40 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-locale-settings-padding: calc(var(--rc-layout-step) * 6);
+
+  --rc-locale-settings-content-margin: 0;
+
+  --rc-locale-settings-content-fieldset-margin: calc(var(--rc-layout-step) * 4)
+    0 0 0;
+}
+
+@include roq-component("locale-settings") {
+  padding: var(--rc-locale-settings-padding);
+
+  &__title {
+    margin: 0px;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.3333;
+    letter-spacing: 0.15px;
+    color: rgb(15, 23, 42);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: nowrap;
+  }
+
+  &__content {
+    margin: var(--rc-locale-settings-content-margin);
+
+    &__fieldset {
+      margin: var(--rc-locale-settings-content-fieldset-margin);
+
+      &__timezone-select {
+      }
+      &__language-select {
+      }
+    }
+  }
+}

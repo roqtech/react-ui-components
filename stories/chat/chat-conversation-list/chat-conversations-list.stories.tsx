@@ -24,7 +24,7 @@ export default {
           height: 500,
         }}
       >
-        <Story />
+        {Story()}
       </div>
     ),
   ],

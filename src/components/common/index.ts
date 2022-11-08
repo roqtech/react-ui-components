@@ -6,6 +6,13 @@ export { TimeAgo, TimeAgoPropsInterface } from "./time-ago";
 export { ActionButton, ActionButtonPropsInterface } from "./action-button";
 export { Menu, MenuPropsInterface } from "./menu";
 export { MenuItem, MenuItemPropsInterface } from "./menu-item";
-export { Card, CardProps } from './card'
-export { Switch, SwitchProps } from './switch'
-export { ToggleGroup, ToggleGroupItem, ToggleGroupProps, ToggleGroupItemProps } from './toggle-group'
+export { Card, CardProps } from "./card";
+export { Switch, SwitchProps } from "./switch";
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  ToggleGroupProps,
+  ToggleGroupItemProps,
+} from "./toggle-group";
+export { Panel, PanelPropsInterface } from "./panel";
+export { Select, SelectPropsInterface } from "./select";

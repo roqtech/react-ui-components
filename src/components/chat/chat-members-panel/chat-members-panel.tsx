@@ -10,14 +10,14 @@ import React, {
   useEffect,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatMemberList, ChatMembers, ChatPanel } from "src/index";
+import { ChatMemberList, Panel } from "src/index";
 import { ChatUserInterface } from "src/interfaces";
 import { withChatApi, withChatState } from "../chat-provider";
 import { ChatFetchRecipientsVariablesInterface } from "src/interfaces/chat.interface";
 import { ChatMemberListPropsInterface } from "../chat-member-list";
-import { ChatPanelPropsInterface } from "../chat-panel";
 import { ChatMembersPropsInterface } from "../chat-members/chat-members";
 import { useRoqTranslation } from "src/components/core/roq-provider";
+import { PanelPropsInterface } from "src/components/common";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-members-panel";
 
@@ -59,7 +59,7 @@ export interface ChatMembersPanelPropsInterface
   };
   components?: {
     Container?: ComponentType<
-      Pick<ChatPanelPropsInterface, "className" | "style" | "children">
+      Pick<PanelPropsInterface, "className" | "style" | "children">
     >;
     Header?: ComponentType<HTMLAttributes<HTMLElement>>;
     Title?: ComponentType<HTMLAttributes<HTMLElement>>;
@@ -89,7 +89,7 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
     onInitialize,
   } = props;
 
-  const Container = components?.Container ?? ChatPanel;
+  const Container = components?.Container ?? Panel;
   const Header = components?.Header ?? "div";
   const Title = components?.Title ?? "h4";
   const List = components?.List ?? ChatMemberList;
@@ -135,7 +135,7 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
         <Title
           className={clsx(_CLASS_IS + "__header__title", classNames?.header)}
         >
-          {titleLabel ?? t('chat.panel.members.title')}
+          {titleLabel ?? t("chat.panel.members.title")}
         </Title>
       </Header>
       <List
@@ -153,7 +153,7 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
               classNames?.list
             )}
           >
-            {cancelLabel ?? t('chat.panel.members.cancel')}
+            {cancelLabel ?? t("chat.panel.members.cancel")}
           </CancelButtonLabel>
         </CancelButton>
         <SubmitButton
@@ -166,7 +166,7 @@ const ChatMembersPanel = (props: ChatMembersPanelPropsInterface) => {
               classNames?.list
             )}
           >
-            {submitLabel ?? t('chat.panel.members.submit')}
+            {submitLabel ?? t("chat.panel.members.submit")}
           </SubmitButtonLabel>
         </SubmitButton>
       </Actions>

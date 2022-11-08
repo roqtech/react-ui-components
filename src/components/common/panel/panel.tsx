@@ -1,4 +1,4 @@
-import "./chat-panel.scss";
+import "./panel.scss";
 
 import clsx from "classnames";
 import React, {
@@ -10,9 +10,9 @@ import React, {
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
-const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-panel";
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + "panel";
 
-export interface ChatPanelPropsInterface {
+export interface PanelPropsInterface {
   children?: ReactNode;
   style?: CSSProperties;
   className?: string;
@@ -26,7 +26,7 @@ export interface ChatPanelPropsInterface {
   };
 }
 
-export const ChatPanel = (props: ChatPanelPropsInterface) => {
+export const Panel = (props: PanelPropsInterface) => {
   const { style, className, classNames, components } = props;
   const { children } = props;
 

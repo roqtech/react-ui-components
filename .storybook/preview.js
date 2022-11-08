@@ -24,7 +24,7 @@ export const parameters = {
           "Usage",
           "Styling",
           "Common",
-          ["Avatar", "AvatarGroup", "Badge", "ActionButton"],
+          ["Avatar", "AvatarGroup", "Badge", "ActionButton", "Panel"],
           "Chat",
           [
             "MessageCenter",
@@ -57,7 +57,7 @@ export const parameters = {
             "ChatConversationList",
           ],
           "Locale",
-          ["LocaleTimezoneSelect", "LocaleLanguageSelect"],
+          ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
           "Typography",
         ],
       ],
@@ -82,16 +82,10 @@ const CHAT_PREVIEW_COMPONENT = [
 
 export const decorators = [
   (Story, context) => {
-    console.dir(context);
-
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
-      return <Story />;
+      return <>{Story()}</>;
     }
 
-    return (
-      <RoqProvider config={hostConfig}>
-        <Story />
-      </RoqProvider>
-    );
+    return <RoqProvider config={hostConfig}>{Story()}</RoqProvider>;
   },
 ];

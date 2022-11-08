@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { RoqProvider, SocketProvider, ChatProvider } from "../../src";
 
 export const chatArgTypes = {
@@ -48,15 +48,19 @@ export const ChatDecorator = (Story, context) => {
     };
   }, [secure, host, token, socketUrl, userToken, userId]);
 
-  if (!initialized) {
-    return "Initializing...";
-  }
+  // if (!initialized) {
+  //   return "Initializing...";
+  // }
 
   const config = {
     host,
     token,
     userToken,
   };
+
+  const handleChatError = useCallback((error) => {
+    alert(JSON.stringify(error));
+  }, []);
 
   return (
     <RoqProvider config={config}>
@@ -65,8 +69,8 @@ export const ChatDecorator = (Story, context) => {
         platformUrl={socketUrl}
         platformToken={config.token}
       >
-        <ChatProvider userId={userId}>
-          <Story />
+        <ChatProvider userId={userId} onError={handleChatError}>
+          {Story()}
         </ChatProvider>
       </SocketProvider>
     </RoqProvider>

@@ -34,7 +34,7 @@ export default {
           padding: 24,
         }}
       >
-        <Story />
+        {Story()}
       </div>
     ),
   ],

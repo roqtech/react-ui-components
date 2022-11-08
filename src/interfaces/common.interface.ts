@@ -6,3 +6,8 @@ export interface PaginationInterface {
 }
 
 export type ComplexError = Error | ApolloError;
+
+export interface SelectOptionInterface {
+  value: string;
+  label: string;
+}
