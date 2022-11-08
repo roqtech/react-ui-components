@@ -42,9 +42,7 @@ import {
   ChatUserConnectedResponsePayload,
 } from "src/utils/chat-socket.util";
 import { useSocket } from "src/components/socket";
-import { useRoq } from "src/index";
 import gql from "graphql-tag";
-import { request } from "src/utils";
 import {
   ChatConversationListInterface,
   ChatConversationSchemaInterface,
@@ -1347,7 +1345,6 @@ export const ChatProvider = (
       host,
       userToken,
       token,
-      query,
       onFetchRecipientListRequest,
       onFetchRecipientListSuccess,
       getRecipients,
