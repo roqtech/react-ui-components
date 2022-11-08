@@ -206,7 +206,6 @@ const INITIAL_RECIPIENTS_STATE = {
 const normalizeRecipient = (
   recipient: ChatUserInterface
 ): ChatUserInterface => {
-  debugger;
   return {
     ...recipient,
     fullName: `${recipient.firstName ?? ""} ${recipient.lastName ?? ""}`.trim(),
