@@ -16,12 +16,14 @@ import {
   LocaleTranslationFunctionInterface,
 } from "src/interfaces";
 import {
+  PLATFORM_CHAT_POSTFIX,
   PLATFORM_INTERNAL_POSTFIX,
   PLATFORM_CONSOLE_POSTFIX,
   PLATFORM_CLIENT_SIDE_POSTFIX,
   PLATFORM_SERVER_SIDE_POSTFIX,
   TIMEZONES,
 } from "src/constants";
+import { SocketProvider } from "src/components";
 
 const enMessages = require("src/locales/en/common.json");
 const deMessages = require("src/locales/de/common.json");
@@ -29,22 +31,32 @@ const deMessages = require("src/locales/de/common.json");
 export interface RoqProviderConfigInterface {
   host: string;
   token?: string;
+  getToken?: () => Promise<string>;
+  tokenRefetchInternal?: number;
+  locale?: string;
+  locales?: string[];
+  timezone?: string;
+  timezones?: string[];
+  languages?: LocaleLanguageInterface[];
+  socket?: boolean;
 }
 
-export interface RoqProviderContextInterface
-  extends RoqProviderConfigInterface {
+export interface RoqProviderContextInterface {
+  host: string;
+  token?: string | null;
+
   platformInternal: string;
   platformConsole: string;
   platformClientSide: string;
   platformServerSide: string;
+  platformChat: string;
+
   userToken?: string;
   user?: {
     id: string;
     roqIdentifier: string;
   };
   t: LocaleTranslationFunctionInterface;
-  mutate: () => unknown;
-  query: () => unknown;
   locale?: string;
   locales?: string[];
   languages: LocaleLanguageInterface[];
@@ -58,13 +70,8 @@ export interface RoqProviderPropsInterface {
   children: ReactNode;
   config: RoqProviderConfigInterface;
   t?: LocaleTranslationFunctionInterface;
-  locale?: string;
-  locales?: string[];
-  onLocaleChange: (locale: string) => void;
-  timezone?: string;
-  timezones?: string[];
-  onTimezoneChange: (timezone: string) => void;
-  languages: LocaleLanguageInterface[];
+  onLocaleChange?: (locale: string) => void;
+  onTimezoneChange?: (timezone: string) => void;
 }
 
 const defaultCtx: RoqProviderContextInterface = {
@@ -75,17 +82,6 @@ const defaultCtx: RoqProviderContextInterface = {
     );
 
     return key;
-  },
-
-  mutate: () => {
-    throw Error(
-      "Error: RoqProvider doesn`t configured! Please check the documentation"
-    );
-  },
-  query: () => {
-    throw Error(
-      "Error: RoqProvider doesn`t configured! Please check the documentation"
-    );
   },
 };
 
@@ -113,21 +109,102 @@ export const defaultTranslationFunction = (
 };
 
 export const RoqProvider = (props: RoqProviderPropsInterface) => {
-  const [_locale, _setLocale] = useState(props.locale);
-  const [_timezone, _setTimezone] = useState(props.timezone);
+  const [_token, _setToken] = useState(props?.config?.token);
+  const [_tokenRefreshedAt, _setTokenRefreshedAt] = useState<number>(0);
+
+  const [_locale, _setLocale] = useState(props?.config?.locale);
+  const [_timezone, _setTimezone] = useState(props?.config?.timezone);
 
   const {
     children,
-    config,
+    config: {
+      host,
+      token,
+      getToken,
+      tokenRefetchInternal = 1000 * 60 * 60 * 23, // 23 hours
+      locale = "en-US",
+      locales = ["en-US", "de-DE"],
+      languages,
+      timezone,
+      timezones = TIMEZONES,
+      socket = false,
+    },
     t,
-    locale = "en-US",
-    locales = ["en-US", "de-DE"],
-    languages,
     onLocaleChange,
-    timezone,
-    timezones = TIMEZONES,
     onTimezoneChange,
   } = props;
+
+  if (!token && !getToken) {
+    console.error(
+      "To use RoqProvider you must provide valid token or getToken callback."
+    );
+  }
+
+  const refetchPlatformToken = useCallback(() => {
+    return new Promise((res, rej) => {
+      try {
+        if (!getToken) {
+          return;
+        }
+
+        const waitForToken = async () => {
+          const token = await getToken();
+
+          _setToken(token);
+          _setTokenRefreshedAt(+new Date());
+          res(token);
+        };
+
+        void waitForToken();
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }, [getToken, _setToken, _setTokenRefreshedAt]);
+
+  useEffect(
+    function initializeTokenRefetchQueue() {
+      if (token && !getToken) {
+        return;
+      }
+
+      refetchPlatformToken();
+
+      const t = setTimeout(() => {
+        refetchPlatformToken();
+      }, tokenRefetchInternal);
+
+      return () => clearTimeout(t);
+    },
+    [refetchPlatformToken, tokenRefetchInternal]
+  );
+
+  const checkIfTokenValid = useCallback(() => {
+    const previous = _tokenRefreshedAt;
+    const now = Date.now();
+
+    return !_token || now - previous > tokenRefetchInternal;
+  }, [_token, _tokenRefreshedAt, tokenRefetchInternal]);
+
+  const platformUrls = useMemo<
+    Pick<
+      RoqProviderContextInterface,
+      | "platformInternal"
+      | "platformConsole"
+      | "platformClientSide"
+      | "platformServerSide"
+      | "platformChat"
+    >
+  >(
+    () => ({
+      platformInternal: `${host}${PLATFORM_INTERNAL_POSTFIX}`,
+      platformConsole: `${host}${PLATFORM_CONSOLE_POSTFIX}`,
+      platformClientSide: `${host}${PLATFORM_CLIENT_SIDE_POSTFIX}`,
+      platformServerSide: `${host}${PLATFORM_SERVER_SIDE_POSTFIX}`,
+      platformChat: `${host}${PLATFORM_CHAT_POSTFIX}`,
+    }),
+    [host]
+  );
 
   const messages = useMemo(() => {
     switch (_locale) {
@@ -189,32 +266,11 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
     [timezone]
   );
 
-  const mutate = () => {};
-
-  const query = () => {};
-
-  const platformUrls = useMemo<
-    Pick<
-      RoqProviderContextInterface,
-      | "platformInternal"
-      | "platformConsole"
-      | "platformClientSide"
-      | "platformServerSide"
-    >
-  >(
-    () => ({
-      platformInternal: `${config?.host}/${PLATFORM_INTERNAL_POSTFIX}`,
-      platformConsole: `${config?.host}/${PLATFORM_CONSOLE_POSTFIX}`,
-      platformClientSide: `${config?.host}/${PLATFORM_CLIENT_SIDE_POSTFIX}`,
-      platformServerSide: `${config?.host}/${PLATFORM_SERVER_SIDE_POSTFIX}`,
-    }),
-    [config?.host]
-  );
-
   const state = useMemo<RoqProviderContextInterface>(
     () => ({
       ...defaultCtx,
-      ...config,
+      host: host,
+      token: _token,
       ...platformUrls,
       t: t ?? translate,
       locale: _locale,
@@ -224,11 +280,10 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
       timezones,
       languages: languages ?? defaultLanguages,
       onTimezoneChange: setTimezone,
-      mutate,
-      query,
     }),
     [
-      config,
+      host,
+      _token,
       platformUrls,
       t,
       _locale,
@@ -237,24 +292,36 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
       _timezone,
       timezones,
       setTimezone,
-      mutate,
-      query,
+
       translate,
       languages,
       defaultLanguages,
     ]
   );
 
+  const ConditionalSocketWrapper = useMemo(() => {
+    return socket ? SocketWrapper : DummyWrapper;
+  }, [socket]);
+
   return (
     <ROQContext.Provider value={state}>
-      <ApolloWrapper>{children}</ApolloWrapper>
+      <ApolloWrapper>
+        <ConditionalSocketWrapper>{children}</ConditionalSocketWrapper>
+      </ApolloWrapper>
     </ROQContext.Provider>
   );
 };
 
-const ApolloWrapper = ({ children }) => {
-  const client = useApollo();
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+const DummyWrapper = ({ children }: { children: any }) => children;
+
+const SocketWrapper = ({ children }: { children: any }) => (
+  <SocketProvider>{children}</SocketProvider>
+);
+
+const ApolloWrapper = ({ children }: { children: any }) => {
+  const apolloClient = useApollo();
+
+  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };
 
 export const useRoqContext = () =>

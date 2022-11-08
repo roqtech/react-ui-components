@@ -84,11 +84,11 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
   );
 
   const focusTextarea = useCallback(() => {
-    if (!textareaRef?.current) {
-      return;
-    }
-
     window.requestAnimationFrame(() => {
+      if (!textareaRef?.current) {
+        return;
+      }
+
       textareaRef.current.focus();
       onFocus?.();
     });

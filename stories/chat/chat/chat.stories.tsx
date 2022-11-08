@@ -3,11 +3,7 @@ import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Chat } from "../../../src";
-import {
-  ChatDecorator,
-  chatDefaultArgs,
-  chatArgTypes,
-} from "../../utils/chat.decorator";
+import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat/ChatConversation",
@@ -36,6 +32,5 @@ const Template: ComponentStory<typeof Chat> = ({ ...args }) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  ...chatDefaultArgs,
   conversationId: "90e7d00c-0031-494f-9111-15238da33065",
 };

@@ -2,11 +2,7 @@ import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatMemberList } from "../../../../src";
-import {
-  ChatDecorator,
-  chatDefaultArgs,
-  chatArgTypes,
-} from "../../../utils/chat.decorator";
+import { ChatDecorator, chatArgTypes } from "../../../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat/MessageCenter/ChatMembersPanel/ChatMemberList",
@@ -16,11 +12,7 @@ export default {
   },
   decorators: [
     ChatDecorator,
-    (Story) => (
-      <div style={{ width: 400, height: 500 }}>
-        {Story()}
-      </div>
-    ),
+    (Story) => <div style={{ width: 400, height: 500 }}>{Story()}</div>,
   ],
 } as ComponentMeta<typeof ChatMemberList>;
 
@@ -29,6 +21,4 @@ const Template: ComponentStory<typeof ChatMemberList> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  ...chatDefaultArgs,
-};
+Default.args = {};

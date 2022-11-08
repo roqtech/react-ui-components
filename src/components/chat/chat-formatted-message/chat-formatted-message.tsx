@@ -9,21 +9,7 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-
-import {
-  AvatarGroup,
-  AvatarGroupProps,
-} from "../../common/avatar-group/avatar-group";
-import {
-  StackedText,
-  StackedTextProps,
-} from "../../common/stacked-text/stacked-text";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { withChatState } from "../chat-provider";
-import { ChatConversationInterface } from "src/interfaces";
-import { ChatMessageProps } from "../chat-message";
-import { ChatMessageBubbleProps } from "../chat-message-bubble";
-
 import parser, {
   attributesToProps,
   DOMNode,
@@ -184,7 +170,7 @@ export const ChatFormattedMessage = (
   const { style, className, Component } = props;
   const { content, preview } = props;
 
-  const Container = Component ?? "p";
+  const Container = Component ?? "div";
 
   const format = useMemo(
     () => (preview ? formatPreviewContent : formatContent),
