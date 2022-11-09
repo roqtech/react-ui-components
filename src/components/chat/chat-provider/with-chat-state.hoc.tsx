@@ -1,70 +1,71 @@
-import React, { forwardRef } from "react";
+import React, {
+  ComponentType,
+  forwardRef,
+  ForwardedRef,
+  PropsWithoutRef,
+  RefAttributes,
+} from "react";
 import { ChatStateContext, ChatStateContextInterface } from "./chat-provider";
-import { useChatApi } from "./use-chat-api.hook";
 
-// TODO: DEV ONLY!
-const MOCKED_STATE = {
-  setCurrentConversationId: null,
-  currentConversation: {},
-  messages: {
-    error: null,
-    isLoading: false,
-    hasMore: false,
-    offset: 0,
-    limit: 10,
-    totalCount: 0,
-    loadedTotal: 0,
-    data: [],
-  },
-  conversations: {
-    error: null,
-    isLoading: false,
-    hasMore: false,
-    offset: 0,
-    limit: 10,
-    totalCount: 0,
-    loadedTotal: 0,
-    data: [],
-  },
-};
-
-export function withChatState<TProps, TContext = Partial<TProps>>(
+export function withChatState<
+  Props,
+  Fields extends keyof Props,
+  WithChatStateProps = Omit<Props, Fields>
+>(
   mapContextToProps: (
     context: ChatStateContextInterface,
-    ownProps: unknown
-  ) => TContext
-): (Component: React.ComponentType<any>) => React.ComponentType<TProps> {
+    ownProps: Props
+  ) => Props
+): (
+  WrappedComponent: ComponentType<Props>
+) => ComponentType<
+  PropsWithoutRef<WithChatStateProps> &
+    RefAttributes<ComponentType<WithChatStateProps>>
+> {
   if (!mapContextToProps) {
     throw "withChatState requires mapContextToProps function";
   }
 
-  return function (Component: React.ComponentType<any>) {
-    class WithChatState extends React.Component<TProps> {
+  return function (WrappedComponent: any) {
+    class WithChatApiComponent extends React.Component<
+      WithChatStateProps & {
+        forwardedRef: ForwardedRef<ComponentType<WithChatStateProps>>;
+      }
+    > {
       render() {
         return (
           <ChatStateContext.Consumer>
-            {(state) => (
-              <Component
-                {...mapContextToProps(state ?? MOCKED_STATE, this.props)}
-                {...this.props}
-                ref={this.props.forwardedRef}
-                forwardedRef={this.props.forwardedRef}
-              />
-            )}
+            {(context) => {
+              const { forwardedRef, ...ownProps } = this.props;
+
+              const stateProps = context
+                ? mapContextToProps(context, ownProps as Props)
+                : {};
+
+              const componentProps = ownProps;
+
+              return (
+                <WrappedComponent
+                  {...componentProps}
+                  {...stateProps}
+                  ref={forwardedRef}
+                  forwardedRef={forwardedRef}
+                />
+              );
+            }}
           </ChatStateContext.Consumer>
         );
       }
     }
 
-    const ExportComponent = forwardRef<React.ComponentType<any>, TProps>(
-      (props, ref) => {
-        return <WithChatState {...props} forwardedRef={ref} />;
-      }
+    const comp = forwardRef<ComponentType<WithChatStateProps>, WithChatStateProps>(
+      (props, ref) => <WithChatApiComponent {...props} forwardedRef={ref} />
     );
 
-    ExportComponent.displayName =
-      Component.displayName ?? Component.name ?? "WithChatState";
+    comp.displayName = WrappedComponent.displayName;
+    comp.propTypes = WrappedComponent.propTypes;
+    comp.defaultProps = WrappedComponent.defaultProps;
 
-    return ExportComponent;
+    return comp;
   };
 }

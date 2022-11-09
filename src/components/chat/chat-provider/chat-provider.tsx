@@ -108,11 +108,9 @@ export interface ChatApiContextInterface {
   getUserPresence: (userId: string) => ChatUserPresenceInterface["isOnline"];
 }
 
-export const ChatStateContext =
-  createContext<ChatStateContextInterface | null>(null);
+export const ChatStateContext = createContext<ChatStateContextInterface | null>(null);
 
-export const ChatApiContext =
-  createContext<ChatApiContextInterface | null>(null);
+export const ChatApiContext = createContext<ChatApiContextInterface | null>(null);
 
 export interface ChatProviderPropsInterface {
   children?: ReactNode;

@@ -1,48 +1,71 @@
-import React, { forwardRef } from "react";
+import React, {
+  ComponentType,
+  forwardRef,
+  ForwardedRef,
+  PropsWithoutRef,
+  RefAttributes,
+} from "react";
 import { ChatApiContext, ChatApiContextInterface } from "./chat-provider";
-import { useChatApi } from "./use-chat-api.hook";
 
-type WithChatStateApiProps<T> = {
-  mapContextToProps?: (
-    context: ChatApiContextInterface,
-    ownProps: unknown
-  ) => T;
-};
-
-export function withChatApi<TProps, TContext = TProps>(
+export function withChatApi<
+  Props,
+  Fields extends keyof Props,
+  WithChatApiProps = Omit<Props, Fields>
+>(
   mapContextToProps: (
     context: ChatApiContextInterface,
-    ownProps: unknown
-  ) => TContext
+    ownProps: Props
+  ) => Props
 ): (
-  Component: React.ComponentType<any>
-) => React.ComponentType<
-  Omit<TProps, keyof TContext> & WithChatStateApiProps<TContext>
+  WrappedComponent: ComponentType<Props>
+) => ComponentType<
+  PropsWithoutRef<WithChatApiProps> &
+    RefAttributes<ComponentType<WithChatApiProps>>
 > {
   if (!mapContextToProps) {
     throw "withChatApi requires mapContextToProps function";
   }
 
-  return function (Component: React.ComponentType<any>) {
-    class WithChatApi extends React.Component<Omit<TProps, keyof TContext>> {
+  return function (WrappedComponent: any) {
+    class WithChatApiComponent extends React.Component<
+      WithChatApiProps & {
+        forwardedRef: ForwardedRef<ComponentType<WithChatApiProps>>;
+      }
+    > {
       render() {
         return (
           <ChatApiContext.Consumer>
-            {(api) => (
-              <Component
-                {...mapContextToProps(api ?? {}, this.props)}
-                {...this.props}
-                ref={this.props.forwardedRef}
-                forwardedRef={this.props.forwardedRef}
-              />
-            )}
+            {(context) => {
+              const { forwardedRef, ...ownProps } = this.props;
+
+              const localeProps = context
+                ? mapContextToProps(context, ownProps as Props)
+                : {};
+
+              const componentProps = ownProps;
+
+              return (
+                <WrappedComponent
+                  {...componentProps}
+                  {...localeProps}
+                  ref={forwardedRef}
+                  forwardedRef={forwardedRef}
+                />
+              );
+            }}
           </ChatApiContext.Consumer>
         );
       }
     }
 
-    return forwardRef((props, ref) => {
-      return <WithChatApi {...props} forwardedRef={ref} />;
-    });
+    const comp = forwardRef<ComponentType<WithChatApiProps>, WithChatApiProps>(
+      (props, ref) => <WithChatApiComponent {...props} forwardedRef={ref} />
+    );
+
+    comp.displayName = WrappedComponent.displayName;
+    comp.propTypes = WrappedComponent.propTypes;
+    comp.defaultProps = WrappedComponent.defaultProps;
+
+    return comp;
   };
 }
