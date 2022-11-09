@@ -1,5 +1,6 @@
 import React from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
+import { authorizeServiceAccount } from "../src/utils/authorize-service-account";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
@@ -73,13 +74,13 @@ const hostConfig = {
 };
 
 const CHAT_PREVIEW_COMPONENT = [
-  "roq-components-chat-messagecenter--widget",
-  "roq-components-chat-messagecenter-chat--widget",
-  "roq-components-chat-chatconversationlist--widget",
-  "roq-components-chat-messagecenter-chat-chatmessagelist--widget",
-  "roq-components-chat-messagecenter-chatmemberspanel--widget",
-  "roq-components-chat-messagecenter-chatmemberspanel-chatmemberlist--widget",
-  "roq-components-chat-chatnotificationbell--widget",
+  "roq-components-chat-messagecenter",
+  "roq-components-chat-messagecenter-chat",
+  "roq-components-chat-chatconversationlist",
+  "roq-components-chat-messagecenter-chat-chatmessagelist",
+  "roq-components-chat-messagecenter-chatmemberspanel",
+  "roq-components-chat-messagecenter-chatmemberspanel-chatmemberlist",
+  "roq-components-chat-chatnotificationbell",
 ];
 
 export const decorators = [
