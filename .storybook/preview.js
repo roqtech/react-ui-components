@@ -67,24 +67,47 @@ const hostConfig = {
   host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "",
   token: process.env.STORYBOOK_PLATFORM_TOKEN ?? "",
   socket: true,
+  tenantId: process.env.STORYBOOK_PLATFOMR_SERVICE_TENANT_ID ?? "",
+  apiKey: process.env.STORYBOOK_PLATFOMR_SERVICE_API_KEY ?? "",
+  serviceAccount: process.env.STORYBOOK_PLATFOMR_SERVICE_ACCOUNT ?? "",
 };
 
 const CHAT_PREVIEW_COMPONENT = [
   "roq-components-chat-messagecenter--widget",
   "roq-components-chat-messagecenter-chat--widget",
-  "roq-components-chat-chatconversationlist",
-  "roq-components-chat-messagecenter-chat-chatmessagelist",
-  "roq-components-chat-messagecenter-chatmemberspanel",
-  "roq-components-chat-messagecenter-chatmemberspanel-chatmemberlist",
-  "roq-components-chat-chatnotificationbell",
+  "roq-components-chat-chatconversationlist--widget",
+  "roq-components-chat-messagecenter-chat-chatmessagelist--widget",
+  "roq-components-chat-messagecenter-chatmemberspanel--widget",
+  "roq-components-chat-messagecenter-chatmemberspanel-chatmemberlist--widget",
+  "roq-components-chat-chatnotificationbell--widget",
 ];
 
 export const decorators = [
   (Story, context) => {
+    const { host } = hostConfig;
+
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
       return <>{Story()}</>;
     }
 
-    return <RoqProvider config={hostConfig}>{Story()}</RoqProvider>;
+    const getToken = async () => {
+      const token = await authorizeServiceAccount({
+        platformUrl: host + "v01/",
+        tenantId,
+        apiKey,
+        serviceAccount,
+      });
+
+      return token;
+    };
+
+    const config = {
+      host,
+      getToken,
+      socket: true,
+      
+    };
+
+    return <RoqProvider config={config}>{Story()}</RoqProvider>;
   },
 ];
