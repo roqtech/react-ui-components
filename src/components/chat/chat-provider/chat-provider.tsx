@@ -72,9 +72,6 @@ export interface ChatStateContextInterface {
 }
 
 export interface ChatApiContextInterface {
-  isConnected: () => boolean;
-  connect: () => void;
-  disconnect: () => void;
   selectConversation: (conversationId: string | null) => void;
   createConversation: (
     payload: ChatCreateConversationRequestPayloadInterface
@@ -108,9 +105,11 @@ export interface ChatApiContextInterface {
   getUserPresence: (userId: string) => ChatUserPresenceInterface["isOnline"];
 }
 
-export const ChatStateContext = createContext<ChatStateContextInterface | null>(null);
+export const ChatStateContext =
+  createContext<ChatStateContextInterface | null>(null);
 
-export const ChatApiContext = createContext<ChatApiContextInterface | null>(null);
+export const ChatApiContext =
+  createContext<ChatApiContextInterface | null>(null);
 
 export interface ChatProviderPropsInterface {
   children?: ReactNode;
@@ -335,7 +334,7 @@ export const ChatProvider = (props: ChatProviderPropsInterface) => {
 
   const currentConversation: ChatConversationInterface | undefined = useMemo(
     () =>
-      !currentConversation
+      !currentConversationId
         ? undefined
         : _find<ChatConversationInterface | undefined>(conversations.data, {
             id: `${currentConversationId}`,

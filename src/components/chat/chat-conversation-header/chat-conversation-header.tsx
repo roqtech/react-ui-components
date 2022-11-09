@@ -1,7 +1,13 @@
 import "./chat-conversation-header.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, CSSProperties, ReactNode, useMemo } from "react";
+import React, {
+  ComponentType,
+  CSSProperties,
+  HTMLAttributes,
+  ReactNode,
+  useMemo,
+} from "react";
 
 import {
   AvatarGroup,
@@ -33,8 +39,13 @@ export interface ChatConversationHeaderPropsInterface
     actions?: string;
   };
   components?: {
-    Container?: ComponentType<any>;
-    Avatars?: ComponentType<AvatarGroupPropsInterface>;
+    Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Avatars?: ComponentType<
+      Pick<
+        AvatarGroupPropsInterface,
+        "users" | "maxCount" | "size" | "className"
+      >
+    >;
     Info?: ComponentType<
       Pick<
         StackedTextPropsInterface,
@@ -104,7 +115,9 @@ const ChatConversationHeader = (
         <ActionButton
           className={clsx(_CLASS_IS + "__actions", classNames?.actions)}
           components={{
-            Dropdown: components?.ConversationMenu,
+            ...(components?.ConversationMenu && {
+              Dropdown: components?.ConversationMenu,
+            }),
           }}
         />
       )}
@@ -112,9 +125,10 @@ const ChatConversationHeader = (
   );
 };
 
-export default withChatState<ChatConversationHeaderPropsInterface>(
-  ({ currentConversation }) => ({
-    title: currentConversation?.title ?? "",
-    members: currentConversation?.members || [],
-  })
-)(ChatConversationHeader);
+export default withChatState<
+  ChatConversationHeaderPropsInterface,
+  "title" | "members"
+>(({ currentConversation }) => ({
+  title: currentConversation?.title ?? "",
+  members: currentConversation?.members || [],
+}))(ChatConversationHeader);

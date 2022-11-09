@@ -1,16 +1,21 @@
 import "./avatar-group.scss";
 
 import clsx from "classnames";
-import React, { ComponentType, HTMLAttributes, useCallback, useMemo } from "react";
+import React, {
+  ComponentType,
+  HTMLAttributes,
+  useCallback,
+  useMemo,
+} from "react";
 
-import { Avatar, AvatarProps } from "../avatar/avatar";
+import { Avatar, AvatarPropsInterface } from "../avatar/avatar";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { ChatUserInterface } from "src/interfaces";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar-group";
 
 export interface AvatarGroupPropsInterface
-  extends Pick<AvatarProps, "size" | "rounded" | "square" | "border"> {
+  extends Pick<AvatarPropsInterface, "size" | "rounded" | "square" | "border"> {
   users: ChatUserInterface[];
   stack?: boolean;
   grid?: boolean;
@@ -23,8 +28,8 @@ export interface AvatarGroupPropsInterface
   };
   components?: {
     Container: ComponentType<HTMLAttributes<HTMLElement>>;
-    Wrapper: ComponentType<any>;
-    Avatar: ComponentType<AvatarProps>;
+    Wrapper: ComponentType<HTMLAttributes<HTMLElement>>;
+    Avatar: ComponentType<AvatarPropsInterface>;
   };
 }
 

@@ -10,12 +10,12 @@ import { ChatStateContext, ChatStateContextInterface } from "./chat-provider";
 export function withChatState<
   Props,
   Fields extends keyof Props,
-  WithChatStateProps = Omit<Props, Fields>
+  WithChatStateProps = Props
 >(
   mapContextToProps: (
     context: ChatStateContextInterface,
     ownProps: Props
-  ) => Props
+  ) => Pick<Props, Fields>
 ): (
   WrappedComponent: ComponentType<Props>
 ) => ComponentType<
@@ -38,6 +38,7 @@ export function withChatState<
             {(context) => {
               const { forwardedRef, ...ownProps } = this.props;
 
+
               const stateProps = context
                 ? mapContextToProps(context, ownProps as Props)
                 : {};
@@ -46,8 +47,8 @@ export function withChatState<
 
               return (
                 <WrappedComponent
-                  {...componentProps}
                   {...stateProps}
+                  {...componentProps}
                   ref={forwardedRef}
                   forwardedRef={forwardedRef}
                 />
@@ -58,9 +59,10 @@ export function withChatState<
       }
     }
 
-    const comp = forwardRef<ComponentType<WithChatStateProps>, WithChatStateProps>(
-      (props, ref) => <WithChatApiComponent {...props} forwardedRef={ref} />
-    );
+    const comp = forwardRef<
+      ComponentType<WithChatStateProps>,
+      WithChatStateProps
+    >((props, ref) => <WithChatApiComponent {...props} forwardedRef={ref} />);
 
     comp.displayName = WrappedComponent.displayName;
     comp.propTypes = WrappedComponent.propTypes;

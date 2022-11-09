@@ -15,7 +15,7 @@ export function withChatApi<
   mapContextToProps: (
     context: ChatApiContextInterface,
     ownProps: Props
-  ) => Props
+  ) => Pick<Props, Fields>
 ): (
   WrappedComponent: ComponentType<Props>
 ) => ComponentType<

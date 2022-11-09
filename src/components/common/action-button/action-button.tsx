@@ -27,12 +27,14 @@ export interface ActionButtonPropsInterface {
     dropdown?: string;
   };
   components?: {
-    Container: ComponentType<Pick<HTMLAttributes<HTMLElement>, 'style' | 'className' | 'children'>>;
-    Button: ComponentType<
+    Container?: ComponentType<
+      Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
+    >;
+    Button?: ComponentType<
       Pick<HTMLAttributes<HTMLButtonElement>, "onClick" | "className">
     >;
-    Icon: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
-    Dropdown: ComponentType<
+    Icon?: ComponentType<Pick<HTMLAttributes<HTMLElement>, "className">>;
+    Dropdown?: ComponentType<
       Pick<MenuPropsInterface, "open" | "onClose" | "className">
     >;
   };

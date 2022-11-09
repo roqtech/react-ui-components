@@ -46,7 +46,10 @@ export interface ChatPropsInterface {
     Input?: ComponentType<
       Pick<ChatMessageInputPropsInterface, "className" | "textareaRef">
     >;
-    ConversationMenu?: ComponentType<ChatConversationMenuPropsInterface>;
+    ConversationMenu?: Pick<
+      ChatConversationMenuPropsInterface,
+      "className" | "open" | "onClose"
+    >;
   };
 }
 
@@ -88,7 +91,9 @@ const Chat = (props: ChatPropsInterface) => {
       <Header
         className={clsx(_CLASS_IS + "__header", classNames?.container)}
         components={{
-          ConversationMenu: components?.ConversationMenu,
+          ...(components?.ConversationMenu && {
+            ConversationMenu: components?.ConversationMenu,
+          }),
         }}
       />
       <Messages
@@ -102,7 +107,7 @@ const Chat = (props: ChatPropsInterface) => {
   );
 };
 
-export default withChatState<ChatPropsInterface>(
+export default withChatState<ChatPropsInterface, "conversationId">(
   ({ currentConversationId }) => ({
     conversationId: currentConversationId,
   })
