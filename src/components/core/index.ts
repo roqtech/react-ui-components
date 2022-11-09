@@ -5,4 +5,5 @@ export {
   useRoqContext,
   useResolveProvider,
   ROQContext,
+  useRoqComponents
 } from "./roq-provider/roq-provider";

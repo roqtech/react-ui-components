@@ -1,11 +1,5 @@
-import { useContext } from "react";
-import { useChatApi, useChatState } from "src/components";
-import {
-  ChatApiContext,
-  ChatApiContextInterface,
-  ChatStateContext,
-  ChatStateContextInterface,
-} from "src/components/chat/chat-provider/chat-provider";
+import { useChatApi } from "src/components";
+import { ChatApiContextInterface } from "src/components/chat/chat-provider/chat-provider";
 
 export interface UseArchiveConversationHookInterface
   extends Pick<ChatApiContextInterface, "archiveConversation"> {}
