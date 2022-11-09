@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import "../stories/assets/custom.css";
 import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
-import { config } from "process";
-import { SocketProvider, ChatProvider, MessageCenter } from "../src";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -68,6 +66,7 @@ export const parameters = {
 const hostConfig = {
   host: process.env.STORYBOOK_PLATFORM_GRAPHQL ?? "",
   token: process.env.STORYBOOK_PLATFORM_TOKEN ?? "",
+  socket: true,
 };
 
 const CHAT_PREVIEW_COMPONENT = [

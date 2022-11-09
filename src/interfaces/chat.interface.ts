@@ -117,8 +117,7 @@ export interface ChatRecipientListInterface
   >;
 }
 
-export interface ChatUserPresenceListInterface
-  extends InfiniteListInterface<ChatUserPresenceInterface> {}
+export type ChatUserPresenceListInterface = ChatUserPresenceInterface[];
 
 export enum ChatSocketRequestMessageEnum {
   USER_CONNECTED = "userConnected",

@@ -7,14 +7,14 @@ import {
   ChatStateContextInterface,
 } from "src/components/chat/chat-provider/chat-provider";
 
-export interface UseUpdateHookInterface
+export interface UseChatUpdateHookInterface
   extends Pick<
     ChatApiContextInterface,
     "resetEditableConversation" | "setEditableConversation"
   > {}
 
-export const useUpdateConversation =
-  (): UseUpdateHookInterface => {
+export const useChatUpdateConversation =
+  (): UseChatUpdateHookInterface => {
     const api = useChatApi();
 
     const { resetEditableConversation, setEditableConversation } = api;
