@@ -26,6 +26,10 @@ export function useApollo(
 
   useEffect(() => {
     _token = token;
+  }, []);
+
+  useEffect(() => {
+    _token = token;
   }, [token]);
 
   if (!clientSingleton) {
@@ -42,6 +46,7 @@ export function useApollo(
     );
 
     const authLink = setContext((_, { headers }) => {
+      console.log("auth link");
       return {
         headers: {
           ...headers,

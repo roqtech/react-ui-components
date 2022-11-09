@@ -305,9 +305,11 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
 
   return (
     <ROQContext.Provider value={state}>
-      <ApolloWrapper host={platformUrls.platformServerSide} token={_token}>
-        <ConditionalSocketWrapper>{children}</ConditionalSocketWrapper>
-      </ApolloWrapper>
+      {!!_token ? (
+        <ApolloWrapper host={platformUrls.platformServerSide} token={_token}>
+          <ConditionalSocketWrapper>{children}</ConditionalSocketWrapper>
+        </ApolloWrapper>
+      ) : null}
     </ROQContext.Provider>
   );
 };

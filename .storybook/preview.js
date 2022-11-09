@@ -85,7 +85,7 @@ const CHAT_PREVIEW_COMPONENT = [
 
 export const decorators = [
   (Story, context) => {
-    const { host } = hostConfig;
+    const { host, tenantId, apiKey, serviceAccount } = hostConfig;
 
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
       return <>{Story()}</>;
@@ -106,7 +106,6 @@ export const decorators = [
       host,
       getToken,
       socket: true,
-      
     };
 
     return <RoqProvider config={config}>{Story()}</RoqProvider>;
