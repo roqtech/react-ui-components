@@ -1,6 +1,6 @@
 export {
-  useArchiveConversation,
-  UseArchiveConversationHookInterface,
+  useChatArchiveConversation,
+  UseChatArchiveConversationHookInterface,
 } from "./use-chat-archive-conversation.hook";
 export {
   useChatGetCoversationDetails,
@@ -11,8 +11,8 @@ export {
   UseChatCreateConversationHookInterface,
 } from "./use-chat-create-conversation.hook";
 export {
-  useFetchConversations,
-  UseFetchConversationsHookInterface,
+  useChatCurrentConversation,
+  UseChatCurrentConversationHookInterface,
 } from "./use-chat-current-conversation.hook";
 export { useChatCurrentUser } from "./use-chat-current-user.hook";
 export {
@@ -48,6 +48,7 @@ export {
   UseRenameConversationHookInterface,
 } from "./use-chat-rename-conversation.hook";
 export {
+  ChatScreenEnum,
   useChatScreen,
   UseChatScreenHookInterface,
   UseChatScreenPropsInterface,

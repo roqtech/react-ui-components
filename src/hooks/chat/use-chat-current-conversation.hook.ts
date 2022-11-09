@@ -2,42 +2,22 @@ import { useChatApi, useChatState } from "src/components";
 import {
   ChatApiContextInterface,
   ChatStateContextInterface,
-  INITIAL_CONVERSATIONS_STATE,
 } from "src/components/chat/chat-provider/chat-provider";
-import { ChatConversationListInterface } from "src/interfaces";
 
-export interface UseFetchConversationsHookInterface
-  extends Pick<ChatApiContextInterface, "fetchConversationList">,
-    Omit<ChatConversationListInterface, "editableId"> {}
+export interface UseChatCurrentConversationHookInterface
+  extends Pick<ChatApiContextInterface, "selectConversation">,
+    Pick<
+      ChatStateContextInterface,
+      "currentConversation" | "currentConversationId"
+    > {}
 
-export const useFetchConversations =
-  (): UseFetchConversationsHookInterface => {
+export const useChatCurrentConversation =
+  (): UseChatCurrentConversationHookInterface => {
     const api = useChatApi();
     const state = useChatState();
 
-    const { fetchConversationList } = api;
-    const {
-      conversations: {
-        error,
-        isLoading,
-        hasMore,
-        offset,
-        limit,
-        totalCount,
-        loadedTotal,
-        data,
-      } = INITIAL_CONVERSATIONS_STATE,
-    } = state;
+    const { selectConversation } = api;
+    const { currentConversation, currentConversationId } = state;
 
-    return {
-      fetchConversationList,
-      error,
-      isLoading,
-      hasMore,
-      offset,
-      limit,
-      totalCount,
-      loadedTotal,
-      data,
-    };
+    return { selectConversation, currentConversation, currentConversationId };
   };

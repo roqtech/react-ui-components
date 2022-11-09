@@ -22,22 +22,17 @@ import {
 import { CreateConversationIcon as DefaultCreateConversationIcon } from "./create-conversation-icon";
 import {
   ChatScreenEnum,
-  useArchiveConversation,
+  useChatArchiveConversation,
   useChatScreen,
-  useCreateConversation,
-  useCurrentConversation,
-  useLeaveConversationMembers,
-  useUpdateConversation,
-  useUpdateConversationMembers,
+  useChatCreateConversation,
+  useChatCurrentConversation,
+  useChatUpdateConversation,
+  useChatUpdateConversationMembers,
+  useChatLeaveConversation,
 } from "src/hooks";
 import { ChatConversationListPropsInterface } from "../chat-conversation-list";
 import { ChatConversationMenu } from "../chat-conversation-menu";
-import { ChatCreateConversationRequestPayloadInterface } from "src/utils/chat-socket.util";
-import _ from "lodash";
-import {
-  useRoqComponents,
-  useRoqTranslation,
-} from "src/components/core/roq-provider";
+import { useRoqTranslation } from "src/components/core/roq-provider";
 import { ChatConversationNotSelectedPanelPropsInterface } from "../chat-conversation-not-selected-panel";
 import { ChatMembersPanelPropsInterface } from "../chat-members-panel";
 import { ChatPropsInterface } from "../chat";
@@ -159,16 +154,16 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const AddMembers = components?.AddMembers ?? ChatMembersPanel;
   const RemoveMembers = components?.RemoveMembers ?? ChatMembersPanel;
 
-  const { archiveConversation } = useArchiveConversation();
-  const { createConversation } = useCreateConversation();
-  const { updateConversationMembers } = useUpdateConversationMembers();
-  const { leaveConversation } = useLeaveConversationMembers();
+  const { archiveConversation } = useChatArchiveConversation();
+  const { createConversation } = useChatCreateConversation();
+  const { updateConversationMembers } = useChatUpdateConversationMembers();
+  const { leaveConversation } = useChatLeaveConversation();
 
   const { setEditableConversation, resetEditableConversation } =
-    useUpdateConversation();
+    useChatUpdateConversation();
 
   const { currentConversationId, selectConversation, currentConversation } =
-    useCurrentConversation();
+    useChatCurrentConversation();
 
   const { screen, setScreen } = useChatScreen();
 
@@ -286,7 +281,7 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   );
 
   const handleAddMembers = useCallback(
-    (memberIds: string) => {
+    (memberIds: string[]) => {
       updateConversationMembers(memberIds);
       setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
     },
@@ -302,7 +297,7 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   );
 
   const handleRemoveMembers = useCallback(
-    (memberIds: string) => {
+    (memberIds: string[]) => {
       updateConversationMembers(memberIds);
       setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
     },

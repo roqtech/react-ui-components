@@ -5,8 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatConversationNotSelectedPanel } from "../../../src";
 
 export default {
-  title:
-    "Roq Components/Chat/MessageCenter/ChatConversationNotSelectedPanel",
+  title: "Roq Components/Chat/MessageCenter/ChatConversationNotSelectedPanel",
   component: ChatConversationNotSelectedPanel,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationNotSelectedPanel>;
@@ -20,7 +19,9 @@ const Template: ComponentStory<typeof ChatConversationNotSelectedPanel> = (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  message: "Break the ice and start a conversation",
+};
 
 export const CustomMessage = Template.bind({});
 CustomMessage.args = {

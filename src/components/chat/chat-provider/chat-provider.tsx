@@ -82,7 +82,7 @@ export interface ChatApiContextInterface {
   archiveConversation: (conversationId: string) => void;
   renameConversation: (title: string) => void;
   getConversationDetails: (conversationId: string) => void;
-  updateConversationMembers: (memberIds: []) => void;
+  updateConversationMembers: (memberIds: string[]) => void;
   leaveConversation: (conversationId: string) => void;
   markAsReadUnreadConversationMessages: () => void;
   sendMessage: (payload: ChatSendMessageRequestPayloadInterface) => void;
