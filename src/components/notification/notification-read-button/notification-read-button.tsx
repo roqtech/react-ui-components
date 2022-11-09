@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { ActionButton, Menu, MenuItem } from 'src/components/common';
 import { useApolloClient } from '@apollo/client';
 import { useReadNotification, useUnReadNotification } from 'src/components/notification/hooks'
+import { useRoqTranslation } from 'src/components/core/roq-provider';
 
 export interface NotificationReadButtonProps {
   id: string
@@ -11,6 +12,7 @@ export interface NotificationReadButtonProps {
 const NotificationReadButton: React.FC<NotificationReadButtonProps> = (props) => {
   const { id, read } = props
   const client = useApolloClient()
+  const { t } = useRoqTranslation()
   const [readMutate] = useReadNotification(id)
   const [unreadMutate] = useUnReadNotification(id)
   
@@ -33,7 +35,7 @@ const NotificationReadButton: React.FC<NotificationReadButtonProps> = (props) =>
           Dropdown: (props) => (
             <Menu {...props}>
               <MenuItem onClick={onClick}>
-                Mark notification as {read ? 'unread' : 'read'}
+                {read ? t('notification.mark-as-unread') : t('notification.mark-as-read')}
               </MenuItem>
             </Menu>
           ),

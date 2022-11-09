@@ -8,14 +8,15 @@ import { Card, ToggleGroup, ToggleGroupItem } from 'src/components/common'
 import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
-} from 'src/lib/graphql/query'
+} from 'src/lib/graphql/notification/query'
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import { QueryResult } from '@apollo/client'
-import './notification.scss'
 import { ITransformError, transformApolloError } from 'src/utils'
+import { useRoqTranslation } from 'src/components/core/roq-provider'
+import './notification.scss'
 
 dayjs.extend(relativeTime)
 
@@ -155,6 +156,8 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     })
   }, [items, contentView])
 
+  const { t } = useRoqTranslation()
+
   const renderToggleType = useMemo(() => {
     if (typeToggleProps?.children) {
       return typeToggleProps.children({ type, setType })
@@ -165,21 +168,21 @@ export const Notification: React.FC<NotificationProps> = (props) => {
         onValueChange={(value) => setType(value as NotificationType)}
         className={clsx(_CLASS_IS + '-type-toggle', typeToggleProps?.className)}
       >
-        <ToggleGroupItem value='all'>All</ToggleGroupItem>
-        <ToggleGroupItem value='unread'>Unread</ToggleGroupItem>
+        <ToggleGroupItem value='all'>{t('common.all')}</ToggleGroupItem>
+        <ToggleGroupItem value='unread'>{t('common.unread')}</ToggleGroupItem>
       </ToggleGroup>
     )
-  }, [typeToggleProps, type, setType])
+  }, [typeToggleProps, type, setType, t])
 
   const renderLoading = useMemo(() => {
     if (loadingView) {
       return loadingView(fetchResult)
     }
-    return <div>{loading && !data && 'Loading...'}</div>
-  }, [loadingView, data, loading])
+    return <div>{loading && !data && t('common.loading')}</div>
+  }, [loadingView, data, loading, t])
 
   const Container = components?.Container ?? 'div'
-
+  
   return (
     <Container {...rest} className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
@@ -210,6 +213,7 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
     return children({ count, loading })
   }
   const Container = props?.Container ?? 'div'
+  const { t } = useRoqTranslation()
 
   return (
     <Container
@@ -218,7 +222,7 @@ const NotificationTitle: React.FC<NotificationTitleProps> = (props) => {
         props.className,
       )}
       >
-      {title ?? 'Notification'}
+      {title ?? t('common.Notification')}
       {' '}
       <Avatar className={clsx(_CLASS_IS + '-title-badges')} initials={count.toString()} />
     </Container>

@@ -1,5 +1,5 @@
 import { BaseQueryOptions, QueryFunctionOptions, useQuery } from '@apollo/client'
-import { NotificationsInAppForCurrentUser } from 'src/lib/graphql/query'
+import { NotificationsInAppForCurrentUser } from 'src/lib/graphql/notification/query'
 import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { NotificationProps } from 'src/components/notification/notification'
 import { useDefaultNotificationsVariables } from './use-fetch-notification-variables'

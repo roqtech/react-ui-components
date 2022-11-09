@@ -1,5 +1,5 @@
 import { BaseMutationOptions, useMutation } from '@apollo/client'
-import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/query'
+import { UpsertNotificationTypeUserPreference } from 'src/lib/graphql/notification/query'
 import {
   UpsertNotificationTypeUserPreferenceMutation,
   UpsertNotificationTypeUserPreferenceMutationVariables,

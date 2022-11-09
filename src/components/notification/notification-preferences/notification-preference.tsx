@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useMemo } from 'react'
+import React, { ComponentType, ReactElement, ReactNode, useMemo } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
 import { Switch } from 'src/components/common'
@@ -12,6 +12,8 @@ import {
 import type { ClassValue } from 'clsx'
 import { QueryResult } from '@apollo/client'
 import { NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables } from 'src/lib/graphql/types/graphql'
+import { useRoqTranslation } from 'src/components/core/roq-provider'
+import { ITransformError, transformApolloError } from 'src/utils'
 import './notification-preference.scss'
 
 export type NotificationPreferenceLoadingViewCallbackProps =
@@ -35,7 +37,12 @@ interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivE
     className?: ClassValue
   }
   onToggle?: NotificationCategoryPreferencesProps['onToggle'],
+  components?: {
+    Container?: ComponentType<any>;
+  },
   loadingView?: (callback: NotificationPreferenceLoadingViewCallbackProps) => JSX.Element | ReactElement | null
+  onFetchPreferencesSuccess?: (data: NotificationTypeCategoriesQuery) => void
+  onFetchPreferencesError?: (error: ITransformError) => void
 }
 const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) => {
   const {
@@ -44,14 +51,26 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
     categoryView,
     categoryItemProps,
     onToggle,
+    loadingView,
+    components,
+    onFetchPreferencesSuccess,
+    onFetchPreferencesError,
     ...rest
   } = props
-  const fetchResult = useNotificationsCategories()
+  const fetchResult = useNotificationsCategories({
+    onCompleted(data) {
+      onFetchPreferencesSuccess?.(data)
+    },
+    onError(error) {
+      onFetchPreferencesError?.(transformApolloError(error))
+    },
+  })
   if (children) {
     return children(fetchResult)
   }
 
-  const { data, error, refetch } = fetchResult
+  const { t } = useRoqTranslation()
+  const { loading, data } = fetchResult
   const categories = useMemo(() => data?.notificationTypeCategories?.data || [], [data])
 
   const renderTitle = useMemo(() => {
@@ -60,7 +79,7 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
     }
     return (
       <h5 className={clsx(_CLASS_IS + '-title', titleProps?.className)}>
-        Notification preference
+        {t('common.Notification-preference')}
       </h5>
     )
   }, [titleProps])
@@ -86,14 +105,24 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
     ))
   }, [categories])
 
+
+  const Container = components?.Container ?? 'div'
+  const renderLoading = useMemo(() => {
+    if (loadingView) {
+      return loadingView(fetchResult)
+    }
+    return <div>{loading && !data && t('common.loading')}</div>
+  }, [loadingView, data, loading])
+
   return (
-    <div
+    <Container
       {...rest}
       className={clsx(_CLASS_IS, rest?.className)}
     >
       {renderTitle}
+      {renderLoading}
       {renderCategories}
-    </div>
+    </Container>
   )
 }
 

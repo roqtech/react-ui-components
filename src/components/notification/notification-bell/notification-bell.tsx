@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from 'react'
+import React, { ComponentType, ReactElement, ReactNode, useMemo, useState } from 'react'
 import _get from 'lodash/get'
 import clsx from 'clsx'
 import {
@@ -8,9 +8,11 @@ import {
 } from 'src/components/notification/notification'
 import type { ClassValue } from 'clsx'
 import { Avatar } from 'src/components/common'
-import { NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
+import { ITransformError, transformApolloError } from 'src/utils'
+import { NotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types/graphql'
 import './notification-bell.scss'
+import { useRoqTranslation } from 'src/components/core/roq-provider'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
 interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children' | 'style'> {
@@ -22,13 +24,19 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
     children?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element
     className?: ClassValue
   },
-  fetchProps?: {
-    variables?: NotificationsInAppForCurrentUserQueryVariables
-  },
+  // fetchProps?: {
+  //   variables?: NotificationsInAppForCurrentUserQueryVariables
+  // },
   styles?: {
     Container?: React.HTMLAttributes<HTMLDivElement>['style'],
     Bell?: React.HTMLAttributes<HTMLDivElement>['style'],
-  }
+  },
+  loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | ReactElement | null
+  components?: {
+    Container?: ComponentType<any>;
+  },
+  onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
+  onFetchNotificationsError?: (error: ITransformError) => void
 }
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   const {
@@ -36,20 +44,32 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     children,
     bellIcon,
     dotView,
-    fetchProps,
+    // fetchProps,
     styles,
+    loadingView,
+    onFetchNotificationsSuccess,
+    onFetchNotificationsError,
+    components,
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
   const fetchResult = useFetchNotificationsInApp({
     type,
-    fetchProps,
+    // fetchProps,
+  }, {
+    fetchPolicy: 'cache-and-network',
+    onCompleted(data) {
+      onFetchNotificationsSuccess?.(data)
+    },
+    onError(error) {
+      onFetchNotificationsError?.(transformApolloError(error))
+    },
   })
 
   if (children) {
     return children({ ...fetchResult, type, setType })
   }
-  const { data, error, refetch } = fetchResult
+  const { loading, data, error, refetch } = fetchResult
   const count = useMemo(
     () => _get(data, 'loadNotifications.totalCount', 0),
     [data],
@@ -59,6 +79,9 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     if (dotView?.children) {
       return dotView.children(fetchResult)
     }
+    if (loading) {
+      return null
+    }
     return (
       <Avatar
         style={styles?.Bell}
@@ -67,10 +90,25 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
         initials={count.toString()}
       />
     )
-  }, [dotView, count, bellIcon])
+  }, [dotView, loading, count, bellIcon])
+
+  const { t } = useRoqTranslation()
+  const Container = components?.Container ?? 'div'
+
+  const renderLoading = useMemo(() => {
+    if (loadingView) {
+      return loadingView(fetchResult)
+    }
+    return <Container>{loading && !data && t('common.loading')}</Container>
+  }, [loadingView, data, loading, t])
+
+
+  if (loading) {
+    return renderLoading
+  }
 
   return (
-    <div {...rest} className={clsx(_CLASS_IS, rest?.className)} style={styles?.Container}>
+    <Container {...rest} className={clsx(_CLASS_IS, rest?.className)} style={styles?.Container}>
       {bellIcon?? (
         <svg
           width='24'
@@ -88,7 +126,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
         </svg>
       )}
       {renderDot}
-    </div>
+    </Container>
   )
 }
 
