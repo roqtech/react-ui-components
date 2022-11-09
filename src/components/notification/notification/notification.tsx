@@ -15,6 +15,7 @@ import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import { QueryResult } from '@apollo/client'
 import './notification.scss'
+import { ITransformError, transformApolloError } from 'src/utils'
 
 dayjs.extend(relativeTime)
 
@@ -26,6 +27,12 @@ export type NotificationContentViewCallbackProps = {
   onUnRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
+
+// export type NotificationLoadingViewCallbackProps = {
+//   loading: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['loading'],
+//   onSuccess: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['data'],
+//   onError: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['error'],
+// }
 export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
@@ -54,9 +61,11 @@ export interface NotificationProps extends Omit<React.HTMLAttributes<HTMLDivElem
     children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
     className?: ClassValue
   },
-  fetchProps?: {
-    variables?: NotificationsInAppForCurrentUserQueryVariables
-  }
+  // fetchProps?: {
+  //   variables?: NotificationsInAppForCurrentUserQueryVariables
+  // }
+  onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
+  onFetchNotificationsError?: (error: ITransformError) => void
 }
 
 export const Notification: React.FC<NotificationProps> = (props) => {
@@ -68,15 +77,22 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     titleProps,
     children,
     loadingView,
-    fetchProps,
+    // fetchProps,
+    onFetchNotificationsSuccess,
+    onFetchNotificationsError,
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
   const fetchResult = useFetchNotificationsInApp({
     type,
-    fetchProps,
   }, {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
+    onCompleted(data) {
+      onFetchNotificationsSuccess?.(data)
+    },
+    onError(error) {
+      onFetchNotificationsError?.(transformApolloError(error))
+    },
   })
   if (children) {
     return children({ ...fetchResult, type, setType })

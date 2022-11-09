@@ -1,3 +1,4 @@
+import { ApolloError } from '@apollo/client';
 import { DocumentNode } from 'graphql/language/ast';
 import { print } from 'graphql/language/printer';
 import _get from 'lodash/get';
@@ -26,3 +27,16 @@ export const request = (args: IRequest, dataPath: string = '') => fetch(args.url
     }
     return data
 })
+
+export interface ITransformError {
+ message: string,
+ code: string
+}
+export const transformApolloError = (err: ApolloError): ITransformError => {
+  const { message, graphQLErrors, networkError } = err
+  const error = graphQLErrors?.[0] ?? networkError
+  return {
+      message: error?.message ?? message,
+      code: error?.extensions?.code ?? 'unknown'
+  }
+}

@@ -34,7 +34,8 @@ interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivE
   categoryItemProps?: {
     className?: ClassValue
   }
-  onToggle?: NotificationCategoryPreferencesProps['onToggle']
+  onToggle?: NotificationCategoryPreferencesProps['onToggle'],
+  loadingView?: (callback: NotificationPreferenceLoadingViewCallbackProps) => JSX.Element | ReactElement | null
 }
 const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) => {
   const {
