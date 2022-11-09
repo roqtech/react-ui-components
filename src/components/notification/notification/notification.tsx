@@ -14,7 +14,7 @@ import { NotificationReadButton } from 'src/components/notification/notification
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
 import { QueryResult } from '@apollo/client'
-import { ITransformError, transformApolloError } from 'src/utils'
+import { TransformErrorInterface, transformApolloError } from 'src/utils'
 import { useRoqTranslation } from 'src/components/core/roq-provider'
 import './notification.scss'
 
@@ -66,7 +66,7 @@ export interface NotificationProps extends Omit<React.HTMLAttributes<HTMLDivElem
   //   variables?: NotificationsInAppForCurrentUserQueryVariables
   // }
   onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
-  onFetchNotificationsError?: (error: ITransformError) => void
+  onFetchNotificationsError?: (error: TransformErrorInterface) => void
 }
 
 export const Notification: React.FC<NotificationProps> = (props) => {

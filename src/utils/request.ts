@@ -28,11 +28,11 @@ export const request = (args: IRequest, dataPath: string = '') => fetch(args.url
     return data
 })
 
-export interface ITransformError {
+export interface TransformErrorInterface {
  message: string,
  code: string
 }
-export const transformApolloError = (err: ApolloError): ITransformError => {
+export const transformApolloError = (err: ApolloError): TransformErrorInterface => {
   const { message, graphQLErrors, networkError } = err
   const error = graphQLErrors?.[0] ?? networkError
   return {

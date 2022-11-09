@@ -9,7 +9,7 @@ import {
 import type { ClassValue } from 'clsx'
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
-import { ITransformError, transformApolloError } from 'src/utils'
+import { TransformErrorInterface, transformApolloError } from 'src/utils'
 import { NotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types/graphql'
 import './notification-bell.scss'
 import { useRoqTranslation } from 'src/components/core/roq-provider'
@@ -36,7 +36,7 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
     Container?: ComponentType<any>;
   },
   onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
-  onFetchNotificationsError?: (error: ITransformError) => void
+  onFetchNotificationsError?: (error: TransformErrorInterface) => void
 }
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   const {

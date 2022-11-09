@@ -13,7 +13,7 @@ import type { ClassValue } from 'clsx'
 import { QueryResult } from '@apollo/client'
 import { NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables } from 'src/lib/graphql/types/graphql'
 import { useRoqTranslation } from 'src/components/core/roq-provider'
-import { ITransformError, transformApolloError } from 'src/utils'
+import { TransformErrorInterface, transformApolloError } from 'src/utils'
 import './notification-preference.scss'
 
 export type NotificationPreferenceLoadingViewCallbackProps =
@@ -42,7 +42,7 @@ interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivE
   },
   loadingView?: (callback: NotificationPreferenceLoadingViewCallbackProps) => JSX.Element | ReactElement | null
   onFetchPreferencesSuccess?: (data: NotificationTypeCategoriesQuery) => void
-  onFetchPreferencesError?: (error: ITransformError) => void
+  onFetchPreferencesError?: (error: TransformErrorInterface) => void
 }
 const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) => {
   const {
