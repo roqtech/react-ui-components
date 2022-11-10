@@ -1,43 +1,43 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Card } from '../../src/components/common';
+import { Card } from "../../src/components/common";
 
 export default {
-  title: 'Roq Components/Common/Card',
+  title: "Roq Components/Common/Card",
   component: Card,
   argTypes: {
     title: {
-      defaultValue: 'Card title',
+      defaultValue: "Card title",
       control: {
-        type: 'text'
-      }
+        type: "text",
+      },
     },
     subTitle: {
       control: {
-        type: 'text'
-      }
+        type: "text",
+      },
     },
     headerExtraContent: {
       control: {
-        type: 'text'
-      }
+        type: "text",
+      },
     },
     children: {
-      defaultValue: 'Description of card',
+      defaultValue: "Description of card",
       control: {
-        type: 'text'
-      }
-    }
+        type: "text",
+      },
+    },
   },
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
 } as ComponentMeta<typeof Card>;
 
 const Template: ComponentStory<typeof Card> = (args) => {
-  return <Card {...args} />
+  return <Card {...args} />;
 };
 
 export const Primary = Template.bind({});

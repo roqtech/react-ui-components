@@ -1,10 +1,10 @@
 @import "../../../styles/styles.scss";
 
 $avatar-border-width: 2px;
-$avatar-border-color: #ffffff;
+$avatar-border-color: var(--rc-color-card);
 
-$avatar-image-font-color: $white;
-$avatar-image-primary-color: #ffffff;
+$avatar-image-font-color: var(--rc-color-card);
+$avatar-image-primary-color: var(--rc-color-card);
 $avatar-image-default-padding: 2px;
 
 $avatar-size_small: 24px;

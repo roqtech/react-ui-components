@@ -6,11 +6,11 @@ $chat-conversation-font-card-line-height: $default-font-line-height;
   --rc-chat-conversation-card-border-radius: var(--rc-layout-border-radius);
   --rc-chat-conversation-card-padding: calc(var(--rc-layout-step) * 6);
 
-  --rc-chat-conversation-card-background: var(--rc-white);
+  --rc-chat-conversation-card-background: var(--rc-color-white);
   --rc-chat-conversation-card-shadow: 0px 4px 16px rgba(13, 28, 70, 0.05);
   --rc-chat-conversation-card-border: none;
 
-  --rc-chat-conversation-card-hover-background: var(--rc-blueGray-50);
+  --rc-chat-conversation-card-hover-background: var(--rc-color-primary);
   --rc-chat-conversation-card-hover-border: var(
     --rc-chat-conversation-card-border
   );
@@ -54,7 +54,7 @@ $chat-conversation-font-card-line-height: $default-font-line-height;
   --rc-chat-conversation-card-title-timestamp-font-weight: var(
     --rc-font-weight-bold
   );
-  --rc-chat-conversation-card-title-timestamp-color: var(--rc-blueGray-500);
+  --rc-chat-conversation-card-title-timestamp-color: var(--rc-color-primary0);
 
   --rc-chat-conversation-card-actions-min-width: calc(
     var(--rc-layout-step) * 10
@@ -62,7 +62,7 @@ $chat-conversation-font-card-line-height: $default-font-line-height;
 
   --rc-chat-conversation-card-message-margin: calc(var(--rc-layout-step) * 3);
   --rc-chat-conversation-card-message-font-family: var(--rc-primary-font);
-  --rc-chat-conversation-card-message-color: var(--rc-blueGray-500);
+  --rc-chat-conversation-card-message-color: var(--rc-color-primary0);
   --rc-chat-conversation-card-message-font-size: var(
     --rc-stacked-text-size-primary
   );

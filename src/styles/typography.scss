@@ -9,17 +9,12 @@ $font-weight-medium: $font-weight-normal;
 $font-weight-bold: 500;
 $font-weight-bolder: 600;
 
-// TODO: create mixin for CSS variables
 :root {
   --rc-default-font-size: #{$default-font-size};
   --rc-default-font-weight: #{$default-font-weight};
   --rc-default-font-line-height: #{$default-font-line-height};
   --rc-default-font-spacing: #{$default-font-spacing};
   --rc-default-font-name: #{$default-font-name};
-
-  --rc-primary-text-color: #{$primary-text-color};
-  --rc-secondary-text-color: #{$secondary-text-color};
-  --rc-tertiary-text-color: #{$tertiary-text-color};
 
   --rc-font-weight-normal: #{$font-weight-normal};
   --rc-font-weight-medium: #{$font-weight-medium};
