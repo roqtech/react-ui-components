@@ -12,7 +12,6 @@ module.exports = {
     "@storybook/addon-essentials",
     "storybook-addon-next",
     "@storybook/addon-docs",
-    "storybook-addon-themes",
   ],
   framework: "@storybook/react",
   core: {
