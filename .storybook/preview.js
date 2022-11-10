@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import { authorizeServiceAccount } from "../src/utils/authorize-service-account";
 import "../stories/assets/custom.css";
@@ -82,7 +82,28 @@ const CHAT_PREVIEW_COMPONENT = [
   "roq-components-chat-chatnotificationbell",
 ];
 
+const themes = {
+  "#333333": "dark",
+  "#F8F8F8": "light",
+};
+
 export const decorators = [
+  (Story, context) => {
+    const color = context.globals?.backgrounds?.value;
+    const themeName = !!color ? themes[color] : "light";
+
+    useEffect(() => {
+      console.dir(document.documentElement);
+
+      document.documentElement.classList.add(`rc-${themeName}`);
+
+      return function cleanup() {
+        document.documentElement.classList.remove(`rc-${themeName}`);
+      };
+    }, [themeName]);
+
+    return <Story />;
+  },
   (Story, context) => {
     const { host, tenantId, apiKey, serviceAccount } = hostConfig;
 
