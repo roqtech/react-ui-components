@@ -2,7 +2,6 @@ import React from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import { authorizeServiceAccount } from "../src/utils/authorize-service-account";
 import "../stories/assets/custom.css";
-import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
 
 export const parameters = {

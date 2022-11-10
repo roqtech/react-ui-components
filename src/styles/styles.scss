@@ -1,1 +1,33 @@
-@import "theme/basic/basic.theme.scss";
+@import "mixins/mixins.scss";
+@import "breakpoints.scss";
+@import "typography.scss";
+@import "spacing.scss";
+
+@import "theme/light.scss";
+@import "theme/dark.scss";
+
+$theme_colors: (
+  "white",
+  "black",
+  "primary",
+  "secondary",
+  "green",
+  "bg",
+  "card",
+  "border",
+  "text"
+);
+
+:root {
+  @each $name, $value in $theme_colors {
+    --rc-color-#{$name}: var(--rc-theme-light-color-#{$name});
+    --rc-color-#{$name}-rgb: var(--rc-theme-light-color-#{$name}-rgb);
+  }
+
+  &.rc-dark {
+    @each $name, $value in $theme_colors {
+      --rc-color-#{$name}: var(--rc-theme-dark-color-#{$name});
+      --rc-color-#{$name}-rgb: var(--rc-theme-dark-color-#{$name}-rgb);
+    }
+  }
+}

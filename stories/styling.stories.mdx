@@ -1,31 +1,350 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs";
 
 <Meta title="Roq Components/Styling" />
 
-<ColorPalette>
-  <ColorItem
-    title="theme.color.greyscale"
-    subtitle="Some of the greys"
-    colors={{ White: '#FFFFFF', Alabaster: '#F8F8F8', Concrete: '#F3F3F3' }}
-  />
-  <ColorItem 
-    title="theme.color.primary" 
-    subtitle="Coral" 
-    colors={{ WildWatermelon: '#FF4785' }} 
-  />
-  <ColorItem 
-    title="theme.color.secondary" 
-    subtitle="Ocean" 
-    colors={{ DodgerBlue: '#1EA7FD' }} 
-  />
-  <ColorItem
-    title="theme.color.positive"
-    subtitle="Green"
-    colors={{
-      Apple: 'rgba(102,191,60,1)',
-      Apple80: 'rgba(102,191,60,.8)',
-      Apple60: 'rgba(102,191,60,.6)',
-      Apple30: 'rgba(102,191,60,.3)',
-    }}
-  />
-</ColorPalette>
+<style>
+  {`
+    .table {
+      --table-border: var(--rc-color-border);
+
+      width: 100%;
+      border: 2px solid var(--table-border);
+      margin-bottom: 2rem;
+
+      display: table;
+      border-collapse: separate;
+      box-sizing: border-box;
+      text-indent: initial;
+      border-collapse: separate;
+      border-spacing: 0px 0.5rem;
+    }
+
+    .table th, .table td {
+      padding: 1rem 1.5rem;
+    }
+
+    .table thead th {
+      text-align: left;
+      color: var(--rc-color-text);
+    }
+
+    .table tr:nth-child(odd) {
+      background: var(--rc-color-border);
+    }
+
+    .table tbody td {
+      color: var(--rc-color-black);
+    }
+
+    .color-swatch {
+      display: inline-block;
+      border: 1px solid black;
+      width: 0.875rem;
+      height: 0.875rem;
+      margin-left: 7px;
+      margin-bottom: -2px;
+      border-radius: 2px;
+    }
+
+    .section {
+      --section-background: var(--rc-color-card);
+      --section-border: var(--rc-color-border);
+      --section-title-color: var(--rc-color-black);
+      --section-desription-color: var(--rc-color-text);
+      --section-demo-color: var(--rc-color-text);
+      --section-demo-title-color: var(--rc-color-text);
+      --section-demo-subtitle-color: var(--rc-color-text);
+
+      margin-bottom: 1.2rem;
+      padding: 1rem;
+      background: var(--section-background);
+      border: 2px solid var(--section-border);
+    }
+
+    .section__title {
+      color: var(--section-title-color);
+    }
+
+    .section__description {
+      color: var(--section-desription-color);
+    }
+
+    .section__demo {
+      padding: 1rem;
+      color: var(--section-demo-color);
+    }
+
+    .section__demo__item__title {
+      color: var(--section-demo-title-color);
+    }
+    .section__demo__item__subtitle {
+      color: var(--section-demo-subtitle-color);
+    }
+    
+    .section.dark {
+      --section-background: var(--rc-theme-dark-color-card);
+      --section-border: var(--rc-theme-dark-color-border);
+      --section-title-color:  var(--rc-theme-dark-color-black);
+      --section-desription-color:  var(--rc-theme-dark-color-text);
+    }
+  `}
+</style>
+
+## CSS
+
+## Styled Components
+
+## Theme
+
+#### Variables
+
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Theme Variable</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span>--rc-color-white</span></td>
+      <td>
+        <span>--rc-theme-light-color-white</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-white)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-black</span></td>
+      <td>
+        <span>--rc-theme-light-color-black</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-black)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-primary</span></td>
+      <td>
+        <span>--rc-theme-light-color-primary</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-primary)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-secondary</span></td>
+      <td>
+        <span>--rc-theme-light-color-secondary</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-secondary)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-green</span></td>
+      <td>
+        <span>--rc-theme-light-color-green</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-green)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-bg</span></td>
+      <td>
+        <span>--rc-theme-light-color-bg</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-bg)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-card</span></td>
+      <td>
+        <span>--rc-theme-light-color-card</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-card)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-border</span></td>
+      <td>
+        <span>--rc-theme-light-color-border</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-border)" }}
+        />
+      </td>
+    </tr>
+    <tr>
+      <td><span>--rc-color-text</span></td>
+      <td>
+        <span>--rc-theme-light-color-text</span>
+        <span
+          className="color-swatch"
+          style={{ background: "var(--rc-theme-light-color-text)" }}
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="section">
+  <h3 class="section__title">Light theme</h3>
+  <p class="section__description"></p>
+  <ColorPalette className="section__demo">
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">White</span>}
+        colors={{ "#FFFFFF": "var(--rc-theme-light-color-white)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Black</span>}
+        colors={{ "#000000": "var(--rc-theme-light-color-black)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Primary</span>}
+        subtitle={
+          <span className="section__demo__item__subtitle">
+            Action elements, links, e.t.c
+          </span>
+        }
+        colors={{ "#207BE5": "var(--rc-theme-light-color-primary)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__subtitle">Secondary</span>}
+        subtitle={
+          <span className="section__demo__item__subtitle">
+            Subtitle, text, disabledc
+          </span>
+        }
+        colors={{ "#1F2B48": "var(--rc-theme-light-color-secondary)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Green</span>}
+        subtitle={
+          <span className="section__demo__item__title">
+            Interactive elements, Checkbox
+          </span>
+        }
+        colors={{ "#5CC374": "var(--rc-theme-light-color-green)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Background</span>}
+        colors={{ "#F7F8FC": "var(--rc-theme-light-color-bg)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Card</span>}
+        colors={{ "#FFFFFF": "var(--rc-theme-light-color-card)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Border</span>}
+        colors={{ "#E6EBF5": "var(--rc-theme-light-color-border)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Text</span>}
+        colors={{ "#878AA5": "var(--rc-theme-light-color-text)" }}
+      />
+    </div>
+  </ColorPalette>
+</div>
+
+<div class="section">
+  <h3 class="section__title">Dark theme</h3>
+  <p class="section__description"></p>
+  <ColorPalette className="section__demo">
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">White</span>}
+        colors={{ "#000000": "var(--rc-theme-dark-color-white)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Black</span>}
+        colors={{ "#FFFFFF": "var(--rc-theme-dark-color-black)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Primary</span>}
+        subtitle={
+          <span className="section__demo__item__subtitle">
+            Action elements, links, e.t.c
+          </span>
+        }
+        colors={{ "#207BE5": "var(--rc-theme-dark-color-primary)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__subtitle">Secondary</span>}
+        subtitle={
+          <span className="section__demo__item__subtitle">
+            Subtitle, text, disabledc
+          </span>
+        }
+        colors={{ "#1F2B48": "var(--rc-theme-dark-color-secondary)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Green</span>}
+        subtitle={
+          <span className="section__demo__item__title">
+            Interactive elements, Checkbox
+          </span>
+        }
+        colors={{ "#5CC374": "var(--rc-theme-dark-color-green)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Background</span>}
+        colors={{ "#050E25": "var(--rc-theme-dark-color-bg)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Card</span>}
+        colors={{ "#1F2B48": "var(--rc-theme-dark-color-card)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Border</span>}
+        colors={{ "#1F2B48": "var(--rc-theme-dark-color-border)" }}
+      />
+    </div>
+    <div class="section__demo__item">
+      <ColorItem
+        title={<span className="section__demo__item__title">Text</span>}
+        colors={{ "#878AA5": "var(--rc-theme-dark-color-text)" }}
+      />
+    </div>
+  </ColorPalette>
+</div>

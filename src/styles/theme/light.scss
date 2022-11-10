@@ -1,0 +1,20 @@
+@import "../utils/hex-to-rgb.util.scss";
+
+$light-pallete: (
+  "white": #ffffff,
+  "black": #000000,
+  "primary": #207be5,
+  "secondary": #1f2b48,
+  "green": #5cc374,
+  "bg": #f7f8fc,
+  "card": #ffffff,
+  "border": #e6ebf5,
+  "text": #878aa5,
+);
+
+:root {
+  @each $name, $value in $light-pallete {
+    --rc-theme-light-color-#{$name}: #{$value};
+    --rc-theme-light-color-#{$name}-rgb: #{HexToRGB($value)};
+  }
+}

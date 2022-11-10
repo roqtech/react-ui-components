@@ -6,10 +6,9 @@ import { Meta } from "@storybook/addon-docs";
   {`
     .subheading {
       --mediumdark: '#999999';
-      font-weight: 900;
+      font-weight: 700;
       font-size: 13px;
-      color: #999;
-      letter-spacing: 6px;
+      color: rgb(26,31,54);
       line-height: 24px;
       text-transform: uppercase;
       margin-bottom: 12px;
@@ -44,7 +43,7 @@ import { Meta } from "@storybook/addon-docs";
       border: 1px solid #00000010;
       border-radius: 5px;
       transition: background 150ms ease-out, border 150ms ease-out, transform 150ms ease-out;
-      color: #333333;
+      color: #000;
       display: flex;
       text-decoration: none;
       align-items: center;
@@ -116,7 +115,36 @@ View their code in the `stories` directory to learn how they work.
 
 All components are CSS/React framework agnostic. Check the examples with MaterialUI, Ant Design components, Bootstrap and Tailwind CSS.
 
-<div className="subheading">Configure</div>
+<div className="subheading">Overview</div>
+
+<div className="link-list">
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-getting-started--page"
+  >
+    <span>
+      <strong>Getting started</strong>
+    </span>
+  </a>
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-chat-messagecenter--default"
+  >
+    <span>
+      <strong>Usage</strong>
+    </span>
+  </a>
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-chat-messagecenter--default"
+  >
+    <span>
+      <strong>Styling</strong>
+    </span>
+  </a>
+</div>
+
+<div className="subheading">Try ROQ UI Components</div>
 
 <div className="link-list">
   <a
@@ -124,8 +152,35 @@ All components are CSS/React framework agnostic. Check the examples with Materia
     href="/?path=/story/roq-components-chat-messagecenter--default"
   >
     <span>
+      <strong>Localization</strong>
+      Locales, translations, timezone, utilities.
+    </span>
+  </a>
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-chat-messagecenter--default"
+  >
+    <span>
+      <strong>Notification</strong>
+      Events, subscriptions, notiifcations.
+    </span>
+  </a>
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-chat-messagecenter--default"
+  >
+    <span>
       <strong>Chat</strong>
       Message history, conversations, mentions, e.t.c
+    </span>
+  </a>
+  <a
+    className="link-item"
+    href="/?path=/story/roq-components-chat-messagecenter--default"
+  >
+    <span>
+      <strong>File Management</strong>
+      Files organization, upload, storing.
     </span>
   </a>
 </div>
