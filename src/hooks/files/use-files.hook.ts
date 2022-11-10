@@ -4,7 +4,7 @@ import { ActiveUploadStatusEnum, FilesSortEnum } from 'src/enums';
 import { OrderEnum } from 'src/lib/graphql/types/graphql';
 
 
-export interface UserFileListActiveUploadsInterface {
+export interface FileListActiveUploadsInterface {
   id?: string;
   abortController?: AbortController;
   temporaryId: string;
@@ -18,10 +18,10 @@ export interface UserFileListActiveUploadsInterface {
   file?: File;
 }
 
-export interface UserFileListStateInterface {
+export interface FileListStateInterface {
   isLoading: boolean;
   error?: Error;
-  activeUploads: UserFileListActiveUploadsInterface[];
+  activeUploads: FileListActiveUploadsInterface[];
   files: FileInterface[];
   totalCount: number;
   pageSize: number;
@@ -34,7 +34,7 @@ export interface UserFileListStateInterface {
   };
 }
 
-const initialState: UserFileListStateInterface = {
+const initialState: FileListStateInterface = {
   isLoading: false,
   error: undefined,
   activeUploads: [],
@@ -53,30 +53,30 @@ const initialState: UserFileListStateInterface = {
 
 export interface UseFilesInterface {
   isLoading: boolean;
-  inProgressUploads: UserFileListActiveUploadsInterface[];
-  failedUploads: UserFileListActiveUploadsInterface[];
-  activeUploads: UserFileListActiveUploadsInterface[];
-  successUploads: UserFileListActiveUploadsInterface[];
+  inProgressUploads: FileListActiveUploadsInterface[];
+  failedUploads: FileListActiveUploadsInterface[];
+  activeUploads: FileListActiveUploadsInterface[];
+  successUploads: FileListActiveUploadsInterface[];
   files: FileInterface[];
   totalCount: number;
-  addActiveUpload: (args: Pick<UserFileListActiveUploadsInterface, 'file' | 'temporaryId' | 'abortController'>) => void
-  updateActiveUploadPercentage: (args: Pick<UserFileListActiveUploadsInterface, 'temporaryId' | 'percentage'>) => void
-  updateActiveUploadStatus: (args: Pick<UserFileListActiveUploadsInterface, 'temporaryId' | 'status' | 'error'>) => void
-  updateActiveUploadId: (args: Pick<UserFileListActiveUploadsInterface, 'temporaryId' | 'id'>) => void
-  updateActiveUploadDetails: (args: Pick<UserFileListActiveUploadsInterface, 'temporaryId' | 'id' | 'uploadUrl' | 'contentType'>) => void
-  resetActiveUpload: (args: Pick<UserFileListActiveUploadsInterface, 'temporaryId' | 'abortController'>) => void
+  addActiveUpload: (args: Pick<FileListActiveUploadsInterface, 'file' | 'temporaryId' | 'abortController'>) => void
+  updateActiveUploadPercentage: (args: Pick<FileListActiveUploadsInterface, 'temporaryId' | 'percentage'>) => void
+  updateActiveUploadStatus: (args: Pick<FileListActiveUploadsInterface, 'temporaryId' | 'status' | 'error'>) => void
+  updateActiveUploadId: (args: Pick<FileListActiveUploadsInterface, 'temporaryId' | 'id'>) => void
+  updateActiveUploadDetails: (args: Pick<FileListActiveUploadsInterface, 'temporaryId' | 'id' | 'uploadUrl' | 'contentType'>) => void
+  resetActiveUpload: (args: Pick<FileListActiveUploadsInterface, 'temporaryId' | 'abortController'>) => void
   resetActiveUploads: () => void
   resetSuccessfulUploads: () => void
-  setUserFilesRowsCount: (args: Pick<UserFileListStateInterface, 'pageSize'>) => void
-  setUserFileListPagination: (args: Pick<UserFileListStateInterface, 'pageSize' | 'currentPage'>) => void
-  setUserFileListOrder: (args: UserFileListStateInterface['order']) => void
+  setUserFilesRowsCount: (args: Pick<FileListStateInterface, 'pageSize'>) => void
+  setUserFileListPagination: (args: Pick<FileListStateInterface, 'pageSize' | 'currentPage'>) => void
+  setUserFileListOrder: (args: FileListStateInterface['order']) => void
   decreaseTotalCount: (args: { decreaseBy: number }) => void
   setUserFileListAction: (files: FileInterface[]) => void
   addUserFile: (args: { file: FileInterface }) => void
 }
 
 export const useUserFiles = (): UseFilesInterface => {
-  const [state, setState] = useState<UserFileListStateInterface>(initialState);
+  const [state, setState] = useState<FileListStateInterface>(initialState);
 
   const inProgressUploads = useMemo(
       () => state.activeUploads.filter((item) => item.status === ActiveUploadStatusEnum.UPLOADING),
@@ -90,7 +90,7 @@ export const useUserFiles = (): UseFilesInterface => {
       () => state.activeUploads.filter((item) => item.status === ActiveUploadStatusEnum.SUCCESS),
       [state.activeUploads]);
 
-  const updateActiveUploadFile = (collection: UserFileListActiveUploadsInterface[], temporaryId: string, payload: Partial<UserFileListActiveUploadsInterface>): UserFileListActiveUploadsInterface[] => {
+  const updateActiveUploadFile = (collection: FileListActiveUploadsInterface[], temporaryId: string, payload: Partial<FileListActiveUploadsInterface>): FileListActiveUploadsInterface[] => {
     return collection.map((file) => {
       if (file.temporaryId === temporaryId) {
         return {

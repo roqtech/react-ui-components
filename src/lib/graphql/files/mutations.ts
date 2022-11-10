@@ -35,15 +35,15 @@ export const makeFilePrivateMutation = gql`
     }
 `
 
-// export const saveUserFileMutation = gql`
-//     mutation SaveUserFile($fileName: String!, $fileType: String!) {
-//         saveUserFile(data: { fileName: $fileName, fileType: $fileType }) {
-//             id
-//             uploadUrl
-//             contentType
-//         }
-//     }
-// `
+export const createFileUploadUrlMutation = gql`
+    mutation CreateFileUploadUrl($createFileDto: FileCreateDto!){
+        createFileUploadUrl(createFileDto: $createFileDto){
+            id
+            uploadUrl
+            contentType
+        }
+    }
+`
 
 export const updateFileStatusMutation = gql`
     mutation UpdateFileStatus($fileId: ID!, $status: FileStatusEnum!) {

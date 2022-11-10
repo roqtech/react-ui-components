@@ -1,23 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useRoq } from 'src/components/core';
-import {
-  FileOrderSortEnum,
-  FilesQuery,
-  FileStatusEnum,
-  OrderEnum,
-  useFilesLazyQuery
-} from 'src/lib/graphql/hooks/generated'
-import { useUserFileUploader } from 'src/hooks/files/use-user-file-uploader.hook';
-import { useUserFiles } from 'src/hooks/files/use-user-files.hook';
-import { USER_ENTITY_NAME } from 'src/constants/files/file-entity-names.constant';
-import { USER_FILE_CATEGORY } from 'src/constants/files/file-categories.constant';
+import { FileOrderSortEnum, FilesQuery, OrderEnum } from 'src/lib/graphql/hooks/generated'
+import { useFileUploader } from 'src/hooks/files/use-file-uploader.hook';
+import { useRoqComponents } from 'src/components/core/roq-provider';
 
 interface Event<T = EventTarget> {
   target: T;
 }
 
-export interface UseUserFilesUploadInterface extends UserFileStateInterface {
+export interface UseFilesUploadInterface extends FileStateInterface {
   handleSelectedFiles: (evt: Event<HTMLInputElement>) => void;
   handlePageChange: (newPage: number, pageSize: number) => void;
   handleFileUpload: (acceptedFiles: File[]) => void;
@@ -25,59 +16,23 @@ export interface UseUserFilesUploadInterface extends UserFileStateInterface {
   handleOrderChange: (sort: FileOrderSortEnum, order: OrderEnum) => void;
 }
 
-interface UserFileStateInterface {
+interface FileStateInterface {
   data: FilesQuery['files']['data']
   pageNumber: number;
   pageSize: number;
   order: { sort: FileOrderSortEnum, order: OrderEnum }
 }
 
-export const useUserFilesUpload = (): UseUserFilesUploadInterface => {
-  const { uploadFile: upload } = useUserFileUploader();
-  const [fetchUserFiles, { data }] = useFilesLazyQuery();
+export const useFilesUpload = (): UseFilesUploadInterface => {
+  const { uploadFile: upload } = useFileUploader();
+  const { user } = useRoqComponents();
 
-  const [tableState, setTableState] = useState<UserFileStateInterface>({
+  const [tableState, setTableState] = useState<FileStateInterface>({
     data: [],
     pageNumber: 0,
     pageSize: 20,
     order: { sort: FileOrderSortEnum.createdAt, order: OrderEnum.DESC },
   });
-
-  const { totalCount } = useUserFiles();
-
-  const { pageNumber, pageSize, order } = tableState;
-
-  useEffect(() => {
-    void fetchUserFiles({
-      variables: {
-        offset: pageNumber * pageSize,
-        limit: pageSize,
-        order,
-        filter: {
-          entityName: {
-            equalTo: USER_ENTITY_NAME,
-          },
-          entityIdentifiers: {
-            equalTo: user?.id,
-          },
-          fileCategory: {
-            equalTo: USER_FILE_CATEGORY,
-          },
-          status: {
-            equalTo: FileStatusEnum.ready,
-          },
-        }
-      }
-    });
-  }, [pageNumber, pageSize, order, totalCount]);
-
-  useEffect(() => {
-    setTableState((prevState) => ({
-      ...prevState,
-      data: (data?.files?.data || [])
-    }));
-  }, [data]);
-
 
   const handleOrderChange = useCallback((
       sort: FileOrderSortEnum,

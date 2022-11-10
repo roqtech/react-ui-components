@@ -50,3 +50,5 @@ storybook-static
 !.env.sample*
 dist
 src/locales-old
+
+/src/dev/

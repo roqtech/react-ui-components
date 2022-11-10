@@ -1,8 +1,8 @@
-export interface useUserFilesTableInterface {
+export interface UseUserFilesTableInterface {
     parseFileSize: (bytes: number) => string;
 }
 
-export const useUserFilesTable = (): useUserFilesTableInterface => {
+export const useFilesTable = (): UseUserFilesTableInterface => {
     const roundNumber = (num: number) => Math.round(num * 100) / 100
 
     const parseFileSize = (bytes: number): string => {

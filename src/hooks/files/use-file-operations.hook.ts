@@ -10,8 +10,7 @@ import { FileOperationNameEnum } from 'src/enums/files';
 import {
   useDeleteFilesMutation,
   useMakeFilePrivateMutation,
-  useMakeFilePublicMutation,
-  useUpdateFileMutation
+  useMakeFilePublicMutation
 } from 'src/lib/graphql/hooks/generated';
 
 type FileOperationsConfigInterface = UseAsyncOperationsConfigMapInterface & {
@@ -33,19 +32,20 @@ interface UseDeleteUserFileInterface extends OperationConfirmationInterface {
   selectedUserFiles: FileInterface[];
 }
 
-interface UseFileOperationsInterface {
+export interface UseFileOperationsInterface {
   onSuccess?: (result?: unknown, operationName?: FileOperationNameEnum) => void;
   onError?: (error: Error, operationName: FileOperationNameEnum) => void;
 }
 
-export const useUserFileOperations = ({
-                                        onSuccess,
-                                        onError
-                                      }: UseFileOperationsInterface): UseDeleteUserFileInterface => {
-  const [deleteFiles] = useDeleteFilesMutation();
-  const [makeFilePublic] = useMakeFilePublicMutation();
-  const [makeFilePrivate] = useMakeFilePrivateMutation();
-  const [updateUserFile] = useUpdateFileMutation();
+export const useFileOperations = (props: UseFileOperationsInterface): UseDeleteUserFileInterface => {
+  const {
+    onSuccess,
+    onError,
+  } = props;
+
+  const [deleteFiles] = useDeleteFilesMutation({ context: { service: 'platform' } });
+  const [makeFilePublic] = useMakeFilePublicMutation({ context: { service: 'platform' } });
+  const [makeFilePrivate] = useMakeFilePrivateMutation({ context: { service: 'platform' } });
   const [selectedUserFiles, setSelectedUserFiles] = useState<FileInterface[]>([]);
 
   const downloadFiles = useCallback(async (files: FileInterface[]) => {
@@ -61,54 +61,61 @@ export const useUserFileOperations = ({
 
     if (operationName === FileOperationNameEnum.deleteFiles) {
       setSelectedUserFiles([]);
-    } else if (
-        [
-          FileOperationNameEnum.makeFilePrivate,
-          FileOperationNameEnum.makeFilePublic
-        ].includes(operationName)) {
-      return updateUserFile({ variables: { updateFileDto: result.file, id: result.file.id } })
     }
   }, [onSuccess]);
 
+  const operations = {
+    [FileOperationNameEnum.deleteFiles]: {
+      callback: useCallback(async (files) => {
+        if (deleteFiles) {
+          return deleteFiles({
+            variables: {
+              ids: (files as FileInterface[]).map(({ id }) => id)
+            },
+          });
+        }
+      }, [deleteFiles]),
+      confirmable: true,
+    },
+    [FileOperationNameEnum.downloadFiles]: {
+      callback: useCallback((files) => downloadFiles(files as FileInterface[]), [downloadFiles]),
+      confirmable: false,
+    },
+    [FileOperationNameEnum.makeFilePublic]: {
+      callback: useCallback((file) => {
+        if (makeFilePublic) {
+          return makeFilePublic({
+            variables: {
+              id: (file as FileInterface).id,
+            },
+          })
+        }
+        return Promise.resolve({});
+      }, [makeFilePublic]),
+      confirmable: false,
+    },
+    [FileOperationNameEnum.makeFilePrivate]: {
+      callback: useCallback((file) => {
+        if (makeFilePrivate) {
+          return makeFilePrivate({
+            variables: {
+              id: (file as FileInterface).id,
+            }
+          })
+        }
+        return Promise.resolve({});
+      }, [makeFilePrivate]),
+      confirmable: false,
+    },
+  }
   const {
     initiateOperation,
     onConfirm,
     onCancel,
     currentOperation,
     resetState,
-  } = useAsyncOperations({
-    operations: {
-      [FileOperationNameEnum.deleteFiles]: {
-        callback: useCallback(async (files) => {
-          return deleteFiles({
-            variables: {
-              ids: (files as FileInterface[]).map(({ id }) => id)
-            }
-          });
-        }, [deleteFiles]),
-        confirmable: true,
-      },
-      [FileOperationNameEnum.downloadFiles]: {
-        callback: useCallback((files) => downloadFiles(files as FileInterface[]), [downloadFiles]),
-        confirmable: false,
-      },
-      [FileOperationNameEnum.makeFilePublic]: {
-        callback: useCallback((file) => makeFilePublic({
-          variables: {
-            id: (file as FileInterface).id,
-          }
-        }), [makeFilePublic]),
-        confirmable: false,
-      },
-      [FileOperationNameEnum.makeFilePrivate]: {
-        callback: useCallback((file) => makeFilePrivate({
-          variables: {
-            id: (file as FileInterface).id,
-          }
-        }), [makeFilePrivate]),
-        confirmable: false,
-      },
-    },
+  } = useAsyncOperations<typeof operations>({
+    operations,
     onSuccess: handleOnSuccess,
     onError
   });

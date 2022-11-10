@@ -1,0 +1,80 @@
+@import "../../../styles/styles.scss";
+
+.roq-drawer-container {
+  position: fixed;
+  z-index: 99;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  display: grid;
+  grid-template-columns: 15fr 5fr;
+}
+
+
+@media (min-width: 30em) {
+  .roq-drawer-container {
+    grid-template-columns: auto 2fr
+  }
+}
+
+
+[data-drawer]:checked ~ .roq-drawer-container {
+  transform: none;
+  padding-left: 10px;
+  border-left: solid 2px rgba(#000, .03);
+  box-shadow: -10px 0px 10px 1px $blueGray-300;
+}
+
+
+.roq-drawer {
+  display: block;
+  flex-flow: column wrap;
+  transform: translateX(30%);
+  opacity: 0;
+  color: map-get($light-pallete,'white');
+  transition: all 500ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition-delay: 0s;
+  contain: content;
+  box-sizing: border-box;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch
+}
+
+
+@media (min-width: 30em) {
+  .roq-drawer {
+    min-width: 30vw
+  }
+}
+
+
+[data-drawer]:checked ~ .roq-drawer-container .roq-drawer {
+  transform: none;
+  opacity: 1;
+  transition-delay: 300ms
+}
+
+
+.roq-drawer a {
+  text-decoration: none;
+  color: map-get($light-pallete,'text');
+  display: block;
+  padding: 16px 0
+}
+
+
+.roq-drawer a:hover {
+  color: map-get($light-pallete,'text');
+}
+
+
+.roq-drawer > * + * {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-drawer]:not(:checked) ~ .roq-drawer-container .roq-drawer-overlay {
+  pointer-events: none
+}

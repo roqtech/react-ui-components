@@ -35,3 +35,8 @@ $font-size-3xl: 1.5rem;
   --rc-font-size-2xl: #{$font-size-2xl};
   --rc-font-size-3xl: #{$font-size-3xl};
 }
+
+
+@mixin toRem($property, $value) {
+  #{$property}: ($value / 16) + rem;
+}

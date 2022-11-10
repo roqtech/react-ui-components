@@ -1,0 +1,166 @@
+@import "../../../styles/styles.scss";
+
+.roq-active-uploads-flex {
+  display: flex;
+}
+
+.roq-active-uploads-padding-10 {
+  padding: 10px;
+}
+
+.roq-active-uploads-item {
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.roq-active-uploads-space-between {
+  align-content: space-around;
+  justify-content: space-between;
+}
+
+.roq-active-uploads-align-items-center {
+  align-items: center;
+}
+
+.roq-active-uploads-progress-linear {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  height: 0.35em;
+  color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+  background-color: rgba(var(--pure-material-primary-rgb, 33, 150, 243), 0.12);
+  font-size: 18px;
+}
+
+.roq-active-uploads-progress-linear::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+.roq-active-uploads-progress-linear::-webkit-progress-value {
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+
+.roq-active-uploads-progress-linear::-moz-progress-bar {
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+
+.roq-active-uploads-progress-linear::-ms-fill {
+  border: none;
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+
+.roq-active-uploads-progress-linear:indeterminate {
+  background-size: 200% 100%;
+  background-image: linear-gradient(to right, transparent 50%, currentColor 50%, currentColor 60%, transparent 60%, transparent 71.5%, currentColor 71.5%, currentColor 84%, transparent 84%);
+  animation: pure-material-progress-linear 2s infinite linear;
+}
+
+.roq-active-uploads-progress-linear:indeterminate::-moz-progress-bar {
+  background-color: transparent;
+}
+
+.roq-active-uploads-progress-linear:indeterminate::-ms-fill {
+  animation-name: none;
+}
+
+.roq-active-uploads {
+  width: 456px;
+  background: map-get($light-pallete, 'white');
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 1rem rgba(13, 28, 70, 0.15);
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 1.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.roq-active-uploads-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0.15px;
+  color: $blueGray-900;
+}
+
+.roq-active-uploads-row {
+  margin-top: 1rem;
+}
+
+.roq-active-uploads-failure-message-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.roq-active-uploads-failure-message {
+  color: $errorMain;
+}
+
+.roq-active-uploads-restart-icon {
+  color: map-get($light-pallete, 'black');
+  cursor: pointer;
+}
+
+.roq-active-uploads-progress-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.roq-active-uploads-progress-bar {
+  margin-right: 0.5rem;
+  width: 100%;
+}
+
+.roq-active-uploads-file-name-wrap {
+  display: flex;
+  align-items: center;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.roq-active-uploads-file-name {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  width: 100%;
+  color: $blueGray-500;
+}
+
+.roq-active-uploads-body1 {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.roq-active-uploads-cancel-upload-btn {
+  padding: 0;
+  min-width: unset;
+  background: none;
+  cursor: pointer;
+}
+
+.roq-active-uploads-cancel-upload-btn--color-inherit {
+  color: map-get($light-pallete, 'black') !important;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.roq-active-uploads-dismiss-button {
+  color: map-get($light-pallete, 'black');
+  cursor: pointer;
+}
+
+.roq-active-uploads-icon {
+  cursor: pointer;
+}
