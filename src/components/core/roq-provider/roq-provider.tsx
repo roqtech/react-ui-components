@@ -305,9 +305,11 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
 
   return (
     <ROQContext.Provider value={state}>
-      <ApolloWrapper>
-        <ConditionalSocketWrapper>{children}</ConditionalSocketWrapper>
-      </ApolloWrapper>
+      {!!_token ? (
+        <ApolloWrapper host={platformUrls.platformServerSide} token={_token}>
+          <ConditionalSocketWrapper>{children}</ConditionalSocketWrapper>
+        </ApolloWrapper>
+      ) : null}
     </ROQContext.Provider>
   );
 };
@@ -318,8 +320,19 @@ const SocketWrapper = ({ children }: { children: any }) => (
   <SocketProvider>{children}</SocketProvider>
 );
 
-const ApolloWrapper = ({ children }: { children: any }) => {
-  const apolloClient = useApollo();
+const ApolloWrapper = ({
+  children,
+  token,
+  host,
+}: {
+  children: ReactNode;
+  host: string;
+  token: string | undefined;
+}) => {
+  const apolloClient = useApollo({
+    host,
+    token,
+  });
 
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };

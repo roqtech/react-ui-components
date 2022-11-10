@@ -179,13 +179,17 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
   );
 };
 
-export default withChatState(
-  ({ messages: { editableId }, editableMessage }) => ({
-    value: editableId ? editableMessage?.body : undefined,
-    edit: !!editableId,
-  })
-)(
-  withChatApi(({ sendMessage, editMessage }, { edit }) => ({
-    onSend: edit ? editMessage : sendMessage,
-  }))(ChatMessageInput)
+export default withChatState<
+  Omit<ChatMessageInputPropsInterface, "onSend">,
+  "value",
+  "edit"
+>(({ messages: { editableId }, editableMessage }) => ({
+  value: editableId ? editableMessage?.body : undefined,
+  edit: !!editableId,
+}))(
+  withChatApi<Omit<ChatMessageInputPropsInterface, "value" | "edit">, "onSend">(
+    ({ sendMessage, editMessage }, { edit }) => ({
+      onSend: edit ? editMessage : sendMessage,
+    })
+  )(ChatMessageInput)
 );

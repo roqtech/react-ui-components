@@ -1,56 +1,59 @@
 import {
   ApolloClient,
-  ApolloLink,
   createHttpLink,
   from,
   InMemoryCache,
   split,
 } from "@apollo/client";
 import isomorphicFetch from "isomorphic-fetch";
-import { config } from "src/utils/config";
-import { useRoqComponents } from "src/components/core/roq-provider";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { setContext } from "@apollo/client/link/context";
 
 let clientSingleton;
+let _token;
+
 const isServer = typeof window === "undefined";
 
-export function useApollo(): ApolloClient<InMemoryCache> {
-  const { token: platformToken, platformServerSide: platfromUrl } =
-    useRoqComponents();
+export interface UseApolloHookPropsInterface {
+  token?: string;
+  host: string;
+}
 
-  const uri = useRef(platfromUrl);
-  const token = useRef(platformToken);
+export function useApollo(
+  props: UseApolloHookPropsInterface
+): ApolloClient<InMemoryCache> {
+  const { token, host } = props;
 
   useEffect(() => {
-    token.current = platformToken;
-  }, [platformToken]);
+    _token = token;
+  }, []);
 
   useEffect(() => {
-    uri.current = platfromUrl;
-  }, [platfromUrl]);
+    _token = token;
+  }, [token]);
 
   if (!clientSingleton) {
     const httpLink = split(
       (operation) => operation.getContext().service === "platform",
       createHttpLink({
-        uri: uri?.current,
+        uri: host,
         fetch: isomorphicFetch,
       }),
       createHttpLink({
-        uri: uri?.current,
+        uri: host,
         fetch: isomorphicFetch,
       })
     );
 
     const authLink = setContext((_, { headers }) => {
+      console.log("auth link");
       return {
         headers: {
           ...headers,
-          ...(token?.current
+          ...(_token
             ? {
                 "roq-platform-authorization":
-                  `Bearer ` + token?.current.replace("Bearer ", " ").trim(),
+                  `Bearer ` + _token.replace("Bearer ", " ").trim(),
               }
             : {}),
         },

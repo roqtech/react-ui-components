@@ -15,7 +15,7 @@ export function withLocale<
   mapContextToProps: (
     context: RoqProviderLocaleContextInterface,
     ownProps: Props
-  ) => Props
+  ) => Pick<Props, Fields>
 ): (
   WrappedComponent: ComponentType<Props>
 ) => ComponentType<

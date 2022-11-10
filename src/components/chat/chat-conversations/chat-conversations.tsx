@@ -152,17 +152,22 @@ const ChatConversations = (props: ChatConversationsPropsInterface) => {
   );
 };
 
-export default withChatApi<ChatConversationsProps>(
-  ({ selectConversation, resetEditableConversation, renameConversation }) => ({
-    onConversationSelect: selectConversation,
-    onEditFormCancel: resetEditableConversation,
-    onEditFormSubmit: ({ title }) => {
-      renameConversation(title);
-      resetEditableConversation();
-    },
-  })
-)(
-  withChatState<ChatConversationsProps>(
+export default withChatApi<
+  ChatConversationsPropsInterface,
+  "onConversationSelect" | "onEditFormCancel" | "onEditFormSubmit"
+>(({ selectConversation, resetEditableConversation, renameConversation }) => ({
+  onConversationSelect: selectConversation,
+  onEditFormCancel: resetEditableConversation,
+  onEditFormSubmit: ({ title }) => {
+    if (!title) {
+      return;
+    }
+
+    renameConversation(title);
+    resetEditableConversation();
+  },
+}))(
+  withChatState<ChatConversationsPropsInterface>(
     ({ conversations, currentConversation }) => ({
       conversations: conversations?.data,
       selectedConversationId: currentConversation?.id,

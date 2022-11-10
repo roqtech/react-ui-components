@@ -1,4 +1,5 @@
 const path = require("path");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
   stories: [
@@ -20,5 +21,13 @@ module.exports = {
     alias: {
       styles: path.join(__dirname, "..", "src", "styles"),
     },
+  },
+  features: {
+    previewMdx2: true, // 👈 MDX 2 enabled here
+  },
+  webpackFinal: async (config, { configType }) => {
+    config.plugins.push(new NodePolyfillPlugin());
+
+    return config;
   },
 };
