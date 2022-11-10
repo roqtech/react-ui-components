@@ -20,6 +20,7 @@ export type NotificationPreferenceLoadingViewCallbackProps =
   QueryResult<NotificationTypeCategoriesQuery, NotificationTypeCategoriesQueryVariables>
 export type NotificationPreferenceCategoriesViewCallbackProps =
   NotificationTypeCategoriesQuery['notificationTypeCategories']['data']
+export type NotificationPreferenceCategoryTypeViewCallbackProps = NotificationTypeCategoriesQuery['notificationTypeCategories']['data']['0']['notificationTypes']['data']['0']
 const _CLASS_IS = 'roq-' + 'notification-preference'
 interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children'> {
   className?: ClassValue
@@ -39,8 +40,11 @@ interface NotificationPreferenceProps extends Omit<React.HTMLAttributes<HTMLDivE
   onToggle?: NotificationCategoryPreferencesProps['onToggle'],
   components?: {
     Container?: ComponentType<any>;
+    Title?: ComponentType<any>;
+    CategoryContainer?: ComponentType<any>;
   },
   loadingView?: (callback: NotificationPreferenceLoadingViewCallbackProps) => JSX.Element | ReactElement | null
+  typeView?: (callback: NotificationPreferenceCategoryTypeViewCallbackProps) => JSX.Element | ReactElement | null
   onFetchPreferencesSuccess?: (data: NotificationTypeCategoriesQuery) => void
   onFetchPreferencesError?: (error: TransformErrorInterface) => void
 }
@@ -55,6 +59,7 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
     components,
     onFetchPreferencesSuccess,
     onFetchPreferencesError,
+    typeView,
     ...rest
   } = props
   const fetchResult = useNotificationsCategories({
@@ -77,19 +82,21 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
     if (titleProps?.children) {
       return titleProps.children
     }
+    const Title = components?.Title ?? 'h5'
     return (
-      <h5 className={clsx(_CLASS_IS + '-title', titleProps?.className)}>
+      <Title className={clsx(_CLASS_IS + '-title', titleProps?.className)}>
         {t('common.Notification-preference')}
-      </h5>
+      </Title>
     )
-  }, [titleProps])
+  }, [titleProps, components])
 
   const renderCategories = useMemo(() => {
     if (categoryView) {
       return categoryView(fetchResult)
     }
+    const CategoryContainer = components?.CategoryContainer ?? 'div'
     return categories?.map((category) => (
-      <div
+      <CategoryContainer
         key={category.id}
         className={clsx(
           _CLASS_IS + '-category-item',
@@ -100,10 +107,11 @@ const NotificationPreference: React.FC<NotificationPreferenceProps> = (props) =>
           key={category.id}
           category={category}
           onToggle={onToggle}
+          typeView={typeView}
         />
-      </div>
+      </CategoryContainer>
     ))
-  }, [categories])
+  }, [categories, components])
 
 
   const Container = components?.Container ?? 'div'
@@ -131,10 +139,11 @@ export { NotificationPreference, NotificationPreferenceProps }
 interface NotificationCategoryPreferencesProps {
   category: NotificationTypeCategoriesQuery['notificationTypeCategories']['data'][0]
   onToggle?: UseNotificationTypeCategoryInterfaceArg['onToggle']
+  typeView?: NotificationPreferenceProps['typeView']
 }
 const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesProps> =
   (props) => {
-    const { category, onToggle } = props
+    const { category, onToggle, typeView } = props
     const { checkedSwitch, handleSwitchChange } = useNotificationTypeCategory({
       category,
       onToggle,
@@ -150,13 +159,18 @@ const NotificationCategoryPreferences: React.FC<NotificationCategoryPreferencesP
             name='checkedSwitch'
           />
         </div>
-        {category.notificationTypes?.data?.map((type) => (
-          <NotificationTypePreferences
-            key={type.id}
-            type={type}
-            onToggle={onToggle}
-          />
-        ))}
+        {category.notificationTypes?.data?.map((type) => {
+          if (typeView) {
+            return typeView(type)
+          }
+          return (
+            <NotificationTypePreferences
+              key={type.id}
+              type={type}
+              onToggle={onToggle}
+            />
+          )
+        })}
       </>
     )
   }
@@ -174,6 +188,7 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
       handleSwitchChange,
       resetSuccess,
     } = useNotificationTypeItem({ type, onToggle })
+    const { t } = useRoqTranslation()
 
     return (
       <div className={clsx(_CLASS_IS + '-category-item-type')}>
@@ -187,7 +202,7 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
               checked={checkedAppNotification}
               onChange={handleSwitchChange}
             />
-            <label htmlFor={`in-app-${type.key}`}>In-app</label>
+            <label htmlFor={`in-app-${type.key}`}>{t('notification.channel-in-app')}</label>
           </div>
           <div className={clsx(_CLASS_IS + '-category-item-type-item-channel')}>
             <input
@@ -197,7 +212,7 @@ const NotificationTypePreferences: React.FC<NotificationTypePreferencesProps> =
               checked={checkedEmailNotification}
               onChange={handleSwitchChange}
             />
-            <label htmlFor={`email-${type.key}`}>Email</label>
+            <label htmlFor={`email-${type.key}`}>{t('notification.channel-email')}</label>
           </div>
         </div>
       </div>

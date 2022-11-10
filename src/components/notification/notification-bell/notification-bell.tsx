@@ -24,9 +24,6 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
     children?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element
     className?: ClassValue
   },
-  // fetchProps?: {
-  //   variables?: NotificationsInAppForCurrentUserQueryVariables
-  // },
   styles?: {
     Container?: React.HTMLAttributes<HTMLDivElement>['style'],
     Bell?: React.HTMLAttributes<HTMLDivElement>['style'],
@@ -34,6 +31,7 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
   loadingView?: (callback: NotificationLoadingViewCallbackProps) => JSX.Element | ReactElement | null
   components?: {
     Container?: ComponentType<any>;
+    Badge?: ComponentType<any>;
   },
   onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
   onFetchNotificationsError?: (error: TransformErrorInterface) => void
@@ -44,7 +42,6 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     children,
     bellIcon,
     dotView,
-    // fetchProps,
     styles,
     loadingView,
     onFetchNotificationsSuccess,
@@ -53,10 +50,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
-  const fetchResult = useFetchNotificationsInApp({
-    type,
-    // fetchProps,
-  }, {
+  const fetchResult = useFetchNotificationsInApp({ type }, {
     fetchPolicy: 'cache-and-network',
     onCompleted(data) {
       onFetchNotificationsSuccess?.(data)
@@ -75,22 +69,23 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     [data],
   )
 
-  const renderDot = useMemo(() => {
+  const renderBadge = useMemo(() => {
     if (dotView?.children) {
       return dotView.children(fetchResult)
     }
     if (loading) {
       return null
     }
+    const Badge = components?.Badge || Avatar
     return (
-      <Avatar
+      <Badge
         style={styles?.Bell}
         size='small'
         className={clsx(_CLASS_IS + '-badge')}
         initials={count.toString()}
       />
     )
-  }, [dotView, loading, count, bellIcon])
+  }, [dotView, loading, count, bellIcon, components])
 
   const { t } = useRoqTranslation()
   const Container = components?.Container ?? 'div'
@@ -125,7 +120,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
           ></path>
         </svg>
       )}
-      {renderDot}
+      {renderBadge}
     </Container>
   )
 }

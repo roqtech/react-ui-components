@@ -9,7 +9,7 @@ import {
   MarkNotificationAsRead,
   MarkNotificationAsUnRead,
 } from 'src/lib/graphql/notification/query'
-import { NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables } from 'src/lib/graphql/types/graphql'
+import { NotificationsFeedQuery, NotificationsFeedQueryVariables } from 'src/lib/graphql/types/graphql'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'
 import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
@@ -23,18 +23,13 @@ dayjs.extend(relativeTime)
 const _CLASS_IS = 'roq-' + 'notification';
 export type NotificationType = 'all' | 'unread'
 export type NotificationContentViewCallbackProps = {
-  data: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'][0],
-  onRead: () => Promise<Record<string, any>>
-  onUnRead: () => Promise<Record<string, any>>
+  data: NotificationsFeedQuery['notificationFeed']['data']['0'],
+  read: () => Promise<Record<string, any>>
+  unRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
 
-// export type NotificationLoadingViewCallbackProps = {
-//   loading: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['loading'],
-//   onSuccess: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['data'],
-//   onError: QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>['error'],
-// }
-export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsInAppForCurrentUserQuery, NotificationsInAppForCurrentUserQueryVariables>
+export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsFeedQuery, NotificationsFeedQueryVariables>
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
@@ -62,10 +57,7 @@ export interface NotificationProps extends Omit<React.HTMLAttributes<HTMLDivElem
     children?: (callback: NotificationTypeToggleCallbackProps) => JSX.Element | ReactElement
     className?: ClassValue
   },
-  // fetchProps?: {
-  //   variables?: NotificationsInAppForCurrentUserQueryVariables
-  // }
-  onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
+  onFetchNotificationsSuccess?: (data: NotificationsFeedQuery) => void
   onFetchNotificationsError?: (error: TransformErrorInterface) => void
 }
 
@@ -100,20 +92,20 @@ export const Notification: React.FC<NotificationProps> = (props) => {
   }
 
   const { data, loading, refetch, client } = fetchResult
-  const items: NotificationsInAppForCurrentUserQuery['loadNotifications']['data'] = useMemo(() => _get(data, 'loadNotifications.data', []), [data])
+  const items: NotificationsFeedQuery['notificationFeed']['data'] = useMemo(() => data?.notificationFeed?.data ?? [], [data])
 
   const renderItems = useMemo(() => {
     return items.map((item) => {
       if (contentView) {
         return contentView({
           data: item,
-          onRead: () =>
+          read: () =>
             client.mutate({
               mutation: MarkNotificationAsRead,
               variables: { id: item.id },
               context: { service: 'platform' },
             }),
-          onUnRead: () =>
+          unRead: () =>
             client.mutate({
               mutation: MarkNotificationAsUnRead,
               variables: { id: item.id },
@@ -122,7 +114,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
           refetch,
         })
       }
-
+      const isRead = item.seen !== 'false'
       return (
         <Card
           key={item.id}
@@ -131,7 +123,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
           content={
             <div className={clsx(_CLASS_IS + '-item-content')}>
               {item.content}{' '}
-              {!item.read && (
+              {!isRead && (
                 <span>
                   <svg
                     width='15'
@@ -149,7 +141,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
               )}
             </div>
           }
-          headerExtraContent={<NotificationReadButton id={item.id} read={item.read} />}
+          headerExtraContent={<NotificationReadButton id={item.id} read={isRead} />}
           className={clsx(_CLASS_IS + '-item')}
         />
       )
@@ -187,7 +179,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     <Container {...rest} className={clsx(_CLASS_IS, rest?.className)}>
       <NotificationTitle
         {...(titleProps || {})}
-        count={data?.loadUnreadNotificationCount?.totalCount ?? 0}
+        count={data?.notificationFeed?.totalCount ?? 0}
         loading={loading}
       />
       {renderToggleType}
