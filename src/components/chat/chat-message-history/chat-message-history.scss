@@ -2,10 +2,10 @@
 
 :root {
   --rc-chat-message-history-background: var(--rc-white);
-  --rc-chat-message-history-spacing: calc(var(--rc-layout-step) * 1.5) 0;
+  --rc-chat-message-history-spacing: calc(var(--rc-step) * 0.75) 0;
 
   --rc-chat-message-history-line-message-no-user-padding: calc(
-    var(--rc-avatar-size_medium) + calc(var(--rc-layout-step) * 4.5)
+    var(--rc-avatar-size_medium) + calc(var(--rc-step) * 1.25)
   );
 }
 

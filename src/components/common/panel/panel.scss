@@ -7,11 +7,11 @@
   --rc-chat-panel-flex-grow: 1;
   --rc-chat-panel-flex-direction: column;
   --rc-chat-panel-min-width: 0;
-  --rc-chat-panel-background: var(--rc-white);
+  --rc-chat-panel-background: var(--rc-color-background);
   --rc-chat-panel-overwlow: hidden;
-  --rc-chat-panel-border: none;
-  --rc-chat-panel-radius: var(--rc-layout-border-radius);
-  --rc-chat-panel-box-shadow: 0px 4px 16px rgba(13, 28, 70, 0.05);
+  --rc-chat-panel-border: 1px solid var(--rc-color-border);
+  --rc-chat-panel-radius: calc(var(--rc-border-radius) * 2);
+  --rc-chat-panel-box-shadow: 0px 5px 10px rgba(var(--rc-color-black-rgb), 0.03);
 }
 
 @include roq-component("panel") {

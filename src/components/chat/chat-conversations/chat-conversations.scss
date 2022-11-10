@@ -1,12 +1,12 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-conversations-padding: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversations-padding: calc(var(--rc-step) * 2);
 
-  --rc-chat-conversations-inner-gap: calc(var(--rc-layout-step) * 3);
-  --rc-chat-conversations-inner-padding: calc((var(--rc-layout-step) * 2) * -1);
-  --rc-chat-conversations-inner-margin: calc((var(--rc-layout-step) * 2) * -1)
-    0px 0px 0px;
+  --rc-chat-conversations-inner-gap: calc(var(--rc-step) * 1.25);
+  --rc-chat-conversations-inner-padding: calc((var(--rc-step) * 2) * -1);
+  --rc-chat-conversations-inner-margin: calc((var(--rc-step) * 2) * -1) 0px 0px
+    0px;
 }
 
 @include roq-component("chat-conversations") {

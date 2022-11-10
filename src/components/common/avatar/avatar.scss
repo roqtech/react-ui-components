@@ -1,7 +1,7 @@
 @import "../../../styles/styles.scss";
 
-$avatar-border-width: 2px;
-$avatar-border-color: var(--rc-color-card);
+$avatar-border-width: 0;
+$avatar-border-color: transparent;
 
 $avatar-image-font-color: var(--rc-color-card);
 $avatar-image-primary-color: var(--rc-color-card);
@@ -10,13 +10,15 @@ $avatar-image-default-padding: 2px;
 $avatar-size_small: 24px;
 $avatar-font-size_small: 0.65rem;
 
-$avatar-size_medium: 38px;
+$avatar-size_medium: 42px;
 $avatar-font-size_medium: 0.75rem;
 
-$avatar-size_large: 48px;
+$avatar-size_large: 50px;
 $avatar-font-size_large: 1rem;
 
 :root {
+  --rc-avatar-border-background: var(--rc-color-primary);
+
   --rc-avatar-border-width: #{$avatar-border-width};
   --rc-avatar-border-color: #{$avatar-border-color};
 
@@ -35,7 +37,8 @@ $avatar-font-size_large: 1rem;
 }
 
 @include roq-component("avatar") {
-  background-color: var(--rc-primary);
+  background-color: var(--rc-avatar-border-background);
+
   color: var(--rc-avatar-image-font-color);
   font-size: var(--rc-font-size__large);
 

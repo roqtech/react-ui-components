@@ -1,9 +1,14 @@
 @import "../../../styles/styles.scss";
 
 :root {
+  --rc-chat-conversation-not-selected-panel-message-margin: 0;
+  --rc-chat-conversation-not-selected-panel-message-font-size: 0.875rem;
+  --rc-chat-conversation-not-selected-panel-message-font-weight: var(
+    --rc-font-weight-bold
+  );
 
   --rc-chat-conversation-not-selected-panel-message-color: var(
-    --rc-blueGray-400
+    --rc-color-RB-70
   );
 }
 
@@ -13,6 +18,11 @@
 
   &__message {
     text-align: center;
+    margin: var(--rc-chat-conversation-not-selected-panel-message-margin);
+    font-size: var(--rc-chat-conversation-not-selected-panel-message-font-size);
+    font-weight: var(
+      --rc-chat-conversation-not-selected-panel-message-font-weight
+    );
     color: var(--rc-chat-conversation-not-selected-panel-message-color);
   }
 }

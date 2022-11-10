@@ -9,7 +9,7 @@ $chat-conversation-card-form-min-height: 50px;
   --rc-chat-conversation-card-form-cursor: pointer;
   --rc-chat-conversation-card-form-color: var(--rc-blueGray-800);
   --rc-chat-conversation-card-form-background: transparent;
-  --rc-chat-conversation-card-form-radius: calc(var(--rc-layout-step) * 2);
+  --rc-chat-conversation-card-form-radius: calc(var(--rc-step) * 2);
   --rc-chat-conversation-card-form-padding: 14px 0px;
   --rc-chat-conversation-card-min-height: #{$chat-conversation-card-form-min-height};
 
@@ -22,7 +22,7 @@ $chat-conversation-card-form-min-height: 50px;
 
   --rc-chat-conversation-card-form-input-background: transparent;
   --rc-chat-conversation-card-form-input-padding: calc(
-      var(--rc-layout-step) * 2
+      var(--rc-step) * 2
     )
     0;
   --rc-chat-conversation-card-form-input-outline: none;

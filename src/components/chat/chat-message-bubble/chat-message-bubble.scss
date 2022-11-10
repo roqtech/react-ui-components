@@ -1,11 +1,11 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-message-bubble-padding: calc(var(--rc-layout-step) * 3);
-  --rc-chat-message-bubble-radius: var(--rc-layout-border-radius);
-  --rc-chat-message-bubble-font-weight: var(--rc-default-font-weight);
-  --rc-chat-message-bubble-font-size: var(--rc-default-font-size);
-  --rc-chat-message-bubble-color: var(--rc-blueGray-900);
+  --rc-chat-message-bubble-padding: calc(var(--rc-step) * 1.25);
+  --rc-chat-message-bubble-radius: var(--rc-border-radius);
+  --rc-chat-message-bubble-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-message-bubble-font-size: var(--rc-font-size-base);
+  --rc-chat-message-bubble-color: var(--rc-color-text);
 
   --rc-chat-message-bubble-sent-padding: var(--rc-chat-message-bubble-padding);
   --rc-chat-message-bubble-sent-radius: var(--rc-chat-message-bubble-radius);
@@ -15,8 +15,8 @@
   --rc-chat-message-bubble-sent-font-size: var(
     --rc-chat-message-bubble-font-size
   );
-  --rc-chat-message-bubble-sent-color: var(--rc-white);
-  --rc-chat-message-bubble-sent-background-color: var(--rc-primary);
+  --rc-chat-message-bubble-sent-color: var(--rc-color-white);
+  --rc-chat-message-bubble-sent-background-color: var(--rc-color-primary);
 
   --rc-chat-message-bubble-received-padding: var(
     --rc-chat-message-bubble-padding
@@ -31,7 +31,7 @@
     --rc-chat-message-bubble-font-size
   );
   --rc-chat-message-bubble-received-color: var(--rc-chat-message-bubble-color);
-  --rc-chat-message-bubble-received-background-color: var(--rc-blueGray-200);
+  --rc-chat-message-bubble-received-background-color: var(--rc-color-white);
 }
 
 @include roq-component("chat-message-bubble") {

@@ -12,11 +12,13 @@ $chat-message-user-font-size: 0.92em;
   --rc-chat-message-sent-flex-direction: row-reverse;
   --rc-chat-message-sent-text-align: left;
 
-  --rc-chat-message-user-margin: 0 calc(var(--rc-layout-step) * 4.5) 0 0;
-  --rc-chat-message-sent-user-margin: 0 0 0 calc(var(--rc-layout-step) * 4.5);
+  --rc-chat-message-user-margin: 0 calc(var(--rc-step) * 1.25) 0 0;
+  --rc-chat-message-sent-user-margin: 0 0 0 calc(var(--rc-step) * 1.25);
 
-  --rc-chat-message-time-margin: calc(var(--rc-layout-step) * 2) 0 0 0;
-  --rc-chat-message-time-color: var(--rc-blueGray-500);
+  --rc-chat-message-time-margin: calc(var(--rc-step) * 1) 0 0 0;
+  --rc-chat-message-time-color: var(--rc-color-RB-70);
+  --rc-chat-message-time-font-weight: var(--rc-font-weight-medium);
+  --rc-chat-message-time-font-size: var(--rc-font-size-xs);
 
   --rc-chat-message-message-max-width: 77%;
 
@@ -63,6 +65,8 @@ $chat-message-user-font-size: 0.92em;
     &__time {
       margin: var(--rc-chat-message-time-margin);
       color: var(--rc-chat-message-time-color);
+      font-weight: var(--rc-chat-message-time-font-weight);
+      font-size: var(--rc-chat-message-time-font-size);
     }
   }
 

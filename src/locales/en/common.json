@@ -10,7 +10,7 @@
     },
     "panel": {
       "conversation-not-selected": {
-        "title": "Break the ice and start a conversation"
+        "title": "You have no messages right now "
       },
       "members": {
         "title": "With whom would you like to start a conversations?",
@@ -35,7 +35,7 @@
       "delete": "Delete"
     },
     "message-input": {
-      "placeholder": "Type your message…"
+      "placeholder": "Say Something…"
     },
     "conversation-menu": {
       "rename": "Rename group",
