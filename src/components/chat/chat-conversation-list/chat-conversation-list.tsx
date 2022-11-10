@@ -14,7 +14,11 @@ import React, {
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { withChatApi, withChatState } from "../chat-provider";
 import { useInfiniteScroll } from "src/hooks";
-import { ChatConversationCardSkeleton, ChatConversations } from "src/index";
+import {
+  ChatConversationCardSkeleton,
+  ChatConversations,
+  Panel,
+} from "src/index";
 import { ChatConversationsPropsInterface } from "../chat-conversations";
 import {
   ChatConversationInterface,

@@ -98,7 +98,7 @@ const ChatConversationHeader = (
     >
       <Avatars
         users={members}
-        maxCount={3}
+        maxCount={2}
         size="large"
         className={clsx(_CLASS_IS + "__avatars", classNames?.avatars)}
       />

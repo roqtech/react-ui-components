@@ -8,7 +8,7 @@
 
   --rc-chat-members-inner-display: flex;
   --rc-chat-members-inner-flex-direction: column;
-  --rc-chat-members-inner-spacing: calc(var(--rc-layout-step) * 1);
+  --rc-chat-members-inner-spacing: calc(var(--rc-step) * 1);
 }
 
 @include roq-component("chat-members") {

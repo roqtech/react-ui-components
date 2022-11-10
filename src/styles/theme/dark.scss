@@ -1,15 +1,17 @@
 @import "../utils/hex-to-rgb.util.scss";
 
 $dark-pallete: (
-  "white": #000000,
-  "black": #ffffff,
+  "white": #ffffff,
+  "black": #000000,
   "primary": #207be5,
   "secondary": #1f2b48,
   "green": #5cc374,
-  "bg": #050e25,
+  "light": #ff6456,
+  "background": #050e25,
   "card": #1f2b48,
   "border": #1f2b48,
   "text": #878aa5,
+  "separator": #1f2b48,
 );
 
 :root {

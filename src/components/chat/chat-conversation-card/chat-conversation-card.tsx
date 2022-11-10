@@ -114,7 +114,7 @@ export const ChatConversationCard = (props: ChatConversationCardPropsInterface) 
             <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
               <Avatars
                 users={members}
-                maxCount={2}
+                maxCount={1}
                 size="large"
                 className={clsx(
                   _CLASS_IS + "__top__avatars",

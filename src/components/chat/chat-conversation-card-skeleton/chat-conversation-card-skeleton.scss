@@ -4,7 +4,7 @@
   --rc-chat-conversation-card-skeleton-width: 100%;
   --rc-chat-conversation-card-skeleton-background: var(--rc-neutral);
   --rc-chat-conversation-card-skeleton-padding: 64.5px;
-  --rc-chat-conversation-card-skeleton-radius: var(--rc-layout-border-radius);
+  --rc-chat-conversation-card-skeleton-radius: var(--rc-border-radius);
 }
 
 @include roq-component("chat-conversation-card-skeleton") {

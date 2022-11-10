@@ -1,13 +1,20 @@
-$default-font-size: 1em;
+$default-font-size: 14px;
 $default-font-weight: 400;
 $default-font-line-height: 1.5;
 $default-font-spacing: 0.00938em;
-$default-font-name: "Roboto, Helvetica, Arial, sans-serif";
+$default-font-name: "Urbanist", sans-serif;
 
 $font-weight-normal: $default-font-weight;
-$font-weight-medium: $font-weight-normal;
-$font-weight-bold: 500;
-$font-weight-bolder: 600;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+$font-weight-bolder: 700;
+
+$font-size-xs: 0.687499rem;
+$font-size-sm: 0.8125rem;
+$font-size-base: 0.875rem;
+$font-size-xl: 1rem;
+$font-size-2xl: 1.125rem;
+$font-size-3xl: 1.5rem;
 
 :root {
   --rc-default-font-size: #{$default-font-size};
@@ -20,6 +27,13 @@ $font-weight-bolder: 600;
   --rc-font-weight-medium: #{$font-weight-medium};
   --rc-font-weight-bold: #{$font-weight-bold};
   --rc-font-weight-bolder: #{$font-weight-bolder};
+
+  --rc-font-size-xs: #{$font-size-xs};
+  --rc-font-size-sm: #{$font-size-sm};
+  --rc-font-size-base: #{$font-size-base};
+  --rc-font-size-xl: #{$font-size-xl};
+  --rc-font-size-2xl: #{$font-size-2xl};
+  --rc-font-size-3xl: #{$font-size-3xl};
 }
 
 

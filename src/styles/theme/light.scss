@@ -1,17 +1,18 @@
 @import "../utils/hex-to-rgb.util.scss";
 
 $light-pallete: (
-        "white": #ffffff,
-        "black": #000000,
-        "primary": #207be5,
-        "secondary": #1f2b48,
-        "green": #5cc374,
-        "bg": #f7f8fc,
-        "card": #ffffff,
-        "border": #e6ebf5,
-        "text": #878aa5,
+  "white": #ffffff,
+  "black": #000000,
+  "primary": #207be5,
+  "secondary": #1f2b48,
+  "green": #5cc374,
+  "red": #ff6456,
+  "background": #f7f8fc,
+  "card": #ffffff,
+  "border": #e6ebf5,
+  "text": #878aa5,
+  "separator": #d4d8df,
 );
-
 
 // #Todo remove these after file components re design
 /***
@@ -50,7 +51,6 @@ $disabled-color: rgba(0, 0, 0, 0.12);
 /***
   * End Temporary block
  */
-
 
 :root {
   @each $name, $value in $light-pallete {

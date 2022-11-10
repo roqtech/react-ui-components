@@ -23,11 +23,11 @@ export default {
     (Story) => (
       <div
         style={{
-          backgroundColor: "#E5E5E5",
+          backgroundColor: "white",
           height: "calc(100vh - 40px)",
           minHeight: "700px",
           boxSizing: "border-box",
-          padding: 24,
+          margin: 24,
         }}
       >
         {Story()}

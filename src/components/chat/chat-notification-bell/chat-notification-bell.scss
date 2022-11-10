@@ -1,26 +1,37 @@
 @import "../../../styles/styles.scss";
 
-$notification-bell-size: 48;
-
-$notification-bell-button-background-color: transparent;
-$notification-bell-button-background-hover-color: rgba(15, 23, 42, 0.04);
-$notification-bell-button-background-active-color: rgba(15, 23, 42, 0.2);
-$notification-bell-button-background-focus-color: #{$notification-bell-button-background-active-color};
-
-$notification-bell-icon-color: rgb(113 113 113);
+$notification-bell-size: 50;
 
 :root {
   --rc-chat-notification-bell-size: #{$notification-bell-size}px;
 
-  --rc-chat-notification-bell-button-padding: calc(var(--rc-layout-step) * 3);
-  --rc-chat-notification-bell-button-background: #{$notification-bell-button-background-color};
-  --rc-chat-notification-bell-button-hover-background: #{$notification-bell-button-background-hover-color};
-  --rc-chat-notification-bell-button-focus-background: #{$notification-bell-button-background-focus-color};
-  --rc-chat-notification-bell-button-active-background: #{$notification-bell-button-background-active-color};
+  --rc-chat-notification-bell-button-padding: calc(var(--rc-step) * 1.75);
+  --rc-chat-notification-bell-button-border: 1px solid transparent;
+  --rc-chat-notification-bell-button-radius: var(--rc-border-radius);
+
+  --rc-chat-notification-bell-button-background: transparent;
+  --rc-chat-notification-bell-button-border-color: var(--rc-color-border);
+
+  --rc-chat-notification-bell-button-hover-background: var(
+    --rc-chat-notification-bell-button-background
+  );
+  --rc-chat-notification-bell-button-hover-border-color: var(
+    --rc-color-primary
+  );
+
+  --rc-chat-notification-bell-button-focus-background: #eaf8fd;
+  --rc-chat-notification-bell-button-focus-border-color: var(
+    --rc-color-primary
+  );
+
+  --rc-chat-notification-bell-button-active-background: #eaf8fd;
+  --rc-chat-notification-bell-button-active-border-color: var(
+    --rc-color-primary
+  );
 
   --rw-primary-text-color: var(--rc-white);
 
-  --rc-chat-notification-bell-icon-color: #{$notification-bell-icon-color};
+  --rc-chat-notification-bell-icon-color: var(--rc-color-primary);
 }
 
 @include roq-component("chat-notification-bell") {
@@ -32,20 +43,31 @@ $notification-bell-icon-color: rgb(113 113 113);
   &__button {
     width: 100%;
     height: 100%;
-    border: none;
-    border-radius: 50%;
+
+    border: var(--rc-chat-notification-bell-button-border);
+    border-color: var(--rc-chat-notification-bell-button-border-color);
+    border-radius: var(--rc-chat-notification-bell-button-radius);
 
     cursor: pointer;
     padding: var(--rc-chat-notification-bell-button-padding);
 
     background-color: var(--rc-chat-notification-bell-button-background);
     &:hover {
+      border-color: var(--rc-chat-notification-bell-button-active-border-color);
       background-color: var(
         --rc-chat-notification-bell-button-active-background
       );
     }
 
     &:active {
+      border-color: var(--rc-chat-notification-bell-button-focus-border-color);
+      background-color: var(
+        --rc-chat-notification-bell-button-focus-background
+      );
+    }
+
+    &.active {
+      border-color: var(--rc-chat-notification-bell-button-focus-border-color);
       background-color: var(
         --rc-chat-notification-bell-button-focus-background
       );

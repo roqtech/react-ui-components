@@ -12,6 +12,19 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: {
+    default: "light",
+    values: [
+      {
+        name: "light",
+        value: "#FFFFFF",
+      },
+      {
+        name: "dark",
+        value: "#1F2B48",
+      },
+    ],
+  },
   options: {
     storySort: {
       order: [
@@ -21,8 +34,17 @@ export const parameters = {
           "Getting started",
           "Usage",
           "Styling",
+          "Typography",
           "Common",
-          ["Avatar", "AvatarGroup", "Badge", "ActionButton", "Panel"],
+          [
+            "Avatar",
+            "AvatarGroup",
+            "Badge",
+            "ActionButton",
+            "Panel",
+            "StackedText",
+            "TimeAgo",
+          ],
           "Chat",
           [
             "MessageCenter",
@@ -56,7 +78,6 @@ export const parameters = {
           ],
           "Locale",
           ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
-          "Typography",
         ],
       ],
     },
@@ -82,10 +103,13 @@ const CHAT_PREVIEW_COMPONENT = [
   "roq-components-chat-chatnotificationbell",
 ];
 
-const themes = {
-  "#333333": "dark",
-  "#F8F8F8": "light",
-};
+const themes = parameters.backgrounds.values.reduce(
+  (acc, background) => ({
+    ...acc,
+    [background.name]: background.value,
+  }),
+  {}
+);
 
 export const decorators = [
   (Story, context) => {
@@ -93,8 +117,6 @@ export const decorators = [
     const themeName = !!color ? themes[color] : "light";
 
     useEffect(() => {
-      console.dir(document.documentElement);
-
       document.documentElement.classList.add(`rc-${themeName}`);
 
       return function cleanup() {
