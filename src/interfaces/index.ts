@@ -8,3 +8,5 @@ export type { FileInterface } from "src/interfaces/files";
 
 export * from "src/interfaces/common.interface";
 export * from "src/interfaces/localization";
+export type { HTMLComponentType } from 'src/interfaces/react-helper.interface';
+export { MutationOptionsInterface } from 'src/interfaces/mutation-options.interface';

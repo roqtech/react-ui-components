@@ -1,16 +1,56 @@
 @import "../utils/hex-to-rgb.util.scss";
 
 $light-pallete: (
-  "white": #ffffff,
-  "black": #000000,
-  "primary": #207be5,
-  "secondary": #1f2b48,
-  "green": #5cc374,
-  "bg": #f7f8fc,
-  "card": #ffffff,
-  "border": #e6ebf5,
-  "text": #878aa5,
+        "white": #ffffff,
+        "black": #000000,
+        "primary": #207be5,
+        "secondary": #1f2b48,
+        "green": #5cc374,
+        "bg": #f7f8fc,
+        "card": #ffffff,
+        "border": #e6ebf5,
+        "text": #878aa5,
 );
+
+
+// #Todo remove these after file components re design
+/***
+  * Start Temporary block
+ */
+$primaryLight: #42a5F5;
+$primaryMain: #1976d2;
+$primaryDark: #1565c0;
+
+$infoLight: #03a9F4;
+$infoMain: #0288d1;
+$infoDark: #01579b;
+
+
+$warningLight: #ff9800;
+$warningMain: #ed6C02;
+$warningDark: #e65100;
+
+$errorLight: #ef5350;
+$errorMain: #d32f2f;
+$errorDark: #c62828;
+
+$successLight: #4caf50;
+$successMain: #2e7d32;
+$successDark: #1b5e20;
+
+$blueGray-50: #F8FAFC;
+$blueGray-100: #F1F5F9;
+$blueGray-200: #E2E8F0;
+$blueGray-300: #CBD5E1;
+$blueGray-400: #94A3B8;
+$blueGray-500: #64748B;
+$blueGray-800: #1E293B;
+$blueGray-900: #0F172A;
+$disabled-color: rgba(0, 0, 0, 0.12);
+/***
+  * End Temporary block
+ */
+
 
 :root {
   @each $name, $value in $light-pallete {

@@ -67,5 +67,58 @@
     "short_en-US": "EN (US)",
     "short_de-DE": "DE",
     "short": "languages.short"
+  },
+  "cancel": "Cancel",
+  "save": "Save",
+  "upload-file-cta": "Upload File",
+  "drop-uploads-cta": "Drag files here or use the \"Upload File\" button",
+  "file": {
+    "public": "Public",
+    "private": "Private",
+    "edit": {
+      "validations": {
+        "name": {
+          "required": "File name is required",
+          "max-length-exceeded": "File name cannot be more than {{characters}} characters long",
+          "invalid-name": "File name is not valid"
+        }
+      },
+      "success": "File updated successfully",
+      "title": "Editing file",
+      "name-field-label": "File name"
+    },
+    "make-file-public-title": "Make file public",
+    "make-file-private-title": "Make file private",
+    "make-file-public-message": "Are you sure you want to make the following file public",
+    "make-file-private-message": "Are you sure you want to make the following file private.",
+    "make-file-public": "Make public",
+    "make-file-private": "Make private",
+    "made-private-successfully": "{{fileName}} is made private",
+    "made-public-successfully": "{{fileName}} is public now. URL is copied to your clipboard",
+    "copy-url-link": "File url has been copied to clipboard",
+    "edit-subtitle": "Provide below requested information",
+    "extension": "Extension",
+    "copy-file-public-link": "Copy URL"
+  },
+  "file-uploader": {
+    "errors": {
+      "file-invalid-type": "File type not supported!",
+      "too-many-files": "Files limit exceeded!",
+      "file-too-large": "File size is too large!"
+    }
+  },
+  "files": {
+    "uploaded-successfully": "{{count}} file uploaded successfully",
+    "uploaded-successfully_plural": "{{count}} files uploaded successfully",
+    "retry-upload": "Retry Upload",
+    "cancel": "Cancel",
+    "delete-file-title": "Delete a file?",
+    "confirm_bulk_deletion": "Are you sure you want to delete {{length}} files?",
+    "confirm_deletion": "Are you sure you want to delete the following file: {{fileName}}",
+    "delete": "Delete",
+    "delete-file": "Delete",
+    "download-file": "Download",
+    "deleted_successfully_bulk": "Files deleted successfully",
+    "deleted_successfully": "{{fileName}} is deleted successfully"
   }
 }

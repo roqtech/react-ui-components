@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const useUserFileEditFormSchema = (): yup.AnyObjectSchema => {
+export const useFileEditFormSchema = (): yup.AnyObjectSchema => {
   return yup.object({
     name: yup.string()
         .trim()

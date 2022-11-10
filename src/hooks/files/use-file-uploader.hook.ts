@@ -1,50 +1,31 @@
-import { gql } from '@apollo/client';
-import { updateFileStatusMutation } from 'src/lib/graphql/files/mutations';
-import { FileUploader, getFileType } from 'src/utils';
-import { FileUploadResponse } from 'src/utils/files/file-uploader';
-import { UserFileListActiveUploadsInterface, useUserFiles } from 'src/hooks/files/use-user-files.hook';
+import { FileUploader } from 'src/utils';
+import { FileUploadResponse, InitiateFileUploadArgsInterface } from 'src/utils/files/file-uploader';
+import { FileListActiveUploadsInterface, useUserFiles } from 'src/hooks/files/use-files.hook';
 import { ActiveUploadStatusEnum } from 'src/enums';
+import { MutationOptionsInterface } from 'src/interfaces';
 
-interface UploadUserFileInterface {
+interface UploadFileInterface {
     file: File;
     temporaryId: string;
-    failedFileData?: {
-        id: string;
-        contentType: string;
-        uploadUrl: string;
-    };
+    failedFileData?: InitiateFileUploadArgsInterface['failedFileData'];
 }
 
-// #Todo: Add this mutation in the platform
-const createSaveFileMutationOptions = (file: File) => ({
-    mutation: gql`
-        mutation saveUserFile($fileName: String!, $fileType: String!) {
-            saveUserFile(data: { fileName: $fileName, fileType: $fileType }) {
-                id
-                uploadUrl
-                contentType
-            }
-        }
-    `,
-    variables: {
-        fileName: file.name,
-        fileType: getFileType(file),
-    },
-    mutationName: 'saveUserFile',
-});
-
-const createUpdateFileStatusMutationOptions = () => ({
-    mutation: updateFileStatusMutation,
-    mutationName: 'updateFileStatus',
-});
-
-export const useUserFileUploader = (): {
-    uploadFile: (args: UploadUserFileInterface) => Promise<FileUploadResponse | undefined>;
+export interface UseFileUploaderInterface {
+    uploadFile: (args: UploadFileInterface) => Promise<FileUploadResponse | undefined>;
+    activeUploads: FileListActiveUploadsInterface[],
     removeActiveUploads: () => void;
     cancelActiveUpload: (temporaryId: string) => void;
     restartFailedUpload: (temporaryId: string) => void;
     removeSuccessfulUploads: () => void;
-} => {
+
+}
+
+export interface FileUploaderOptions extends Pick<InitiateFileUploadArgsInterface,'onSuccess'| 'onError'>{
+    saveFileMutationOptions:  MutationOptionsInterface<File>,
+    fileStatusUpdateMutationOptions: MutationOptionsInterface<File>,
+}
+
+export const useFileUploader = (options: FileUploaderOptions): UseFileUploaderInterface => {
     const {
         addUserFile,
         activeUploads,
@@ -57,20 +38,29 @@ export const useUserFileUploader = (): {
         resetSuccessfulUploads,
     } = useUserFiles();
 
+    const { saveFileMutationOptions, fileStatusUpdateMutationOptions, onError, onSuccess } = options;
+    // This is just a dummy mutation to invoke `useMutation` hook during render, to avoid error that hooks can't be used outside functional component
+    const fileUploader = new FileUploader({
+        saveFileMutation: saveFileMutationOptions.mutation,
+        updateFileStatusMutation: fileStatusUpdateMutationOptions.mutation,
+    });
+
     const restartFailedUpload = async (temporaryId: string) => {
         const { id, file, contentType, uploadUrl } = activeUploads.find(
             (activeUpload) => activeUpload.temporaryId === temporaryId,
-        ) as UserFileListActiveUploadsInterface;
+        ) as FileListActiveUploadsInterface;
 
-        if (temporaryId && file && id && contentType && uploadUrl) {
+        if (temporaryId && file) {
             await uploadFile({
                 file,
                 temporaryId,
-                failedFileData: {
-                    id,
-                    contentType,
-                    uploadUrl,
-                },
+                ...(id && contentType && uploadUrl ? {
+                    failedFileData: {
+                        id,
+                        contentType,
+                        uploadUrl
+                    }
+                } : {})
             });
         }
     };
@@ -116,22 +106,31 @@ export const useUserFileUploader = (): {
         }
     };
 
-    const uploadFile = (args: UploadUserFileInterface): Promise<FileUploadResponse | undefined> => {
+    const uploadFile = (args: UploadFileInterface): Promise<FileUploadResponse | undefined> => {
         const {
             file,
             temporaryId,
             failedFileData,
         } = args;
-        return new FileUploader().initiateFileUpload({
+        const { saveFileMutationOptions, fileStatusUpdateMutationOptions } = options;
+        return fileUploader.initiateFileUpload({
             selectedFile: file,
-            saveFileMutationOptions: createSaveFileMutationOptions(file),
-            fileStatusUpdateMutationOptions: createUpdateFileStatusMutationOptions(),
+            saveFileMutationOptions: {
+                ...saveFileMutationOptions,
+                variables: ()=>saveFileMutationOptions.variables(file),
+            },
+            fileStatusUpdateMutationOptions:{
+                ...fileStatusUpdateMutationOptions,
+                variables: () => fileStatusUpdateMutationOptions.variables(file),
+            },
+            failedFileData,
             onError: (error) => {
                 updateActiveUploadStatus({
                     temporaryId,
                     status: ActiveUploadStatusEnum.FAILED,
                     error: error.message,
                 });
+                onError && onError(error);
             },
             onAfterStart: (data) => {
                 updateActiveUploadDetails({
@@ -143,7 +142,7 @@ export const useUserFileUploader = (): {
             },
             onProgress: (percentage) => updateFileProgress(percentage, temporaryId),
             onBeforeStart: (abortController) =>
-                !!failedFileData
+                !!activeUploads.find((file) => file.temporaryId === temporaryId)
                     ? resetFileUpload(temporaryId, abortController)
                     : addFileUpload(file, temporaryId, abortController),
             onSuccess: (data) => {
@@ -152,15 +151,16 @@ export const useUserFileUploader = (): {
                     status: ActiveUploadStatusEnum.SUCCESS,
                 });
                 addUserFile({
-                    file: data.updateFileStatus,
+                    file: data,
                 });
-            },
-            failedFileData,
+                onSuccess && onSuccess(data);
+            }
         });
     }
 
     return {
         uploadFile,
+        activeUploads,
         removeActiveUploads,
         cancelActiveUpload,
         restartFailedUpload,

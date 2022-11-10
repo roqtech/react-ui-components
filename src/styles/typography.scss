@@ -21,3 +21,8 @@ $font-weight-bolder: 600;
   --rc-font-weight-bold: #{$font-weight-bold};
   --rc-font-weight-bolder: #{$font-weight-bolder};
 }
+
+
+@mixin toRem($property, $value) {
+  #{$property}: ($value / 16) + rem;
+}

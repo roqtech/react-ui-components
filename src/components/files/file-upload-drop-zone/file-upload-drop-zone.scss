@@ -1,0 +1,83 @@
+@import "../../../styles/styles.scss";
+
+.roq-file-upload-input {
+  display: none;
+}
+
+.roq-file-upload-drop-zone-wrapper {
+  flex: 1;
+  display: flex;
+}
+
+.roq-file-upload-drop-zone {
+  flex: 1;
+  display: flex;
+  background: $blueGray-100;
+  border: 2 -px-dashed $blueGray-300;
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+  margin: 0.2rem 1.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 200px;
+}
+
+.roq-file-upload-drop-text {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0.15rem;
+  text-align: center;
+}
+
+
+.roq-file-upload-button {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  color: map-get($light-pallete, 'white');
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}
+
+
+.roq-file-upload-button:disabled {
+  cursor: default;
+  pointer-events: none;
+  background: $blueGray-200;
+}
+
+.roq-file-upload-primary {
+  background: $infoLight;
+}
+
+.roq-file-upload-button-icon {
+  fill:  map-get($light-pallete, 'white');
+  stroke:  map-get($light-pallete, 'white');
+}
+
+.roq-file-upload-action-bar {
+  display: flex;
+  direction: ltr;
+  flex-direction: row;
+  align-content: end;
+  justify-content: flex-end;
+  margin: 1rem 1.5rem
+}
