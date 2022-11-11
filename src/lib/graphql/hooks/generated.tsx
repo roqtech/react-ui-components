@@ -3144,6 +3144,13 @@ export type MakeFilePrivateMutationVariables = Exact<{
 
 export type MakeFilePrivateMutation = { __typename?: 'Mutation', makeFilePrivate: { __typename?: 'FileModel', id: string, url?: string | null, isPublic: boolean } };
 
+export type CreateFileUploadUrlMutationVariables = Exact<{
+  createFileDto: FileCreateDto;
+}>;
+
+
+export type CreateFileUploadUrlMutation = { __typename?: 'Mutation', createFileUploadUrl: { __typename?: 'FileModel', id: string, uploadUrl?: string | null, contentType: string } };
+
 export type UpdateFileStatusMutationVariables = Exact<{
   fileId: Scalars['ID'];
   status: FileStatusEnum;
@@ -3280,6 +3287,32 @@ export function useMakeFilePrivateMutation(baseOptions?: Apollo.MutationHookOpti
 export type MakeFilePrivateMutationHookResult = ReturnType<typeof useMakeFilePrivateMutation>;
 export type MakeFilePrivateMutationResult = Apollo.MutationResult<MakeFilePrivateMutation>;
 export type MakeFilePrivateMutationOptions = Apollo.BaseMutationOptions<MakeFilePrivateMutation, MakeFilePrivateMutationVariables>;
+export const CreateFileUploadUrlDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateFileUploadUrl"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createFileDto"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileCreateDto"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createFileUploadUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createFileDto"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createFileDto"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"uploadUrl"}},{"kind":"Field","name":{"kind":"Name","value":"contentType"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useCreateFileUploadUrlMutation__
+ *
+ * To run a mutation, you first call `useCreateFileUploadUrlMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFileUploadUrlMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFileUploadUrlMutation, { data, loading, error }] = useCreateFileUploadUrlMutation({
+ *   variables: {
+ *      createFileDto: // value for 'createFileDto'
+ *   },
+ * });
+ */
+export function useCreateFileUploadUrlMutation(baseOptions?: Apollo.MutationHookOptions<CreateFileUploadUrlMutation, CreateFileUploadUrlMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFileUploadUrlMutation, CreateFileUploadUrlMutationVariables>(CreateFileUploadUrlDocument, options);
+      }
+export type CreateFileUploadUrlMutationHookResult = ReturnType<typeof useCreateFileUploadUrlMutation>;
+export type CreateFileUploadUrlMutationResult = Apollo.MutationResult<CreateFileUploadUrlMutation>;
+export type CreateFileUploadUrlMutationOptions = Apollo.BaseMutationOptions<CreateFileUploadUrlMutation, CreateFileUploadUrlMutationVariables>;
 export const UpdateFileStatusDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateFileStatus"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"status"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FileStatusEnum"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateFileStatus"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fileId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fileId"}}},{"kind":"Argument","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"status"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode;
 
 /**

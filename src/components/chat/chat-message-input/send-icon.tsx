@@ -2,16 +2,16 @@ import * as React from "react";
 
 export const SendIcon = (props) => (
   <svg
+    width={20}
+    height={17}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    width={18}
-    height={18}
     {...props}
   >
     <g fill="currentColor" fillRule="evenodd">
       <path
-        d="M3.167 9h6.666M3.167 9 1.5 16.5l15-7.5-15-7.5L3.167 9Z"
-        stroke="#F8FAFC"
+        d="M.125 16.833v-6.38L7.99 8.5.125 6.495V.167L19.917 8.5.125 16.833Z"
+        fill="#207BE5"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -1,9 +1,9 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-chat-message-list-list-padding: calc(var(--rc-layout-step) * 7)
-    calc(var(--rc-layout-step) * 8) calc(var(--rc-layout-step) * 5)
-    calc(var(--rc-layout-step) * 8);
+  --rc-chat-message-list-list-padding: calc(var(--rc-step) * 7)
+    calc(var(--rc-step) * 8) calc(var(--rc-step) * 5)
+    calc(var(--rc-step) * 8);
 }
 
 @include roq-component("chat-message-list") {

@@ -9,9 +9,7 @@ export default {
 } as ComponentMeta<typeof Panel>;
 
 const Template: ComponentStory<typeof Panel> = (args) => (
-  <div
-    style={{ width: 600, height: 400, padding: 10, backgroundColor: "#f1f5f8" }}
-  >
+  <div style={{ width: 600, height: 400, padding: 10 }}>
     <Panel {...args} />
   </div>
 );

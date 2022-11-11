@@ -46,7 +46,6 @@ export function useApollo(
     );
 
     const authLink = setContext((_, { headers }) => {
-      console.log("auth link");
       return {
         headers: {
           ...headers,

@@ -1,15 +1,16 @@
 import mime from 'mime';
 
-export const getFileType = (file: File): string => {
+export const getFileType = (file: File | string): string => {
   /**
    * Get the type form file object if not available then get type using extension
    */
-  if (file?.type) {
+  if (!file) {
+    return file;
+  }
+  if (typeof file !== 'string' && file?.type) {
     return file.type
   }
-
-  const type = file.name.split('.').pop();
-  return mime.getType(type);
+  return mime.getType(getFileExtension(typeof file === 'string' ? file : file.name));
 };
 
 // @ts-ignore

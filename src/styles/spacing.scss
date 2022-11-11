@@ -1,0 +1,7 @@
+$step: 8;
+$radius-1: $step * 1;
+
+:root {
+  --rc-step: #{$step}px;
+  --rc-border-radius: #{$radius-1}px;
+}

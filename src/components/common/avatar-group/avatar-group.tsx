@@ -64,7 +64,7 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
     [users, usersData]
   );
 
-  const showHidden = useMemo(() => hiddenCount > 0, [hiddenCount]);
+  const showHidden = useMemo(() => false, [hiddenCount]);
 
   const renderAvatar = useCallback(
     ({ avatar, ...avatarProps }: Partial<ChatUserInterface>) => {

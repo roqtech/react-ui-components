@@ -1,0 +1,361 @@
+@import "../../../styles/styles.scss";
+
+
+.roq-file-edit-paper {
+  box-shadow: 0 0.25rem 1rem rgb(13 28 70 / 5%);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem 0;
+  margin: 0.5rem auto;
+}
+
+.roq-file-edit-paper:hover::before {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.roq-file-edit-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: space-between;
+  height: 100%;
+}
+
+.roq-file-edit-form{
+  margin-top: 10em;
+}
+
+.roq-file-edit-row {
+  display: flex;
+}
+
+.roq-file-edit-column {
+  flex: 50%;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.roq-file-edit-top-section-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  letter-spacing: 0.15px;
+  color:  map-get($light-pallete, 'black')
+}
+
+.roq-file-edit-form-section {
+  padding-bottom: 1.125rem;
+}
+
+.roq-file-edit-title {
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.roq-file-edit-h-3 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
+}
+
+
+.roq-file-edit-input::after,
+.roq-file-edit-input::before {
+  box-sizing: border-box;
+}
+
+.roq-file-edit-form-group {
+  position: relative;
+  margin-top: 2.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.roq-file-edit-form-inline > .roq-file-edit-form-group,
+.roq-file-edit-form-inline > .btn {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.roq-file-edit-form-help {
+  margin-top: 0.125rem;
+  margin-left: 0.125rem;
+  color: #b3b3b3;
+  font-size: 0.8rem;
+}
+
+.roq-file-edit-form-help, .roq-file-edit-form-group .roq-file-edit-form-help {
+  position: absolute;
+  width: 100%;
+}
+
+.roq-file-edit-form-radio .roq-file-edit-form-help {
+  padding-top: 0.25rem;
+  margin-top: -1rem;
+}
+
+.roq-file-edit-form-group input {
+  height: 1.9rem;
+}
+
+.roq-file-edit-form-group .roq-file-edit-control-label {
+  position: absolute;
+  top: 0.25rem;
+  pointer-events: none;
+  padding-left: 0.125rem;
+  z-index: 1;
+  color: #b3b3b3;
+  font-size: 1rem;
+  font-weight: normal;
+  -webkit-transition: all 0.28s ease;
+  transition: all 0.28s ease;
+}
+
+.roq-file-edit-form-group .roq-file-edit-bar {
+  position: relative;
+  border-bottom: 0.0625rem solid #999;
+  display: block;
+}
+
+.roq-file-edit-form-group .roq-file-edit-bar::before {
+  content: '';
+  height: 0.125rem;
+  width: 0;
+  left: 50%;
+  bottom: -0.0625rem;
+  position: absolute;
+  background: #337ab7;
+  -webkit-transition: left 0.28s ease, width 0.28s ease;
+  transition: left 0.28s ease, width 0.28s ease;
+  z-index: 2;
+}
+
+.roq-file-edit-form-group .roq-file-edit-input {
+  display: block;
+  background: none;
+  padding: 0.125rem 0.125rem 0.0625rem;
+  font-size: 1rem;
+  border-width: 0;
+  border-color: transparent;
+  line-height: 1.9;
+  width: 100%;
+  color: transparent;
+  -webkit-transition: all 0.28s ease;
+  transition: all 0.28s ease;
+  box-shadow: none;
+}
+
+.roq-file-edit-form-group .roq-file-edit-input:focus,
+.roq-file-edit-form-group .roq-file-edit-input:valid,
+.roq-file-edit-form-group .roq-file-edit-input.has-value {
+  color: map-get($light-pallete, 'black');
+}
+
+.roq-file-edit-form-group .roq-file-edit-input:focus ~ .roq-file-edit-control-label,
+.roq-file-edit-form-group .roq-file-edit-input:valid ~ .roq-file-edit-control-label,
+.roq-file-edit-form-group .roq-file-edit-input.has-value ~ .roq-file-edit-control-label {
+  font-size: 0.8rem;
+  color: $blueGray-500;
+  top: -1rem;
+  left: 0;
+}
+
+.roq-file-edit-form-group input:focus {
+  outline: none;
+}
+
+.roq-file-edit-form-group input:focus ~ .roq-file-edit-control-label {
+  color: $infoLight;
+}
+
+.roq-file-edit-form-group input:focus ~ .bar::before {
+  width: 100%;
+  left: 0;
+}
+
+.roq-file-edit-form-group .roq-file-edit-input.roq-file-edit-extension,
+.roq-file-edit-form-group .roq-file-edit-input.roq-file-edit-extension:valid {
+  color: $blueGray-500;
+  cursor: default;
+  pointer-events: none;
+}
+
+.roq-file-edit-has-error.roq-file-edit-form-group .roq-file-edit-control-label.roq-file-edit-control-label {
+  color: $errorMain;
+}
+
+.roq-file-edit-has-error.roq-file-edit-form-group .roq-file-edit-form-help {
+  color: $errorMain;
+}
+
+.roq-file-edit-has-error .roq-file-edit-bar::before {
+  background: $errorMain;
+  left: 0;
+  width: 100%;
+}
+
+
+.roq-file-edit-button-outlined {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 0 12px;
+  min-width: 64px;
+  height: 36px;
+  vertical-align: middle;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  color: $infoLight;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid $infoLight;
+}
+
+.roq-file-edit-button-outlined::-moz-focus-inner {
+  border: none;
+}
+
+/* Overlay */
+.roq-file-edit-button-outlined::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Ripple */
+.roq-file-edit-button-outlined::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  padding: 50%;
+  width: 32px;
+  height: 32px;
+  background-color: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 1s, transform 0.5s;
+}
+
+/* Hover, Focus */
+.roq-file-edit-button-outlined:hover::before {
+  opacity: 0.04;
+}
+
+.roq-file-edit-button-outlined:focus::before {
+  opacity: 0.12;
+}
+
+.roq-file-edit-button-outlined:hover:focus::before {
+  opacity: 0.16;
+}
+
+/* Active */
+.roq-file-edit-button-outlined:active::after {
+  opacity: 0.16;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0s;
+}
+
+/* Disabled */
+.roq-file-edit-button-outlined:disabled {
+  color: rgba(var($disabled-color, 0, 0, 0), 0.38);
+  background-color: transparent;
+  cursor: initial;
+}
+
+.roq-file-edit-button-outlined:disabled::before {
+  opacity: 0;
+}
+
+.roq-file-edit-button-outlined:disabled::after {
+  opacity: 0;
+}
+
+
+.roq-file-edit-bottom {
+  position: absolute;
+  bottom: 1%;
+  left: 0;
+}
+
+.roq-file-edit-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.roq-file-edit-icon {
+  fill: $infoLight;
+  stroke: $infoLight
+}
+
+.roq-file-edit-button-outlined-error {
+  color: $errorMain;
+  border: 1px solid $errorMain;
+}
+
+.roq-file-edit-solid-button {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  color: map-get($light-pallete, 'white');
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}
+
+
+.roq-file-edit-solid-button:disabled {
+  cursor: default;
+  pointer-events: none;
+  background: $blueGray-200;
+}
+
+.roq-file-edit-button-primary {
+  background: $infoLight;
+}
+
+.roq-file-edit-m-10 {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.roq-file-edit-link-icon{
+  fill: $infoLight;
+}
+
+

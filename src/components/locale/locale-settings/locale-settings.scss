@@ -1,11 +1,11 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-locale-settings-padding: calc(var(--rc-layout-step) * 6);
+  --rc-locale-settings-padding: calc(var(--rc-step) * 6);
 
   --rc-locale-settings-content-margin: 0;
 
-  --rc-locale-settings-content-fieldset-margin: calc(var(--rc-layout-step) * 4)
+  --rc-locale-settings-content-fieldset-margin: calc(var(--rc-step) * 4)
     0 0 0;
 }
 

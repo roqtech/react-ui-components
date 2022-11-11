@@ -44,13 +44,11 @@ export interface RoqProviderConfigInterface {
 export interface RoqProviderContextInterface {
   host: string;
   token?: string | null;
-
   platformInternal: string;
   platformConsole: string;
   platformClientSide: string;
   platformServerSide: string;
   platformChat: string;
-
   userToken?: string;
   user?: {
     id: string;
@@ -74,7 +72,7 @@ export interface RoqProviderPropsInterface {
   onTimezoneChange?: (timezone: string) => void;
 }
 
-const defaultCtx: RoqProviderContextInterface = {
+const defaultCtx = {
   host: config.platform.graphqlUri,
   t: (key: string) => {
     console.error(
@@ -98,7 +96,7 @@ export interface RoqProviderLocaleContextInterface
   > {}
 
 export const ROQContext =
-  createContext<RoqProviderContextInterface>(defaultCtx);
+  createContext<RoqProviderContextInterface>(defaultCtx as RoqProviderContextInterface);
 
 export const defaultTranslationFunction = (
   messages,

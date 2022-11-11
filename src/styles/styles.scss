@@ -1,1 +1,40 @@
-@import "theme/basic/basic.theme.scss";
+@import "mixins/mixins.scss";
+@import "breakpoints.scss";
+@import "typography.scss";
+@import "spacing.scss";
+
+@import "theme/light.scss";
+@import "theme/dark.scss";
+
+$theme_colors: (
+  "white",
+  "black",
+  "primary",
+  "secondary",
+  "green",
+  "red",
+  "background",
+  "card",
+  "border",
+  "separator",
+  "text"
+);
+
+@import url('https://fonts.googleapis.com/css?family=Urbanist:400,500,600,700,900&display=swap');
+
+:root {
+  --rc-color-RB-70: #626B7F;
+  --rc-color-RB-90: #35405A;
+
+  @each $name, $value in $theme_colors {
+    --rc-color-#{$name}: var(--rc-theme-light-color-#{$name});
+    --rc-color-#{$name}-rgb: var(--rc-theme-light-color-#{$name}-rgb);
+  }
+
+  &.rc-dark {
+    @each $name, $value in $theme_colors {
+      --rc-color-#{$name}: var(--rc-theme-dark-color-#{$name});
+      --rc-color-#{$name}-rgb: var(--rc-theme-dark-color-#{$name}-rgb);
+    }
+  }
+}

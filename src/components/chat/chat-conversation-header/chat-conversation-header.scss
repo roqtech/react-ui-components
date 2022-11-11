@@ -1,33 +1,42 @@
 @import "../../../styles/styles.scss";
 
-$chat-conversation-header-height: 98px;
+$chat-conversation-header-height: 110px;
+
+$chat-conversation-border-color: #d4d8df;
 
 :root {
+  --rc-chat-conversation-header-background: transparent;
   --rc-chat-conversation-header-height: #{$chat-conversation-header-height};
-  --rc-chat-conversation-header-padding: calc(var(--rc-layout-step) * 7)
-    calc(var(--rc-layout-step) * 8) calc(var(--rc-layout-step) * 5)
-    calc(var(--rc-layout-step) * 8);
+  --rc-chat-conversation-header-padding: calc(var(--rc-step) * 3.125)
+    calc(var(--rc-step) * 3.75) calc(var(--rc-step) * 3.125)
+    calc(var(--rc-step) * 3.75);
 
-  --rc-chat-conversation-header-border-color: var(--rc-divider);
-  --rc-chat-conversation-header-border-width: 2px;
+  --rc-chat-conversation-header-border-color: #{$chat-conversation-border-color};
+  --rc-chat-conversation-header-border-width: 1px;
 
-  --rc-chat-conversation-header-info-margin: calc(var(--rc-layout-step) * 3);
+  --rc-chat-conversation-header-info-padding-left: calc(var(--rc-step) * 3);
 
   --rc-chat-conversation-header-info-name-font-weight: var(
     --rc-font-weight-bolder
   );
-  --rc-chat-conversation-header-info-name-color: var(--rc-blueGray-800);
 
-  --rc-chat-conversation-header-info-timestamp-font-weight: var(
-    --rc-font-weight-bold
-  );
-  --rc-chat-conversation-header-info-timestamp-color: var(--rc-blueGray-500);
+  --rc-chat-conversation-header-info-name-font-size: var(--rc-font-size-2xl);
+  --rc-chat-conversation-header-info-name-color: var(--rc-color-secondary);
+
+  --rc-chat-conversation-header-info-timestamp-font-margin: calc(
+      var(--rc-step) * 0.25
+    )
+    0px 0px 0px;
+  --rc-chat-conversation-header-info-timestamp-font-weight: var(--rc-font-weight-normal);
+  --rc-chat-conversation-header-info-timestamp-font-size: var(--rc-font-size-sm);
+  --rc-chat-conversation-header-info-timestamp-color: var(--rc-color-text);
 }
 
 @include roq-component("chat-conversation-header") {
   min-height: var(--rc-chat-conversation-header-height);
   padding: var(--rc-chat-conversation-header-padding);
 
+  background: var(--rc-chat-conversation-header-background);
   border-bottom-color: var(--rc-chat-conversation-header-border-color);
   border-bottom-width: var(--rc-chat-conversation-header-border-width);
   border-bottom-style: solid;
@@ -42,18 +51,21 @@ $chat-conversation-header-height: 98px;
   }
 
   &__info {
-    padding-left: var(--rc-chat-conversation-header-info-margin);
+    padding-left: var(--rc-chat-conversation-header-info-padding-left);
 
     &__name {
-      font-weight: var(--rc-chat-conversation-header-info-name-font-weight);
       color: var(--rc-chat-conversation-header-info-name-color);
+      font-weight: var(--rc-chat-conversation-header-info-name-font-weight);
+      font-size: var(--rc-chat-conversation-header-info-name-font-size);
     }
 
     &__members {
+      margin: var(--rc-chat-conversation-header-info-timestamp-font-margin);
+      color: var(--rc-chat-conversation-header-info-timestamp-color);
       font-weight: var(
         --rc-chat-conversation-header-info-timestamp-font-weight
       );
-      color: var(--rc-chat-conversation-header-info-timestamp-color);
+      font-size: var(--rc-chat-conversation-header-info-timestamp-font-size);
     }
   }
 }

@@ -1,0 +1,87 @@
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs";
+
+<Meta title="Roq Components/Typography" />
+
+<style>
+  {`
+    .demo {
+      font-size: var(--rc-default-font-size);
+    }
+
+    .typeset {
+      font-weight: var(--rc-default-font-weight);
+      font-line-height: var(--rc-default-font-line-height);
+      font-spacing: var(--rc-default-font-spacing);
+      font-name: var(--rc-default-font-name);
+      box-sizing: border-box;
+
+      margin: 10px 0px;
+      padding: 0px;
+    }
+
+    .typeset.f-xs span { 
+      font-size: var(--rc-font-size-xs); 
+    }
+      
+    .typeset.f-sm span { 
+      font-size: var(--rc-font-size-sm); 
+    }
+    
+    .typeset.f-base span { 
+      font-size: var(--rc-font-size-base); 
+    }
+      
+    .typeset.f-xl span { 
+      font-size: var(--rc-font-size-xl);
+    }
+      
+    .typeset.f-2xl span { 
+      font-size: var(--rc-font-size-2xl); 
+    }
+      
+    .typeset.f-3xl span { 
+      font-size: var(--rc-font-size-3xl); 
+    }
+    
+    .font-size {
+      display: inline-block;
+      width: 60px;
+      float: left;
+      margin-right: 1rem;
+      color: var(--rc-color-text);
+    }
+  `}
+</style>
+
+# Typography
+
+**Font:** Urbanist
+
+**Weights:** 400(--rc-font-weight-normal), 500(--rc-font-weight-medium), 600(--rc-font-weight-bold), 700(--rc-font-weight-bolder)
+
+<div class="demo">
+  <div class="typeset f-xs">
+    <span class="font-size">xs</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+  <div class="typeset f-sm">
+    <span class="font-size">sm</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+  <div class="typeset f-base">
+    <span class="font-size">base</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+  <div class="typeset f-xl">
+    <span class="font-size">xl</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+  <div class="typeset f-2xl">
+    <span class="font-size">2xl</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+  <div class="typeset f-3xl">
+    <span class="font-size">3xl</span>
+    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+  </div>
+</div>

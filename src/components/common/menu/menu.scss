@@ -10,8 +10,8 @@
 
   --rc-menu-background: var(--rc-white);
   --rc-menu-shadow: 0px 4px 16px rgba(13, 28, 70, 0.15);
-  --rc-menu-radius: var(--rc-layout-border-radius);
-  --rc-menu-top-margin: var(--rc-layout-step) * 1.5;
+  --rc-menu-radius: var(--rc-border-radius);
+  --rc-menu-top-margin: var(--rc-step) * 1.5;
   --rc-menu-transform: translate3d(
     0,
     calc(100% + var(--rc-menu-top-margin)),

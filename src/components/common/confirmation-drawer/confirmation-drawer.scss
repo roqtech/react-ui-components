@@ -1,0 +1,106 @@
+@import "../../../styles/styles.scss";
+
+.roq-confirm-drawer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vw;
+  padding: 1-5-rem;
+  word-wrap: break-word;
+  border-radius: 0-5-rem;
+  font-size: 0-875-rem;
+  line-height: 1-25-rem;
+  letter-spacing: 0-25;
+  background-color: map-get($light-pallete,'white');
+}
+
+.roq-confirm-drawer-back-icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.roq-confirm-drawer-back-icon {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.roq-confirm-drawer-message {
+  margin-bottom: 1rem;
+  color: map-get($light-pallete,'text');
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.roq-confirm-drawer-body-2 {
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.roq-confirm-drawer-title {
+  margin-bottom: 1rem;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.roq-confirm-drawer-h-4 {
+  font-weight: 400;
+  font-size: 2.125rem;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
+}
+
+.roq-confirm-drawer-button-row {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  & > button {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+
+.roq-confirm-drawer-button {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  color: map-get($light-pallete,'white');
+  min-width: 64px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}
+
+.roq-confirm-drawer-button-primary {
+  background: map-get($light-pallete,'primary');
+}
+
+.roq-confirm-drawer-button-text {
+  padding: 6px 8px;
+  background: transparent;
+  color: map-get($light-pallete,'primary');
+}

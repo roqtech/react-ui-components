@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import { authorizeServiceAccount } from "../src/utils/authorize-service-account";
 import "../stories/assets/custom.css";
-import "../src/styles/global.scss";
 import "../src/styles/styles.scss";
 
 export const parameters = {
@@ -13,6 +12,19 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: {
+    default: "light",
+    values: [
+      {
+        name: "light",
+        value: "#FFFFFF",
+      },
+      {
+        name: "dark",
+        value: "#1F2B48",
+      },
+    ],
+  },
   options: {
     storySort: {
       order: [
@@ -22,8 +34,17 @@ export const parameters = {
           "Getting started",
           "Usage",
           "Styling",
+          "Typography",
           "Common",
-          ["Avatar", "AvatarGroup", "Badge", "ActionButton", "Panel"],
+          [
+            "Avatar",
+            "AvatarGroup",
+            "Badge",
+            "ActionButton",
+            "Panel",
+            "StackedText",
+            "TimeAgo",
+          ],
           "Chat",
           [
             "MessageCenter",
@@ -57,7 +78,6 @@ export const parameters = {
           ],
           "Locale",
           ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
-          "Typography",
         ],
       ],
     },
@@ -83,7 +103,29 @@ const CHAT_PREVIEW_COMPONENT = [
   "roq-components-chat-chatnotificationbell",
 ];
 
+const themes = parameters.backgrounds.values.reduce(
+  (acc, background) => ({
+    ...acc,
+    [background.name]: background.value,
+  }),
+  {}
+);
+
 export const decorators = [
+  (Story, context) => {
+    const color = context.globals?.backgrounds?.value;
+    const themeName = !!color ? themes[color] : "light";
+
+    useEffect(() => {
+      document.documentElement.classList.add(`rc-${themeName}`);
+
+      return function cleanup() {
+        document.documentElement.classList.remove(`rc-${themeName}`);
+      };
+    }, [themeName]);
+
+    return <Story />;
+  },
   (Story, context) => {
     const { host, tenantId, apiKey, serviceAccount } = hostConfig;
 

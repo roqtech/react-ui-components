@@ -1,9 +1,12 @@
 import { DocumentNode, useMutation } from '@apollo/client';
 import axios from 'axios';
+import { omit } from 'lodash';
 import { ClientValidationError } from 'src/errors';
 import { getFileType } from 'src/utils/files/mime-type';
 import parseUrl from 'parse-url';
 import { FileUploadStatusEnum } from 'src/enums/files/file-upload-status.enum';
+import { MutationTuple } from '@apollo/client/react/types/types';
+import { FileInterface, MutationOptionsInterface } from 'src/interfaces';
 
 type onProgressCallbackInterface = (val: number) => void;
 
@@ -13,13 +16,8 @@ interface UploadResultInterface {
 }
 
 interface SetReadyStatusInterface {
-  fileStatusUpdateMutationOptions: {
-    mutation: DocumentNode,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    variables?: Record<string, any>,
-    mutationName?: string
-  },
-  onSuccess?: (data) => void,
+  fileStatusUpdateMutationOptions: MutationOptionsInterface<undefined>,
+  onSuccess?: (data: FileInterface) => void,
   onError?: (e: Error) => void,
 }
 
@@ -34,12 +32,8 @@ export interface FileUploadResponse {
   fileId: string;
 }
 
-interface InitiateFileUploadArgsInterface extends SetReadyStatusInterface {
-  saveFileMutationOptions: {
-    mutation: DocumentNode,
-    variables: Record<string, unknown>,
-    mutationName: string
-  },
+export interface InitiateFileUploadArgsInterface extends SetReadyStatusInterface {
+  saveFileMutationOptions: MutationOptionsInterface<undefined>,
   onBeforeStart?: (abortController: AbortController) => void;
   onAfterStart?: (data: FileDataInterface) => void;
   onProgress?: (val: number) => void,
@@ -66,9 +60,17 @@ export class FileUploader implements FileUploaderInterface {
   abortController: AbortController;
   fileId: string | undefined;
   file: File | undefined;
+  saveFileMutation: MutationTuple<unknown, unknown>;
+  updateFileStatusMutation: MutationTuple<unknown, unknown>;
 
-  constructor() {
+  constructor({
+                saveFileMutation,
+                updateFileStatusMutation
+              }: { saveFileMutation: DocumentNode, updateFileStatusMutation: DocumentNode }) {
     this.abortController = new AbortController();
+    // This is just a dummy mutation to invoke `useMutation` hook during render, to avoid error that hooks can't be used outside functional component
+    this.saveFileMutation = useMutation<unknown, unknown>(saveFileMutation);
+    this.updateFileStatusMutation = useMutation<unknown, unknown>(updateFileStatusMutation);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,21 +106,18 @@ export class FileUploader implements FileUploaderInterface {
                          onSuccess,
                          onError,
                        }: SetReadyStatusInterface): Promise<string | undefined> {
-    const [mutate, {
-      data,
-      error
-    }] = useMutation(fileStatusUpdateMutationOptions.mutation);
-    await mutate({
+    const [mutate] = this.updateFileStatusMutation;
+    const { data } = await mutate({
+      ...omit(fileStatusUpdateMutationOptions, ['variables', 'update']),
       variables: {
         fileId: this.fileId,
-        status: FileUploadStatusEnum.ready
-      }
+        status: FileUploadStatusEnum.ready,
+        ...(fileStatusUpdateMutationOptions.variables(undefined) || {})
+      },
+      onError,
     });
-    const mutationData = fileStatusUpdateMutationOptions.mutationName ? data[fileStatusUpdateMutationOptions.mutationName] : data;
+    const mutationData = fileStatusUpdateMutationOptions.mutationName ? data?.[fileStatusUpdateMutationOptions.mutationName] : data;
     if (mutationData && onSuccess) onSuccess(mutationData);
-    if (error && onError) {
-      onError(error);
-    }
     return mutationData?.url;
   }
 
@@ -197,20 +196,21 @@ export class FileUploader implements FileUploaderInterface {
       failedFileData,
     } = options;
     if (onBeforeStart) onBeforeStart(this.abortController);
-    let result: FileDataInterface | undefined;
-    if (failedFileData?.uploadUrl) {
-      result = failedFileData;
-    } else {
-      const [mutate, {
-        data,
-      }] = useMutation(saveFileMutationOptions.mutation)
-      await mutate({
-        variables: saveFileMutationOptions.variables,
-      });
-      result = saveFileMutationOptions.mutationName ? data[saveFileMutationOptions.mutationName] : data;
-    }
-    if (!result) {
-      return result;
+    let result = failedFileData as FileDataInterface;
+    if (!result?.uploadUrl) {
+      const [mutate] = this.saveFileMutation;
+      try {
+        const { data } = await mutate({
+          ...omit(saveFileMutationOptions, ['variables', 'update']),
+          variables: saveFileMutationOptions.variables(undefined),
+          onError,
+        });
+        if (data) {
+          result = saveFileMutationOptions.mutationName ? data?.[saveFileMutationOptions.mutationName] : data;
+        }
+      } catch (e) {
+        onError && onError(e as Error);
+      }
     }
     const { id, uploadUrl } = result;
     this.fileId = id;
@@ -222,7 +222,8 @@ export class FileUploader implements FileUploaderInterface {
       maxFileSize,
       onProgress,
       selectedFile,
-    });
+    }).catch((e)=>onError && onError(e));
+
     const url = await this.setReadyStatus({
       fileStatusUpdateMutationOptions,
       onSuccess,
@@ -239,16 +240,16 @@ export class FileUploader implements FileUploaderInterface {
       fileStatusUpdateMutationOptions,
       onError,
     } = options;
-    const [mutate, { error }] = useMutation(fileStatusUpdateMutationOptions.mutation)
+    const [mutate] = this.updateFileStatusMutation;
     await mutate({
+      ...omit(fileStatusUpdateMutationOptions, ['variables', 'update']),
       variables: {
         fileId: this.fileId,
         status: axios.isCancel(e) ? FileUploadStatusEnum.cancelled : FileUploadStatusEnum.error,
+        ...(fileStatusUpdateMutationOptions.variables(undefined) || {})
       },
+      onError,
     });
-    if (error && onError) {
-      onError(e);
-    }
   }
 
   async initiateFileUpload(options: InitiateFileUploadArgsInterface): Promise<FileUploadResponse | undefined> {

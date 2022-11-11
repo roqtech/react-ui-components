@@ -4,7 +4,7 @@ import React from "react";
 import { TimeAgo } from "../../src";
 
 export default {
-  title: "Roq Components/Typography/TimeAgo",
+  title: "Roq Components/Common/TimeAgo",
   component: TimeAgo,
   argTypes: {
     timestamp: { control: "date" },

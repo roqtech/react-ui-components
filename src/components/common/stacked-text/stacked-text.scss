@@ -5,9 +5,19 @@ $stacked-text-size-secondary: 0.85em;
 $stacked-text-size-tertiary: 0.78em;
 
 :root {
-  --rc-stacked-text-size-primary: #{$stacked-text-size-primary};
-  --rc-stacked-text-size-secondary: #{$stacked-text-size-secondary};
-  --rc-stacked-text-size-tertiary: #{$stacked-text-size-tertiary};
+  --rc-stacked-text-font-size: 1em;
+  --rc-stacked-text-color: var(--rc-color-black);
+
+  --rc-stacked-text-primary-color: var(--rc-color-secondary);
+  --rc-stacked-text-primary-font-size: #{$stacked-text-size-primary};
+
+  --rc-stacked-text-secondary-color: var(--rc-color-text);
+  --rc-stacked-text-secondary-font-size: #{$stacked-text-size-secondary};
+
+  --rc-stacked-text-tertiary-color: var(--rc-color-RB-70);
+  --rc-stacked-text-tertiary-font-size: #{$stacked-text-size-tertiary};
+
+  --rc-stacked-text-disabled-color: var(--rc-color-border);
 }
 
 @include roq-component("stacked-text") {
@@ -22,23 +32,26 @@ $stacked-text-size-tertiary: 0.78em;
     text-overflow: ellipsis;
     white-space: nowrap;
 
+    color: var(--rc-stacked-text-color);
+    font-size: var(--rc-stacked-text-font-size);
+
     &-primary {
-      color: var(--rc-text-primary-color);
-      font-size: var(--rc-stacked-text-size-primary);
+      color: var(--rc-stacked-text-primary-color);
+      font-size: var(--rc-stacked-text-primary-font-size);
     }
 
     &-secondary {
-      color: var(--rc-text-secondary-color);
-      font-size: var(--rc-stacked-text-size-secondary);
+      color: var(--rc-stacked-text-secondary-color);
+      font-size: var(--rc-stacked-text-secondary-font-size);
     }
 
     &-tertiary {
-      color: var(--rc-text-tertiary-color);
-      font-size: var(--rc-stacked-text-size-tertiary);
+      color: var(--rc-stacked-text-tertiary-color);
+      font-size: var(--rc-stacked-text-tertiary-font-size);
     }
 
     &-disabled {
-      color: var(--rc-text-disbled-color);
+      color: var(--rc-stacked-text-disabled-color);
     }
   }
 }

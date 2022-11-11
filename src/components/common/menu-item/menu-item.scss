@@ -1,8 +1,8 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --rc-menu-item-padding: calc(var(--rc-layout-step) * 3)
-    calc(var(--rc-layout-step) * 4);
+  --rc-menu-item-padding: calc(var(--rc-step) * 3)
+    calc(var(--rc-step) * 4);
 
   --rc-menu-item-cursor: pointer;
   --rc-menu-item-color: var(--rc-blueGray-900);
