@@ -2,8 +2,8 @@
 
 @mixin item {
   all: unset;
-  background-color: var(--rc-blueGray-200);
-  color: var(--rc-blueGray-900);
+  background-color: $blueGray-200;
+  color: map-get($light-pallete, 'black');
   height: 35px;
   display: flex;
   font-size: 15px;
@@ -25,13 +25,13 @@
 .roq-toggle-group-button > .roq-toggle-group-button-item {
   @include item;
   &:hover {
-    background-color: var(--rc-blueGray-300);
+    background-color: $blueGray-300;
   }
 }
 .roq-toggle-group-button > .roq-toggle-group-button-item__selected {
   @include item;
-  background-color: var(--rc-blueGray-900);
-  color: var(--rc-white)
+  background-color: map-get($light-pallete, 'black');
+  color: map-get($light-pallete, 'white');
 }
 .roq-toggle-group-button > .roq-toggle-group-button-item:last-child {
   border-right: none;
