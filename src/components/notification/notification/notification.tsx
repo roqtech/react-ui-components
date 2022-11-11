@@ -56,6 +56,7 @@ export interface NotificationProps extends Omit<React.HTMLAttributes<HTMLDivElem
   },
   onFetchNotificationsSuccess?: (data: NotificationsFeedQuery) => void
   onFetchNotificationsError?: (error: TransformErrorInterface) => void
+  pollInterval?: number
 }
 
 export const Notification: React.FC<NotificationProps> = (props) => {
@@ -69,6 +70,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     loadingView,
     onFetchNotificationsSuccess,
     onFetchNotificationsError,
+    pollInterval,
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
@@ -76,7 +78,7 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     type,
   }, {
     fetchPolicy: 'cache-and-network',
-    pollInterval: 1000 * 5,
+    pollInterval: (pollInterval ?? 1000 * 15),
     onCompleted(data) {
       onFetchNotificationsSuccess?.(data)
     },
