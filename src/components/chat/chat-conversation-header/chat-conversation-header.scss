@@ -14,6 +14,10 @@ $chat-conversation-border-color: #d4d8df;
   --rc-chat-conversation-header-border-color: #{$chat-conversation-border-color};
   --rc-chat-conversation-header-border-width: 1px;
 
+  --rc-chat-conversation-header-preview-size: var(
+    --rc-avatar-group-stacked-extra-large-width
+  );
+
   --rc-chat-conversation-header-info-padding-left: calc(var(--rc-step) * 3);
 
   --rc-chat-conversation-header-info-name-font-weight: var(
@@ -27,8 +31,12 @@ $chat-conversation-border-color: #d4d8df;
       var(--rc-step) * 0.25
     )
     0px 0px 0px;
-  --rc-chat-conversation-header-info-timestamp-font-weight: var(--rc-font-weight-normal);
-  --rc-chat-conversation-header-info-timestamp-font-size: var(--rc-font-size-sm);
+  --rc-chat-conversation-header-info-timestamp-font-weight: var(
+    --rc-font-weight-normal
+  );
+  --rc-chat-conversation-header-info-timestamp-font-size: var(
+    --rc-font-size-sm
+  );
   --rc-chat-conversation-header-info-timestamp-color: var(--rc-color-text);
 }
 
@@ -47,7 +55,13 @@ $chat-conversation-border-color: #d4d8df;
   flex-shrink: 0;
   width: 100%;
 
-  &__avatars {
+  &__preview {
+    flex-shrink: 0;
+    width: var(--rc-chat-conversation-header-preview-size);
+    height: var(--rc-chat-conversation-header-preview-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__info {

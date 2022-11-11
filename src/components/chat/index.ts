@@ -81,6 +81,7 @@ export {
   ChatConversationMenu,
   ChatConversationMenuPropsInterface,
 } from "./chat-conversation-menu";
+export { ChatSidebar, ChatSidebarPropsInterface } from "./chat-sidebar";
 export {
   ChatProvider,
   useChatApi,

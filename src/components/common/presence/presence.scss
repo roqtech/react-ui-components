@@ -1,0 +1,50 @@
+@import "../../../styles/styles.scss";
+
+$presence-size-small: 5px;
+$presence-size-medium: 10px;
+$presence-size-large: 16px;
+
+:root {
+  --rc-presence-display: block;
+  --rc-presence-radius: 50%;
+  --rc-presence-overflow: hidden;
+
+  --rc-presence-background-color: red;
+
+  --rc-presence-online-background-color: var(--rc-color-green);
+
+  --rc-presence-small-width: #{$presence-size-small};
+  --rc-presence-small-height: #{$presence-size-small};
+
+  --rc-presence-medium-width: #{$presence-size-medium};
+  --rc-presence-medium-height: #{$presence-size-medium};
+  --rc-presence-large-width: #{$presence-size-large};
+  --rc-presence-large-height: #{$presence-size-large};
+}
+
+@include roq-component("presence") {
+  display: var(--rc-presence-display);
+  border-radius: var(--rc-presence-radius);
+  overflow: var(--rc-presence-overflow);
+
+  &--online {
+    background-color: var(--rc-presence-online-background-color);
+  }
+
+  &--size {
+    &-small {
+      width: var(--rc-presence-small-width);
+      height: var(--rc-presence-small-height);
+    }
+
+    &-medium {
+      width: var(--rc-presence-medium-width);
+      height: var(--rc-presence-medium-height);
+    }
+
+    &-large {
+      width: var(--rc-presence-large-width);
+      height: var(--rc-presence-large-height);
+    }
+  }
+}

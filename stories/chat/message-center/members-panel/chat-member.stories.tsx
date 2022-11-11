@@ -5,7 +5,7 @@ import { ChatMember } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/MessageCenter/ChatMembersPanel/ChatMemberList/ChatMembers/ChatMember",
+    "Roq Components/Chat/ChatMembersPanel/ChatMemberList/ChatMembers/ChatMember",
   component: ChatMember,
   argTypes: {},
   decorators: [

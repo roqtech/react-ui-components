@@ -389,11 +389,18 @@ export const ChatProvider = (props: ChatProviderPropsInterface) => {
     (
       conversationSchema: ChatConversationSchemaInterface
     ): ChatConversationInterface => {
-      const { createdAt, ownerId, lastMessageTimestamp, lastMessage, ...rest } =
-        conversationSchema;
+      const {
+        createdAt,
+        ownerId,
+        lastMessageTimestamp,
+        lastMessage,
+        isGroup,
+        ...rest
+      } = conversationSchema;
 
       return {
         ...rest,
+        isGroup,
         ownerId,
         createdAt: new Date(createdAt),
         isOwner: ownerId === userId,

@@ -111,6 +111,7 @@ export const ChatMessage = (props: ChatMessagePropsInterface) => {
             {...user}
             alt={user?.fullName}
             src={user?.avatar}
+            size={"medium"}
           />
         </User>
       )}

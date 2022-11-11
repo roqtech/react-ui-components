@@ -11,7 +11,10 @@ export default {
     rounded: { control: "boolean" },
     square: { control: "boolean" },
     size: {
-      control: { type: "select", options: ["small", "medium", "large"] },
+      control: {
+        type: "select",
+        options: ["extra-small", "small", "medium", "large", "extra-large"],
+      },
     },
   },
 } as ComponentMeta<typeof AvatarGroup>;
@@ -23,20 +26,29 @@ const Template: ComponentStory<typeof AvatarGroup> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   users: [
-    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
-    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
-    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
-    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+    { fullName: "Olivia Emma", avatar: "/img/avatar1.png" },
+    { fullName: "Susan Gomez", avatar: "/img/avatar2.png" },
+    { fullName: "Piper Wong", avatar: "/img/avatar3.png" },
+    { fullName: "Jared Brewer" },
+  ],
+};
+
+export const Single = Template.bind({});
+Single.args = {
+  users: [
+    { fullName: "Olivia Emma", avatar: "/img/avatar1.png" },
   ],
 };
 
 export const Max = Template.bind({});
 Max.args = {
-  maxCount: 2,
+  maxCount: 1,
+  size: "extra-large",
   users: [
-    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
-    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
-    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
-    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+    { fullName: "Olivia Emma", avatar: "/img/avatar1.png" },
+    { fullName: "Susan Gomez", avatar: "/img/avatar2.png" },
+    { fullName: "Piper Wong", avatar: "/img/avatar3.png" },
+    { fullName: "Jovani Fox" },
+    { fullName: "Jared Brewer" },
   ],
 };

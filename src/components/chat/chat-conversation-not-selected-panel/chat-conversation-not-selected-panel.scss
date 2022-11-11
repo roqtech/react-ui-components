@@ -13,8 +13,10 @@
 }
 
 @include roq-component("chat-conversation-not-selected-panel") {
+  display: flex;
   flex-direction: center;
   justify-content: center;
+  align-items: center;
 
   &__message {
     text-align: center;

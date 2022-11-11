@@ -66,6 +66,7 @@ export interface ChatConversationInterface {
   messages?: ChatMessageInterface[];
 
   isOwner: boolean;
+  isGroup: boolean;
   unreadCount: number;
 }
 

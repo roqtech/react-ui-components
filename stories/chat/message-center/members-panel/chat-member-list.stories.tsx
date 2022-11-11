@@ -5,7 +5,7 @@ import { ChatMemberList } from "../../../../src";
 import { ChatDecorator, chatArgTypes } from "../../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/MessageCenter/ChatMembersPanel/ChatMemberList",
+  title: "Roq Components/Chat/ChatMembersPanel/ChatMemberList",
   component: ChatMemberList,
   argTypes: {
     ...chatArgTypes,

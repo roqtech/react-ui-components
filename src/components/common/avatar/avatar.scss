@@ -1,23 +1,32 @@
 @import "../../../styles/styles.scss";
 
-$avatar-border-width: 0;
-$avatar-border-color: transparent;
+$avatar-border-width: 1px;
+$avatar-border-color: var(--rc-color-white);
 
 $avatar-image-font-color: var(--rc-color-card);
 $avatar-image-primary-color: var(--rc-color-card);
 $avatar-image-default-padding: 2px;
 
-$avatar-size_small: 24px;
-$avatar-font-size_small: 0.65rem;
+$avatar-tiny-size: 16px;
+$avatar-tiny-font-size: 0.5rem;
 
-$avatar-size_medium: 42px;
-$avatar-font-size_medium: 0.75rem;
+$avatar-extra-small-size: 26px;
+$avatar-extra-small-font-size: var(--rc-font-size-xs);
 
-$avatar-size_large: 50px;
-$avatar-font-size_large: 1rem;
+$avatar-small-size: 35px;
+$avatar-small-font-size: var(--rc-font-size-sm);
+
+$avatar-medium-size: 42px;
+$avatar-medium-font-size: var(--rc-font-size-base);
+
+$avatar-large-size: 46px;
+$avatar-large-font-size: var(--rc-font-size-xl);
+
+$avatar-extra-large-size: 50px;
+$avatar-extra-large-font-size: var(--rc-font-size-2xl);
 
 :root {
-  --rc-avatar-border-background: var(--rc-color-primary);
+  --rc-avatar-border-background: var(--rc-color-secondary);
 
   --rc-avatar-border-width: #{$avatar-border-width};
   --rc-avatar-border-color: #{$avatar-border-color};
@@ -26,14 +35,23 @@ $avatar-font-size_large: 1rem;
   --rc-avatar-image-primary-color: #{$avatar-image-primary-color};
   --rc-avatar-image-default-padding: #{$avatar-image-default-padding};
 
-  --rc-avatar-size_small: #{$avatar-size_small};
-  --rc-avatar-font-size_small: #{$avatar-font-size_small};
+  --rc-avatar-tiny-size: #{$avatar-tiny-size};
+  --rc-avatar-tiny-font-size: #{$avatar-tiny-font-size};
 
-  --rc-avatar-size_medium: #{$avatar-size_medium};
-  --rc-avatar-font-size_medium: #{$avatar-font-size_medium};
+  --rc-avatar-extra-small-size: #{$avatar-extra-small-size};
+  --rc-avatar-extra-small-font-size: #{$avatar-extra-small-font-size};
 
-  --rc-avatar-size_large: #{$avatar-size_large};
-  --rc-avatar-font-size_large: #{$avatar-font-size_large};
+  --rc-avatar-small-size: #{$avatar-small-size};
+  --rc-avatar-small-font-size: #{$avatar-small-font-size};
+
+  --rc-avatar-medium-size: #{$avatar-medium-size};
+  --rc-avatar-medium-font-size: #{$avatar-medium-font-size};
+
+  --rc-avatar-large-size: #{$avatar-large-size};
+  --rc-avatar-large-font-size: #{$avatar-large-font-size};
+
+  --rc-avatar-extra-large-size: #{$avatar-extra-large-size};
+  --rc-avatar-extra-large-font-size: #{$avatar-extra-large-font-size};
 }
 
 @include roq-component("avatar") {
@@ -51,35 +69,54 @@ $avatar-font-size_large: 1rem;
   overflow: hidden;
   user-select: none;
 
-  &-rounded {
+  &--rounded {
     border-radius: 50%;
   }
 
-  &-square {
+  &--square {
     border-radius: var(--rc-border-radius);
   }
 
-  &-border {
+  &--border,
+  &--initials {
     border: var(--rc-avatar-border-width) solid var(--rc-avatar-border-color);
   }
 
-  &_size {
+  &--size {
+    &-tiny {
+      width: var(--rc-avatar-tiny-size);
+      height: var(--rc-avatar-tiny-size);
+      font-size: var(--rc-avatar-tiny-font-size);
+    }
+
+    &-extra-small {
+      width: var(--rc-avatar-extra-small-size);
+      height: var(--rc-avatar-extra-small-size);
+      font-size: var(--rc-avatar-extra-small-font-size);
+    }
+
     &-small {
-      width: var(--rc-avatar-size_small);
-      height: var(--rc-avatar-size_small);
-      font-size: var(--rc-avatar-font-size_small);
+      width: var(--rc-avatar-small-size);
+      height: var(--rc-avatar-small-size);
+      font-size: var(--rc-avatar-small-font-size);
     }
 
     &-medium {
-      width: var(--rc-avatar-size_medium);
-      height: var(--rc-avatar-size_medium);
-      font-size: var(--rc-avatar-font-size_medium);
+      width: var(--rc-avatar-medium-size);
+      height: var(--rc-avatar-medium-size);
+      font-size: var(--rc-avatar-medium-font-size);
     }
 
     &-large {
-      width: var(--rc-avatar-size_large);
-      height: var(--rc-avatar-size_large);
-      font-size: var(--rc-avatar-font-size_large);
+      width: var(--rc-avatar-large-size);
+      height: var(--rc-avatar-large-size);
+      font-size: var(--rc-avatar-large-font-size);
+    }
+
+    &-extra-large {
+      width: var(--rc-avatar-extra-large-size);
+      height: var(--rc-avatar-extra-large-size);
+      font-size: var(--rc-avatar-extra-large-font-size);
     }
   }
 
