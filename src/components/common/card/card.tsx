@@ -2,8 +2,9 @@ import React, { ComponentType, ReactNode, useMemo } from 'react'
 import clsx from 'clsx'
 import './card.scss'
 import type { ClassValue } from 'clsx'
+import { COMPONENT_CLASS_PREFIX } from 'src/utils/constant'
 
-const _CLASS_IS = 'roq-' + 'card'
+const _CLASS_IS = COMPONENT_CLASS_PREFIX + 'card'
 interface ChildrenBaseProps {
   Container?: ComponentType<any>
   className?: ClassValue

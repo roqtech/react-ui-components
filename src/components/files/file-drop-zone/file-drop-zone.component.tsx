@@ -4,20 +4,17 @@ import { useDropzone } from 'react-dropzone';
 import { useRoqComponents } from 'src/components/core/roq-provider';
 import { useFileUploader } from 'src/hooks/files';
 import clsx from 'clsx';
-import './file-upload-drop-zone.scss';
 import { FileIcon, PlusIcon } from 'src/components/icons';
 import { ActiveUploads } from 'src/components/files/active-uploads';
-import {
-    FileUploadDropZonePropsInterface
-} from 'src/components/files/file-upload-drop-zone/file-upload-drop-zone.interface';
+import { FileDropZonePropsInterface } from 'src/components/files/file-drop-zone/file-drop-zone.interface';
 import { createFileUploadUrlMutation, updateFileStatusMutation } from 'src/lib/graphql/files';
 import { getFileType } from 'src/utils';
+import './file-drop-zone.scss';
 
-
-const _CLASS_IS = 'roq-file-upload';
+const _CLASS_IS = 'roq-file-drop-zone';
 const withBaseClass = (...classes: string[]): string[] => classes.map((className) => `${_CLASS_IS}-${className}`);
 
-export const FileUploadDropZone = (props: FileUploadDropZonePropsInterface) => {
+export const FileDropZone = (props: FileDropZonePropsInterface) => {
     const {
         classNames,
         components,
@@ -25,7 +22,10 @@ export const FileUploadDropZone = (props: FileUploadDropZonePropsInterface) => {
         onUploadSuccess,
         accept,
         showDropZone,
-        showUploadButton
+        showUploadButton,
+        fileCategory,
+        fileAssociationOptions,
+        customMetaData
     } = props;
     const { t } = useRoqComponents();
     const [showActiveUploads, setShowActiveUploads] = useState(false);
@@ -43,7 +43,9 @@ export const FileUploadDropZone = (props: FileUploadDropZonePropsInterface) => {
                 createFileDto: {
                     name: file?.name,
                     contentType: getFileType(file),
-                    fileCategory: 'USER_FILES',
+                    fileCategory,
+                    fileAssociationOptions,
+                    customMetaData
                 }
             }),
             mutationName: 'createFileUploadUrl',
@@ -155,7 +157,7 @@ export const FileUploadDropZone = (props: FileUploadDropZonePropsInterface) => {
     );
 }
 
-FileUploadDropZone.defaultProps = {
+FileDropZone.defaultProps = {
     showUploadButton: true,
     showDropZone: true,
 }

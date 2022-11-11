@@ -123,5 +123,18 @@
     "download-file": "Download",
     "deleted_successfully_bulk": "Files deleted successfully",
     "deleted_successfully": "{{fileName}} is deleted successfully"
+  },
+  "common": {
+    "loading": "Loading…",
+    "all": "all",
+    "unread": "unread",
+    "Notification": "Notification",
+    "Notification-preference": "Notification preference"
+  },
+  "notification": {
+    "mark-as-read": "Mark notification as read",
+    "mark-as-unread": "Mark notification as unread",
+    "channel-in-app": "In-app",
+    "channel-email": "Email"
   }
 }

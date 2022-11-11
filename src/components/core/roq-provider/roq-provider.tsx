@@ -138,6 +138,12 @@ export const RoqProvider = (props: RoqProviderPropsInterface) => {
     );
   }
 
+  useEffect(() => {
+    if (props.config?.token) {
+      _setToken(props.config?.token);
+    }
+  }, [props.config])
+
   const refetchPlatformToken = useCallback(() => {
     return new Promise((res, rej) => {
       try {
