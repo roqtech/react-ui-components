@@ -1,15 +1,15 @@
 @import "../../../styles/styles.scss";
 
-.roq-file-upload-input {
+.roq-file-drop-zone-input {
   display: none;
 }
 
-.roq-file-upload-drop-zone-wrapper {
+.roq-file-drop-zone-drop-zone-wrapper {
   flex: 1;
   display: flex;
 }
 
-.roq-file-upload-drop-zone {
+.roq-file-drop-zone-drop-zone {
   flex: 1;
   display: flex;
   background: $blueGray-100;
@@ -22,7 +22,7 @@
   padding: 200px;
 }
 
-.roq-file-upload-drop-text {
+.roq-file-drop-zone-drop-text {
   font-size: 1.25rem;
   line-height: 1.75rem;
   letter-spacing: 0.15rem;
@@ -30,7 +30,7 @@
 }
 
 
-.roq-file-upload-button {
+.roq-file-drop-zone-button {
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;
@@ -58,22 +58,22 @@
 }
 
 
-.roq-file-upload-button:disabled {
+.roq-file-drop-zone-button:disabled {
   cursor: default;
   pointer-events: none;
   background: $blueGray-200;
 }
 
-.roq-file-upload-primary {
+.roq-file-drop-zone-primary {
   background: $infoLight;
 }
 
-.roq-file-upload-button-icon {
+.roq-file-drop-zone-button-icon {
   fill:  map-get($light-pallete, 'white');
   stroke:  map-get($light-pallete, 'white');
 }
 
-.roq-file-upload-action-bar {
+.roq-file-drop-zone-action-bar {
   display: flex;
   direction: ltr;
   flex-direction: row;

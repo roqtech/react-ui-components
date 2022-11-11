@@ -10,13 +10,14 @@ import {
 } from 'src/interfaces/react-helper.interface';
 import { FileIconPropsInterface, PlusIconPropsInterface } from 'src/components/icons';
 import { DropzoneInputProps, DropzoneRootProps } from 'react-dropzone';
+import { CreateFileUploadUrlMutationVariables } from 'src/lib/graphql/hooks/generated';
 
-export interface FileUploadDropZonePropsInterface {
+export interface FileDropZonePropsInterface extends Pick<CreateFileUploadUrlMutationVariables['createFileDto'], 'fileAssociationOptions' | 'fileCategory' | 'customMetaData'> {
     accept?: string[],
     showUploadButton?: boolean,
     showDropZone?: boolean,
-    onUploadSuccess: FileUploaderOptions['onSuccess'],
-    onUploadFail: FileUploaderOptions['onError'],
+    onUploadSuccess?: FileUploaderOptions['onSuccess'],
+    onUploadFail?: FileUploaderOptions['onError'],
     components?: {
         activeUploads?: ComponentType<ActiveUploadsPropsInterface>,
         actionBar?: HTMLComponentTypeWithChildren,
