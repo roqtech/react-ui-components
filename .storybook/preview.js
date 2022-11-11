@@ -127,6 +127,11 @@ export const decorators = [
     return <Story />;
   },
   (Story, context) => {
+    const skipProvider = ['roq-components-notification-list', 'roq-components-notification-bell']
+    if (skipProvider.includes(context?.componentId)) {
+      return Story()
+    }
+    
     const { host, tenantId, apiKey, serviceAccount } = hostConfig;
 
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
