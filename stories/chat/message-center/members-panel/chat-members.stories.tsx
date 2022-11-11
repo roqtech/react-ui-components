@@ -5,7 +5,7 @@ import { ChatMembers } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/MessageCenter/ChatMembersPanel/ChatMemberList/ChatMembers",
+    "Roq Components/Chat/ChatMembersPanel/ChatMemberList/ChatMembers",
   component: ChatMembers,
   argTypes: {},
 } as ComponentMeta<typeof ChatMembers>;

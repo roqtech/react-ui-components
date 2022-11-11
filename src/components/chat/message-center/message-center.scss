@@ -1,12 +1,15 @@
 @import "../../../styles/styles.scss";
 
+$sidebar-width: 420px; // 418 - 1px border+shadow
+$chat-gap: calc(var(--rc-step) * 3.75);
+
 :root {
   --rc-message-center-flex: flex;
   --rc-message-center-flex-direction: column;
   --rc-message-center-width: 100%;
   --rc-message-center-min-width: 100%;
   --rc-message-center-height: 100%;
-  --rc-message-center-gap: calc(var(--rc-step) * 6);
+  --rc-message-center-gap: #{$chat-gap};
   --rc-message-center-background: transparent;
 
   --rc-message-center-header-title-font-weight: var(--rc-font-weight-bolder);
@@ -30,9 +33,9 @@
   --rc-message-center-content-border: none;
   --rc-message-center-content-radius: 0;
   --rc-message-center-content-box-shadow: none;
-  --rc-message-center-content-spacing: calc(var(--rc-step) * 6);
+  --rc-message-center-content-spacing: #{$chat-gap};
 
-  --rc-message-center-content-sidebar-width: 400px;
+  --rc-message-center-content-sidebar-width: #{$sidebar-width};
   --rc-message-center-content-sidebar-flex-shrink: 0;
   --rc-message-center-content-sidebar-min-width: 0;
   --rc-message-center-content-sidebar-margin: 0 0 0
@@ -54,7 +57,7 @@
 
   background: var(--rc-message-center-background);
 
-  &__header {
+  & &__header {
     box-sizing: border-box;
     display: flex;
     flex-flow: row wrap;
@@ -111,7 +114,7 @@
     }
   }
 
-  &__content {
+  & &__content {
     box-sizing: border-box;
     display: var(--rc-message-center-content-display);
     height: var(--rc-message-center-content-height);
@@ -131,7 +134,7 @@
       width: var(--rc-message-center-content-sidebar-width);
       flex-shrink: var(--rc-message-center-content-sidebar-flex-shrink);
       min-width: var(--rc-message-center-content-sidebar-min-width);
-      margin: var(--rc-message-center-content-sidebar-margin);
+      margin: var(a--rc-message-center-content-sidebar-margin);
     }
 
     &__chat {

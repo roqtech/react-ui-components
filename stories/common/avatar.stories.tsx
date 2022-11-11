@@ -1,18 +1,28 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { Avatar } from '../../src';
+import { Avatar } from "../../src";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Roq Components/Common/Avatar',
+  title: "Roq Components/Common/Avatar",
   component: Avatar,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    rounded: { control: 'boolean' },
-    square: { control: 'boolean' },
+    rounded: { control: "boolean" },
+    square: { control: "boolean" },
     size: {
-      control: { type: 'select', options: ['small', 'medium', 'large'] },
+      control: {
+        type: "select",
+        options: [
+          "tiny",
+          "extra-small",
+          "small",
+          "medium",
+          "large",
+          "extra-large",
+        ],
+      },
     },
   },
 } as ComponentMeta<typeof Avatar>;
@@ -25,21 +35,21 @@ Default.args = {};
 
 export const Initials = Template.bind({});
 Initials.args = {
-  initials: 'AB',
-  size: 'medium',
+  initials: "AB",
+  size: "medium",
 };
 
 export const FullName = Template.bind({});
 FullName.args = {
-  name: 'Mose Ewald',
+  name: "Olivia Emma",
 };
 
 export const Image = Template.bind({});
 Image.args = {
-  src: 'https://i.pravatar.cc/40?img=15',
+  src: "/img/avatar1.png",
 };
 
 export const Size = Template.bind({});
 Size.args = {
-  size: 'large',
+  size: "large",
 };

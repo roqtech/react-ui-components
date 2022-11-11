@@ -1,3 +1,4 @@
+export { Presence, PresencePropsInterface } from "./presence";
 export { Avatar, AvatarPropsInterface } from "./avatar";
 export { AvatarGroup, AvatarGroupPropsInterface } from "./avatar-group";
 export { Badge, BadgePropsInterface } from "./badge";

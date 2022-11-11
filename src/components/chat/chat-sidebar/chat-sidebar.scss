@@ -1,0 +1,57 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-sidebar-padding: 0;
+
+  --rc-chat-sidebar-header-padding: calc(var(--rc-step) * 2);
+  --rc-chat-sidebar-header-margin: 2px 0 calc(var(--rc-step) * 2.25) 0;
+
+  --rc-chat-sidebar-header-top-margin: 0 0 0 0;
+
+  --rc-chat-sidebar-header-top-title-margin: 0px;
+  --rc-chat-sidebar-header-top-title-font-size: var(--rc-font-size-3xl);
+  --rc-chat-sidebar-header-top-title-font-weight: var(--rc-font-weight-bolder);
+
+  --rc-chat-sidebar-list-padding: 0;
+}
+
+@include roq-component("chat-sidebar") {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: var(--rc-chat-sidebar-padding);
+
+  & &__header {
+    padding: var(--rc-chat-sidebar-header-padding);
+    margin: var(--rc-chat-sidebar-header-margin);
+
+    &__top {
+      margin: var(--rc-chat-sidebar-header-top-margin);
+
+      &__title {
+        margin: var(--rc-chat-sidebar-header-top-title-margin);
+        font-size: var(--rc-chat-sidebar-header-top-title-font-size);
+        font-weight: var(--rc-chat-sidebar-header-top-title-font-weight);
+      }
+    }
+
+    &__search {
+      margin-top: 20px;
+      width: 100%;
+      height: 42px;
+
+      background: #ffffff;
+      border-radius: 8px;
+
+      outline: none;
+      border: none;
+    }
+  }
+
+  & &__list {
+    padding: var(--rc-chat-sidebar-list-padding);
+    flex-grow: 1;
+  }
+}

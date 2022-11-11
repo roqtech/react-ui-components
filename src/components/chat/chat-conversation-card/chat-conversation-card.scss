@@ -149,6 +149,8 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
     width: 100%;
 
     &__avatars {
+      flex-shrink: 0;
+      min-width: 0;
     }
 
     &__title {

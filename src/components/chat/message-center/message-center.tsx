@@ -36,6 +36,8 @@ import { useRoqTranslation } from "src/components/core/roq-provider";
 import { ChatConversationNotSelectedPanelPropsInterface } from "../chat-conversation-not-selected-panel";
 import { ChatMembersPanelPropsInterface } from "../chat-members-panel";
 import { ChatPropsInterface } from "../chat";
+import { ChatSidebar } from "src/components";
+import { ChatCreateConversationRequestPayloadInterface } from "src/interfaces";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "message-center";
 
@@ -143,7 +145,7 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const ButtonIcon = components?.ButtonIcon ?? DefaultCreateConversationIcon;
   const Content = components?.Content || "div";
 
-  const Sidebar = components?.Sidebar ?? ChatConversationList;
+  const Sidebar = components?.Sidebar ?? ChatSidebar;
 
   const ConversationNotSelected =
     components?.ConversationNotSelected ?? ChatConversationNotSelectedPanel;
@@ -362,49 +364,33 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
     >
-      <Header className={clsx(_CLASS_IS + "__header", classNames?.header)}>
-        <Title
-          className={clsx(_CLASS_IS + "__header__title", classNames?.title)}
-        >
-          {title ?? t("chat.message-center.title", "Title")}
-        </Title>
-        <Button
-          className={clsx(_CLASS_IS + "__header__button", classNames?.button)}
-          onClick={handleActionButtonClick}
-        >
-          <ButtonIcon className={clsx(_CLASS_IS + "__header__button__icon")} />
-          {showActionButton && (
-            <ButtonLabel
-              className={clsx(_CLASS_IS + "__header__button__label")}
-            >
-              {actionButtonLabel ?? t("chat.message-center.new-chat")}
-            </ButtonLabel>
-          )}
-        </Button>
-      </Header>
-
       <Content className={clsx(_CLASS_IS + "__content", classNames?.content)}>
         {showSidebar && (
           <>
             <Sidebar
+              title={title}
               className={clsx(
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar
               )}
-              onConversationSelect={handleConversationClick}
-              components={{
-                ConversationMenu: renderConversationMenu("sidebar"),
-              }}
             />
 
             {isConversationNotSelectedScreen && (
               <ConversationNotSelected
+                className={clsx(
+                  _CLASS_IS + "__content_chat",
+                  classNames?.sidebar
+                )}
                 message={conversationNotSelectedMessage}
               />
             )}
 
             {isConversationSelectedScreen && (
               <ConversationSelected
+                className={clsx(
+                  _CLASS_IS + "__content__chat",
+                  classNames?.sidebar
+                )}
                 components={{
                   ConversationMenu: renderConversationMenu("chat"),
                 }}

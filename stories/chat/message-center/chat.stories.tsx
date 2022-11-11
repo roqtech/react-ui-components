@@ -5,7 +5,7 @@ import { ChatConversations, MessageCenter } from "../../../src";
 import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/MessageCenter",
+  title: "Roq Components/Chat",
   component: ChatConversations,
   argTypes: {
     title: { control: "text" },
@@ -24,7 +24,7 @@ export default {
       <div
         style={{
           backgroundColor: "white",
-          height: "calc(100vh - 40px)",
+          height: "calc(100vh - 80px)",
           minHeight: "700px",
           boxSizing: "border-box",
           margin: 24,
@@ -43,7 +43,6 @@ const Template: ComponentStory<typeof ChatConversations> = ({ ...args }) => {
 export const Default = Template.bind({});
 Default.args = {
   showActionButton: true,
-  title: "Message Center",
   actionButtonLabel: "Create new chat",
   conversationTitle: "Chat",
   groupConverstionTitle: "Group Chat",

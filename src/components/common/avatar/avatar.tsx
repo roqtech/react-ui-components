@@ -9,7 +9,13 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "avatar";
 
-type AvatarSizeType = "small" | "medium" | "large";
+export type AvatarSizeType =
+  | "tiny"
+  | "extra-small"
+  | "small"
+  | "medium"
+  | "large"
+  | "extra-large";
 
 export interface AvatarPropsInterface {
   name?: string;
@@ -29,12 +35,15 @@ export interface AvatarPropsInterface {
   };
 }
 
-const avatarSizeToClassName = (size: AvatarSizeType) => {
+export const avatarSizeToClassName = (prefix: string, size: AvatarSizeType) => {
   switch (size) {
+    case "tiny":
+    case "extra-small":
     case "small":
     case "medium":
     case "large":
-      return _CLASS_IS + `_size-${size}`;
+    case "extra-large":
+      return prefix + `--size-${size}`;
   }
 };
 
@@ -82,11 +91,12 @@ export const Avatar = (props: AvatarPropsInterface) => {
         _CLASS_IS,
         className,
         classNames?.container,
-        avatarSizeToClassName(size),
+        avatarSizeToClassName(_CLASS_IS, size),
         {
-          [_CLASS_IS + "-rounded"]: rounded,
-          [_CLASS_IS + "-square"]: square,
-          [_CLASS_IS + "-border"]: border,
+          [_CLASS_IS + "--rounded"]: rounded,
+          [_CLASS_IS + "--square"]: square,
+          [_CLASS_IS + "--border"]: border,
+          [_CLASS_IS + "--initials"]: !!abbr,
         }
       )}
     >

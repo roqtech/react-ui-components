@@ -22,10 +22,15 @@ import { ChatFormattedMessagePropsInterface } from "../chat-formatted-message";
 import { BadgePropsInterface } from "src/components/common/badge";
 import { StackedTextPropsInterface } from "src/components/common/stacked-text";
 import { AvatarGroupPropsInterface } from "src/components/common/avatar-group";
+import { AvatarSizeType } from "src/components/common/avatar/avatar";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card";
 
-export interface ChatConversationCardPropsInterface extends ChatConversationInterface {
+export interface ChatConversationCardPropsInterface
+  extends ChatConversationInterface {
+  oneToOneChatAvatarSize?: AvatarSizeType;
+  groupChatAvatarSize?: AvatarSizeType;
+
   timestamp?: Date;
   children?: ReactNode;
   selected?: boolean;
@@ -73,8 +78,10 @@ export interface ChatConversationCardPropsInterface extends ChatConversationInte
   };
 }
 
-export const ChatConversationCard = (props: ChatConversationCardPropsInterface) => {
-  const { style, className, classNames, components } = props;
+export const ChatConversationCard = (
+  props: ChatConversationCardPropsInterface
+) => {
+  const { style, className, classNames, components, ...rest } = props;
   const {
     children,
     title,
@@ -85,7 +92,10 @@ export const ChatConversationCard = (props: ChatConversationCardPropsInterface) 
     unreadCount = 0,
     onClick,
     actions,
-  } = props;
+    isGroup,
+    oneToOneChatAvatarSize = "extra-large",
+    groupChatAvatarSize = "medium",
+  } = rest;
 
   const Container = components?.Container ?? "div";
   const Inner = components?.Inner ?? "div";
@@ -97,6 +107,18 @@ export const ChatConversationCard = (props: ChatConversationCardPropsInterface) 
   const Message = components?.Message ?? ChatFormattedMessage;
 
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
+
+  const avatarSize = useMemo(
+    () => (isGroup ? groupChatAvatarSize : oneToOneChatAvatarSize),
+    [isGroup, oneToOneChatAvatarSize, groupChatAvatarSize]
+  );
+
+  const avatarMaxCount = useMemo(() => (isGroup ? 2 : 1), [isGroup]);
+
+  const avatarUsers = useMemo(
+    () => (isGroup ? members : [members[0]]),
+    [isGroup, members]
+  );
 
   return (
     <Container
@@ -113,9 +135,10 @@ export const ChatConversationCard = (props: ChatConversationCardPropsInterface) 
           <>
             <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
               <Avatars
-                users={members}
-                maxCount={1}
-                size="large"
+                users={avatarUsers}
+                maxCount={avatarMaxCount}
+                size={avatarSize}
+                displayTotal={isGroup}
                 className={clsx(
                   _CLASS_IS + "__top__avatars",
                   classNames?.avatars

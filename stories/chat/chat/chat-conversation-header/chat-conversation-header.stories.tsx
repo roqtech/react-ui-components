@@ -19,37 +19,25 @@ export const Default = Template.bind({});
 Default.args = {
   title: "Group chat",
   members: [
-    { fullName: "Mose Ewald", avatar: "https://i.pravatar.cc/60?img=15" },
-    { fullName: "Susan Gomez", avatar: "https://i.pravatar.cc/60?img=1" },
-    { fullName: "Piper Wong", avatar: "https://i.pravatar.cc/60?img=14" },
-    { fullName: "Jared Brewer", avatar: "https://i.pravatar.cc/60?img=12" },
+    { fullName: "Olivia Emma", avatar: "/img/avatar1.png" },
+    { fullName: "Susan Gomez", avatar: "/img/avatar2.png" },
+    { fullName: "Piper Wong", avatar: "/img/avatar3.png" },
   ],
+};
+
+export const Chat = Template.bind({});
+Chat.args = {
+  title: "Olivia Emma",
+  members: [{ fullName: "Piper Wong", avatar: "/img/avatar3.png" }],
 };
 
 export const CustomMemberFormat = Template.bind({});
 CustomMemberFormat.args = {
   title: "Group chat",
   members: [
-    {
-      fullName: "Mose Ewald",
-      initials: "ME",
-      avatar: "https://i.pravatar.cc/60?img=15",
-    },
-    {
-      fullName: "Susan Gomez",
-      initials: "SG",
-      avatar: "https://i.pravatar.cc/60?img=1",
-    },
-    {
-      fullName: "Piper Wong",
-      initials: "PW",
-      avatar: "https://i.pravatar.cc/60?img=14",
-    },
-    {
-      fullName: "Jared Brewer",
-      initials: "JB",
-      avatar: "https://i.pravatar.cc/60?img=12",
-    },
+    { fullName: "Olivia Emma", avatar: "/img/avatar1.png" },
+    { fullName: "Susan Gomez", avatar: "/img/avatar2.png" },
+    { fullName: "Piper Wong", avatar: "/img/avatar3.png" },
   ],
   formatMembers: (members) =>
     members.map((member) => member.initials).join("/"),

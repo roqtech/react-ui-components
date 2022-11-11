@@ -1,12 +1,15 @@
 {
   "chat": {
     "message-center": {
-      "title": "Message Center",
+      "title": "Messages",
       "new-chat": "Create new chat",
       "one-to-one-conversation-title": "Chat",
       "group-conversation-title": "Group Chat",
       "add-member": "Add users to the group",
       "remove-member": "Remove users from the group"
+    },
+    "sidebar": {
+      "title": "Messages"
     },
     "panel": {
       "conversation-not-selected": {

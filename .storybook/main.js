@@ -17,6 +17,7 @@ module.exports = {
   core: {
     builder: "webpack5",
   },
+  staticDirs: ["../public", "../static"],
   resolve: {
     alias: {
       styles: path.join(__dirname, "..", "src", "styles"),
