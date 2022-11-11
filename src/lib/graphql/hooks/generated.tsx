@@ -1119,14 +1119,12 @@ export type MutationmakeFilePublicArgs = {
 
 export type MutationmarkMessageActionSeenArgs = {
   messageId: Scalars['String'];
-  subscriberId: Scalars['String'];
   type: NotificationActionTypeEnum;
 };
 
 
 export type MutationmarkMessageSeenArgs = {
   messageId: Scalars['String'];
-  subscriberId: Scalars['String'];
 };
 
 
@@ -1311,7 +1309,7 @@ export type NotificationActivityModel = {
   lastSeenDate?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   providerId?: Maybe<Scalars['String']>;
-  seen: Scalars['String'];
+  seen: Scalars['Boolean'];
   status: NotificationStatusEnum;
   subject?: Maybe<Scalars['String']>;
   subscriber: NotificationSubscriberModel;
@@ -1366,11 +1364,11 @@ export type NotificationCategoryModel = {
 };
 
 export enum NotificationChannelEnum {
-  chat = 'chat',
-  email = 'email',
-  inApp = 'inApp',
-  push = 'push',
-  sms = 'sms'
+  Chat = 'chat',
+  Email = 'email',
+  InApp = 'inApp',
+  Push = 'push',
+  Sms = 'sms'
 }
 
 export type NotificationChannelModel = {
@@ -2018,11 +2016,6 @@ export type QueryrolesArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order?: InputMaybe<RoleOrderArgType>;
   search?: InputMaybe<RoleSearchArgType>;
-};
-
-
-export type QuerysubscriberUnseenCountArgs = {
-  subscriberId: Scalars['String'];
 };
 
 
@@ -3176,10 +3169,17 @@ export type FilesQueryVariables = Exact<{
 
 export type FilesQuery = { __typename?: 'Query', files: { __typename?: 'FilePageModel', totalCount: number, data: Array<{ __typename?: 'FileModel', id: string, name: string, url?: string | null, isPublic: boolean, createdAt: any, status: FileStatusEnum }> } };
 
-export type notificationsFeedQueryVariables = Exact<{ [key: string]: never; }>;
+export type NotificationsFeedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type notificationsFeedQuery = { __typename?: 'Query', notificationFeed: { __typename?: 'NotificationActivityPageModel', totalCount: number, data: Array<{ __typename?: 'NotificationActivityModel', id: string, channel: NotificationChannelEnum, content: string, seen: string, lastSeenDate?: string | null, title?: string | null, createdAt: any }> } };
+export type NotificationsFeedQuery = { __typename?: 'Query', notificationFeed: { __typename?: 'NotificationActivityPageModel', totalCount: number, data: Array<{ __typename?: 'NotificationActivityModel', id: string, content: string, channel: NotificationChannelEnum, seen: boolean, lastSeenDate?: string | null, title?: string | null, createdAt: any }> } };
+
+export type MarkAsSeenNotificationMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type MarkAsSeenNotificationMutation = { __typename?: 'Mutation', markMessageSeen: { __typename?: 'NotificationActivityModel', id: string, seen: boolean } };
 
 
 export const DeleteFilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteFiles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteFiles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"valueIn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}}]}}]}]}}]} as unknown as DocumentNode;
@@ -3401,31 +3401,57 @@ export function useFilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<File
 export type FilesQueryHookResult = ReturnType<typeof useFilesQuery>;
 export type FilesLazyQueryHookResult = ReturnType<typeof useFilesLazyQuery>;
 export type FilesQueryResult = Apollo.QueryResult<FilesQuery, FilesQueryVariables>;
-export const notificationsFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notificationsFeed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationFeed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"channel"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"seen"}},{"kind":"Field","name":{"kind":"Name","value":"channel"}},{"kind":"Field","name":{"kind":"Name","value":"lastSeenDate"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode;
+export const NotificationsFeedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NotificationsFeed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationFeed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"channel"}},{"kind":"Field","name":{"kind":"Name","value":"seen"}},{"kind":"Field","name":{"kind":"Name","value":"lastSeenDate"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode;
 
 /**
- * __usenotificationsFeedQuery__
+ * __useNotificationsFeedQuery__
  *
- * To run a query within a React component, call `usenotificationsFeedQuery` and pass it any options that fit your needs.
- * When your component renders, `usenotificationsFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNotificationsFeedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNotificationsFeedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usenotificationsFeedQuery({
+ * const { data, loading, error } = useNotificationsFeedQuery({
  *   variables: {
  *   },
  * });
  */
-export function usenotificationsFeedQuery(baseOptions?: Apollo.QueryHookOptions<notificationsFeedQuery, notificationsFeedQueryVariables>) {
+export function useNotificationsFeedQuery(baseOptions?: Apollo.QueryHookOptions<NotificationsFeedQuery, NotificationsFeedQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<notificationsFeedQuery, notificationsFeedQueryVariables>(notificationsFeedDocument, options);
+        return Apollo.useQuery<NotificationsFeedQuery, NotificationsFeedQueryVariables>(NotificationsFeedDocument, options);
       }
-export function usenotificationsFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<notificationsFeedQuery, notificationsFeedQueryVariables>) {
+export function useNotificationsFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NotificationsFeedQuery, NotificationsFeedQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<notificationsFeedQuery, notificationsFeedQueryVariables>(notificationsFeedDocument, options);
+          return Apollo.useLazyQuery<NotificationsFeedQuery, NotificationsFeedQueryVariables>(NotificationsFeedDocument, options);
         }
-export type notificationsFeedQueryHookResult = ReturnType<typeof usenotificationsFeedQuery>;
-export type notificationsFeedLazyQueryHookResult = ReturnType<typeof usenotificationsFeedLazyQuery>;
-export type notificationsFeedQueryResult = Apollo.QueryResult<notificationsFeedQuery, notificationsFeedQueryVariables>;
+export type NotificationsFeedQueryHookResult = ReturnType<typeof useNotificationsFeedQuery>;
+export type NotificationsFeedLazyQueryHookResult = ReturnType<typeof useNotificationsFeedLazyQuery>;
+export type NotificationsFeedQueryResult = Apollo.QueryResult<NotificationsFeedQuery, NotificationsFeedQueryVariables>;
+export const MarkAsSeenNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsSeenNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markMessageSeen"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"messageId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seen"}}]}}]}}]} as unknown as DocumentNode;
+
+/**
+ * __useMarkAsSeenNotificationMutation__
+ *
+ * To run a mutation, you first call `useMarkAsSeenNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkAsSeenNotificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markAsSeenNotificationMutation, { data, loading, error }] = useMarkAsSeenNotificationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMarkAsSeenNotificationMutation(baseOptions?: Apollo.MutationHookOptions<MarkAsSeenNotificationMutation, MarkAsSeenNotificationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkAsSeenNotificationMutation, MarkAsSeenNotificationMutationVariables>(MarkAsSeenNotificationDocument, options);
+      }
+export type MarkAsSeenNotificationMutationHookResult = ReturnType<typeof useMarkAsSeenNotificationMutation>;
+export type MarkAsSeenNotificationMutationResult = Apollo.MutationResult<MarkAsSeenNotificationMutation>;
+export type MarkAsSeenNotificationMutationOptions = Apollo.BaseMutationOptions<MarkAsSeenNotificationMutation, MarkAsSeenNotificationMutationVariables>;

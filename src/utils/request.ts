@@ -5,9 +5,10 @@ import _get from 'lodash/get';
 
 export interface IRequest {
     url: string
-    query: string | DocumentNode,
+    query?: string | DocumentNode,
     headers?: Record<string, unknown>,
     variables?: Record<string, unknown>
+    body?: Record<string, unknown>
 }
 
 export const request = (args: IRequest, dataPath: string = '') => fetch(args.url, {
@@ -16,10 +17,10 @@ export const request = (args: IRequest, dataPath: string = '') => fetch(args.url
         'Content-Type': 'application/json',
         ...(args.headers ?? {})
     },
-    body: JSON.stringify({
+    body: args?.body ? JSON.stringify(args.body) : args.query ? JSON.stringify({
         query: typeof args.query === 'object' ? print(args.query) : args.query,
         variables: args.variables ?? undefined
-    })
+    }) : undefined
 }).then(async (_data) => {
     const data = await _data.json()
     if (dataPath) {

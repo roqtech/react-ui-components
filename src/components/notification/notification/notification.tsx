@@ -5,31 +5,28 @@ import dayjs from 'dayjs'
 import type { ClassValue } from 'clsx'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Card, ToggleGroup, ToggleGroupItem } from 'src/components/common'
-import {
-  MarkNotificationAsRead,
-  MarkNotificationAsUnRead,
-} from 'src/lib/graphql/notification/query'
-import { NotificationsFeedQuery, NotificationsFeedQueryVariables } from 'src/lib/graphql/types/graphql'
+import { MarkNotificationSeen } from 'src/lib/graphql/notification/query'
+import { NotificationsFeedQuery } from 'src/lib/graphql/types/graphql'
 import { NotificationReadButton } from 'src/components/notification/notification-read-button'
 import { Avatar } from 'src/components/common'
-import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
-import { QueryResult } from '@apollo/client'
+import { useFetchNotificationsFeed } from 'src/components/notification/hooks'
 import { TransformErrorInterface, transformApolloError } from 'src/utils'
 import { useRoqTranslation } from 'src/components/core/roq-provider'
+import { NotificationsFeedQueryHookResult } from 'src/lib/graphql/hooks/generated'
+import { COMPONENT_CLASS_PREFIX } from 'src/utils/constant'
 import './notification.scss'
 
 dayjs.extend(relativeTime)
 
-const _CLASS_IS = 'roq-' + 'notification';
+const _CLASS_IS =  COMPONENT_CLASS_PREFIX + 'notification';
 export type NotificationType = 'all' | 'unread'
 export type NotificationContentViewCallbackProps = {
   data: NotificationsFeedQuery['notificationFeed']['data']['0'],
   read: () => Promise<Record<string, any>>
-  unRead: () => Promise<Record<string, any>>
   refetch: () => Promise<Record<string, any>>
 }
 
-export type NotificationLoadingViewCallbackProps = QueryResult<NotificationsFeedQuery, NotificationsFeedQueryVariables>
+export type NotificationLoadingViewCallbackProps = NotificationsFeedQueryHookResult
 export type NotificationChildrenCallbackProps = NotificationLoadingViewCallbackProps & NotificationTypeToggleCallbackProps
 export type NotificationTypeToggleCallbackProps = {
   type: NotificationType,
@@ -70,16 +67,16 @@ export const Notification: React.FC<NotificationProps> = (props) => {
     titleProps,
     children,
     loadingView,
-    // fetchProps,
     onFetchNotificationsSuccess,
     onFetchNotificationsError,
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'all')
-  const fetchResult = useFetchNotificationsInApp({
+  const fetchResult = useFetchNotificationsFeed({
     type,
   }, {
     fetchPolicy: 'cache-and-network',
+    pollInterval: 1000 * 5,
     onCompleted(data) {
       onFetchNotificationsSuccess?.(data)
     },
@@ -101,20 +98,13 @@ export const Notification: React.FC<NotificationProps> = (props) => {
           data: item,
           read: () =>
             client.mutate({
-              mutation: MarkNotificationAsRead,
-              variables: { id: item.id },
-              context: { service: 'platform' },
-            }),
-          unRead: () =>
-            client.mutate({
-              mutation: MarkNotificationAsUnRead,
+              mutation: MarkNotificationSeen,
               variables: { id: item.id },
               context: { service: 'platform' },
             }),
           refetch,
         })
       }
-      const isRead = item.seen !== 'false'
       return (
         <Card
           key={item.id}
@@ -122,27 +112,13 @@ export const Notification: React.FC<NotificationProps> = (props) => {
           subTitle={dayjs(item.createdAt).fromNow()}
           content={
             <div className={clsx(_CLASS_IS + '-item-content')}>
-              {item.content}{' '}
-              {!isRead && (
-                <span>
-                  <svg
-                    width='15'
-                    height='15'
-                    viewBox='0 0 15 15'
-                    fill='currentColor'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z'
-                      fill='currentColor'
-                    ></path>
-                  </svg>
-                </span>
-              )}
+              {item.content}
             </div>
           }
-          headerExtraContent={<NotificationReadButton id={item.id} read={isRead} />}
-          className={clsx(_CLASS_IS + '-item')}
+          headerExtraContent={<NotificationReadButton id={item.id} read={item.seen} />}
+          className={clsx(_CLASS_IS + '-item', {
+            [_CLASS_IS + '-item__unseen']: !item.seen,
+          })}
         />
       )
     })

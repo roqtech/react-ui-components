@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { ActionButton, Menu, MenuItem } from 'src/components/common';
 import { useApolloClient } from '@apollo/client';
-import { useReadNotification, useUnReadNotification } from 'src/components/notification/hooks'
+// import { useReadNotification, useUnReadNotification } from 'src/components/notification/hooks'
 import { useRoqTranslation } from 'src/components/core/roq-provider';
 
 export interface NotificationReadButtonProps {
@@ -13,20 +13,24 @@ const NotificationReadButton: React.FC<NotificationReadButtonProps> = (props) =>
   const { id, read } = props
   const client = useApolloClient()
   const { t } = useRoqTranslation()
-  const [readMutate] = useReadNotification(id)
-  const [unreadMutate] = useUnReadNotification(id)
+  // const [readMutate] = useReadNotification(id)
+  // const [unreadMutate] = useUnReadNotification(id)
   
   const onClick = useCallback(() => {
-    if (read) {
-      unreadMutate().then(() => {
-        client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
-      })
-      return
-    } 
-    readMutate().then(() => {
-      client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
-    })
+    // if (read) {
+    //   unreadMutate().then(() => {
+    //     client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
+    //   })
+    //   return
+    // } 
+    // readMutate().then(() => {
+    //   client.refetchQueries({ include: ['notificationsInAppForCurrentUser'] })
+    // })
   }, [read])
+  
+  if (read) {
+    return null
+  }
   
   return (
     <ActionButton

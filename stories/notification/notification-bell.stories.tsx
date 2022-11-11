@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AppDecorators from '../../.storybook/decorators'
+import { NotificationDecorator } from './notification.decorator'
 import { NotificationBell } from '../../src';
 
 export default {
@@ -24,7 +24,11 @@ export default {
       },
       description: 'Callback render when loading'
     },
-  }
+  },
+  decorators: [
+    NotificationDecorator,
+    (Story) => <div style={{ padding: '2em' }}>{Story()}</div>,
+  ],
 } as ComponentMeta<typeof NotificationBell>;
 
 const Template: ComponentStory<typeof NotificationBell> = (args) => (

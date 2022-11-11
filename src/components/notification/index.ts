@@ -1,6 +1,6 @@
 export { Notification } from './notification'
 export { NotificationBell } from './notification-bell'
-export { NotificationPreference } from './notification-preferences'
+// export { NotificationPreference } from './notification-preferences'
 // type
 export type {
   NotificationLoadingViewCallbackProps,
@@ -12,4 +12,4 @@ export type {
   NotificationType,
 } from './notification'
 export type { NotificationBellProps } from './notification-bell'
-export type { NotificationPreferenceProps, NotificationPreferenceLoadingViewCallbackProps } from './notification-preferences'
+// export type { NotificationPreferenceProps, NotificationPreferenceLoadingViewCallbackProps } from './notification-preferences'

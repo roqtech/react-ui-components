@@ -1,5 +1,4 @@
 import React, { ComponentType, ReactElement, ReactNode, useMemo, useState } from 'react'
-import _get from 'lodash/get'
 import clsx from 'clsx'
 import {
   NotificationChildrenCallbackProps,
@@ -8,11 +7,11 @@ import {
 } from 'src/components/notification/notification'
 import type { ClassValue } from 'clsx'
 import { Avatar } from 'src/components/common'
-import { useFetchNotificationsInApp } from 'src/components/notification/hooks'
+import { useFetchNotificationsFeed } from 'src/components/notification/hooks'
 import { TransformErrorInterface, transformApolloError } from 'src/utils'
-import { NotificationsInAppForCurrentUserQuery } from 'src/lib/graphql/types/graphql'
-import './notification-bell.scss'
+import { NotificationsFeedQuery } from 'src/lib/graphql/types/graphql'
 import { useRoqTranslation } from 'src/components/core/roq-provider'
+import './notification-bell.scss'
 
 const _CLASS_IS = 'roq-' + 'notification-bell'
 interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className' | 'children' | 'style'> {
@@ -33,7 +32,7 @@ interface NotificationBellProps extends Omit<React.HTMLAttributes<HTMLDivElement
     Container?: ComponentType<any>;
     Badge?: ComponentType<any>;
   },
-  onFetchNotificationsSuccess?: (data: NotificationsInAppForCurrentUserQuery) => void
+  onFetchNotificationsSuccess?: (data: NotificationsFeedQuery) => void
   onFetchNotificationsError?: (error: TransformErrorInterface) => void
 }
 const NotificationBell: React.FC<NotificationBellProps> = (props) => {
@@ -50,7 +49,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
     ...rest
   } = props
   const [type, setType] = useState<NotificationType>(typeProp || 'unread')
-  const fetchResult = useFetchNotificationsInApp({ type }, {
+  const fetchResult = useFetchNotificationsFeed({ type }, {
     fetchPolicy: 'cache-and-network',
     onCompleted(data) {
       onFetchNotificationsSuccess?.(data)
@@ -65,7 +64,7 @@ const NotificationBell: React.FC<NotificationBellProps> = (props) => {
   }
   const { loading, data, error, refetch } = fetchResult
   const count = useMemo(
-    () => _get(data, 'loadNotifications.totalCount', 0),
+    () => data?.notificationFeed?.totalCount ?? 0,
     [data],
   )
 

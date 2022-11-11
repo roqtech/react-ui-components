@@ -6,10 +6,10 @@ $notification-title-mb: 16px;
   --rc-notification-title-mb: #{$notification-title-mb}px;
 }
 
-.roq-notification {
+@include roq-component("notification") {
   padding: 1rem;
 }
-.roq-notification-title {
+@include roq-component("notification-title") {
   color: var(--rc-primary-text-color);
   margin-bottom: #{$notification-title-mb};
   > .roq-component-avatar {
@@ -19,7 +19,13 @@ $notification-title-mb: 16px;
   }
 }
 
-.roq-notification-item-content {
+@include roq-component("notification-item__unseen") {
+  border-top-left-radius: 4px 8px !important;
+  border-bottom-left-radius: 4px 8px !important;
+  border-left: 4px solid var(--rc-theme-light-color-primary) !important;
+}
+
+@include roq-component("notification-item-content") {
   position: relative;
   > span {
       position: absolute;
