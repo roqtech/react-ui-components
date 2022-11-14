@@ -4,7 +4,7 @@ import { ChatMembersPanel } from "../../../src";
 import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/ChatMembersPanel",
+  title: "Roq Components/Chat/Panel/ChatMembersPanel",
   component: ChatMembersPanel,
   argTypes: {
     ...chatArgTypes,

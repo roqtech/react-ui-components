@@ -51,10 +51,6 @@ export const parameters = {
             "ChatSidebar",
             ["ChatSearchField", "ChatConversationList"],
             "ChatWindow",
-            "ChatNotificationBell",
-            "ChatMembersPanel",
-            "ChatMemberList",
-            ["ChatMembers", ["ChatMember"]],
             [
               "ChatConversationHeader",
               "ChatMessageList",
@@ -73,7 +69,13 @@ export const parameters = {
               "ChatMessageInput",
               ["ChatMessageEditor"],
             ],
-            "ChatConversationNotSelectedPanel",
+            "ChatNotificationBell",
+            "Panel",
+            [
+              "ChatMembersPanel",
+              ["ChatMemberList", ["ChatMembers", ["ChatMember"]]],
+              "ChatConversationNotSelectedPanel",
+            ],
           ],
           "Locale",
           ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
@@ -99,11 +101,11 @@ const DEMO_STORY = [
   // chat
   "roq-components-chat",
   "roq-components-chat-chatsidebar",
+  "roq-components-chat-chatsidebar-chatconversationlist",
   "roq-components-chat-chatwindow",
-  "roq-components-chat-chatmemberspanel",
-  "roq-components-chat-chatmemberspanel-chatmemberlist",
   "roq-components-chat-chatwindow-chatmessagelist",
-  "roq-components-chat-chatconversationlist",
+  "roq-components-chat-panel-chatmemberspanel",
+  "roq-components-chat-panel-chatmemberspanel-chatmemberlist",
   "roq-components-chat-chatnotificationbell",
   //
 ];
