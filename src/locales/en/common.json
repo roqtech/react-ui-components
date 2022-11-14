@@ -16,7 +16,7 @@
         "title": "You have no messages right now "
       },
       "members": {
-        "title": "With whom would you like to start a conversations?",
+        "title": "New Chat",
         "cancel": "Cancel",
         "submit": "Submit"
       }

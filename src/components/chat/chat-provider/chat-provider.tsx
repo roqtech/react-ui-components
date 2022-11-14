@@ -271,6 +271,8 @@ const defaultGroupMessages = (
     currentMessage = markMessageAsStartOfTheTimeGroup(currentMessage);
   }
 
+  currentMessage = markMessageAsStartOfTheTimeGroup(currentMessage);
+
   return currentMessage;
 };
 

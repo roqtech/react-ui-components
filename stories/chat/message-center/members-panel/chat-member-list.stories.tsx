@@ -12,7 +12,17 @@ export default {
   },
   decorators: [
     ChatDecorator,
-    (Story) => <div style={{ width: 400, height: 500 }}>{Story()}</div>,
+    (Story) => (
+      <div
+        style={{
+          width: 400,
+          height: 500,
+          background: "var(--rc-color-border)",
+        }}
+      >
+        {Story()}
+      </div>
+    ),
   ],
 } as ComponentMeta<typeof ChatMemberList>;
 

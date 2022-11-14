@@ -7,7 +7,7 @@ $submit-button-min-width: 98px;
 $submit-button-height: 36px;
 
 :root {
-  --rc-chat-members-panel-padding: calc(var(--rc-step) * 6);
+  --rc-chat-members-panel-padding: calc(var(--rc-step) * 2);
 
   --rc-chat-members-panel-header-height: 40px;
 
@@ -19,9 +19,14 @@ $submit-button-height: 36px;
   --rc-chat-members-panel-header-title-font-weight: var(
     --rc-font-weight-medium
   );
-  --rc-chat-members-panel-header-title-color: var(--rc-blueGray-900);
+  --rc-chat-members-panel-header-title-color: var(--rc-color-secondary);
 
-  --rc-chat-members-panel-list-margin: calc(var(--rc-step) * 3) 0 calc(var(--rc-step) * 2) 0;
+  &.rc-dark {
+    --rc-chat-members-panel-header-title-color: red;
+  }
+
+  --rc-chat-members-panel-list-margin: calc(var(--rc-step) * 3) 0
+    calc(var(--rc-step) * 2) 0;
 
   --rc-chat-members-panel-actions-spacing: calc(var(--rc-step) * 3);
   --rc-chat-members-panel-actions-margin: 0;
@@ -45,9 +50,7 @@ $submit-button-height: 36px;
     )
     calc(var(--rc-step) * 4);
   --rc-chat-members-panel-actions-cancel-button-shadow: none;
-  --rc-chat-members-panel-actions-cancel-button-radius: var(
-    --rc-border-radius
-  );
+  --rc-chat-members-panel-actions-cancel-button-radius: var(--rc-border-radius);
 
   --rc-chat-members-panel-actions-cancel-button-label-color: var(
     --rc-chat-members-panel-actions-cancel-button-color
@@ -71,9 +74,7 @@ $submit-button-height: 36px;
 
   --rc-chat-members-panel-actions-submit-button-shadow: 0px 4px 16px
     rgba(13, 28, 70, 0.15);
-  --rc-chat-members-panel-actions-submit-button-radius: var(
-    --rc-border-radius
-  );
+  --rc-chat-members-panel-actions-submit-button-radius: var(--rc-border-radius);
 
   --rc-chat-members-panel-actions-submit-button-label-color: var(
     --rc-chat-members-panel-actions-submit-button-color
@@ -87,6 +88,8 @@ $submit-button-height: 36px;
 
 @include roq-component("chat-members-panel") {
   padding: var(--rc-chat-members-panel-padding);
+  display: flex;
+  flex-direction: column;
 
   &__header {
     height: var(--rc-chat-members-panel-header-height);

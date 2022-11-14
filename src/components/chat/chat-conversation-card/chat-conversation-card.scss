@@ -139,6 +139,10 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
   --rc-chat-conversation-card-hover-inner-info-timestamp-color: var(
     --rc-color-white
   );
+
+  --rc-chat-conversation-card-action-color: var(--rc-color-text);
+  --rc-chat-conversation-card-selected-action-color: var(--rc-color-white);
+  --rc-chat-conversation-card-hover-action-color: var(--rc-color-white);
 }
 
 @include roq-component("chat-conversation-card") {
@@ -356,9 +360,13 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
     }
   }
 
+  --roq-action-button-icon-color: var(--rc-chat-conversation-card-action-color);
+
   &--selected,
   &:hover {
-    --roq-action-button-icon-color: green;
+    --roq-action-button-icon-color: var(
+      --rc-chat-conversation-card-selected-action-color
+    );
 
     #{$container} {
       &__inner {

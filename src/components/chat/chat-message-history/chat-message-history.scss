@@ -5,7 +5,7 @@
   --rc-chat-message-history-spacing: calc(var(--rc-step) * 0.75) 0;
 
   --rc-chat-message-history-line-message-no-user-padding: calc(
-    var(--rc-avatar-size_medium) + calc(var(--rc-step) * 1.25)
+    var(--rc-avatar-medium-size) + calc(var(--rc-step) * 1.25)
   );
 }
 

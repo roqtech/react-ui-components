@@ -19,7 +19,6 @@ import {
   ChatConversationNotSelectedPanel,
   ChatMembersPanel,
 } from "src/index";
-import { CreateConversationIcon as DefaultCreateConversationIcon } from "./create-conversation-icon";
 import {
   ChatScreenEnum,
   useChatArchiveConversation,
@@ -127,7 +126,6 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const { style, className, classNames, components } = props;
   const {
     title,
-    actionButtonLabel,
     conversationTitle,
     groupConverstionTitle,
     addMemberTitle,
@@ -138,11 +136,6 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   } = props;
 
   const Container = components?.Container ?? "div";
-  const Header = components?.Header || "div";
-  const Title = components?.Title || "h4";
-  const Button = components?.Button ?? "button";
-  const ButtonLabel = components?.ButtonLabel ?? "span";
-  const ButtonIcon = components?.ButtonIcon ?? DefaultCreateConversationIcon;
   const Content = components?.Content || "div";
 
   const Sidebar = components?.Sidebar ?? ChatSidebar;
@@ -198,14 +191,6 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
   const unselectConversation = useCallback(() => {
     selectConversation(null);
   }, [selectConversation]);
-
-  const handleConversationClick = useCallback(
-    (conversationId) => {
-      selectConversation(conversationId);
-      setScreen(ChatScreenEnum.CONVERSATION_SELECTED);
-    },
-    [selectConversation, setScreen]
-  );
 
   const handleArchiveConversationClick = useCallback(
     (conversationId) => {
@@ -333,11 +318,18 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
 
   const showSidebar = useMemo(
     () =>
+      isCreateNewConversationScreen ||
       isConversationNotSelectedScreen ||
       isConversationSelectedScreen ||
       isConversationAddMembersSceen ||
       isConversationRemoveMembersSceen,
-    [isConversationNotSelectedScreen, isConversationSelectedScreen]
+    [
+      isCreateNewConversationScreen,
+      isConversationNotSelectedScreen,
+      isConversationSelectedScreen,
+      isConversationAddMembersSceen,
+      isConversationRemoveMembersSceen,
+    ]
   );
 
   const renderConversationMenu = (trigger: EditingTriggerType) => (menuProps) =>
@@ -369,6 +361,7 @@ export const MessageCenter = (props: MessageCenterPropsInterface) => {
           <>
             <Sidebar
               title={title}
+              onActionClick={handleActionButtonClick}
               className={clsx(
                 _CLASS_IS + "__content__sidebar",
                 classNames?.sidebar

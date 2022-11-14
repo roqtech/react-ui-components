@@ -23,7 +23,6 @@ export default {
     (Story) => (
       <div
         style={{
-          backgroundColor: "white",
           height: "calc(100vh - 80px)",
           minHeight: "700px",
           boxSizing: "border-box",
