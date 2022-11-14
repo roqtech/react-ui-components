@@ -103,7 +103,7 @@ export const ActiveUploads: React.FC<ActiveUploadsPropsInterface> = (props): Rea
                                 </ProgressBarRow>
                                 <ProgressPercentageColumn className={clsx(`${_CLASS_IS}__progress-percentage-column`)}>
                                     <ProgressPercentage
-                                        className={clsx(`${_CLASS_IS}__progress-percentage`, classNames?.progressPercentage)}>{file.percentage} %</ProgressPercentage>
+                                        className={clsx(`${_CLASS_IS}__progress-percentage`, classNames?.progressPercentage)}>{Math.ceil(file.percentage)} %</ProgressPercentage>
                                 </ProgressPercentageColumn>
                             </ProgressRow>
                         </DetailColumn>

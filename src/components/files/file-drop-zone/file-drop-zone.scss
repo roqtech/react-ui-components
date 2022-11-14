@@ -78,7 +78,8 @@ $drop-zone-container: (
 );
 
 $drop-zone-wrapper: (
-        grid-template-columns: minMax(40vw, 1fr),
+        width:672px,
+        height: 266px,
         display: grid,
         border: 1px dashed var(--rc-color-text),
         background: var(--rc-color-white),
@@ -229,6 +230,6 @@ $drop-text: (
 @media screen and (max-width: $screen-sm-min) {
   :root {
     --rc-file-drop-zone-top-row-padding: 0;
-    --rc-file-drop-zone-wrapper-grid-template-columns: minMax(90vw, 1fr)
+    --rc-file-drop-zone-wrapper-width: 100%;
   }
 }
