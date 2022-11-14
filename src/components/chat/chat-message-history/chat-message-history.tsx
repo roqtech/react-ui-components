@@ -26,6 +26,7 @@ import { ChatMessageMenu } from "src/index";
 import { ActionButton } from "src/components/common";
 import _isEmpty from "lodash/isEmpty";
 import { useRoqTranslation } from "src/components/core/roq-provider";
+import { MailIcon as DefaultIcon } from "./mail-icon";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -43,6 +44,9 @@ export interface ChatMessageHistoryPropsInterface {
     container?: string;
     spacer?: string;
     empty?: string;
+    emtpyIconWrapper?: string;
+    emtpyIcon?: string;
+    emptyMessage?: string;
     line?: string;
     message?: string;
   };
@@ -56,10 +60,18 @@ export interface ChatMessageHistoryPropsInterface {
     Empty: ComponentType<
       Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
     >;
+    EmptyIconWrapper: ComponentType<HTMLAttributes<HTMLElement>>;
+    EmptyIcon: ComponentType<HTMLAttributes<HTMLElement>>;
+    EmptyMessage: ComponentType<HTMLAttributes<HTMLElement>>;
     Line: ComponentType<
       Pick<
         ChatMessageHistoryLinePropsInterface,
-        "messageId" | "isSent" | "className" | "children"
+        | "messageId"
+        | "isSent"
+        | "className"
+        | "showDateSeparator"
+        | "timestamp"
+        | "children"
       >
     >;
     Message: ComponentType<ChatMessagePropsInterface>;
@@ -76,12 +88,16 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
     showAvatarInGroup = false,
     showTimeInGroup = false,
     isEmpty = false,
-    emptyMessage
+    emptyMessage,
   } = props;
 
   const Container = components?.Container ?? "div";
   const Spacer = components?.Spacer ?? "div";
   const Empty = components?.Empty ?? "div";
+  const EmptyIconWrapper = components?.EmptyIconWrapper ?? "div";
+  const EmptyIcon = components?.EmptyIcon ?? DefaultIcon;
+  const EmptyMessage = components?.EmptyMessage ?? "div";
+
   const Line = components?.Line ?? ChatMessageHistoryLine;
   const Message = components?.Message ?? ChatMessage;
 
@@ -96,33 +112,49 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
       const showActions = !isDeleted;
 
       return (
-        <Message
+        <Line
           key={message.id}
-          showUser={message.isFirstInUserGroup ?? showAvatarInGroup}
-          showTime={message.isFirstInTimeGroup ?? showTimeInGroup}
-          {...message}
-          message={message.body}
+          messageId={message.id}
+          isSent={message.isSent}
+          showDateSeparator={message.isFirstInTimeGroup}
           timestamp={message.createdAt}
-          isDeleted={isDeleted}
-          isUpdated={isUpdated}
-          user={message.author}
-          className={clsx(_CLASS_IS + "__line__message", classNames?.message, {
-            [_CLASS_IS + "__line__message" + "--no-user"]:
-              !message.isFirstInUserGroup,
+          className={clsx(_CLASS_IS + "__line", classNames?.line, {
+            [_CLASS_IS + "__line--sent"]: message.isSent,
+            [_CLASS_IS + "__line--received"]: !message.isSent,
           })}
-          actions={
-            showActions && (
-              <ActionButton
-                components={{
-                  Dropdown: ChatMessageMenu,
-                }}
-              />
-            )
-          }
-        />
+        >
+          <Message
+            key={message.id}
+            showUser={message.isFirstInUserGroup ?? showAvatarInGroup}
+            showTime={message.isFirstInTimeGroup ?? showTimeInGroup}
+            {...message}
+            message={message.body}
+            timestamp={message.createdAt}
+            isDeleted={isDeleted}
+            isUpdated={isUpdated}
+            user={message.author}
+            className={clsx(
+              _CLASS_IS + "__line__message",
+              classNames?.message,
+              {
+                [_CLASS_IS + "__line__message" + "--no-user"]:
+                  !message.isFirstInUserGroup,
+              }
+            )}
+            actions={
+              showActions && (
+                <ActionButton
+                  components={{
+                    Dropdown: ChatMessageMenu,
+                  }}
+                />
+              )
+            }
+          />
+        </Line>
       );
     },
-    [Message, classNames?.message, showAvatarInGroup, showTimeInGroup]
+    [Message, Line, classNames?.message, showAvatarInGroup, showTimeInGroup]
   );
 
   return (
@@ -137,23 +169,31 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
       )}
       {showEmpty && (
         <Empty className={clsx(_CLASS_IS + "__empty", classNames?.empty)}>
-          {emptyMessage ?? t('chat.message-history.empty')}
+          <EmptyIconWrapper
+            className={clsx(
+              _CLASS_IS + "__empty__icon-wrapper",
+              classNames?.emtpyIconWrapper
+            )}
+          >
+            <EmptyIcon
+              className={clsx(
+                _CLASS_IS + "__empty__icon-wrapper__icon",
+                classNames?.emtpyIcon
+              )}
+            />
+          </EmptyIconWrapper>
+          <EmptyMessage
+            className={clsx(
+              _CLASS_IS + "__empty__message",
+              classNames?.emptyMessage
+            )}
+          >
+            {emptyMessage ?? t("chat.message-history.empty")}
+          </EmptyMessage>
         </Empty>
       )}
       {children}
-      {messages.map((message) => (
-        <Line
-          key={message.id}
-          messageId={message.id}
-          isSent={message.isSent}
-          className={clsx(_CLASS_IS + "__line", classNames?.line, {
-            [_CLASS_IS + "__line--sent"]: message.isSent,
-            [_CLASS_IS + "__line--received"]: !message.isSent,
-          })}
-        >
-          {renderMessage(message)}
-        </Line>
-      ))}
+      {messages.map(renderMessage)}
     </Container>
   );
 };

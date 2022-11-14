@@ -15,10 +15,10 @@ import React, {
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 import { SendIcon as DefaultSendIcon } from "./send-icon";
+import { AttachmentIcon as DefaultAttachmentIcon } from "./attachment-icon";
 import { withChatApi, withChatState } from "../chat-provider";
 import { ChatSendMessageRequestPayloadInterface } from "src/interfaces";
 import { ChatMessageEditor } from "../chat-message-editor";
-import { Editor } from "draft-js";
 import { isEmpty } from "lodash";
 import { useRoqTranslation } from "src/components/core/roq-provider";
 
@@ -31,7 +31,8 @@ export interface ChatMessageInputPropsInterface {
   placeholder?: string;
   hideSendButton?: boolean;
   sendLabel?: string;
-  edit?: boolean;
+  hideAttachmentButton?: boolean;
+  attachmentLabelabel?: string;
   onChange?: (value: string) => void;
   onFocus: () => void;
   onBeforeSend?: (
@@ -53,6 +54,9 @@ export interface ChatMessageInputPropsInterface {
     SendButton: ComponentType<any>;
     SendLabel: ComponentType<any>;
     SendIcon: ComponentType<any>;
+    AttachmentButton: ComponentType<any>;
+    AttachmentLabel: ComponentType<any>;
+    AttachmentIcon: ComponentType<any>;
   };
 }
 
@@ -63,9 +67,10 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
     value,
     defaultValue = "<p></p>",
     placeholder,
-    hideSendButton,
+    hideSendButton = false,
     sendLabel,
-    edit,
+    hideAttachmentButton = false,
+    attachmentLabel,
     onChange,
     onFocus,
     onBeforeSend = (p) => p,
@@ -78,6 +83,9 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
   const SendButton = components?.SendButton ?? "button";
   const SendLabel = components?.SendLabel ?? "span";
   const SendIcon = components?.SendIcon ?? DefaultSendIcon;
+  const AttachmentButton = components?.AttachmentButton ?? "button";
+  const AttachmentLabel = components?.AttachmentLabel ?? "span";
+  const AttachmentIcon = components?.AttachmentIcon ?? DefaultAttachmentIcon;
 
   const [textareaValue, setValue] = useState<string | null>(
     value ?? defaultValue
@@ -151,6 +159,29 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
       style={style}
       onSubmit={handleSubmit}
     >
+      {!hideAttachmentButton && (
+        <AttachmentButton
+          className={clsx(
+            _CLASS_IS + "__attachment-button",
+            classNames?.attachmentButton,
+            {
+              [_CLASS_IS + "__attachment-button" + "--disabled"]: isValueEmpty,
+            }
+          )}
+          disabled={isValueEmpty}
+        >
+          {attachmentLabel && (
+            <AttachmentLabel
+              className={clsx(_CLASS_IS + "__attachment-button__label")}
+            >
+              {attachmentLabel}
+            </AttachmentLabel>
+          )}
+          <AttachmentIcon
+            className={clsx(_CLASS_IS + "__attachment-button__icon")}
+          />
+        </AttachmentButton>
+      )}
       <Textarea
         ref={textareaRef}
         name="message"
@@ -160,7 +191,7 @@ const ChatMessageInput = (props: ChatMessageInputPropsInterface) => {
         onChange={handleTextareaChange}
         onEnter={handleTextareaEnter}
       />
-      {(!hideSendButton ?? true) && (
+      {!hideSendButton && (
         <SendButton
           className={clsx(_CLASS_IS + "__send-button", classNames?.sendButton, {
             [_CLASS_IS + "__send-button" + "--disabled"]: isValueEmpty,

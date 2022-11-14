@@ -1,6 +1,6 @@
 @import "../../../styles/styles.scss";
 
-$chat-action-button-size: 48px;
+$chat-action-button-size: 20px;
 
 :root {
   --roq-action-button-width: #{$chat-action-button-size};
@@ -15,16 +15,20 @@ $chat-action-button-size: 48px;
   --roq-action-button-button-radius: 50%;
 
   --roq-action-button-button-background: transparent;
+  --roq-action-button-icon-color: var(--rc-color-text);
 
-  --roq-action-button-button-hover-background: var(--rc-blueGray-100);
+  --roq-action-button-button-hover-background: transparent;
+  --roq-action-button-icon-hover-color: var(--roq-action-button-icon-color);
 
-  --roq-action-button-button-active-background: var(--rc-blueGray-200);
+  --roq-action-button-button-active-background: transparent;
+  --roq-action-button-icon-active-color: var(--roq-action-button-icon-color);
 
-  --roq-action-button-button-dropdown-background: var(--rc-white);
+  --roq-action-button-button-dropdown-background: var(--rc-color-white);
+  --roq-action-button-button-dropdown-border: 1px solid var(--rc-color-border);
   --roq-action-button-button-dropdown-min-width: 272px;
   --roq-action-button-button-dropdown-padding: 0px;
-  --roq-action-button-button-dropdown-shadow: 0px 4px 16px
-    rgba(13, 28, 70, 0.15);
+  --roq-action-button-button-dropdown-shadow: 0px 8px 16px
+    rgba(var(--rc-color-black-rgb), 0.06);
   --roq-action-button-button-dropdown-transform: translate3d(-100%, 22px, 0px);
   --roq-action-button-button-dropdown-margin: 0 0 0
     var(--roq-action-button-button-height);
@@ -33,13 +37,9 @@ $chat-action-button-size: 48px;
   --roq-action-button-button-dropdown-action-cursor: pointer;
   --roq-action-button-button-dropdown-action-background: transparent;
   --roq-action-button-button-dropdown-action-height: 48px;
-  --roq-action-button-button-dropdown-action-padding: calc(
-    var(--rc-step) * 5
-  );
+  --roq-action-button-button-dropdown-action-padding: calc(var(--rc-step) * 5);
 
-  --roq-action-button-button-dropdown-action-hover-background: var(
-    --rc-blueGray-100
-  );
+  --roq-action-button-button-dropdown-action-hover-background: transparent;
 }
 
 @include roq-component("action-button") {
@@ -88,6 +88,11 @@ $chat-action-button-size: 48px;
     &:focus {
       background-color: var(--roq-action-button-button-hover-background);
     }
+
+    &__icon {
+      fill: var(--roq-action-button-icon-color);
+      stroke: var(--roq-action-button-icon-color);
+    }
   }
 
   &--active {
@@ -102,6 +107,7 @@ $chat-action-button-size: 48px;
     display: none;
     position: absolute;
     background-color: var(--roq-action-button-button-dropdown-background);
+    border: var(--roq-action-button-button-dropdown-border);
     min-width: var(--roq-action-button-button-dropdown-min-width);
     box-shadow: var(--roq-action-button-button-dropdown-shadow);
     padding: var(--roq-action-button-button-dropdown-padding);

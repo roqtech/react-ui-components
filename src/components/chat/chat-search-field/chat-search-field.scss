@@ -1,0 +1,36 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-search-field-overflow: hidden;
+  --rc-chat-search-field-position: relative;
+
+  --rc-chat-search-field-padding: calc(var(--rc-step) * 2)
+    calc(var(--rc-step) * 2) calc(var(--rc-step) * 2)
+    calc(var(--rc-step) * 5.25);
+  --rc-chat-search-field-radius: var(--rc-border-radius);
+
+  --rc-chat-search-field-input-radius: var(--rc-chat-search-field-radius);
+}
+
+@include roq-component("chat-search-field") {
+  overflow: var(--rc-chat-search-field-overflow);
+  position: var(--rc-chat-search-field-position);
+
+  border-radius: var(--rc-chat-search-field-radius);
+
+  &__input {
+    padding: var(--rc-chat-search-field-padding);
+    border-radius: var(--rc-chat-search-field-radius);
+    border: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    margin-top: -1px;
+    transform: translate(0%, -50%);
+  }
+}

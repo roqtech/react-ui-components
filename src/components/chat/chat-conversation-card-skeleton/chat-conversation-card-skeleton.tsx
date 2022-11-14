@@ -6,6 +6,8 @@ import React, {
   ComponentType,
   ReactNode,
   HTMLAttributes,
+  Ref,
+  forwardRef,
 } from "react";
 
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
@@ -13,7 +15,7 @@ import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-conversation-card-skeleton";
 
 export interface ChatConversationCardSkeletonPropsInterface {
-  children: ReactNode;
+  innerRef?: Ref<ChatConversationCardSkeletonPropsInterface>;
   style?: CSSProperties;
   className?: string;
   classNames?: {
@@ -26,10 +28,10 @@ export interface ChatConversationCardSkeletonPropsInterface {
   };
 }
 
-export const ChatConversationCardSkeleton = (
+const ChatConversationCardSkeleton = (
   props: ChatConversationCardSkeletonPropsInterface
 ) => {
-  const { style, className, classNames, components } = props;
+  const { style, className, classNames, components, innerRef } = props;
 
   const Container = components?.Container ?? "div";
 
@@ -37,6 +39,11 @@ export const ChatConversationCardSkeleton = (
     <Container
       className={clsx(_CLASS_IS, className, classNames?.container)}
       style={style}
+      ref={innerRef}
     />
   );
 };
+
+export default forwardRef<ChatConversationCardSkeletonPropsInterface>(
+  (props, ref) => <ChatConversationCardSkeleton {...props} innerRef={ref} />
+);

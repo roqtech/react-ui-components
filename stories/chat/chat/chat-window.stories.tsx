@@ -2,12 +2,12 @@ import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Chat } from "../../../src";
+import { ChatWindow } from "../../../src";
 import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
-  title: "Roq Components/Chat/ChatConversation",
-  component: Chat,
+  title: "Roq Components/Chat/ChatWindow",
+  component: ChatWindow,
   argTypes: {
     ...chatArgTypes,
   },
@@ -24,10 +24,10 @@ export default {
       </div>
     ),
   ],
-} as ComponentMeta<typeof Chat>;
+} as ComponentMeta<typeof ChatWindow>;
 
-const Template: ComponentStory<typeof Chat> = ({ ...args }) => {
-  return <Chat {...args} />;
+const Template: ComponentStory<typeof ChatWindow> = ({ ...args }) => {
+  return <ChatWindow {...args} />;
 };
 
 export const Default = Template.bind({});

@@ -48,11 +48,9 @@ export const parameters = {
           ],
           "Chat",
           [
-            "ChatConversationNotSelected",
-            "ChatMembersPanel",
-            "ChatMemberList",
-            ["ChatMembers", ["ChatMember"]],
-            "ChatConversation",
+            "ChatSidebar",
+            ["ChatSearchField", "ChatConversationList"],
+            "ChatWindow",
             [
               "ChatConversationHeader",
               "ChatMessageList",
@@ -72,7 +70,12 @@ export const parameters = {
               ["ChatMessageEditor"],
             ],
             "ChatNotificationBell",
-            "ChatConversationList",
+            "Panel",
+            [
+              "ChatMembersPanel",
+              ["ChatMemberList", ["ChatMembers", ["ChatMember"]]],
+              "ChatConversationNotSelectedPanel",
+            ],
           ],
           "Locale",
           ["LocaleSettings"[("LocaleTimezoneSelect", "LocaleLanguageSelect")]],
@@ -91,14 +94,20 @@ const hostConfig = {
   serviceAccount: process.env.STORYBOOK_PLATFOMR_SERVICE_ACCOUNT ?? "",
 };
 
-const CHAT_PREVIEW_COMPONENT = [
-  "roq-components-chat-messagecenter",
-  "roq-components-chat-messagecenter-chat",
-  "roq-components-chat-chatconversationlist",
-  "roq-components-chat-messagecenter-chat-chatmessagelist",
-  "roq-components-chat-messagecenter-chatmemberspanel",
-  "roq-components-chat-messagecenter-chatmemberspanel-chatmemberlist",
+const DEMO_STORY = [
+  // notifications
+  "roq-components-notification-list",
+  "roq-components-notification-bell",
+  // chat
+  "roq-components-chat",
+  "roq-components-chat-chatsidebar",
+  "roq-components-chat-chatsidebar-chatconversationlist",
+  "roq-components-chat-chatwindow",
+  "roq-components-chat-chatwindow-chatmessagelist",
+  "roq-components-chat-panel-chatmemberspanel",
+  "roq-components-chat-panel-chatmemberspanel-chatmemberlist",
   "roq-components-chat-chatnotificationbell",
+  //
 ];
 
 const themes = parameters.backgrounds.values.reduce(
@@ -125,19 +134,11 @@ export const decorators = [
     return <Story />;
   },
   (Story, context) => {
-    const skipProvider = [
-      "roq-components-notification-list",
-      "roq-components-notification-bell",
-    ];
-    if (skipProvider.includes(context?.componentId)) {
-      return Story();
+    if (DEMO_STORY.includes(context.componentId)) {
+      return <>{Story()}</>;
     }
 
     const { host, tenantId, apiKey, serviceAccount } = hostConfig;
-
-    if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
-      return <>{Story()}</>;
-    }
 
     const getToken = async () => {
       const token = await authorizeServiceAccount({

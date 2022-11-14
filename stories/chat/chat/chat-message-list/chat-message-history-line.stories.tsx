@@ -4,7 +4,7 @@ import { ChatMessageHistoryLine } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessageHistoryLine",
+    "Roq Components/Chat/ChatWindow/ChatMessageList/ChatMessageHistory/ChatMessageHistoryLine",
   component: ChatMessageHistoryLine,
   argTypes: {},
   decorators: [

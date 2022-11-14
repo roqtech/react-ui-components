@@ -1,8 +1,8 @@
 import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { ChatConversations, MessageCenter } from "../../../src";
-import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
+import { ChatConversations, Chat } from "../../src";
+import { ChatDecorator, chatArgTypes } from "../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat",
@@ -23,7 +23,6 @@ export default {
     (Story) => (
       <div
         style={{
-          backgroundColor: "white",
           height: "calc(100vh - 80px)",
           minHeight: "700px",
           boxSizing: "border-box",
@@ -37,7 +36,7 @@ export default {
 } as ComponentMeta<typeof ChatConversations>;
 
 const Template: ComponentStory<typeof ChatConversations> = ({ ...args }) => {
-  return <MessageCenter {...args} />;
+  return <Chat {...args} />;
 };
 
 export const Default = Template.bind({});

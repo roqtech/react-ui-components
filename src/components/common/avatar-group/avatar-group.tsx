@@ -44,7 +44,7 @@ export interface AvatarGroupPropsInterface
   };
 }
 
-const calculateItemWrapperZIndex = (index, total) => index;
+const calculateItemWrapperZIndex = (index) => index;
 
 const downgradeAvatarSize = (size: AvatarSizeType): AvatarSizeType => {
   switch (size) {
@@ -73,7 +73,7 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
   const { className, classNames, components, ...rest } = props;
 
   const {
-    users,
+    users = [],
     size = "medium",
     rounded,
     square,
@@ -141,13 +141,11 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
         }
       )}
     >
-      {usersData.map((_p, i) => (
+      {usersData.map((_p, zIndex) => (
         <Wrapper
-          key={i}
+          key={zIndex}
           className={clsx(_CLASS_IS + "__item", classNames?.wrapper)}
-          style={{
-            zIndex: calculateItemWrapperZIndex(i, usersData.length),
-          }}
+          style={{ zIndex }}
         >
           {renderAvatar(_p)}
         </Wrapper>
@@ -158,10 +156,7 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
             [_CLASS_IS + "__item" + "--total"]: true,
           })}
           style={{
-            zIndex: calculateItemWrapperZIndex(
-              usersData.length,
-              usersData.length
-            ),
+            zIndex: usersData.length,
           }}
           size={totalSize}
           initials={`${hiddenCount}`}

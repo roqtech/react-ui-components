@@ -5,19 +5,19 @@
   --rc-chat-member-flex-direction: row;
   --rc-chat-member-align-items: center;
   --rc-chat-member-cursor: pointer;
-  --rc-chat-member-color: var(--rc-blueGray-800);
-  --rc-chat-member-background: transparent;
-  --rc-chat-member-radius: calc(var(--rc-step) * 2);
+  --rc-chat-member-color: var(--rc-color-RB-90);
+  --rc-chat-member-background: var(--rc-color-white);
+  --rc-chat-member-radius: var(--rc-border-radius);
 
-  --rc-chat-member-gap: calc(var(--rc-step) * 3);
-  --rc-chat-member-padding: calc(var(--rc-step) * 1.5)
-    calc(var(--rc-step) * 3);
+  --rc-chat-member-gap: calc(var(--rc-step) * 1.25);
+  --rc-chat-member-padding: calc(var(--rc-step) * 2) calc(var(--rc-step) / 2)
+    calc(var(--rc-step) * 2) calc(var(--rc-step) * 2);
 
   --rc-chat-member-hover-color: var(--rc-chat-member-color);
-  --rc-chat-member-hover-background: var(--rc-blueGray-200);
+  --rc-chat-member-hover-background: var(--rc-color-white);
 
   --rc-chat-member-selected-color: var(--rc-chat-member-color);
-  --rc-chat-member-selected-background: var(--rc-blueGray-300);
+  --rc-chat-member-selected-background: var(--rc-color-white);
 
   --rc-chat-member-avatar-flex-shrink: 0;
 

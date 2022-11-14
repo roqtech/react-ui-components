@@ -4,7 +4,7 @@ import { ChatMessageEditor } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageInput/ChatMessageEditor",
+    "Roq Components/Chat/ChatWindow/ChatMessageInput/ChatMessageEditor",
   component: ChatMessageEditor,
   argTypes: {},
 } as ComponentMeta<typeof ChatMessageEditor>;

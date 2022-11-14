@@ -5,7 +5,7 @@ import { ChatMessageBubble } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageBubble",
+    "Roq Components/Chat/ChatWindow/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageBubble",
   component: ChatMessageBubble,
   argTypes: {
     message: { control: "text" },

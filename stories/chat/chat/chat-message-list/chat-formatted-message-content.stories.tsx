@@ -5,7 +5,7 @@ import { ChatFormattedMessage } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatFormattedMessage",
+    "Roq Components/Chat/ChatWindow/ChatMessageList/ChatMessageHistory/ChatMessage/ChatFormattedMessage",
   component: ChatFormattedMessage,
   argTypes: {
     content: { control: "text" },
