@@ -9,7 +9,8 @@
       "remove-member": "Remove users from the group"
     },
     "sidebar": {
-      "title": "Messages"
+      "title": "Messages",
+      "search": "Search or start new chat"
     },
     "panel": {
       "conversation-not-selected": {

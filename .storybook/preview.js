@@ -49,6 +49,7 @@ export const parameters = {
           "Chat",
           [
             "ChatSidebar",
+            ["ChatSearchField", "ChatConversationList"],
             "ChatWindow",
             "ChatNotificationBell",
             "ChatMembersPanel",
@@ -72,7 +73,6 @@ export const parameters = {
               "ChatMessageInput",
               ["ChatMessageEditor"],
             ],
-            "ChatConversationList",
             "ChatConversationNotSelectedPanel",
           ],
           "Locale",

@@ -8,7 +8,7 @@ import React, {
   useMemo,
 } from "react";
 import { COMPONENT_CLASS_PREFIX } from "src/utils/constant";
-import { ChatConversationList, Panel } from "src/index";
+import { ChatConversationList, ChatSearchField, Panel } from "src/index";
 import { useRoqTranslation } from "src/components/core/roq-provider";
 import { CreateConversationIcon as DefaultCreateConversationIcon } from "../chat-sidebar/create-conversation-icon";
 
@@ -36,7 +36,7 @@ export interface ChatSidebarPropsInterface {
 export const ChatSidebar = (props: ChatSidebarPropsInterface) => {
   const { t } = useRoqTranslation();
   const { style, className, classNames, components } = props;
-  const { title, buttonLabel, onActionClick, showSearch } = props;
+  const { title, buttonLabel, onActionClick, showSearch = true } = props;
 
   const Container = components?.Container ?? Panel;
 
@@ -49,7 +49,7 @@ export const ChatSidebar = (props: ChatSidebarPropsInterface) => {
   const ActionButtonButtonIcon =
     components?.ButtonIcon ?? DefaultCreateConversationIcon;
 
-  const Search = components?.Search ?? "input";
+  const Search = components?.Search ?? ChatSearchField;
   const List = components?.List ?? ChatConversationList;
 
   const actionButtonLabel = useMemo(() => {

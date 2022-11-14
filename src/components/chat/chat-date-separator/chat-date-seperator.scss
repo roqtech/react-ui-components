@@ -1,0 +1,29 @@
+@import "../../../styles/styles.scss";
+
+:root {
+  --rc-chat-date-seperator-display: inline-flex;
+  --rc-chat-date-seperator-padding: calc(var(--rc-step) * 1.25)
+    calc(var(--rc-step) * 2);
+
+  --rc-chat-date-seperator-background: var(--rc-color-border);
+  --rc-chat-date-seperator-radius: var(--rc-border-radius);
+
+  --rc-chat-date-seperator-text-align: center;
+  --rc-chat-date-seperator-time-color: var(--rc-color-RB-70);
+
+  --rc-chat-date-seperator-time-font-weight: var(--rc-font-weight-bold);
+  --rc-chat-date-seperator-time-font-size: var(--rc-font-size-base);
+  --rc-chat-date-seperator-time-line-height: 17px;
+}
+
+@include roq-component("chat-date-seperator") {
+  display: var(--rc-chat-date-seperator-display);
+  padding: var(--rc-chat-date-seperator-padding);
+  border-radius: var(--rc-chat-date-seperator-radius);
+  background: var(--rc-chat-date-seperator-background);
+  color: var(--rc-chat-date-seperator-time-color);
+  text-align: var(--rc-chat-date-seperator-text-align);
+  font-weight: var(--rc-chat-date-seperator-time-font-weight);
+  font-size: var(--rc-chat-date-seperator-time-font-size);
+  line-height: var(--rc-chat-date-seperator-time-line-height);
+}

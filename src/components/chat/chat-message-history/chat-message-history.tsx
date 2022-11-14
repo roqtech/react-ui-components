@@ -66,7 +66,12 @@ export interface ChatMessageHistoryPropsInterface {
     Line: ComponentType<
       Pick<
         ChatMessageHistoryLinePropsInterface,
-        "messageId" | "isSent" | "className" | "children"
+        | "messageId"
+        | "isSent"
+        | "className"
+        | "showDateSeparator"
+        | "timestamp"
+        | "children"
       >
     >;
     Message: ComponentType<ChatMessagePropsInterface>;
@@ -107,33 +112,49 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
       const showActions = !isDeleted;
 
       return (
-        <Message
+        <Line
           key={message.id}
-          showUser={message.isFirstInUserGroup ?? showAvatarInGroup}
-          showTime={message.isFirstInTimeGroup ?? showTimeInGroup}
-          {...message}
-          message={message.body}
+          messageId={message.id}
+          isSent={message.isSent}
+          showDateSeparator={message.isFirstInTimeGroup}
           timestamp={message.createdAt}
-          isDeleted={isDeleted}
-          isUpdated={isUpdated}
-          user={message.author}
-          className={clsx(_CLASS_IS + "__line__message", classNames?.message, {
-            [_CLASS_IS + "__line__message" + "--no-user"]:
-              !message.isFirstInUserGroup,
+          className={clsx(_CLASS_IS + "__line", classNames?.line, {
+            [_CLASS_IS + "__line--sent"]: message.isSent,
+            [_CLASS_IS + "__line--received"]: !message.isSent,
           })}
-          actions={
-            showActions && (
-              <ActionButton
-                components={{
-                  Dropdown: ChatMessageMenu,
-                }}
-              />
-            )
-          }
-        />
+        >
+          <Message
+            key={message.id}
+            showUser={message.isFirstInUserGroup ?? showAvatarInGroup}
+            showTime={message.isFirstInTimeGroup ?? showTimeInGroup}
+            {...message}
+            message={message.body}
+            timestamp={message.createdAt}
+            isDeleted={isDeleted}
+            isUpdated={isUpdated}
+            user={message.author}
+            className={clsx(
+              _CLASS_IS + "__line__message",
+              classNames?.message,
+              {
+                [_CLASS_IS + "__line__message" + "--no-user"]:
+                  !message.isFirstInUserGroup,
+              }
+            )}
+            actions={
+              showActions && (
+                <ActionButton
+                  components={{
+                    Dropdown: ChatMessageMenu,
+                  }}
+                />
+              )
+            }
+          />
+        </Line>
       );
     },
-    [Message, classNames?.message, showAvatarInGroup, showTimeInGroup]
+    [Message, Line, classNames?.message, showAvatarInGroup, showTimeInGroup]
   );
 
   return (
@@ -172,19 +193,7 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
         </Empty>
       )}
       {children}
-      {messages.map((message) => (
-        <Line
-          key={message.id}
-          messageId={message.id}
-          isSent={message.isSent}
-          className={clsx(_CLASS_IS + "__line", classNames?.line, {
-            [_CLASS_IS + "__line--sent"]: message.isSent,
-            [_CLASS_IS + "__line--received"]: !message.isSent,
-          })}
-        >
-          {renderMessage(message)}
-        </Line>
-      ))}
+      {messages.map(renderMessage)}
     </Container>
   );
 };

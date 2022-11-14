@@ -83,6 +83,14 @@ export {
 } from "./chat-conversation-menu";
 export { ChatSidebar, ChatSidebarPropsInterface } from "./chat-sidebar";
 export {
+  ChatDateSeparator,
+  ChatDateSeparatorPropsInterface,
+} from "./chat-date-separator";
+export {
+  ChatSearchField,
+  ChatSearchFieldPropsInterface,
+} from "./chat-search-field";
+export {
   ChatProvider,
   useChatApi,
   useChatState,

@@ -73,7 +73,7 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
   const { className, classNames, components, ...rest } = props;
 
   const {
-    users,
+    users = [],
     size = "medium",
     rounded,
     square,
@@ -141,7 +141,7 @@ export const AvatarGroup = (props: AvatarGroupPropsInterface) => {
         }
       )}
     >
-      {(usersData ?? []).map((_p, zIndex) => (
+      {usersData.map((_p, zIndex) => (
         <Wrapper
           key={zIndex}
           className={clsx(_CLASS_IS + "__item", classNames?.wrapper)}
