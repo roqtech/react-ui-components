@@ -40,17 +40,20 @@ export interface ChatConversationCardPropsInterface
   className?: string;
   classNames?: {
     container?: string;
-    inner?: string;
+    highlight?: string;
+    info?: string;
     top?: string;
     avatars?: string;
     title?: string;
+    message?: string;
+    timestamp?: string;
     actions?: string;
     unread?: string;
     unreadCount?: string;
-    message?: string;
   };
   components?: {
     Container?: ComponentType<HTMLAttributes<HTMLElement>>;
+    Highligh?: ComponentType<HTMLAttributes<HTMLElement>>;
     Inner?: ComponentType<HTMLAttributes<HTMLElement>>;
     Top?: ComponentType<HTMLAttributes<HTMLElement>>;
     Actions?: ComponentType<HTMLAttributes<HTMLElement>>;
@@ -98,13 +101,16 @@ export const ChatConversationCard = (
   } = rest;
 
   const Container = components?.Container ?? "div";
+  const Highlight = components?.Highlight ?? "div";
   const Inner = components?.Inner ?? "div";
-  const Top = components?.Top ?? "div";
+  const Info = components?.Info ?? "div";
+  const Title = components?.Title ?? "h6";
+  const Message = components?.Message ?? ChatFormattedMessage;
+  const Timestamp = components?.Timestamp ?? TimeAgo;
+
   const Actions = components?.Actions ?? "div";
   const Avatars = components?.Avatars ?? AvatarGroup;
   const UnreadBadge = components?.UnreadBadge ?? Badge;
-  const Title = components?.Title ?? StackedText;
-  const Message = components?.Message ?? ChatFormattedMessage;
 
   const hasUnreadMessages = useMemo(() => unreadCount > 0, [unreadCount]);
 
@@ -129,65 +135,75 @@ export const ChatConversationCard = (
       style={style}
       onClick={onClick}
     >
+      <Highlight
+        className={clsx(_CLASS_IS + "__highlight", classNames?.highlight)}
+      />
+
       <Inner className={clsx(_CLASS_IS + "__inner", classNames?.inner)}>
         {children}
         {!children && (
           <>
-            <Top className={clsx(_CLASS_IS + "__top", classNames?.top)}>
-              <Avatars
-                users={avatarUsers}
-                maxCount={avatarMaxCount}
-                size={avatarSize}
-                displayTotal={isGroup}
-                className={clsx(
-                  _CLASS_IS + "__top__avatars",
-                  classNames?.avatars
-                )}
-              />
+            <Avatars
+              users={avatarUsers}
+              maxCount={avatarMaxCount}
+              size={avatarSize}
+              displayTotal={isGroup}
+              className={clsx(
+                _CLASS_IS + "__inner__avatars",
+                classNames?.avatars
+              )}
+            />
+            <Info
+              displayTotal={isGroup}
+              className={clsx(_CLASS_IS + "__inner__info", classNames?.info)}
+            >
               <Title
-                primaryText={title}
-                secondaryText={timestamp}
-                components={{
-                  SecondaryText: TimeAgo,
-                }}
-                classNames={{
-                  container: clsx(
-                    _CLASS_IS + "__top__title",
-                    classNames?.title
-                  ),
-                  primaryText: clsx(_CLASS_IS + "__top__title__name"),
-                  secondaryText: clsx(_CLASS_IS + "__top__title__timestamp"),
-                }}
-              />
-              <Actions
                 className={clsx(
-                  _CLASS_IS + "__top__actions",
-                  classNames?.actions
+                  _CLASS_IS + "__inner__info__title",
+                  classNames?.title
                 )}
               >
-                {actions}
-                {hasUnreadMessages && (
-                  <UnreadBadge
-                    classNames={{
-                      container: clsx(
-                        _CLASS_IS + "__top__actions__unread",
-                        classNames?.unread
-                      ),
-                      count: clsx(
-                        _CLASS_IS + "__top__actions__unread__count",
-                        classNames?.unreadCount
-                      ),
-                    }}
-                    count={unreadCount}
-                  />
+                {title}
+              </Title>
+              <Message
+                className={clsx(
+                  _CLASS_IS + "__inner__info__message",
+                  classNames?.message
                 )}
-              </Actions>
-            </Top>
-            <Message
-              className={clsx(_CLASS_IS + "__message", classNames?.message)}
-              content={message}
-              preview
-            />
+                content={message}
+              />
+              <Timestamp
+                className={clsx(
+                  _CLASS_IS + "__inner__info__timestamp",
+                  classNames?.timestamp
+                )}
+              >
+                {timestamp}
+              </Timestamp>
+            </Info>
+            <Actions
+              className={clsx(
+                _CLASS_IS + "__inner__actions",
+                classNames?.actions
+              )}
+            >
+              {actions}
+              {hasUnreadMessages && (
+                <UnreadBadge
+                  classNames={{
+                    container: clsx(
+                      _CLASS_IS + "__inner__actions__unread",
+                      classNames?.unread
+                    ),
+                    count: clsx(
+                      _CLASS_IS + "__inner__actions__unread__count",
+                      classNames?.unreadCount
+                    ),
+                  }}
+                  count={unreadCount}
+                />
+              )}
+            </Actions>
           </>
         )}
       </Inner>
