@@ -50,6 +50,7 @@ import {
   ChatUserOfflineResponsePayloadInterface,
   ChatUserOnlineResponsePayloadInterface,
   ChatUserPresenceInterface,
+  ChatUserListResponsePayloadInterface,
 } from "src/interfaces";
 import { useRoqComponents, useSocket } from "src/components";
 import { useLazyPlatformQuery } from "src/hooks";
@@ -436,14 +437,33 @@ export const ChatProvider = (props: ChatProviderPropsInterface) => {
     [socketClient]
   );
 
+  const handleUserListSuccess = useCallback(
+    (payload: ChatUserListResponsePayloadInterface) => {
+      setPresence((ps) => ({
+        ...ps,
+        data: payload.users,
+      }));
+    },
+    [setPresence]
+  );
+
   const handleUserConnected = useCallback(
     (payload: ChatUserConnectedResponsePayload) => {
       setOnline(true);
       setUnreadCount(payload.unreadCount);
 
       onUserConnected?.(payload);
+
+      socket?.userList({ userId }, handleUserListSuccess);
     },
-    [setUnreadCount, setOnline, onUserConnected]
+    [
+      setUnreadCount,
+      setOnline,
+      onUserConnected,
+      handleUserListSuccess,
+      socket,
+      userId,
+    ]
   );
 
   const handleConnect = useCallback(() => {
