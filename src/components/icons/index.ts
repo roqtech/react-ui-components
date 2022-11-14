@@ -9,3 +9,6 @@ export { LinkIconPropsInterface, LinkIcon } from 'src/components/icons/link-icon
 export { FileIcon, FileIconPropsInterface } from 'src/components/icons/file.icon';
 export { PlusIcon, PlusIconPropsInterface } from 'src/components/icons/plus.icon';
 export { LoadingIcon } from 'src/components/icons/loading.icon';
+export { TrashIcon, TrashIconPropsInterface } from 'src/components/icons/trash.icon';
+export { ErrorIcon, ErrorIconPropsInterface } from 'src/components/icons/error.icon';
+export { UploadIcon, UploadIconPropsInterface } from 'src/components/icons/upload.icon';

@@ -1,123 +1,171 @@
 import React, { ReactElement } from 'react';
-import { CancelIcon, CancelRoundedIcon, CheckIcon, RestartIcon } from 'src/components/icons';
+import { CancelIcon, CheckIcon, FileIcon as _FileIcon, RestartIcon, TrashIcon } from 'src/components/icons';
 import clsx from 'clsx';
 import { ActiveUploadStatusEnum } from 'src/enums';
 import { ActiveUploadsPropsInterface } from 'src/components/files/active-uploads/active-uploads-props.interface';
 import './active-uploads.scss';
 import { useRoqComponents } from 'src/components/core/roq-provider';
+import { COMPONENT_CLASS_PREFIX } from 'src/utils/constant';
+import { ErrorIcon } from 'src/components/icons/error.icon';
+import { useFilesTable } from 'src/hooks/files';
 
-const _CLASS_IS = 'roq-active-uploads'
-const withBaseClass = (className: string) => `${_CLASS_IS}-${className}`
+const _CLASS_IS = `${COMPONENT_CLASS_PREFIX}active-uploads`;
+const withBaseClass = (classNames: string[]) => classNames.map((className) => `${_CLASS_IS}__${className}`);
 
 export const ActiveUploads: React.FC<ActiveUploadsPropsInterface> = (props): ReactElement => {
     const { files, onClose, onCancel, onRestart, classNames, texts, components } = props;
+    const { parseFileSize } = useFilesTable();
     const { t } = useRoqComponents();
     const Root = components?.root || 'div';
-    const TitleWrapper = components?.titleWrapper || 'div';
-    const Title = components?.title || 'p';
-    const CloseIcon = components?.closeIcon || CancelIcon;
-    const FilesListWrapper = components?.filesListContainer || 'div';
-    const FileRowContainer = components?.fileRowContainer || 'div';
-    const FileNameWrapper = components?.fileNameWrapper || 'div';
+    const Container = components?.container || 'div';
+    const TitleContainer = components?.titleContainer || 'div';
+    const Title = components?.title || 'h2';
+    const FileRow = components?.fileRow || 'div';
+    const FileIconColumn = components?.fileIconColumn || 'div';
+    const FileIconContainer = components?.fileIconContainer || 'div';
+    const FileIcon = components?.fileIcon || _FileIcon;
+    const DetailColumn = components?.detailsColumn || 'div';
+    const FileInfoRow = components?.fileInfoRow || 'div';
+    const FileNameAndSizeColumn = components?.fileNameAndSizeColumn || 'div';
     const FileName = components?.fileName || 'p';
-    const ProgressRow = components?.progressRow || 'div';
-    const SuccessFileUploadIcon = components?.successFileUploadIcon || CheckIcon;
-    const CancelledFileUploadIcon = components?.canceledFileUploadIcon || CancelIcon;
-    const ProgressWrap = components?.progressWrap || 'div';
-    const Progress = components?.progress || 'progress';
-    const CancelFileUploadIcon = components?.cancelFileUploadIcon || CancelRoundedIcon;
-    const FailureMessageWrapper = components?.failureMessageWrapper || 'div';
-    const FailureMessage = components?.failureMessage || 'p';
-    const RetryUploadIconWrapper = components?.retryUploadIconWrapper || 'div';
     const RetryUploadIcon = components?.retryUploadIcon || RestartIcon;
+    const FileSizeRow = components?.fileSizeRow || 'div';
+    const FileSize = components?.fileSize || 'p';
+    const ProgressRow = components?.progressRow || 'div';
+    const ProgressBarRow = components?.progressBarRow || 'div';
+    const ProgressContainer = components?.progressContainer || 'div';
+    const Progress = components?.progress || 'progress';
+    const ProgressPercentageColumn = components?.progressPercentageColumn || 'div';
+    const ProgressPercentage = components?.progressPercentage || 'p';
 
     return (
         <Root className={clsx(_CLASS_IS, classNames?.root)}>
-            <TitleWrapper
-                className={clsx(withBaseClass('flex'), withBaseClass('space-between'), withBaseClass('padding-10'), classNames?.titleWrapper)}>
-                <Title
-                    className={clsx(withBaseClass(`title`), classNames?.title)}>{texts?.title || t('upload.in-progress')}</Title>
-                <CloseIcon
-                    width="20px"
-                    height="20px"
-                    onClick={onClose}
-                    className={clsx(withBaseClass(`dismiss-button`), classNames?.closeIcon)}
-                />
-            </TitleWrapper>
-            <FilesListWrapper className={clsx(classNames?.filesListContainer)}>
+            <Container className={clsx(`${_CLASS_IS}__container`, classNames?.container)}>
+                <TitleContainer
+                    className={clsx(`${_CLASS_IS}__title-container`, classNames?.titleContainer)}>
+                    <Title
+                        className={clsx(`${_CLASS_IS}__title`, classNames?.title)}>{texts?.title || t('files.upload.uploaded')}</Title>
+                </TitleContainer>
                 {files.map((file, index) => (
-                    <FileRowContainer
-                        className={clsx(withBaseClass(`flex`), withBaseClass(`space-between`), withBaseClass(`align-items-center`), withBaseClass('row'), classNames?.fileRowContainer)}
+                    <FileRow
+                        className={clsx(`${_CLASS_IS}__list-item`, classNames?.fileRow)}
                         key={index}>
-                        <FileNameWrapper
-                            className={clsx(withBaseClass(`file-name-wrap`), withBaseClass('item'), classNames?.fileNameWrapper)}>
-                            <FileName
-                                className={clsx(withBaseClass(`file-name`), withBaseClass(`body1`), classNames?.fileName)}
-                            >
-                                {file.name}
-                            </FileName>
-                        </FileNameWrapper>
-                        <ProgressRow
-                            className={clsx(withBaseClass(`progress-wrap`), withBaseClass('item'), classNames?.progressRow)}>
-                            {file.status === ActiveUploadStatusEnum.SUCCESS &&
-                                <SuccessFileUploadIcon
-                                    className={clsx(withBaseClass(`icon`), classNames?.successFileUploadIcon)}/>
-                            }
-                            {file.status === ActiveUploadStatusEnum.CANCELLED &&
-                                <CancelledFileUploadIcon width="20px" height="20px"
-                                                         fill="#F75959FF"
-                                                         className={clsx(withBaseClass(`icon`), classNames?.canceledFileUploadIcon)}
-                                />
-                            }
-                            {file.status === ActiveUploadStatusEnum.UPLOADING && (
-                                <ProgressWrap
-                                    className={clsx(withBaseClass('progress-wrap'), classNames?.progressWrap)}>
-                                    <Progress
-                                        value={file.percentage}
-                                        max={100}
-                                        className={clsx(withBaseClass(`progress-bar`), withBaseClass('progress-linear'), classNames?.progress)}
-                                    />
+                        <FileIconColumn className={clsx(`${_CLASS_IS}__file-icon-column`, classNames?.fileIconColumn)}>
+                            <FileIconContainer
+                                className={clsx(`${_CLASS_IS}__file-icon-container`, classNames?.fileIconColumn)}>
+                                <FileIcon className={clsx(`${_CLASS_IS}__file_icon`, classNames?.fileIcon)}/>
+                            </FileIconContainer>
+                        </FileIconColumn>
+                        <DetailColumn className={clsx(`${_CLASS_IS}__details-column`, classNames?.detailsColumn)}>
+                            <FileInfoRow
+                                className={clsx(`${_CLASS_IS}__file-info-row`, classNames?.fileInfoRow)}>
+                                <FileNameAndSizeColumn
+                                    className={clsx(`${_CLASS_IS}__file-name-and-size-column`, classNames?.fileNameAndSizeColumn)}>
+                                    <FileName
+                                        className={clsx(`${_CLASS_IS}__file-name`, classNames?.fileName)}
+                                    >
+                                        {file.name}
+                                    </FileName>
                                     {
-                                        file.percentage < 99 && (
-                                            <CancelFileUploadIcon
-                                                width="20px"
-                                                height="20px"
-                                                color="inherit"
-                                                className={clsx(withBaseClass(`cancel-upload-btn`), classNames?.cancelFileUploadIcon)}
-                                                onClick={() => onCancel && onCancel(file.temporaryId)}
+                                        (file.status === ActiveUploadStatusEnum.FAILED || file.status === ActiveUploadStatusEnum.CANCELLED) && (
+                                            <RetryUploadIcon
+                                                width={22}
+                                                height={22}
+                                                className={clsx(`${_CLASS_IS}__restart-upload-icon`, classNames?.retryUploadIcon)}
+                                                onClick={() => onRestart && onRestart(file.temporaryId)}
                                             />
                                         )
                                     }
-
-                                </ProgressWrap>
-                            )}
-                            {file.status === ActiveUploadStatusEnum.FAILED && (
-                                <>
-                                    <FailureMessageWrapper
-                                        className={clsx(withBaseClass(`failure-message-wrap`), classNames?.failureMessageWrapper)}>
-                                        <FailureMessage
-                                            className={clsx(withBaseClass(`failure-message`), withBaseClass(`body1`), classNames?.failureMessage)}>
-                                            {texts?.uploadFailed || t('upload-failure')}
-                                        </FailureMessage>
-                                    </FailureMessageWrapper>
-                                    <RetryUploadIconWrapper title={texts?.retryUpload || t('files.retry-upload')}
-                                                            className={clsx(classNames?.retryUploadIconWrapper)}>
-                                        <RetryUploadIcon
-                                            className={clsx(withBaseClass(`restart-icon`), classNames?.retryUploadIcon)}
-                                            onClick={() => onRestart && onRestart(file.temporaryId)}
+                                    <FileSizeRow
+                                        className={clsx(`${_CLASS_IS}__file-size-row`, classNames?.fileSizeRow)}>
+                                        <FileSize className={clsx(`${_CLASS_IS}__file-size`, classNames?.fileSize)}>
+                                            {parseFileSize(file.size)}
+                                        </FileSize>
+                                    </FileSizeRow>
+                                </FileNameAndSizeColumn>
+                                <FileStatusColumn
+                                    file={file}
+                                    components={props.components}
+                                    classNames={props.classNames}
+                                />
+                            </FileInfoRow>
+                            <ProgressRow className={clsx(`${_CLASS_IS}__progress-row`, classNames?.progressRow)}>
+                                <ProgressBarRow
+                                    className={clsx(`${_CLASS_IS}__progress-bar-row`, classNames?.progressBarRow)}>
+                                    <ProgressContainer
+                                        className={clsx(classNames?.progressContainer)}>
+                                        <Progress
+                                            value={file.percentage}
+                                            max={100}
+                                            className={clsx(`${_CLASS_IS}__progress-bar`, classNames?.progress)}
                                         />
-                                    </RetryUploadIconWrapper>
-                                </>
-                            )}
-                        </ProgressRow>
-                    </FileRowContainer>
+                                    </ProgressContainer>
+                                </ProgressBarRow>
+                                <ProgressPercentageColumn className={clsx(`${_CLASS_IS}__progress-percentage-column`)}>
+                                    <ProgressPercentage
+                                        className={clsx(`${_CLASS_IS}__progress-percentage`, classNames?.progressPercentage)}>{file.percentage} %</ProgressPercentage>
+                                </ProgressPercentageColumn>
+                            </ProgressRow>
+                        </DetailColumn>
+                    </FileRow>
                 ))}
-            </FilesListWrapper>
+            </Container>
         </Root>
     );
 };
 
 
+const FileStatusColumn = ({ file, classNames, components }) => {
+    const { t } = useRoqComponents();
+    const FileStatusColumn = components?.fileStatusColumn || 'div'
+    const FileStatus = components?.fileStatus || 'p'
+    const SuccessFileUploadIcon = components?.successFileUploadIcon || CheckIcon;
+    const CancelledFileUploadIcon = components?.canceledFileUploadIcon || CancelIcon;
+    const DeleteUploadIcon = components?.deleteUploadIcon || TrashIcon;
+    const ErrorUploadIcon = components?.errorUploadIcon || ErrorIcon;
+
+    return (
+        <FileStatusColumn className={clsx(`${_CLASS_IS}__file-status-column`, classNames?.fileStatusColumn)}>
+            {file.status === ActiveUploadStatusEnum.SUCCESS && (
+                <>
+                    <FileStatus className={clsx(`${_CLASS_IS}__file-status`, classNames?.fileStatus)}>
+                        {t('files.upload.successfully')}
+                    </FileStatus>
+                    <SuccessFileUploadIcon
+                        className={clsx(classNames?.successFileUploadIcon)}
+                    />
+                </>
+            )}
+            {file.status === ActiveUploadStatusEnum.CANCELLED && (
+                <>
+                    <FileStatus className={clsx(`${_CLASS_IS}__file-status`, classNames?.fileStatus)}>
+                        {t('files.upload.cancelled')}
+                    </FileStatus>
+                    <CancelledFileUploadIcon
+                        className={clsx(`${_CLASS_IS}__cancel-icon`, classNames?.canceledFileUploadIcon)}
+                    />
+                </>
+            )
+            }
+            {file.status === ActiveUploadStatusEnum.FAILED && (
+                <>
+                    <FileStatus className={clsx(`${_CLASS_IS}__file-status`, classNames?.fileStatus)}>
+                        {t('files.upload.failed')}
+                    </FileStatus>
+                    <ErrorUploadIcon
+                        className={clsx(classNames?.errorUploadIcon)}
+                    />
+                </>
+            )}
+
+            {file.status === ActiveUploadStatusEnum.UPLOADING && (
+                <DeleteUploadIcon
+                    className={clsx(`${_CLASS_IS}__delete-icon`, classNames?.deleteUploadIcon)}
+                />
+            )}
+        </FileStatusColumn>
+    )
+}
 ActiveUploads.defaultProps = {
     files: [],
     onClose: () => {
@@ -126,11 +174,4 @@ ActiveUploads.defaultProps = {
     },
     onRestart: (temporaryId: string) => {
     },
-    classNames: {},
-    components: {},
-    texts: {
-        title: 'Active Uploads',
-        uploadFailed: `Upload failed`,
-        retryUpload: `Retry upload`,
-    }
 }

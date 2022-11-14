@@ -75,7 +75,9 @@
   "cancel": "Cancel",
   "save": "Save",
   "upload-file-cta": "Upload File",
-  "drop-uploads-cta": "Drag files here or use the \"Upload File\" button",
+  "drop-uploads-pre": "Drag Files here or use the",
+  "drop-uploads-cta": "Upload File",
+  "drop-uploads-post": "Button",
   "file": {
     "public": "Public",
     "private": "Private",
@@ -112,6 +114,7 @@
     }
   },
   "files": {
+    "title": "Files",
     "uploaded-successfully": "{{count}} file uploaded successfully",
     "uploaded-successfully_plural": "{{count}} files uploaded successfully",
     "retry-upload": "Retry Upload",
@@ -123,7 +126,13 @@
     "delete-file": "Delete",
     "download-file": "Download",
     "deleted_successfully_bulk": "Files deleted successfully",
-    "deleted_successfully": "{{fileName}} is deleted successfully"
+    "deleted_successfully": "{{fileName}} is deleted successfully",
+    "upload": {
+      "uploaded": "File Uploaded",
+      "successfully": "Upload successfully",
+      "failed": "Upload failed",
+      "cancelled": "Upload cancelled"
+    }
   },
   "common": {
     "loading": "Loading…",

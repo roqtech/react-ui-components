@@ -1,10 +1,10 @@
 $screen-xs-min: 0;
-$screen-sm-min: 480;
-$screen-md-min: 768;
-$screen-lg-min: 1024;
-$screen-xl-min: 1440;
-$screen-xxl-min: 1920;
-$screen-xxxl-min: 2560;
+$screen-sm-min: '480px';
+$screen-md-min: '768px';
+$screen-lg-min: '1024px';
+$screen-xl-min: '1440px';
+$screen-xxl-min: '1920px';
+$screen-xxxl-min: '2560px';
 
 // TODO: create mixin for CSS variables
 :root {

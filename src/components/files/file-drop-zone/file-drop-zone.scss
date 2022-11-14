@@ -1,83 +1,234 @@
 @import "../../../styles/styles.scss";
+@import "../../../styles/styles.scss";
 
-.roq-file-drop-zone-input {
-  display: none;
+$file-drop-zone: (
+        align-content: center,
+        justify-content: center,
+        justify-items: center,
+        place-items: center,
+        background: var(--rc-color-background),
+        border: var(--rc-color-border),
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.03),
+        border-radius: 1rem,
+        grid-template-columns: 1fr,
+        display: grid,
+        padding: 1rem,
+);
+
+$top-row: (
+        justify-content: space-between,
+        display:flex,
+        width:100%,
+        padding: 1.5rem,
+);
+
+$title: (
+        font-weight: 700,
+        font-size: 1.875rem,
+        line-height: 2.25rem,
+        color: var(--rc-color-secondary),
+        margin: 0 0.2rem,
+);
+
+$upload-button: (
+        display: inline-flex,
+        -webkit-box-align: center,
+        align-items: center,
+        -webkit-box-pack: center,
+        justify-content: center,
+        position: relative,
+        box-sizing: border-box,
+        -webkit-tap-highlight-color: transparent,
+        outline: 0px,
+        border: 0px,
+        margin: 0px,
+        cursor: pointer,
+        user-select: none,
+        vertical-align: middle,
+        appearance: none,
+        color: var(--rc-color-white),
+        background: var(--rc-color-primary),
+        min-width: 9.188rem,
+        min-height: 3rem,
+        padding: 0.375rem 1rem,
+        border-radius: 0.5rem,
+        font-weight: 700,
+        font-size: 1rem,
+        line-height: 1.1rem,
+        letter-spacing: 0.02857em,
+        text-transform: uppercase,
+);
+
+$upload-button-icon: (
+        fill: var(--rc-color-white),
+        stroke: var(--rc-color-white)
+);
+$upload-btn-input: (
+        display: none,
+);
+
+$drop-zone-container: (
+        align-content: center,
+        justify-content: center,
+        justify-items: center,
+        place-items: center,
+        grid-template-columns: 1fr,
+        display: grid,
+        padding: 1rem,
+);
+
+$drop-zone-wrapper: (
+        grid-template-columns: minMax(40vw, 1fr),
+        display: grid,
+        border: 1px dashed var(--rc-color-text),
+        background: var(--rc-color-white),
+        border-radius: 1rem,
+        min-height: 40vh,
+        align-content: center,
+        justify-content: center,
+        justify-items: center,
+        place-items: center,
+);
+
+
+$upload-icon: (
+        width: 2.5rem,
+        height: 2.875rem,
+        fill: var(--rc-color-primary)
+);
+
+$drop-text: (
+        margin-top: 1.5rem,
+        font-weight: 600,
+        font-size: 1.2rem,
+        line-height: 1.62rem,
+        text-align: center,
+        letter-spacing: 0.031rem,
+        color: var(--rc-color-secondary),
+        padding: 1rem,
+);
+
+
+:root {
+  &.rc-dark {
+    --rc-file-drop-zone-title-color: var(--rc-color-white);
+    --rc-file-drop-zone-wrapper-background: var(--rc-color-secondary);
+    --rc-file-drop-zone-drop-text-color: var(--rc-color-white);
+  }
+
+  @each $name, $value in $file-drop-zone {
+    --rc-file-drop-zone-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $top-row {
+    --rc-file-drop-zone-top-row-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $title {
+    --rc-file-drop-zone-title-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $upload-button {
+    --rc-file-drop-zone-upload-button-#{$name}: #{$value};
+  }
+  @each $name, $value in $upload-button-icon {
+    --rc-file-drop-zone-upload-button-icon-#{$name}: #{$value};
+  }
+  @each $name, $value in $upload-btn-input {
+    --rc-file-drop-zone-upload-button-input-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $drop-zone-container {
+    --rc-file-drop-zone-container-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $drop-zone-wrapper {
+    --rc-file-drop-zone-wrapper-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $upload-icon {
+    --rc-file-drop-zone-upload-icon-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $drop-text {
+    --rc-file-drop-zone-drop-text-#{$name}: #{$value};
+  }
+  --rc-file-drop-zone-drop-text-cta-color: var(--rc-color-primary)
+
 }
 
-.roq-file-drop-zone-drop-zone-wrapper {
-  flex: 1;
-  display: flex;
+@include roq-component("file-drop-zone") {
+  @each $name in map-keys($file-drop-zone) {
+    #{$name}: var(--rc-file-drop-zone-#{$name});
+  }
+  &__top-row {
+    @each $name in map-keys($top-row) {
+      #{$name}: var(--rc-file-drop-zone-top-row-#{$name});
+    }
+  }
+
+  &__title {
+    @each $name in map-keys($title) {
+      #{$name}: var(--rc-file-drop-zone-title-#{$name});
+    }
+  }
+
+  &__upload-btn {
+    @each $name in map-keys($upload-button) {
+      #{$name}: var(--rc-file-drop-zone-upload-button-#{$name});
+    }
+  }
+
+  &__upload-btn-icon {
+    @each $name in map-keys($upload-button-icon) {
+      #{$name}: var(--rc-file-drop-zone-upload-button-icon-#{$name});
+    }
+  }
+
+  &__upload-btn-input {
+    @each $name in map-keys($upload-button) {
+      #{$name}: var(--rc-file-drop-zone-upload-button-input-#{$name});
+    }
+  }
+
+  &__container {
+    @each $name in map-keys($drop-zone-container) {
+      #{$name}: var(--rc-file-drop-zone-container-#{$name});
+    }
+  }
+
+  &__wrapper {
+    @each $name in map-keys($drop-zone-wrapper) {
+      #{$name}: var(--rc-file-drop-zone-wrapper-#{$name});
+    }
+  }
+
+  &__upload-icon {
+    @each $name in map-keys($upload-icon) {
+      #{$name}: var(--rc-file-drop-zone-upload-icon-#{$name});
+    }
+  }
+
+  &__drop-text {
+    @each $name in map-keys($drop-text) {
+      #{$name}: var(--rc-file-drop-zone-drop-text-#{$name});
+    }
+
+    & > span {
+      color: var(--rc-file-drop-zone-drop-text-cta-color);
+      text-decoration: underline;
+
+      &::before {
+        content: ' ';
+        display: block;
+      }
+    }
+  }
 }
 
-.roq-file-drop-zone-drop-zone {
-  flex: 1;
-  display: flex;
-  background: $blueGray-100;
-  border: 2 -px-dashed $blueGray-300;
-  box-sizing: border-box;
-  border-radius: 0.25rem;
-  margin: 0.2rem 1.5rem;
-  justify-content: center;
-  align-items: center;
-  padding: 200px;
-}
-
-.roq-file-drop-zone-drop-text {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  letter-spacing: 0.15rem;
-  text-align: center;
-}
-
-
-.roq-file-drop-zone-button {
-  display: inline-flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  appearance: none;
-  color: map-get($light-pallete, 'white');
-  min-width: 64px;
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-}
-
-
-.roq-file-drop-zone-button:disabled {
-  cursor: default;
-  pointer-events: none;
-  background: $blueGray-200;
-}
-
-.roq-file-drop-zone-primary {
-  background: $infoLight;
-}
-
-.roq-file-drop-zone-button-icon {
-  fill:  map-get($light-pallete, 'white');
-  stroke:  map-get($light-pallete, 'white');
-}
-
-.roq-file-drop-zone-action-bar {
-  display: flex;
-  direction: ltr;
-  flex-direction: row;
-  align-content: end;
-  justify-content: flex-end;
-  margin: 1rem 1.5rem
+@media screen and (max-width: $screen-sm-min) {
+  :root {
+    --rc-file-drop-zone-top-row-padding: 0;
+    --rc-file-drop-zone-wrapper-grid-template-columns: minMax(90vw, 1fr)
+  }
 }

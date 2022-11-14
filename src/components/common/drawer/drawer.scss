@@ -1,80 +1,89 @@
 @import "../../../styles/styles.scss";
 
-.roq-drawer-container {
-  position: fixed;
-  z-index: 99;
-  height: 100vh;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  transform: translateX(100%);
-  transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
-  display: grid;
-  grid-template-columns: 15fr 5fr;
+:root {
+  --rc-drawer-aside-position: fixed;
+  --rc-drawer-aside-z-index: 99;
+  --rc-drawer-aside-height: 100vh;
+  --rc-drawer-aside-top: 0;
+  --rc-drawer-aside-bottom: 0;
+  --rc-drawer-aside-right: 0;
+  --rc-drawer-aside-transform: translateX(100%);
+  --rc-drawer-aside-transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  --rc-drawer-aside-display: grid;
+
+  --rc-drawer-aside-transoform: none;
+  --rc-drawer-aside-padding-left: 10px;
+  --rc-drawer-aside-border-left: solid 2px rgba(#000, .03);
+  --rc-drawer-aside-box-shadow: -10px 0px 10px 1px map-get($light-pallete,'border');
+
+
+  --rc-drawer-container-display: block;
+  --rc-drawer-container-flex-flow: column wrap;
+  --rc-drawer-container-transform: translateX(30%);
+  --rc-drawer-container-opacity: 0;
+  --rc-drawer-container-color: map-get($light-pallete, 'white');
+  --rc-drawer-container-transition:  all 500ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  --rc-drawer-container-transition-delay: 0s;
+  --rc-drawer-container-contain: content;
+  --rc-drawer-container-box-sizing: border-box;
+  --rc-drawer-container-overflow: auto;
+  --rc-drawer-container-webkit-overflow-scrolling: touch;
+  --rc-drawer-container-media-query-min-width: 30em;
+  --rc-drawer-container-grid-template-columns: auto 2fr;
+  --rc-drawer-container-min-width: 30vw;
+  --rc-drawer-container-margin: 1rem 5rem;
+
+
+  --rc-drawer-container-checked-transform: none;
+  --rc-drawer-container-checked-opacity: 1;
+  --rc-drawer-container-checked-transition-delay: 300ms;
+
 }
 
-
-@media (min-width: 30em) {
-  .roq-drawer-container {
-    grid-template-columns: auto 2fr
+@include roq-component("drawer") {
+  &__aside{
+    position: var(--rc-drawer-aside-position);
+    z-index: var(--rc-drawer-aside-z-index);
+    height: var(--rc-drawer-aside-height);
+    top: var(--rc-drawer-aside-top);
+    bottom: var(--rc-drawer-aside-bottom);
+    right: var(--rc-drawer-aside-right);
+    transform: var(--rc-drawer-aside-transform);
+    transition: var(--rc-drawer-aside-transition);
+    display: var(--rc-drawer-aside-display);
   }
-}
 
-
-[data-drawer]:checked ~ .roq-drawer-container {
-  transform: none;
-  padding-left: 10px;
-  border-left: solid 2px rgba(#000, .03);
-  box-shadow: -10px 0px 10px 1px $blueGray-300;
-}
-
-
-.roq-drawer {
-  display: block;
-  flex-flow: column wrap;
-  transform: translateX(30%);
-  opacity: 0;
-  color: map-get($light-pallete,'white');
-  transition: all 500ms cubic-bezier(0.4, 0.0, 0.2, 1);
-  transition-delay: 0s;
-  contain: content;
-  box-sizing: border-box;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch
-}
-
-
-@media (min-width: 30em) {
-  .roq-drawer {
-    min-width: 30vw
+  [data-drawer]:checked ~ &__aside {
+    transform: var(--rc-drawer-aside-transoform);
+    padding-left: var(--rc-drawer-aside-padding-left);
+    border-left: var(--rc-drawer-aside-border-left);
+    box-shadow: var(--rc-drawer-aside-box-shadow);
   }
-}
 
 
-[data-drawer]:checked ~ .roq-drawer-container .roq-drawer {
-  transform: none;
-  opacity: 1;
-  transition-delay: 300ms
-}
+  &__container {
+    display: var(--rc-drawer-container-display);
+    flex-flow: var(--rc-drawer-container-flex-flow);
+    transform: var(--rc-drawer-container-transform);
+    opacity: var(--rc-drawer-container-opacity);
+    color: var(--rc-drawer-container-color);
+    transition: var(--rc-drawer-container-transition);
+    transition-delay: var(--rc-drawer-container-transition-delay);
+    contain: var(--rc-drawer-container-contain);
+    box-sizing: var(--rc-drawer-container-box-sizing);
+    overflow: var(--rc-drawer-container-overflow);
+    -webkit-overflow-scrolling: var(--rc-drawer-container-webkit-overflow-scrolling);
+    margin: var(--rc-drawer-container-margin);
 
+    @media (min-width: var(--rc-drawer-container-media-query-min-width)) {
+      grid-template-columns: var(--rc-drawer-container-grid-template-columns);
+      min-width: var(--rc-drawer-container-min-width);
+    }
+  }
 
-.roq-drawer a {
-  text-decoration: none;
-  color: map-get($light-pallete,'text');
-  display: block;
-  padding: 16px 0
-}
-
-
-.roq-drawer a:hover {
-  color: map-get($light-pallete,'text');
-}
-
-
-.roq-drawer > * + * {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-[data-drawer]:not(:checked) ~ .roq-drawer-container .roq-drawer-overlay {
-  pointer-events: none
+  [data-drawer]:checked ~ &__aside &__container {
+    transform: var(--rc-drawer-container-checked-transform);
+    opacity: var(--rc-drawer-container-checked-opacity);
+    transition-delay: var(--rc-drawer-container-checked-transition-delay)
+  }
 }
