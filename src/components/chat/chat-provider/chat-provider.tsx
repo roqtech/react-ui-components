@@ -439,10 +439,7 @@ export const ChatProvider = (props: ChatProviderPropsInterface) => {
 
   const handleUserListSuccess = useCallback(
     (payload: ChatUserListResponsePayloadInterface) => {
-      setPresence((ps) => ({
-        ...ps,
-        data: payload.users,
-      }));
+      setPresence(payload.users);
     },
     [setPresence]
   );
