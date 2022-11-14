@@ -1,24 +1,143 @@
 @import "../../../styles/styles.scss";
 
+$sidebar-width: 420px; // 418 - 1px border+shadow
+$chat-gap: calc(var(--rc-step) * 3.75);
+
 :root {
-  --rc-chat-panel-display: flex;
+  --rc-chat-flex: flex;
+  --rc-chat-flex-direction: column;
+  --rc-chat-width: 100%;
+  --rc-chat-min-width: 100%;
+  --rc-chat-height: 100%;
+  --rc-chat-gap: #{$chat-gap};
+  --rc-chat-background: transparent;
+
+  --rc-chat-header-title-font-weight: var(--rc-font-weight-bolder);
+  --rc-chat-header-title-font-size: var(--rc-font-size-3xl);
+  --rc-chat-header-title-color: var(--rc-blueGray-900);
+  --rc-chat-header-title-margin: 0;
+  --rc-chat-header-height: 36px;
+
+  --rc-chat-content-display: flex;
+  --rc-chat-content-flex-grow: 1;
+  --rc-chat-content-flex-direction: row;
+  --rc-chat-content-align-items: stretch;
+  --rc-chat-content-width: 100%;
+  --rc-chat-content-height: calc(
+    100% - (var(--rc-chat-header-height) + var(--rc-chat-gap))
+  );
+  --rc-chat-content-min-width: 100%;
+  --rc-chat-content-background: transparent;
+  --rc-chat-content-overwlow: hidden;
+  --rc-chat-content-border: none;
+  --rc-chat-content-radius: 0;
+  --rc-chat-content-box-shadow: none;
+  --rc-chat-content-spacing: #{$chat-gap};
+
+  --rc-chat-content-sidebar-width: #{$sidebar-width};
+  --rc-chat-content-sidebar-flex-shrink: 0;
+  --rc-chat-content-sidebar-min-width: 0;
+  --rc-chat-content-sidebar-margin: 0 0 0 calc(var(--rc-step) * 2 * -1);
+
+  --rc-chat-content-chat-flex-grow: 1;
+  --rc-chat-content-chat-flex-shrink: 0;
+  --rc-chat-content-chat-min-width: 0;
 }
 
 @include roq-component("chat") {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1;
+  display: var(--rc-chat-flex);
+  flex-direction: var(--rc-chat-flex-direction);
 
-  &__header {
+  width: var(--rc-chat-width);
+  min-width: var(--rc-chat-min-width);
+  height: var(--rc-chat-height);
+  gap: var(--rc-chat-gap);
+
+  background: var(--rc-chat-background);
+
+  & &__header {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    height: var(--rc-chat-header-height);
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+
+    &__title {
+      font-size: var(--rc-chat-header-title-font-size);
+      font-weight: var(--rc-chat-header-title-font-weight);
+      color: var(--rc-chat-header-title-color);
+      margin: var(--rc-chat-header-title-margin);
+    }
+
+    &__button {
+      display: var(--rc-chat-message-input-send-button-display);
+      flex-direction: var(--rc-chat-message-input-send-button-flex-direction);
+      justify-content: var(--rc-chat-message-input-send-button-justify-content);
+      align-items: var(--rc-chat-message-input-send-button-align-items);
+
+      cursor: var(--rc-chat-message-input-send-button-cursor);
+      border: var(--rc-chat-message-input-send-button-border);
+      min-width: var(--rc-chat-message-input-send-button-width);
+      height: var(--rc-chat-message-input-send-button-height);
+      padding: var(--rc-chat-message-input-send-button-pading);
+      background: var(--rc-chat-message-input-send-button-background);
+      color: var(--rc-chat-message-input-send-button-color);
+      box-shadow: var(--rc-chat-message-input-send-button-shadow);
+      border-radius: var(--rc-chat-message-input-send-button-radius);
+
+      &__label {
+        margin-left: 12px;
+        font-weight: var(--rc-chat-message-input-send-button-label-font-weight);
+        color: var(-rc--chat-message-input-send-button-label-color);
+        text-transform: var(
+          --rc-chat-message-input-send-button-label-text-transform
+        );
+      }
+
+      &__icon,
+      svg {
+        overflow: hidden;
+        pointer-events: none;
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: bottom;
+
+        color: transparent;
+        fill: transparent;
+      }
+    }
   }
 
-  &__messages {
-    flex-grow: 1;
-    min-height: 1;
-  }
+  & &__content {
+    box-sizing: border-box;
+    display: var(--rc-chat-content-display);
+    height: var(--rc-chat-content-height);
+    width: var(--rc-chat-content-width);
+    min-width: var(--rc-chat-content-min-width);
+    flex-grow: var(--rc-chat-content-flex-grow);
+    flex-direction: var(--rc-chat-content-flex-direction);
+    align-items: var(--rc-chat-content-align-items);
+    overflow: var(--rc-chat-content-overflow);
+    border: var(--rc-chat-content-border);
+    box-shadow: var(--rc-chat-content-box-shadow);
+    background: var(--rc-chat-content-background);
+    border-radius: var(--rc-chat-content-radius);
+    gap: var(--rc-chat-content-spacing);
 
-  &__input {
+    &__sidebar {
+      width: var(--rc-chat-content-sidebar-width);
+      flex-shrink: var(--rc-chat-content-sidebar-flex-shrink);
+      min-width: var(--rc-chat-content-sidebar-min-width);
+      margin: var(--rc-chat-content-sidebar-margin);
+    }
+
+    &__chat {
+      flex-shrink: var(--rc-chat-content-chat-flex-shrink);
+      min-width: var(--rc-chat-content-chat-min-width);
+    }
   }
 }

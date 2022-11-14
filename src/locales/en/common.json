@@ -9,14 +9,15 @@
       "remove-member": "Remove users from the group"
     },
     "sidebar": {
-      "title": "Messages"
+      "title": "Messages",
+      "search": "Search or start new chat"
     },
     "panel": {
       "conversation-not-selected": {
         "title": "You have no messages right now "
       },
       "members": {
-        "title": "With whom would you like to start a conversations?",
+        "title": "New Chat",
         "cancel": "Cancel",
         "submit": "Submit"
       }
@@ -25,10 +26,10 @@
       "deleted": "Message deleted…"
     },
     "message-history": {
-      "empty": "This is the very beginning of your messaging…"
+      "empty": "You have no messages right now"
     },
     "conversation-list": {
-      "loading": "Loading…"
+      "loading": ""
     },
     "member-list": {
       "loading": "Loading…"

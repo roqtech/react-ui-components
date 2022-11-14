@@ -1,16 +1,31 @@
 @import "../../../styles/styles.scss";
 
+$action-button-width: 32px;
+$action-button-height: 30px;
+
 :root {
   --rc-chat-sidebar-padding: 0;
 
   --rc-chat-sidebar-header-padding: calc(var(--rc-step) * 2);
-  --rc-chat-sidebar-header-margin: 2px 0 calc(var(--rc-step) * 2.25) 0;
+  --rc-chat-sidebar-header-margin: 0;
 
   --rc-chat-sidebar-header-top-margin: 0 0 0 0;
+  --rc-chat-sidebar-header-top-display: flex;
+  --rc-chat-sidebar-header-top-justify-content: space-between;
 
   --rc-chat-sidebar-header-top-title-margin: 0px;
   --rc-chat-sidebar-header-top-title-font-size: var(--rc-font-size-3xl);
   --rc-chat-sidebar-header-top-title-font-weight: var(--rc-font-weight-bolder);
+
+  --rc-chat-sidebar-header-top-action-width: #{$action-button-width};
+  --rc-chat-sidebar-header-top-action-height: #{$action-button-height};
+  --rc-chat-sidebar-header-top-action-background: rgba(
+    var(--rc-color-primary-rgb),
+    0.1
+  );
+  --rc-chat-sidebar-header-top-action-border: none;
+  --rc-chat-sidebar-header-top-action-radius: var(--rc-border-radius);
+  --rc-chat-sidebar-header-top-action-cursor: pointer;
 
   --rc-chat-sidebar-list-padding: 0;
 }
@@ -29,11 +44,31 @@
 
     &__top {
       margin: var(--rc-chat-sidebar-header-top-margin);
+      display: var(--rc-chat-sidebar-header-top-display);
+      justify-content: var(--rc-chat-sidebar-header-top-justify-content);
 
       &__title {
         margin: var(--rc-chat-sidebar-header-top-title-margin);
         font-size: var(--rc-chat-sidebar-header-top-title-font-size);
         font-weight: var(--rc-chat-sidebar-header-top-title-font-weight);
+      }
+
+      &__action {
+        width: var(--rc-chat-sidebar-header-top-action-width);
+        height: var(--rc-chat-sidebar-header-top-action-height);
+        background: var(--rc-chat-sidebar-header-top-action-background);
+        border: var(--rc-chat-sidebar-header-top-action-border);
+        border-radius: var(--rc-chat-sidebar-header-top-action-radius);
+        cursor: var(--rc-chat-sidebar-header-top-action-cursor);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &__icon {
+        }
+        &__label {
+        }
       }
     }
 

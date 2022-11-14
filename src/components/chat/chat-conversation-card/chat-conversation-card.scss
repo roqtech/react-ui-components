@@ -6,8 +6,11 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
 
 :root {
   --rc-chat-conversation-card-border-radius: var(--rc-border-radius);
+
+  --rc-chat-conversation-card-position: relative;
+  --rc-chat-conversation-card-cursor: pointer;
   --rc-chat-conversation-card-padding: calc(var(--rc-step) * 2)
-    calc(var(--rc-step) * 1.5);
+    calc(var(--rc-step) / 2) calc(var(--rc-step) * 2) calc(var(--rc-step) * 1.5);
 
   --rc-chat-conversation-card-background: var(--rc-color-white);
   --rc-chat-conversation-card-shadow: none;
@@ -53,21 +56,55 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
     --rc-chat-conversation-card-selected-shadow
   );
 
-  --rc-chat-conversation-card-title-padding-left: calc(var(--rc-step) * 1.25);
+  --rc-chat-conversation-card-highlight-radius: 8px;
+  --rc-chat-conversation-card-highlight-width: 4px;
+  --rc-chat-conversation-card-highlight-background: var(
+    --rc-chat-conversation-card-active-background
+  );
 
-  --rc-chat-conversation-card-title-name-font-size: var(--rc-font-size-xl);
-  --rc-chat-conversation-card-title-name-font-weight: var(
+  --rc-chat-conversation-card-inner-display: flex;
+
+  --rc-chat-conversation-card-inner-avatars-margin: 0
+    calc(var(--rc-step) * 1.25) 0 0;
+
+  --rc-chat-conversation-card-inner-info-flex: 1;
+  --rc-chat-conversation-card-inner-info-align-items: flex-start;
+  --rc-chat-conversation-card-inner-info-justify-content: flex-start;
+  --rc-chat-conversation-card-inner-info-display: flex;
+  --rc-chat-conversation-card-inner-info-flex-direction: column;
+  --rc-chat-conversation-card-inner-info-padding: var(--rc-step) 0px 0px 0px;
+
+  --rc-chat-conversation-card-inner-info-title-font-weight: var(
     --rc-font-weight-bolder
   );
-  --rc-chat-conversation-card-title-name-color: var(--rc-color-RB-90);
+  --rc-chat-conversation-card-inner-info-title-font-size: 14px;
+  --rc-chat-conversation-card-inner-info-title-line-height: 17px;
+  --rc-chat-conversation-card-inner-info-title-color: var(--rc-color-RB-90);
+  --rc-chat-conversation-card-inner-info-title-margin: 0px;
 
-  --rc-chat-conversation-card-title-timestamp-font-weight: var(
+  --rc-chat-conversation-card-inner-info-message-font-weight: var(
+    --rc-font-weight-normal
+  );
+  --rc-chat-conversation-card-inner-info-message-font-size: 13px;
+  --rc-chat-conversation-card-inner-info-message-line-height: 18px;
+  --rc-chat-conversation-card-inner-info-message-color: var(--rc-color-text);
+  --rc-chat-conversation-card-inner-info-message-margin: calc(
+      var(--rc-step) * 0.25
+    )
+    0 0 0;
+
+  --rc-chat-conversation-card-inner-info-timestamp-font-weight: var(
     --rc-font-weight-medium
   );
-  --rc-chat-conversation-card-title-timestamp-font-size: var(--rc-font-size-sx);
-  --rc-chat-conversation-card-title-timestamp-color: var(--rc-color-RB-70);
+  --rc-chat-conversation-card-inner-info-timestamp-font-size: 11px;
+  --rc-chat-conversation-card-inner-info-timestamp-line-height: 13px;
+  --rc-chat-conversation-card-inner-info-timestamp-color: var(--rc-color-RB-70);
+  --rc-chat-conversation-card-inner-info-timestamp-margin: calc(
+      var(--rc-step) * 1.5
+    )
+    0 0 0;
 
-  --rc-chat-conversation-card-actions-min-width: calc(var(--rc-step) * 10);
+  --rc-chat-conversation-card-actions-min-width: calc(var(--rc-step) * 2.5);
 
   --rc-chat-conversation-card-actions-unread-width: 25px;
   --rc-chat-conversation-card-actions-unread-height: 25px;
@@ -77,11 +114,6 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
   --rc-chat-conversation-card-actions-unread-count-color: var(--rc-color-white);
   --rc-chat-conversation-card-actions-unread-count-radius: 50%;
 
-  --rc-chat-conversation-card-message-margin: calc(var(--rc-step) * 3);
-  --rc-chat-conversation-card-message-color: var(--rc-color-text);
-  --rc-chat-conversation-card-message-font-size: var(--rc-font-size-sm);
-  --rc-chat-conversation-card-message-font-weight: var(--rc-font-weight-bolder);
-
   --rc-chat-conversation-card-message-line-height: var(
     #{$chat-conversation-font-card-line-height}
   );
@@ -90,18 +122,40 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
     --rc-font-weight-bolder
   );
   --rc-chat-conversation-card-message-unread-color: var(--rc-color-primary);
+
+  --rc-chat-conversation-card-unread-border-top: none;
+  --rc-chat-conversation-card-unread-border-left: 4px solid
+    var(--rc-chat-conversation-card-active-background);
+  --rc-chat-conversation-card-unread-border-bottom: none;
+  --rc-chat-conversation-card-unread-border-right: none;
+
+  --rc-chat-conversation-card-hover-inner-info-title-color: var(
+    --rc-color-white
+  );
+  --rc-chat-conversation-card-hover-inner-info-message-color: rgba(
+    var(--rc-color-white-rgb),
+    0.8
+  );
+  --rc-chat-conversation-card-hover-inner-info-timestamp-color: var(
+    --rc-color-white
+  );
+
+  --rc-chat-conversation-card-action-color: var(--rc-color-text);
+  --rc-chat-conversation-card-selected-action-color: var(--rc-color-white);
+  --rc-chat-conversation-card-hover-action-color: var(--rc-color-white);
 }
 
 @include roq-component("chat-conversation-card") {
   $container: &;
 
+  position: var(--rc-chat-conversation-card-position);
   padding: var(--rc-chat-conversation-card-padding);
   background: var(--rc-chat-conversation-card-background);
   border: var(--rc-chat-conversation-card-border);
   border-radius: var(--rc-chat-conversation-card-border-radius);
   box-shadow: var(--rc-chat-conversation-card-shadow);
-
-  cursor: pointer;
+  overflow: var(--rc-chat-conversation-overflow);
+  cursor: var(--rc-chat-conversation-card-cursor);
 
   &:hover {
     background: var(--rc-chat-conversation-card-hover-background);
@@ -129,51 +183,105 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
       background: var(--rc-chat-conversation-card-selected-hover-background);
       box-shadow: var(--rc-chat-conversation-card-selected-hover-shadow);
     }
+  }
 
-    #{$container} {
-      &__top {
-        &__actions {
-          &__unread {
-            display: none;
-          }
-        }
-      }
+  &__highlight {
+    visibility: hidden;
+    width: 8px;
+
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    pointer-events: none;
+    border-radius: var(--rc-chat-conversation-card-highlight-radius);
+    width: var(--rc-chat-conversation-card-highlight-radius);
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background: transparent;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      width: 4px;
+      height: 100%;
+      display: inline-block;
+      background: var(--rc-chat-conversation-card-highlight-background);
     }
   }
 
-  &__top {
-    color: inherit;
-    display: flex;
-    align-items: center;
-    line-height: 1;
-    width: 100%;
+  &__inner {
+    display: var(--rc-chat-conversation-card-inner-display);
 
     &__avatars {
-      flex-shrink: 0;
-      min-width: 0;
+      margin: var(--rc-chat-conversation-card-inner-avatars-margin);
     }
 
-    &__title {
-      padding-left: var(--rc-chat-conversation-card-title-padding-left);
-      font-weight: var(--rc-weight-medium);
+    &__info {
+      flex: var(--rc-chat-conversation-card-inner-info-flex);
+      align-items: var(--rc-chat-conversation-card-inner-info-align-items);
+      justify-content: var(
+        --rc-chat-conversation-card-inner-info-justify-content
+      );
+      display: var(--rc-chat-conversation-card-inner-info-display);
+      flex-direction: var(
+        --rc-chat-conversation-card-inner-info-flex-direction
+      );
+      padding: var(--rc-chat-conversation-card-inner-info-padding);
 
-      &__name {
-        font-size: var(--rc-chat-conversation-card-title-name-font-size);
-        font-weight: var(--rc-chat-conversation-card-title-name-font-weight);
-        color: var(--rc-chat-conversation-card-title-name-color);
+      &__title {
+        font-weight: var(
+          --rc-chat-conversation-card-inner-info-title-font-weight
+        );
+        font-size: var(--rc-chat-conversation-card-inner-info-title-font-size);
+        line-height: var(
+          --rc-chat-conversation-card-inner-info-title-line-height
+        );
+        color: var(--rc-chat-conversation-card-inner-info-title-color);
+        margin: var(--rc-chat-conversation-card-inner-info-title-margin);
+      }
+
+      &__message {
+        font-weight: var(
+          --rc-chat-conversation-card-inner-info-message-font-weight
+        );
+        font-size: var(
+          --rc-chat-conversation-card-inner-info-message-font-size
+        );
+        line-height: var(
+          --rc-chat-conversation-card-inner-info-message-line-height
+        );
+        color: var(--rc-chat-conversation-card-inner-info-message-color);
+        margin: var(--rc-chat-conversation-card-inner-info-message-margin);
+
+        & > *,
+        & > *::after,
+        & > *::before {
+          margin: 0px;
+          font-size: inherit;
+        }
       }
 
       &__timestamp {
-        font-size: var(--rc-chat-conversation-card-title-timestamp-font-size);
         font-weight: var(
-          --rc-chat-conversation-card-title-timestamp-font-weight
+          --rc-chat-conversation-card-inner-info-timestamp-font-weight
         );
-        color: var(--rc-chat-conversation-card-title-timestamp-color);
+        font-size: var(
+          --rc-chat-conversation-card-inner-info-timestamp-font-size
+        );
+        line-height: var(
+          --rc-chat-conversation-card-inner-info-timestamp-line-height
+        );
+        color: var(--rc-chat-conversation-card-inner-info-timestamp-color);
+        margin: var(--rc-chat-conversation-card-inner-info-timestamp-margin);
       }
     }
 
     &__actions {
       flex-shrink: 0;
+      padding-top: 2px;
+
       min-width: var(--rc-chat-conversation-card-actions-min-width);
 
       &__unread {
@@ -181,7 +289,16 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
         width: var(--rc-chat-conversation-card-actions-unread-width);
         height: var(--rc-chat-conversation-card-actions-unread-height);
 
+        right: 13px;
+        bottom: 19px;
+
         &__count {
+          text-align: center;
+          font-size: 10px;
+          line-height: calc(
+            var(--rc-chat-conversation-card-actions-unread-height) - 3px
+          );
+
           width: 100%;
           height: 100%;
           background: var(
@@ -215,11 +332,64 @@ $chat-conversation-hover-color: rgba(var(--rc-color-primary-rgb), 1);
 
   &--unread {
     #{$container} {
+      &__highlight {
+        visibility: visible;
+      }
+
+      &__inner {
+        &__info {
+          &__message {
+            font-family: "Urbanist";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 18px;
+            /* identical to box height, or 138% */
+
+            color: #207be5;
+          }
+        }
+      }
+
       &__message {
         color: var(--rc-chat-conversation-card-message-unread-color);
         font-weight: var(
           --rc-chat-conversation-card-message-unread-font-weight
         );
+      }
+    }
+  }
+
+  --roq-action-button-icon-color: var(--rc-chat-conversation-card-action-color);
+
+  &--selected,
+  &:hover {
+    --roq-action-button-icon-color: var(
+      --rc-chat-conversation-card-selected-action-color
+    );
+
+    #{$container} {
+      &__inner {
+        &__info {
+          &__title {
+            color: #ffffff;
+            color: var(
+              --rc-chat-conversation-card-hover-inner-info-title-color
+            );
+          }
+          &__message {
+            color: rgba(255, 255, 255, 0.8);
+            color: var(
+              --rc-chat-conversation-card-hover-inner-info-message-color
+            );
+          }
+          &__timestamp {
+            color: #ffffff;
+            color: var(
+              --rc-chat-conversation-card-hover-inner-info-timestamp-color
+            );
+          }
+        }
       }
     }
   }

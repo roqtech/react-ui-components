@@ -5,7 +5,7 @@ import { ChatConversationCard, ChatConversationCardForm } from "../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversationList/ChatConversations/ChatConversationCard",
+    "Roq Components/Chat/ChatSidebar/ChatConversationList/ChatConversations/ChatConversationCard",
   component: ChatConversationCard,
   argTypes: {
     lastMessage: { control: "text" },

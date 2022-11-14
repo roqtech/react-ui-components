@@ -76,7 +76,7 @@ const formatParagraph = (
   options?: HTMLReactParserOptions
 ): ReactElement => {
   const { ...props } = attributesToProps(el.attribs);
-  const paragraphClass = clsx(props.class, "leading-6 min-h-6");
+  const paragraphClass = clsx(props.class);
 
   return (
     <p {...props} className={paragraphClass}>

@@ -1,9 +1,22 @@
 @import "../../../styles/styles.scss";
 
 :root {
-  --roq-components-position: relative;
+  --roq-components-before-text-align: center;
+  --roq-components-content-position: relative;
 }
 
 @include roq-component("chat-message-history-line") {
-  position: var(--roq-components-position);
+  display: flex;
+  flex-direction: column;
+
+  &__before {
+    text-align: var(--roq-components-before-text-align);
+  }
+
+  &__content {
+    position: var(--roq-components-content-position);
+  }
+
+  &__after {
+  }
 }

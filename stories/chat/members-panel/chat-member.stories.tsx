@@ -1,11 +1,11 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChatMember } from "../../../../src";
+import { ChatMember } from "../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatMembersPanel/ChatMemberList/ChatMembers/ChatMember",
+    "Roq Components/Chat/Panel/ChatMembersPanel/ChatMemberList/ChatMembers/ChatMember",
   component: ChatMember,
   argTypes: {},
   decorators: [

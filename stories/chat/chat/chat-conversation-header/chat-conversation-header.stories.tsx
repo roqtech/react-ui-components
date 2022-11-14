@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatConversationHeader } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversation/ChatConversationHeader",
+  title: "Roq Components/Chat/ChatWindow/ChatConversationHeader",
   component: ChatConversationHeader,
   argTypes: {},
 } as ComponentMeta<typeof ChatConversationHeader>;

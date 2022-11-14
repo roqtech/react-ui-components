@@ -5,7 +5,7 @@ import { ChatConversationMenu } from "../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversationList/ChatConversations/ChatConversationCard/ChatConversationMenu",
+    "Roq Components/Chat/ChatSidebar/ChatConversationList/ChatConversations/ChatConversationCard/ChatConversationMenu",
   component: ChatConversationMenu,
   argTypes: {
     conversationId: { control: "text" },
