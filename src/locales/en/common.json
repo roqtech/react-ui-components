@@ -128,13 +128,14 @@
     "loading": "Loading…",
     "all": "all",
     "unread": "unread",
-    "Notification": "Notification",
+    "Notifications": "Notifications",
     "Notification-preference": "Notification preference"
   },
   "notification": {
     "mark-as-read": "Mark notification as read",
     "mark-as-unread": "Mark notification as unread",
     "channel-in-app": "In-app",
-    "channel-email": "Email"
+    "channel-email": "Email",
+    "no-notifications-right-now": "You have no notifications right now"
   }
 }

@@ -22,7 +22,8 @@ export interface CardProps {
   titleProps?: ChildrenBaseProps
   bodyProps?: ChildrenBaseProps
   headerProps?: ChildrenBaseProps
-  headerExtraProps?: ChildrenBaseProps
+  headerExtraProps?: ChildrenBaseProps,
+  icon?: ReactNode
 }
 
 const Card: React.FC<CardProps> = (props) => {
@@ -35,6 +36,7 @@ const Card: React.FC<CardProps> = (props) => {
     bodyProps,
     headerProps,
     headerExtraProps,
+    icon,
     ...rest
   } = props
 
@@ -75,29 +77,32 @@ const Card: React.FC<CardProps> = (props) => {
   const ContainerHeaderExtra = headerExtraProps?.Container || 'div'
 
   return (
-    <Container className={clsx(_CLASS_IS, rest.className)}>
-      <ContainerHeader
-        className={clsx(_CLASS_IS + '-header', headerProps?.className)}
-      >
-        {renderTitle}{' '}
-        {headerExtraContent && (
-          <ContainerHeaderExtra
-            className={clsx(
-              _CLASS_IS + '-header-extra',
-              headerExtraProps?.className,
-            )}
-          >
-            {headerExtraContent}
-          </ContainerHeaderExtra>
-        )}
-      </ContainerHeader>
-      {children && (
-        <ContainerBody
-          className={clsx(_CLASS_IS + '-body', bodyProps?.className)}
+    <Container className={clsx(_CLASS_IS, { [_CLASS_IS + '__with-icon']: !!icon }, rest.className)}>
+      {icon ? <div className={clsx(_CLASS_IS + '__icon-block')}>{icon}</div> : null}
+      <div className={clsx({[_CLASS_IS + '__content-block']: !!icon})}>
+        <ContainerHeader
+          className={clsx(_CLASS_IS + '-header', headerProps?.className)}
         >
-          {children}
-        </ContainerBody>
-      )}
+          {renderTitle}{' '}
+          {headerExtraContent && (
+            <ContainerHeaderExtra
+              className={clsx(
+                _CLASS_IS + '-header-extra',
+                headerExtraProps?.className,
+              )}
+            >
+              {headerExtraContent}
+            </ContainerHeaderExtra>
+          )}
+        </ContainerHeader>
+        {children && (
+          <ContainerBody
+            className={clsx(_CLASS_IS + '-body', bodyProps?.className)}
+          >
+            {children}
+          </ContainerBody>
+        )}
+      </div>
     </Container>
   )
 }
