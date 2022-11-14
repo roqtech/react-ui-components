@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RoqProvider } from "../src/components/core/roq-provider/roq-provider";
 import { authorizeServiceAccount } from "../src/utils/authorize-service-account";
 import "../stories/assets/custom.css";
@@ -104,7 +104,7 @@ const CHAT_PREVIEW_COMPONENT = [
 const themes = parameters.backgrounds.values.reduce(
   (acc, background) => ({
     ...acc,
-    [background.name]: background.value,
+    [background.value]: background.name,
   }),
   {}
 );
@@ -125,11 +125,14 @@ export const decorators = [
     return <Story />;
   },
   (Story, context) => {
-    const skipProvider = ['roq-components-notification-list', 'roq-components-notification-bell']
+    const skipProvider = [
+      "roq-components-notification-list",
+      "roq-components-notification-bell",
+    ];
     if (skipProvider.includes(context?.componentId)) {
-      return Story()
+      return Story();
     }
-    
+
     const { host, tenantId, apiKey, serviceAccount } = hostConfig;
 
     if (CHAT_PREVIEW_COMPONENT.includes(context.componentId)) {
