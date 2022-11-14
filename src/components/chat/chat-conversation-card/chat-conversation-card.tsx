@@ -170,7 +170,7 @@ export const ChatConversationCard = (
                   _CLASS_IS + "__inner__info__message",
                   classNames?.message
                 )}
-                content={message}
+                content={message ?? "<p>&nbsp;</p>"}
               />
               <Timestamp
                 className={clsx(

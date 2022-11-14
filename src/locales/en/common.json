@@ -25,10 +25,10 @@
       "deleted": "Message deleted…"
     },
     "message-history": {
-      "empty": "This is the very beginning of your messaging…"
+      "empty": "You have no messages right now"
     },
     "conversation-list": {
-      "loading": "Loading…"
+      "loading": ""
     },
     "member-list": {
       "loading": "Loading…"

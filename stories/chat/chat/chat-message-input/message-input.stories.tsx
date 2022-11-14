@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ChatMessageInput } from "../../../../src";
 
 export default {
-  title: "Roq Components/Chat/ChatConversation/ChatMessageInput",
+  title: "Roq Components/Chat/ChatWindow/ChatMessageInput",
   component: ChatMessageInput,
   argTypes: {
     value: { control: "text" },

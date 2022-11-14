@@ -26,6 +26,7 @@ import { ChatMessageMenu } from "src/index";
 import { ActionButton } from "src/components/common";
 import _isEmpty from "lodash/isEmpty";
 import { useRoqTranslation } from "src/components/core/roq-provider";
+import { MailIcon as DefaultIcon } from "./mail-icon";
 
 const _CLASS_IS = COMPONENT_CLASS_PREFIX + "chat-message-history";
 
@@ -43,6 +44,9 @@ export interface ChatMessageHistoryPropsInterface {
     container?: string;
     spacer?: string;
     empty?: string;
+    emtpyIconWrapper?: string;
+    emtpyIcon?: string;
+    emptyMessage?: string;
     line?: string;
     message?: string;
   };
@@ -56,6 +60,9 @@ export interface ChatMessageHistoryPropsInterface {
     Empty: ComponentType<
       Pick<HTMLAttributes<HTMLElement>, "style" | "className" | "children">
     >;
+    EmptyIconWrapper: ComponentType<HTMLAttributes<HTMLElement>>;
+    EmptyIcon: ComponentType<HTMLAttributes<HTMLElement>>;
+    EmptyMessage: ComponentType<HTMLAttributes<HTMLElement>>;
     Line: ComponentType<
       Pick<
         ChatMessageHistoryLinePropsInterface,
@@ -76,12 +83,16 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
     showAvatarInGroup = false,
     showTimeInGroup = false,
     isEmpty = false,
-    emptyMessage
+    emptyMessage,
   } = props;
 
   const Container = components?.Container ?? "div";
   const Spacer = components?.Spacer ?? "div";
   const Empty = components?.Empty ?? "div";
+  const EmptyIconWrapper = components?.EmptyIconWrapper ?? "div";
+  const EmptyIcon = components?.EmptyIcon ?? DefaultIcon;
+  const EmptyMessage = components?.EmptyMessage ?? "div";
+
   const Line = components?.Line ?? ChatMessageHistoryLine;
   const Message = components?.Message ?? ChatMessage;
 
@@ -137,7 +148,27 @@ export const ChatMessageHistory = (props: ChatMessageHistoryPropsInterface) => {
       )}
       {showEmpty && (
         <Empty className={clsx(_CLASS_IS + "__empty", classNames?.empty)}>
-          {emptyMessage ?? t('chat.message-history.empty')}
+          <EmptyIconWrapper
+            className={clsx(
+              _CLASS_IS + "__empty__icon-wrapper",
+              classNames?.emtpyIconWrapper
+            )}
+          >
+            <EmptyIcon
+              className={clsx(
+                _CLASS_IS + "__empty__icon-wrapper__icon",
+                classNames?.emtpyIcon
+              )}
+            />
+          </EmptyIconWrapper>
+          <EmptyMessage
+            className={clsx(
+              _CLASS_IS + "__empty__message",
+              classNames?.emptyMessage
+            )}
+          >
+            {emptyMessage ?? t("chat.message-history.empty")}
+          </EmptyMessage>
         </Empty>
       )}
       {children}

@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChatMember } from "../../../../src";
+import { ChatMember } from "../../../src";
 
 export default {
   title:

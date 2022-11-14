@@ -5,7 +5,7 @@ import { ChatMessageMenu } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageMenu",
+    "Roq Components/Chat/ChatWindow/ChatMessageList/ChatMessageHistory/ChatMessage/ChatMessageMenu",
   component: ChatMessageMenu,
   argTypes: {
     isAuthor: { control: "boolean" },

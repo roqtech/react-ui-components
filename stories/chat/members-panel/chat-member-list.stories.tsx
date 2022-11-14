@@ -1,8 +1,8 @@
 import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { ChatMemberList } from "../../../../src";
-import { ChatDecorator, chatArgTypes } from "../../../utils/chat.decorator";
+import { ChatMemberList } from "../../../src";
+import { ChatDecorator, chatArgTypes } from "../../utils/chat.decorator";
 
 export default {
   title: "Roq Components/Chat/ChatMembersPanel/ChatMemberList",

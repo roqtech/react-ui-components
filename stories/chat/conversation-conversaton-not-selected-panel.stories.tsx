@@ -2,7 +2,7 @@ import React from "react";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChatConversationNotSelectedPanel } from "../../../src";
+import { ChatConversationNotSelectedPanel } from "../../src";
 
 export default {
   title: "Roq Components/Chat/ChatConversationNotSelectedPanel",

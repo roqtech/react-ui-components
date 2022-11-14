@@ -39,7 +39,6 @@ export const ChatSidebar = (props: ChatSidebarPropsInterface) => {
   const { title, buttonLabel, onActionClick, showSearch } = props;
 
   const Container = components?.Container ?? Panel;
-  const Message = components?.Message ?? "h4";
 
   const Header = components?.Header ?? "div";
   const Top = components?.Top ?? "div";

@@ -176,7 +176,7 @@ export const INITIAL_CONVERSATIONS_STATE: ChatConversationListInterface = {
   isLoading: false,
   hasMore: false,
   offset: 0,
-  limit: 10,
+  limit: 5,
   totalCount: 0,
   loadedTotal: 0,
   data: [],

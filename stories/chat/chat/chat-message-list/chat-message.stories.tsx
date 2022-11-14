@@ -5,7 +5,7 @@ import { ChatMessage } from "../../../../src";
 
 export default {
   title:
-    "Roq Components/Chat/ChatConversation/ChatMessageList/ChatMessageHistory/ChatMessage",
+    "Roq Components/Chat/ChatWindow/ChatMessageList/ChatMessageHistory/ChatMessage",
   component: ChatMessage,
   argTypes: {
     isSent: { control: "boolean" },

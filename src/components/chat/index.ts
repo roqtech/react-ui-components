@@ -57,8 +57,8 @@ export {
   ChatMessageEditor,
   ChatMessageEditorPropsInterface,
 } from "./chat-message-editor";
-export { MessageCenter, MessageCenterPropsInterface } from "./message-center";
 export { Chat, ChatPropsInterface } from "./chat";
+export { ChatWindow, ChatWindowPropsInterface } from "./chat-window";
 export { ChatMember, ChatMemberPropsInterface } from "./chat-member";
 export { ChatMembers, ChatMembersPropsInterface } from "./chat-members";
 export {
