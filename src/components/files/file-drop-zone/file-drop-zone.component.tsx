@@ -4,15 +4,16 @@ import { useDropzone } from 'react-dropzone';
 import { useRoqComponents } from 'src/components/core/roq-provider';
 import { useFileUploader } from 'src/hooks/files';
 import clsx from 'clsx';
-import { FileIcon, PlusIcon } from 'src/components/icons';
+import { PlusIcon, UploadIcon as _UploadIcon } from 'src/components/icons';
 import { ActiveUploads } from 'src/components/files/active-uploads';
 import { FileDropZonePropsInterface } from 'src/components/files/file-drop-zone/file-drop-zone.interface';
 import { createFileUploadUrlMutation, updateFileStatusMutation } from 'src/lib/graphql/files';
 import { getFileType } from 'src/utils';
 import './file-drop-zone.scss';
+import { COMPONENT_CLASS_PREFIX } from 'src/utils/constant';
 
-const _CLASS_IS = 'roq-file-drop-zone';
-const withBaseClass = (...classes: string[]): string[] => classes.map((className) => `${_CLASS_IS}-${className}`);
+const _CLASS_IS = `${COMPONENT_CLASS_PREFIX}file-drop-zone`;
+const withBaseClass = (...classes: string[]): string[] => classes.map((className) => `roq-file-drop-zone-${className}`);
 
 export const FileDropZone = (props: FileDropZonePropsInterface) => {
     const {
@@ -87,56 +88,60 @@ export const FileDropZone = (props: FileDropZonePropsInterface) => {
 
 
     const ActiveUploadsComponent = components?.activeUploads ?? ActiveUploads;
-    const ActionBar = components?.actionBar ?? 'div';
+    const TopRow = components?.topRow ?? 'div';
+    const Title = components?.title ?? 'h2';
+    const UploadButtonContainer = components?.uploadButtonContainer ?? 'div';
     const UploadButton = components?.uploadButton ?? 'button';
     const UploadButtonIcon = components?.uploadButtonIcon ?? PlusIcon;
+    const DropZoneContainer = components?.dropZoneContainer ?? 'div';
     const DropZoneWrapper = components?.dropZoneWrapper ?? 'div';
-    const DropZone = components?.dropZone ?? 'div';
     const DropText = components?.dropText ?? 'p';
-    const DropIcon = components?.dropIcon ?? FileIcon;
+    const UploadIcon = components?.uploadIcon ?? _UploadIcon;
     const Input = components?.input ?? 'input';
     const DropZoneInput = components?.dropZoneInput ?? 'input';
 
     return (
-        <>
+        <div className={clsx(_CLASS_IS)}>
             {
                 showUploadButton && (
-                    <ActionBar className={clsx(withBaseClass('action-bar'), classNames?.actionBar)}>
-                        <UploadButton
-                            className={clsx(withBaseClass('button', 'primary'), classNames?.uploadButton)}
-                            onClick={handleUploadFileButtonClick}
-                        >
-                            <UploadButtonIcon
-                                className={clsx(withBaseClass('button-icon'), classNames?.uploadButtonIcon)}/> &nbsp; {t('upload-file-cta')}
-                        </UploadButton>
-                        <Input
-                            multiple
-                            accept={accept?.join(',')}
-                            type="file"
-                            ref={fileInputRef}
-                            className={clsx(withBaseClass('input'), classNames?.input)}
-                            onChange={(evt) => {
-                                const uploadedFiles = evt.target?.files as FileList;
-                                handleFileUpload(Array.from(uploadedFiles));
-                                evt.target.value = '';
-                            }}
-                        />
-                    </ActionBar>
+                    <TopRow className={clsx(`${_CLASS_IS}__top-row`, classNames?.topRow)}>
+                        <Title className={clsx(`${_CLASS_IS}__title`)}>{t('files.title')}</Title>
+                        <UploadButtonContainer className={clsx(classNames?.uploadButtonContainer)}>
+                            <UploadButton
+                                className={clsx(`${_CLASS_IS}__upload-btn`, classNames?.uploadButton)}
+                                onClick={handleUploadFileButtonClick}
+                            >
+                                <UploadButtonIcon
+                                    className={clsx(`${_CLASS_IS}__upload-btn-icon`, classNames?.uploadButtonIcon)}/> &nbsp; {t('upload-file-cta')}
+                            </UploadButton>
+                            <Input
+                                multiple
+                                accept={accept?.join(',')}
+                                type="file"
+                                ref={fileInputRef}
+                                className={clsx(`${_CLASS_IS}__upload-btn-input`)}
+                                onChange={(evt) => {
+                                    const uploadedFiles = evt.target?.files as FileList;
+                                    handleFileUpload(Array.from(uploadedFiles));
+                                    evt.target.value = '';
+                                }}
+                            />
+                        </UploadButtonContainer>
+                    </TopRow>
                 )
             }
             {
                 showDropZone && (
-                    <DropZoneWrapper {...getRootProps()}
-                                     className={clsx(withBaseClass('drop-zone-wrapper'), classNames?.dropZoneWrapper)}>
-                        <DropZone className={clsx(withBaseClass('drop-zone'), classNames?.dropZone)}>
+                    <DropZoneContainer {...getRootProps()}
+                                       className={clsx(`${_CLASS_IS}__container`, classNames?.dropZoneContainer)}>
+                        <DropZoneWrapper className={clsx(`${_CLASS_IS}__wrapper`, classNames?.dropZoneWrapper)}>
                             <DropZoneInput {...getInputProps()} />
-                            <DropText className={clsx(withBaseClass('drop-text'), classNames?.dropText)}>
-                                <DropIcon width="50px" height="50px" className={clsx(classNames?.dropIcon)}/>
-                                <br/>
-                                {t('drop-uploads-cta')}
+                            <UploadIcon className={clsx(`${_CLASS_IS}__upload-icon`, classNames?.uploadIcon)}/>
+                            <DropText className={clsx(`${_CLASS_IS}__drop-text`, classNames?.dropText)}>
+                                {t('drop-uploads-pre')}&nbsp;<span>{t('drop-uploads-cta')}</span> {t('drop-uploads-post')}
                             </DropText>
-                        </DropZone>
-                    </DropZoneWrapper>
+                        </DropZoneWrapper>
+                    </DropZoneContainer>
                 )
             }
             {
@@ -153,7 +158,7 @@ export const FileDropZone = (props: FileDropZonePropsInterface) => {
                     />
                 )
             }
-        </>
+        </div>
     );
 }
 

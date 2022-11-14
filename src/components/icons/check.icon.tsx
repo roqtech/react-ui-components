@@ -18,5 +18,5 @@ export const CheckIcon = ({ fill, ...rest }: CheckIconPropsInterface) => (
 CheckIcon.defaultProps = {
     width: '24px',
     height: '24px',
-    fill: '#008000FF'
+    fill: '#3CD89C'
 }

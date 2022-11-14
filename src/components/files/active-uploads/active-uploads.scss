@@ -1,166 +1,476 @@
 @import "../../../styles/styles.scss";
 
-.roq-active-uploads-flex {
-  display: flex;
+$active-uploads: (
+        "align-content": center,
+        "justify-content": center,
+        "justify-items": center,
+        "place-items": center,
+        "background": var(--rc-color-background),
+        "border": var(--rc-color-border),
+        "box-shadow": 0 5px 10px rgba(0, 0, 0, 0.03),
+        "border-radius": 1rem,
+        "grid-template-columns": 1fr,
+        "display": grid,
+        "padding": 1rem,
+);
+
+$container: (
+        "grid-template-columns": minMax(40vw, 1fr),
+        "display": grid,
+        "grid-gap": 2rem,
+);
+
+$title-container: (
+        "display": flex,
+        "align-self": center,
+);
+
+$title: (
+        "font-size": 1.5rem,
+        "line-height":1.813rem,
+        "font-weight":700,
+        "font-feature-setting": 'light' off,
+        "color": var(--rc-color-secondary),
+        "text-align": start,
+        "padding-bottom":0,
+        "margin-bottom":0,
+);
+
+$list-item: (
+        display: grid,
+        grid-template-columns: 1fr 6fr,
+        border-radius: 8px,
+        align-content: space-around,
+        justify-content: space-between,
+        align-self: center,
+        background: var(--rc-color-card),
+        padding: 2rem 0,
+);
+
+$progress-bar: (
+        -webkit-appearance: none,
+        -moz-appearance: none,
+        appearance: none,
+        border: none,
+        height: 0.313rem,
+        color: var(--rc-color-primary),
+        background-color: rgba(33, 150, 243, 0.12),
+        font-size: 1.125rem,
+        margin-right: 0.5rem,
+        width: 100%,
+);
+
+$file-icon-column: (
+        flex-grow: 1,
+        justify-content: center,
+        align-items: center,
+        justify-self: center,
+);
+
+$file-icon-container: (
+        background: #EAF8FD,
+        border-radius: 50%,
+        display: flex,
+        width: 4.375rem,
+        height: 4.375rem,
+        align-items: center,
+        justify-content: center,
+);
+$details-column: (
+        flex-grow: 1,
+        flex-direction: column,
+        margin-right: 1.5rem,
+        margin-left: 0.5rem,
+);
+
+$file-info-row: (
+        display: flex,
+        align-items: space-between,
+        justify-content: space-between,
+        text-align: left,
+        margin-bottom: 3rem,
+);
+
+$file-name-and-size-column: (
+        display: flex,
+        justify-content: start,
+        flex-wrap: wrap,
+);
+
+$file-name-column: (
+        display: flex,
+);
+
+
+$file-size-row: (
+        display: flex,
+        margin: 0.3rem 0,
+        flex-direction: row,
+        width: 100%,
+);
+
+$file-name: (
+        font-weight: 700,
+        font-size: 1.2rem,
+        line-height: 1.5rem,
+        margin-right: 0.5rem,
+        color: var(--rc-color-secondary),
+        white-space: nowrap,
+        overflow: hidden,
+        text-overflow: ellipsis,
+        max-width: 400px,
+);
+
+$restart-upload-icon: (
+        cursor:pointer
+);
+
+$file-size: (
+        font-weight: 400,
+        font-size: 14px,
+        line-height: 18px,
+        color: var(--rc-color-text),
+);
+
+
+$file-status-column: (
+        display: flex,
+        justify-content: end,
+);
+$file-status: (
+        font-weight: 400,
+        font-size: 14px,
+        line-height: 18px,
+        text-align: right,
+        margin-right: 0.7rem,
+        color: var(--rc-color-text),
+);
+
+$cancel-icon: (
+        fill: var(--rc-color-text),
+);
+
+$delete-icon: (
+        fill: var(--rc-color-text),
+);
+
+$progress-row: (
+        flex-grow: 1,
+        width: 100%,
+        display: flex,
+        flex-direction: row,
+        align-self: start,
+        align-content: space-between,
+        justify-content: space-between,
+);
+
+$progress-bar-row: (
+        display: flex,
+        width: 85%,
+        flex-direction: column,
+        align-self: start,
+);
+
+
+$progress-percentage-column: (
+        display: flex,
+        flex-direction: column,
+        align-self: end,
+);
+
+$progress-percentage: (
+        font-weight: 700,
+        font-size: 14px,
+        line-height: 17px,
+        text-align: right,
+        color: var(--rc-color-secondary)
+);
+
+
+:root {
+  &.rc-dark {
+    --rc-active-uploads-title-color: var(--rc-color-white);
+    --rc-active-uploads-file-name-color: var(--rc-color-white);
+    --rc-active-uploads-progress-percentage-color: var(--rc-color-white);
+  }
+
+  @each $name, $value in $active-uploads {
+    --rc-active-uploads-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $container {
+    --rc-active-uploads-container-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $title-container {
+    --rc-active-uploads-title-container-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $title {
+    --rc-active-uploads-title-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $list-item {
+    --rc-active-uploads-list-item-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $progress-bar {
+    --rc-active-uploads-progress-bar-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-icon-column {
+    --rc-active-uploads-file-icon-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-icon-container {
+    --rc-active-uploads-file-icon-container-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $details-column {
+    --rc-active-uploads-details-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-info-row {
+    --rc-active-uploads-file-info-row-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-name-and-size-column {
+    --rc-active-uploads-file-name-and-size-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-name-column {
+    --rc-active-uploads-file-name-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-name-column {
+    --rc-active-uploads-file-name-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-size-row {
+    --rc-active-uploads-file-size-row-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-name {
+    --rc-active-uploads-file-name-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $restart-upload-icon {
+    --rc-active-uploads-restart-upload-icon-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-size {
+    --rc-active-uploads-file-size-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-status-column {
+    --rc-active-uploads-file-status-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $file-status {
+    --rc-active-uploads-file-status-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $cancel-icon {
+    --rc-active-uploads-cancel-icon-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $delete-icon {
+    --rc-active-uploads-delete-icon-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $progress-row {
+    --rc-active-uploads-progress-row-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $progress-bar-row {
+    --rc-active-uploads-progress-bar-row-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $progress-percentage-column {
+    --rc-active-uploads-progress-percentage-column-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $progress-percentage {
+    --rc-active-uploads-progress-percentage-#{$name}: #{$value};
+  }
 }
 
-.roq-active-uploads-padding-10 {
-  padding: 10px;
+@include roq-component("active-uploads") {
+  @each $name in map-keys($active-uploads) {
+    #{$name}: var(--rc-active-uploads-#{$name});
+  }
+
+  &__container {
+    @each $name in map-keys($container) {
+      #{$name}: var(--rc-active-uploads-container-#{$name});
+    }
+  }
+
+  &__title-container {
+    @each $name in map-keys($title-container) {
+      #{$name}: var(--rc-active-uploads-title-container-#{$name});
+    }
+  }
+
+  &__title {
+    @each $name in map-keys($title) {
+      #{$name}: var(--rc-active-uploads-title-#{$name});
+    }
+  }
+
+  &__list-item {
+    @each $name in map-keys($list-item) {
+      #{$name}: var(--rc-active-uploads-list-item-#{$name});
+    }
+  }
+  &__file-icon-column {
+    @each $name in map-keys($file-icon-column) {
+      #{$name}: var(--rc-active-uploads-file-icon-column-#{$name});
+    }
+  }
+  &__file-icon-container {
+    @each $name in map-keys($file-icon-container) {
+      #{$name}: var(--rc-active-uploads-file-icon-container-#{$name});
+    }
+  }
+  &__details-column {
+    @each $name in map-keys($details-column) {
+      #{$name}: var(--rc-active-uploads-details-column-#{$name});
+    }
+  }
+  &__file-info-row {
+    @each $name in map-keys($file-info-row) {
+      #{$name}: var(--rc-active-uploads-file-info-row-#{$name});
+    }
+  }
+  &__file-name-and-size-column {
+    @each $name in map-keys($file-name-and-size-column) {
+      #{$name}: var(--rc-active-uploads-file-name-and-size-column-#{$name});
+    }
+  }
+  &__file-name-column {
+    @each $name in map-keys($file-icon-column) {
+      #{$name}: var(--rc-active-uploads-file-name-column-#{$name});
+    }
+  }
+  &__file-size-row {
+    @each $name in map-keys($file-size-row) {
+      #{$name}: var(--rc-active-uploads-file-size-row-#{$name});
+    }
+  }
+  &__file-name {
+    @each $name in map-keys($file-name) {
+      #{$name}: var(--rc-active-uploads-file-name-#{$name});
+    }
+  }
+  &__restart-upload-icon {
+    @each $name in map-keys($restart-upload-icon) {
+      #{$name}: var(--rc-active-uploads-restart-upload-icon-#{$name});
+    }
+  }
+  &__file-size {
+    @each $name in map-keys($file-size) {
+      #{$name}: var(--rc-active-uploads-file-size-#{$name});
+    }
+  }
+  &__file-status-column {
+    @each $name in map-keys($file-status-column) {
+      #{$name}: var(--rc-active-uploads-file-status-column-#{$name});
+    }
+  }
+  &__file-status {
+    @each $name in map-keys($file-status) {
+      #{$name}: var(--rc-active-uploads-file-status-#{$name});
+    }
+  }
+
+  &__cancel-icon {
+    @each $name in map-keys($cancel-icon) {
+      #{$name}: var(--rc-active-uploads-cancel-icon-#{$name});
+    }
+  }
+
+  &__delete-icon {
+    @each $name in map-keys($delete-icon) {
+      #{$name}: var(--rc-active-uploads-delete-icon-#{$name});
+    }
+  }
+
+  &__progress-row {
+    @each $name in map-keys($progress-row) {
+      #{$name}: var(--rc-active-uploads-progress-row-#{$name});
+    }
+  }
+  &__progress-bar-row {
+    @each $name in map-keys($progress-bar-row) {
+      #{$name}: var(--rc-active-uploads-progress-bar-row-#{$name});
+    }
+  }
+
+  &__progress-bar {
+    @each $name in map-keys($progress-bar) {
+      #{$name}: var(--rc-active-uploads-progress-bar-#{$name});
+    }
+
+    &::-webkit-progress-bar {
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      background-color: currentColor;
+      transition: all 0.2s;
+    }
+
+    &::-moz-progress-bar {
+      background-color: currentColor;
+      transition: all 0.2s;
+    }
+
+    &::-ms-fill {
+      border: none;
+      background-color: currentColor;
+      transition: all 0.2s;
+    }
+
+    &:indeterminate {
+      background-size: 200% 100%;
+      background-image: linear-gradient(to right, transparent 50%, currentColor 50%, currentColor 60%, transparent 60%, transparent 71.5%, currentColor 71.5%, currentColor 84%, transparent 84%);
+    }
+
+    &:indeterminate::-moz-progress-bar {
+      background-color: transparent;
+    }
+
+    &:indeterminate::-ms-fill {
+      animation-name: none;
+    }
+  }
+
+  &__progress-percentage-column {
+    @each $name in map-keys($progress-percentage-column) {
+      #{$name}: var(--rc-active-uploads-progress-percentage-column-#{$name});
+    }
+  }
+  &__progress-percentage {
+    @each $name in map-keys($progress-percentage) {
+      #{$name}: var(--rc-active-uploads-progress-percentage-#{$name});
+    }
+  }
 }
 
-.roq-active-uploads-item {
-  padding: 10px;
-  font-size: 30px;
-  text-align: center;
-}
-
-.roq-active-uploads-space-between {
-  align-content: space-around;
-  justify-content: space-between;
-}
-
-.roq-active-uploads-align-items-center {
-  align-items: center;
-}
-
-.roq-active-uploads-progress-linear {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  height: 0.35em;
-  color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
-  background-color: rgba(var(--pure-material-primary-rgb, 33, 150, 243), 0.12);
-  font-size: 18px;
-}
-
-.roq-active-uploads-progress-linear::-webkit-progress-bar {
-  background-color: transparent;
-}
-
-.roq-active-uploads-progress-linear::-webkit-progress-value {
-  background-color: currentColor;
-  transition: all 0.2s;
-}
-
-.roq-active-uploads-progress-linear::-moz-progress-bar {
-  background-color: currentColor;
-  transition: all 0.2s;
-}
-
-.roq-active-uploads-progress-linear::-ms-fill {
-  border: none;
-  background-color: currentColor;
-  transition: all 0.2s;
-}
-
-.roq-active-uploads-progress-linear:indeterminate {
-  background-size: 200% 100%;
-  background-image: linear-gradient(to right, transparent 50%, currentColor 50%, currentColor 60%, transparent 60%, transparent 71.5%, currentColor 71.5%, currentColor 84%, transparent 84%);
-  animation: pure-material-progress-linear 2s infinite linear;
-}
-
-.roq-active-uploads-progress-linear:indeterminate::-moz-progress-bar {
-  background-color: transparent;
-}
-
-.roq-active-uploads-progress-linear:indeterminate::-ms-fill {
-  animation-name: none;
-}
-
-.roq-active-uploads {
-  width: 456px;
-  background: map-get($light-pallete, 'white');
-  border-radius: 0.5rem;
-  box-shadow: 0 0.25rem 1rem rgba(13, 28, 70, 0.15);
-  position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  padding: 1.5rem;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.roq-active-uploads-title {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  letter-spacing: 0.15px;
-  color: $blueGray-900;
-}
-
-.roq-active-uploads-row {
-  margin-top: 1rem;
-}
-
-.roq-active-uploads-failure-message-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.roq-active-uploads-failure-message {
-  color: $errorMain;
-}
-
-.roq-active-uploads-restart-icon {
-  color: map-get($light-pallete, 'black');
-  cursor: pointer;
-}
-
-.roq-active-uploads-progress-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.roq-active-uploads-progress-bar {
-  margin-right: 0.5rem;
-  width: 100%;
-}
-
-.roq-active-uploads-file-name-wrap {
-  display: flex;
-  align-items: center;
-  max-width: 250px;
-  text-overflow: ellipsis;
-  text-align: left;
-}
-
-.roq-active-uploads-file-name {
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  text-overflow: ellipsis;
-  width: 100%;
-  color: $blueGray-500;
-}
-
-.roq-active-uploads-body1 {
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.roq-active-uploads-cancel-upload-btn {
-  padding: 0;
-  min-width: unset;
-  background: none;
-  cursor: pointer;
-}
-
-.roq-active-uploads-cancel-upload-btn--color-inherit {
-  color: map-get($light-pallete, 'black') !important;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.roq-active-uploads-dismiss-button {
-  color: map-get($light-pallete, 'black');
-  cursor: pointer;
-}
-
-.roq-active-uploads-icon {
-  cursor: pointer;
+@media screen and (max-width: $screen-sm-min) {
+  :root {
+    --rc-active-uploads-file-name-and-size-column-width: 60%;
+    --rc-active-uploads-file-status-column-width: 40%;
+    --rc-active-uploads-file-info-row-margin-bottom: 1rem;
+    --rc-active-uploads-file-status-margin-right: 0.3rem;
+    --rc-active-uploads-padding: 0.5rem;
+    --rc-active-uploads-details-column-margin-left: 0.4rem;
+    --rc-active-uploads-details-column-margin-right: 0rem;
+    --rc-active-uploads-progress-bar-row-width: 80%;
+    --rc-active-uploads-progress-percentage-column-width: 20%;
+    --rc-active-uploads-file-name-max-width: 100px;
+    --rc-active-uploads-file-icon-container-width: 3rem;
+    --rc-active-uploads-file-icon-container-height: 3rem;
+  }
 }

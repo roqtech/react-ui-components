@@ -14,6 +14,6 @@ export const CancelIcon = (props: CancelIconPropsInterface) => (
 )
 
 CancelIcon.defaultProps = {
-    width: '200px',
-    height: '200px',
+    width: '20',
+    height: '20',
 }

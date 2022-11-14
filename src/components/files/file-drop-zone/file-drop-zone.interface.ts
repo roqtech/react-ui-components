@@ -20,14 +20,16 @@ export interface FileDropZonePropsInterface extends Pick<CreateFileUploadUrlMuta
     onUploadFail?: FileUploaderOptions['onError'],
     components?: {
         activeUploads?: ComponentType<ActiveUploadsPropsInterface>,
-        actionBar?: HTMLComponentTypeWithChildren,
+        topRow?: HTMLComponentTypeWithChildren,
+        title?: HTMLComponentTypeWithChildren,
+        uploadButtonContainer?: HTMLComponentTypeWithChildren,
         uploadButton?: HTMLComponentTypeWithChildren<{ onClick: () => void } & CommonPropsWithChildren>
         uploadButtonIcon?: ComponentType<PlusIconPropsInterface>,
+        dropZoneContainer?: HTMLComponentTypeWithChildren,
         dropZoneWrapper?: HTMLComponentTypeWithChildren<DropzoneRootProps & CommonPropsWithChildren>,
-        dropZone?: HTMLComponentTypeWithChildren,
         dropZoneInput?: ComponentType<DropzoneInputProps>,
         dropText?: HTMLComponentTypeWithChildren
-        dropIcon?: ComponentType<FileIconPropsInterface>,
+        uploadIcon?: ComponentType<FileIconPropsInterface>,
         input?: HTMLComponentType<{
             multiple: true,
             accept?: string,
@@ -38,13 +40,14 @@ export interface FileDropZonePropsInterface extends Pick<CreateFileUploadUrlMuta
     },
     classNames?: {
         activeUploads?: ActiveUploadsPropsInterface['classNames'],
-        actionBar?: ClassValue,
+        topRow?: ClassValue,
+        title?: ClassValue,
+        uploadButtonContainer?: ClassValue,
         uploadButton?: ClassValue,
         uploadButtonIcon?: ClassValue,
+        dropZoneContainer?: ClassValue,
         dropZoneWrapper?: ClassValue,
-        dropZone?: ClassValue,
         dropText?: ClassValue,
-        dropIcon?: ClassValue,
-        input?: ClassValue,
+        uploadIcon?: ClassValue,
     }
 }
