@@ -17,3 +17,4 @@ export {
 } from "./toggle-group";
 export { Panel, PanelPropsInterface } from "./panel";
 export { Select, SelectPropsInterface } from "./select";
+export { Tabs, TabItem, TabsProps, TabItemProps } from './tabs'

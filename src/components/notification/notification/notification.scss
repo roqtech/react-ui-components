@@ -1,25 +1,44 @@
 @import "../../../styles/styles.scss";
 
-$notification-title-mb: 16px;
 
 :root {
-  --rc-notification-title-mb: #{$notification-title-mb}px;
+  --rc-notification-bg-color: var(--rc-theme-light-color-background);
 }
 
 @include roq-component("notification") {
-  padding: 1rem;
+  background-color: var(--rc-notification-bg-color);
+  border-radius: 1rem;
+  max-width: 420px;
+  border: 1px solid var(--rc-theme-light-color-border);
 }
+
 @include roq-component("notification-title") {
+  padding: 1rem;
+  padding-bottom: 0;
   color: var(--rc-primary-text-color);
-  margin-bottom: #{$notification-title-mb};
-  > .roq-component-avatar {
-    display: inline-flex;
-    margin-left: 0.5rem;
-    background-color: $blueGray-900;
-    font-weight: medium;
-    font-size: 0.875rem;
-    width: 36px;
-    height: 36px;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+@include roq-component("notification-item") {
+  margin: 1rem;
+  border: none !important;
+  .roq-component-action-button {
+    margin-right: -16px;
+    width: 32px;
+    height: 32px;
+  }
+  .roq-component-action-button__button {
+    width: 32px;
+    height: 32px;
+  }
+  .roq-component-card-header {
+    padding-bottom: 0;
+    height: 48px;
+  }
+  .roq-component-card-body {
+    padding-top: 0.125rem;
+    line-height: 22px;
   }
 }
 
@@ -38,5 +57,21 @@ $notification-title-mb: 16px;
       width: 4px;
       height: 4px;
       color: var(--rc-error)
+  }
+  p:nth-child(2) {
+    font-size: 0.75rem;
+    color: var(--rc-color-RB-70);
+  }
+}
+
+@include roq-component("notification-empty-state") {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
+  p {
+    color: var(--rc-color-RB-70);
   }
 }

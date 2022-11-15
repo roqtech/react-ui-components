@@ -1,14 +1,21 @@
 @import "../../../styles/styles.scss";
 
+:root {
+  --rc-notification-bell-color: var(--rc-theme-light-color-primary);
+}
+
 .roq-notification-bell {
   display: flex;
   > svg {
     margin-top: 8px;
+    color: var(--rc-notification-bell-color);
   }
   &-badge {
     background-color: var(--rc-badge-background-color);
-    width: 20px;
-    height: 20px;
-    font-size: 0.75rem;
+    width: 14px;
+    height: 14px;
+    font-size: 0.55rem;
+    margin-left: -10px;
+    margin-top: 4px;
   }
 }

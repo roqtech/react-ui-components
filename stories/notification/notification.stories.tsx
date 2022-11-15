@@ -26,6 +26,7 @@ export default {
   },
   decorators: [
     NotificationDecorator,
+    (Story) => <div style={{padding: '1rem'}}>{Story()}</div>
   ],
 } as ComponentMeta<typeof Notification>;
 

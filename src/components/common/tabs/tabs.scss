@@ -1,0 +1,38 @@
+@import "../../../styles/styles.scss";
+
+@mixin item {
+  all: unset;
+  background-color: transparent;
+  color: map-get($light-pallete, 'text');
+  text-transform: capitalize;
+  font-size: 1rem;
+  padding: 0.375rem;
+  margin-right: 1rem;
+}
+
+
+@include roq-component("toggle-group-tabs") {
+  padding: 0 1rem;
+  display: flex;
+  overflow: hidden;
+  border-radius: 4px;  
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--rc-theme-light-color-border);
+}
+@include roq-component("toggle-group-tabs-item") {
+  @include item;
+  cursor: pointer;
+  &:hover {
+    // background-color: $blueGray-300;
+    // cursor: pointer;
+  }
+  &:last-child {
+    border-right: none;
+  }
+}
+@include roq-component("toggle-group-tabs-item__selected") {
+  @include item;
+  color: map-get($light-pallete, 'primary');
+  font-weight: 700;
+  border-bottom: 1px solid var(--rc-theme-light-color-primary);;
+}
